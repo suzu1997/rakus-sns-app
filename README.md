@@ -60,9 +60,10 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 　export const Button: VFC<Props> = (props) => {
   const { label, onClick } = props;
 ```
-  - コンポーネントの型定義はVFCで統一
+- 
+  　- コンポーネントの型定義はVFCで統一
  　　 - childrenを渡したい時はpropsの型を別途定義
-- propsの型定義は、type aliasで行う
+   - propsの型定義は、type aliasで行う
 ```
 import { MouseEventHandler, VFC } from 'react';
 
@@ -73,6 +74,11 @@ type Props = {
   
 　export const Button: VFC<Props> = (props) => {
 ```
+- メモ化について
+  - 子コンポーネントにpropsとして渡される関数はuseCallbackで囲む
+  - コンポーネントはとりあえずmemoで囲む
+
+　　 
 ## 使用技術
 - CSS  ・・・ CSS modules? styled components? emotion? tailwind?
 - 状態管理　・・・　Context (React hooks)
