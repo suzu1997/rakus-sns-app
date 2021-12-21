@@ -73,3 +73,6 @@ type Props = {
   
 　export const Button: VFC<Props> = (props) => {
 ```
+## 使用技術
+- CSS  ・・・ CSS modules? styled components? emotion? tailwind?
+- 状態管理　・・・　Context (React hooks)
