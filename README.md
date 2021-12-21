@@ -32,3 +32,32 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## 環境開発　終わったところ
+- デフォルトのトップページを一旦空にしました。
+- ESLintのインストール、設定
+- Prettireの設定
+- components, pages, stylesディレクトリをsrcディレクトリにまとめた
+- Buttonコンポーネント(仮)の作成
+- developブランチの作成
+
+## ディレクトリ構成(暫定)
+- src
+ - components : コンポーネントを置く
+ - pages : ページを置く
+ - styles : CSSファイル
+
+## コードの統一
+- 基本
+ - クォーテーションはダブル(Prettireで設定済)
+ - タブの幅は半角2つ分(Prettireで設定済)
+ - コードの後ろにはコンマつける(Prettireで設定済)
+ - 関数はアロー関数で書く
+
+- Reactの書き方
+　-　 propsは外で分割代入
+```
+　export const Button: VFC<Props> = (props) => {
+  const { label, onClick } = props;
+```
+ 
