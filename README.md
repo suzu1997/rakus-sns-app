@@ -49,15 +49,27 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## コードの統一
 - 基本
- - クォーテーションはダブル(Prettireで設定済)
- - タブの幅は半角2つ分(Prettireで設定済)
- - コードの後ろにはコンマつける(Prettireで設定済)
- - 関数はアロー関数で書く
+  - クォーテーションはダブル(Prettireで設定済)
+  - タブの幅は半角2つ分(Prettireで設定済)
+  - コードの後ろにはコンマつける(Prettireで設定済)
+  - 関数はアロー関数で書く
 
 - Reactの書き方
-　-　 propsは外で分割代入
+  - propsは外で分割代入
 ```
 　export const Button: VFC<Props> = (props) => {
   const { label, onClick } = props;
 ```
- 
+  - コンポーネントの型定義はVFCで統一
+ 　　 - childrenを渡したい時はpropsの型を別途定義
+- propsの型定義は、type aliasで行う
+```
+import { MouseEventHandler, VFC } from 'react';
+
+type Props = {
+  label: string,
+  onClick: MouseEventHandler<HTMLButtonElement>
+}
+  
+　export const Button: VFC<Props> = (props) => {
+```
