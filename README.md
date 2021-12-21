@@ -33,7 +33,7 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
-## 環境開発　終わったところ
+## 環境開発 終わったところ
 - デフォルトのトップページを一旦空にしました。
 - ESLintのインストール、設定
 - Prettireの設定
@@ -57,13 +57,13 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - Reactの書き方
   - propsは外で分割代入
 ```
-　export const Button: VFC<Props> = (props) => {
-  const { label, onClick } = props;
+  export const Button: VFC<Props> = (props) => {
+    const { label, onClick } = props;
 ```
 - 
-  　- コンポーネントの型定義はVFCで統一
- 　　 - childrenを渡したい時はpropsの型を別途定義
-   - propsの型定義は、type aliasで行う
+  - コンポーネントの型定義はVFCで統一
+    - childrenを渡したい時はpropsの型を別途定義
+  - propsの型定義は、type aliasで行う
 ```
 import { MouseEventHandler, VFC } from 'react';
 
@@ -72,13 +72,14 @@ type Props = {
   onClick: MouseEventHandler<HTMLButtonElement>
 }
   
-　export const Button: VFC<Props> = (props) => {
+export const Button: VFC<Props> = (props) => {
 ```
-- メモ化について
-  - 子コンポーネントにpropsとして渡される関数はuseCallbackで囲む
-  - コンポーネントはとりあえずmemoで囲む
+- 
+  - メモ化について
+    - 子コンポーネントにpropsとして渡される関数はuseCallbackで囲む
+    - コンポーネントはとりあえずmemoで囲む
 
-　　 
+
 ## 使用技術
 - CSS  ・・・ CSS modules? styled components? emotion? tailwind?
-- 状態管理　・・・　Context (React hooks)
+- 状態管理・・・Context (React hooks)
