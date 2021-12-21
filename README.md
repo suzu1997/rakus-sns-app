@@ -43,9 +43,9 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## ディレクトリ構成(暫定)
 - src
- - components : コンポーネントを置く
- - pages : ページを置く
- - styles : CSSファイル
+  - components : コンポーネントを置く
+  - pages : ページを置く
+  - styles : CSSファイル
 
 ## コードの統一
 - 基本
