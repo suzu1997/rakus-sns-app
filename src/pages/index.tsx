@@ -1,5 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import Link from "next/link";
+import { Button } from "../components/Button";
 
 const Home: NextPage = () => {
   return (
@@ -10,9 +12,17 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex justify-center items-center flex-col min-h-screen font-mono text-red-700">
-        ランチックスを作るよ テスト<br />
-        Tailwindが効いた！！
+      <main className="flex justify-center items-center flex-col min-h-screen">
+        <p className="font-mono text-red-700">ランチックスを作るよ テスト</p>
+        <Button
+          label="ボタン"
+          onClick={() => {
+            alert("ボタンが押されました");
+          }}
+        />
+        <Link href="/aaa/test">
+          <a className="underline hover:text-blue-800 mt-3">リンクです</a>
+        </Link>
       </main>
     </>
   );
