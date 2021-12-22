@@ -82,5 +82,5 @@ export const Button: VFC<Props> = (props) => {
 
 
 ## 使用技術
-- CSS  ・・・ CSS modules? styled components? emotion? tailwind?
+- CSS  ・・・ tailwindCSS
 - 状態管理・・・Context (React hooks)
