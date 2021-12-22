@@ -40,6 +40,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - components, pages, stylesディレクトリをsrcディレクトリにまとめた
 - Buttonコンポーネント(仮)の作成
 - developブランチの作成
+- TailwindCSSを使うためのインストールと設定を行なった
 
 ## ディレクトリ構成(暫定)
 - src
