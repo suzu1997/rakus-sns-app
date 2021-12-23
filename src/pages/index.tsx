@@ -13,12 +13,21 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="flex justify-center items-center flex-col min-h-screen">
-        <p className="font-mono text-red-700">ランチックスを作るよ テスト</p>
+        <p className="font-mono text-text-brown">ランチックスを作るよ テスト</p>
         <Button
           label="ボタン"
           onClick={() => {
             alert("ボタンが押されました");
           }}
+        />
+        <Button
+          backgroundColor="#f6f0ea"
+          color="#622d18"
+          label="SubButton"
+          onClick={() => {
+            alert("サブ");
+          }}
+          size="md"
         />
         <Link href="/aaa/test">
           <a className="underline hover:text-blue-800 mt-3">リンクです</a>
