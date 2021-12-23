@@ -46,8 +46,24 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - src
   - components : コンポーネントを置く
   - pages : ページを置く
-  - styles : CSSファイル
-
+    - index.tsx
+    - signup.tsx 新規登録
+    - login.tsx ログイン
+    - timelineフォルダ
+      - index.tsx タイムライン一覧
+      - detail.tsx 投稿詳細
+    - lunchフォルダ
+      - index.tsx ランチ一覧
+      - detail.tsx 店の詳細
+      - post.tsx レビュー
+      - new.tsx 新規登録
+    - learcenフォルダ
+      - info.tsx ラーセン基本情報
+    - userフォルダ
+      - index.tsx 
+      - edit.tsx
+  - stories Storybook用のファイル
+    
 ## コードの統一
 - 基本
   - クォーテーションはダブル(Prettireで設定済)
@@ -62,24 +78,23 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
     const { label, onClick } = props;
 ```
 - 
-  - コンポーネントの型定義はVFCで統一
+  - コンポーネントの型定義はFCで統一
     - childrenを渡したい時はpropsの型を別途定義
   - propsの型定義は、type aliasで行う
 ```
-import { MouseEventHandler, VFC } from 'react';
+import { MouseEventHandler, FC } from 'react';
 
 type Props = {
   label: string,
   onClick: MouseEventHandler<HTMLButtonElement>
 }
   
-export const Button: VFC<Props> = (props) => {
+export const Button: FC<Props> = (props) => {
 ```
 - 
   - メモ化について
     - 子コンポーネントにpropsとして渡される関数はuseCallbackで囲む
     - コンポーネントはとりあえずmemoで囲む
-
 
 ## 使用技術
 - CSS  ・・・ tailwindCSS

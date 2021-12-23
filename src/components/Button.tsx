@@ -1,20 +1,40 @@
-import { MouseEventHandler, VFC } from "react";
+import { MouseEventHandler, memo, FC } from "react";
 
-type Props = {
+export type Props = {
   label: string;
+  backgroundColor?: string;
+  color?: string;
+  size?: "sm" | "md" | "lg";
   onClick: MouseEventHandler<HTMLButtonElement>;
 };
 
-export const Button: VFC<Props> = (props) => {
-  const { label, onClick } = props;
+export const Button: FC<Props> = memo((props) => {
+  const {
+    label,
+    backgroundColor = "#f28728",
+    color = "#fff",
+    size,
+    onClick,
+  } = props;
+
+  let scale = 1;
+  if (size === "sm") scale = 0.75;
+  if (size === "lg") scale = 1.5;
+
+  const style = {
+    backgroundColor,
+    color,
+    padding: `${scale * 0.3}rem ${scale * 1}rem`,
+    width: `${scale * 10}rem`,
+  };
 
   return (
     <button
-      type="button"
       onClick={onClick}
-      className="border rounded-md p-3 border-gray-600 hover:bg-gray-200"
+      style={style}
+      className="rounded-md shadow-md border-none font-bold"
     >
-      <span>{label}</span>
+      {label}
     </button>
   );
-};
+});
