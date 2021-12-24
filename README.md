@@ -33,31 +33,69 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
-## 環境開発　終わったところ
+## 環境開発 終わったところ
 - デフォルトのトップページを一旦空にしました。
 - ESLintのインストール、設定
 - Prettireの設定
 - components, pages, stylesディレクトリをsrcディレクトリにまとめた
 - Buttonコンポーネント(仮)の作成
 - developブランチの作成
+- TailwindCSSを使うためのインストールと設定を行なった
 
 ## ディレクトリ構成(暫定)
 - src
   - components : コンポーネントを置く
   - pages : ページを置く
-  - styles : CSSファイル
-
+    - index.tsx
+    - signup.tsx 新規登録
+    - login.tsx ログイン
+    - timelineフォルダ
+      - index.tsx タイムライン一覧
+      - detail.tsx 投稿詳細
+    - lunchフォルダ
+      - index.tsx ランチ一覧
+      - detail.tsx 店の詳細
+      - post.tsx レビュー
+      - new.tsx 新規登録
+    - learcenフォルダ
+      - info.tsx ラーセン基本情報
+    - userフォルダ
+      - index.tsx 
+      - edit.tsx
+  - stories Storybook用のファイル
+    
 ## コードの統一
 - 基本
- - クォーテーションはダブル(Prettireで設定済)
- - タブの幅は半角2つ分(Prettireで設定済)
- - コードの後ろにはコンマつける(Prettireで設定済)
- - 関数はアロー関数で書く
+  - クォーテーションはダブル(Prettireで設定済)
+  - タブの幅は半角2つ分(Prettireで設定済)
+  - コードの後ろにはコンマつける(Prettireで設定済)
+  - 関数はアロー関数で書く
 
 - Reactの書き方
-　-　 propsは外で分割代入
+  - propsは外で分割代入
 ```
-　export const Button: VFC<Props> = (props) => {
-  const { label, onClick } = props;
+  export const Button: VFC<Props> = (props) => {
+    const { label, onClick } = props;
 ```
- 
+- 
+  - コンポーネントの型定義はFCで統一
+    - childrenを渡したい時はpropsの型を別途定義
+  - propsの型定義は、type aliasで行う
+```
+import { MouseEventHandler, FC } from 'react';
+
+type Props = {
+  label: string,
+  onClick: MouseEventHandler<HTMLButtonElement>
+}
+  
+export const Button: FC<Props> = (props) => {
+```
+- 
+  - メモ化について
+    - 子コンポーネントにpropsとして渡される関数はuseCallbackで囲む
+    - コンポーネントはとりあえずmemoで囲む
+
+## 使用技術
+- CSS  ・・・ tailwindCSS
+- 状態管理・・・Context (React hooks)
