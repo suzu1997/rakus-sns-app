@@ -1,3 +1,5 @@
+//Header ← HeaderTitle + Logo埋め込んでます.
+//ラクラクSNSのロゴ
 import { FC, memo } from "react";
 import Image from "next/image";
 

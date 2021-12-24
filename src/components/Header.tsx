@@ -1,8 +1,10 @@
+//Header ← HeaderTitle + Logo埋め込んでます.
 import { memo, FC } from "react";
 import { Logo } from "./Logo";
 import { HeaderTitle } from "./HeaderTitle";
 
 export const Header: FC = memo(() => {
+  //ヘッダー下線
   const headerStyle = {
     borderBottom: "5px solid orange",
   };
