@@ -4,7 +4,7 @@ export type Props = {
   label: string;
   value: string;
   type: string;
-  fullWidth: boolean;
+  fullWidth: boolean; // trueなら親要素のwidthの長さ
   placeholder?: string;
   required: boolean;
   onChange: ChangeEventHandler<HTMLInputElement>;
@@ -18,6 +18,7 @@ export const TextInput: FC<Props> = (props) => {
     <div>
       <div className="flex items-center mb-1">
         <label>{label}</label>
+        {/* requiredがtrueの場合は必須のバッジ表示 */}
         {required && (
           <span className="bg-basic text-white text-xs font-medium ml-3 px-2 py-1.5 rounded-lg dark:bg-red-200 dark:text-red-900">
             必須
