@@ -8,15 +8,10 @@ export const Header: FC = memo(() => {
     borderBottom: "5px solid orange",
   };
 
-  const style = {
-    display: "flex",
-    alignItems: "center",
-  };
-
   return (
     <>
       <header className="h-16 w-full shadow-md bg-white" style={headerStyle}>
-        <div style={style} className={"ml-5"}>
+        <div className={"ml-5 flex items-center"}>
           <Image
             src="/image/rakuraku-sns.png"
             width={50}
