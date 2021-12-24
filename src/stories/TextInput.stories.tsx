@@ -13,6 +13,7 @@ Default.args = {
   label: "Default",
   placeholder: "〇〇を入力してください。",
 };
+Default.storyName = "デフォルト";
 
 export const Required: Story<Props> = Template.bind({});
 Required.args = {
@@ -22,6 +23,7 @@ Required.args = {
   type: "text",
   required: true,
 };
+Required.storyName = "必須項目";
 
 export const UserName: Story<Props> = Template.bind({});
 UserName.args = {
@@ -31,6 +33,7 @@ UserName.args = {
   type: "text",
   required: true,
 };
+UserName.storyName = "ユーザー名";
 
 export const Email: Story<Props> = Template.bind({});
 Email.args = {
@@ -40,6 +43,7 @@ Email.args = {
   type: "email",
   required: true,
 };
+Email.storyName = "メールアドレス";
 
 export const Password: Story<Props> = Template.bind({});
 Password.args = {
@@ -49,6 +53,7 @@ Password.args = {
   type: "password",
   required: true,
 };
+Password.storyName = "パスワード";
 
 export const FirstName: Story<Props> = Template.bind({});
 FirstName.args = {
@@ -58,3 +63,4 @@ FirstName.args = {
   type: "text",
   required: true,
 };
+FirstName.storyName = "姓";
