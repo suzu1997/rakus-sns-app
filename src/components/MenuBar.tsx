@@ -1,7 +1,11 @@
 import { FC, memo } from "react";
 import Link from "next/link";
 
-export const MenuBar: FC = memo(() => {
+export type Props = {
+  label: string;
+};
+
+export const MenuBar: FC<Props> = memo(() => {
   return (
     <>
       <aside className="relative bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
