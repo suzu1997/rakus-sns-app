@@ -51,12 +51,16 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
     - login.tsx ログイン
     - timelineフォルダ
       - index.tsx タイムライン一覧
-      - detail.tsx 投稿詳細
+      - [id].tsx
     - lunchフォルダ
-      - index.tsx ランチ一覧
-      - detail.tsx 店の詳細
-      - post.tsx レビュー
-      - new.tsx 新規登録
+      - reviewフォルダ
+        - index.tsx
+        - [id].tsx
+        - post.tsx
+      - restaurantフォルダ
+        - index.tsx 
+        - [id].tsx
+        - add.tsx
     - learcenフォルダ
       - info.tsx ラーセン基本情報
     - userフォルダ
