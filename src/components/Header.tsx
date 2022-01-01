@@ -1,4 +1,3 @@
-//Header ← HeaderTitle + Logo埋め込んでます.
 import { memo, FC } from "react";
 import Image from "next/image";
 
