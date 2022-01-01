@@ -10,6 +10,8 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
+    "@headlessui/react": "^1.4.2",
+    "@heroicons/react": "^1.0.5",
     "@storybook/addon-postcss": "^2.0.0",
     "@tailwindcss/postcss7-compat": "^2.2.17",
     "autoprefixer": "^9.8.8",
@@ -45,5 +47,18 @@
     "semi": true,
     "singleQuote": false,
     "jsxSingleQuote": false
-  }
+  },
+  "description": "This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).",
+  "version": "1.0.0",
+  "main": "next.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/suzu1997/rakus-sns-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/suzu1997/rakus-sns-app/issues"
+  },
+  "homepage": "https://github.com/suzu1997/rakus-sns-app#readme"
 }
