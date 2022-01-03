@@ -55,11 +55,16 @@ const Timeline: NextPage = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td className="pt-5 pb-5 pl-5 pr-60 "> {value.tweet}</td>
+                  <td className="pt-5 pb-5 pl-5 pr-60"> {value.tweet}</td>
                 </tr>
                 <tr>
-                  <td className="text-right pr-20">
-                    <button type="button">♡</button>
+                  <td className="text-right pr-20 pb-5">
+                    <button type="button" className="pr-10">
+                      <i className="fas fa-heart"></i>
+                    </button>
+                    <button type="button">
+                      <i className="fas fa-trash-alt"></i>
+                    </button>
                   </td>
                 </tr>
               </tbody>
