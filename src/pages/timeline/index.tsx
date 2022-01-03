@@ -10,37 +10,51 @@ const Timeline: NextPage = () => {
     { name: "佐藤花子", tweet: "あああ", img: "/usakus.jpg" },
     { name: "山田太郎", tweet: "いいい", img: "/usakus.jpg" },
     { name: "ランチックス", tweet: "ううう", img: "/usakus.jpg" },
+    { name: "佐藤花子", tweet: "あああ", img: "/usakus.jpg" },
+    { name: "山田太郎", tweet: "いいい", img: "/usakus.jpg" },
+    { name: "ランチックス", tweet: "ううう", img: "/usakus.jpg" },
   ]);
 
   const style = {
     borderBottom: "solid 1px black",
   };
 
-  const mainStyle = {
-    display: "flex",
-  };
-
-  const tableStyle = {
-    width: "80%",
-  };
-
   return (
-    <div style={mainStyle}>
-      <MenuBar></MenuBar>
-      <table style={tableStyle}>
-        <tbody>
-          {data.map((value, key) => (
-            <tr style={style} key={key}>
-              <td>
-                <Image src={value.img} width={50} height={50} alt="icon" />
-              </td>
-              <td>{value.name}</td>
-              <td>{value.tweet}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <>
+      <div className="flex">
+        <MenuBar></MenuBar>
+        <div className="w-10/12">
+          <div className="bg-bgc h-20 text-center pt-7 font-black">
+            タイムライン
+          </div>
+          <table className="w-full">
+            {data.map((value, key) => (
+              <tbody style={style} key={key}>
+                <tr>
+                  <td rowSpan={3} className="pl-6 pr-0 w-36">
+                    <Image
+                      src={value.img}
+                      width={100}
+                      height={100}
+                      alt="icon"
+                    />
+                  </td>
+                  <td className="text-xl font-extrabold">{value.name}</td>
+                </tr>
+                <tr>
+                  <td> {value.tweet}</td>
+                </tr>
+                <tr>
+                  <td>
+                    <button type="button">♡</button>
+                  </td>
+                </tr>
+              </tbody>
+            ))}
+          </table>
+        </div>
+      </div>
+    </>
   );
 };
 
