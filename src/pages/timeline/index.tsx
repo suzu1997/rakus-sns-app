@@ -3,11 +3,17 @@
  */
 import type { NextPage } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
+//コメントアイコンコンポーネント
 import { CommentIcon } from "../../components/CommentIcon";
+//メニューバーコンポーネント
 import { MenuBar } from "../../components/MenuBar";
+//サブヘッダーコンポーネント
 import { SubHeader } from "../../components/SubHeader";
+//つぶやきをお気に入り登録するボタンコンポーネント
 import { TweetFavoBtn } from "../../components/TweetFavoBtn";
+//自分のつぶやきを消せるボタンコンポーネント(自分のつぶやきの時のみ表示させたい)
 import { TweetTrashBtn } from "../../components/TweetTrashBtn";
 
 //テストデータ
@@ -37,10 +43,19 @@ const Timeline: NextPage = () => {
       <div className="flex">
         <div>
           <MenuBar />
+          {/* 一旦トップに飛ばす仕様にしています。投稿ページ完成したらリンク先変更 */}
+          <Link href="/aaa/test">
+            <div className="bg-basic hover:bg-yellow-600 text-xl text-white rounded text-center p-3">
+              つぶやく<i className="fas fa-plus"></i>
+            </div>
+          </Link>
         </div>
 
+        {/* サブヘッダー */}
         <div className="w-10/12">
           <SubHeader title="つぶやき" />
+
+          {/* タイムラインゾーン */}
           <table className="w-full">
             {data.map((value, key) => (
               <tbody style={style} key={key}>
