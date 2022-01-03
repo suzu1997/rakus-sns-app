@@ -6,6 +6,8 @@ import Image from "next/image";
 import { useState } from "react";
 import { MenuBar } from "../../components/MenuBar";
 import { SubHeader } from "../../components/SubHeader";
+import { TweetFavoBtn } from "../../components/TweetFavoBtn";
+import { TweetTrashBtn } from "../../components/TweetTrashBtn";
 
 //テストデータ
 const Timeline: NextPage = () => {
@@ -59,12 +61,8 @@ const Timeline: NextPage = () => {
                 </tr>
                 <tr>
                   <td className="text-right pr-20 pb-5">
-                    <button type="button" className="pr-10">
-                      <i className="fas fa-heart"></i>
-                    </button>
-                    <button type="button">
-                      <i className="fas fa-trash-alt"></i>
-                    </button>
+                    <TweetFavoBtn />
+                    <TweetTrashBtn />
                   </td>
                 </tr>
               </tbody>
