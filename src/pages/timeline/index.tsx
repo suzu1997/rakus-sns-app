@@ -4,6 +4,7 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 import { useState } from "react";
+import { CommentIcon } from "../../components/CommentIcon";
 import { MenuBar } from "../../components/MenuBar";
 import { SubHeader } from "../../components/SubHeader";
 import { TweetFavoBtn } from "../../components/TweetFavoBtn";
@@ -61,6 +62,7 @@ const Timeline: NextPage = () => {
                 </tr>
                 <tr>
                   <td className="text-right pr-20 pb-5">
+                    <CommentIcon commentCount={300} />
                     <TweetFavoBtn />
                     <TweetTrashBtn />
                   </td>
