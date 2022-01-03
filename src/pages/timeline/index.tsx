@@ -14,7 +14,12 @@ const Timeline: NextPage = () => {
     { name: "山田太郎", tweet: "いいい", img: "/usakus.jpg" },
     { name: "ランチックス", tweet: "ううう", img: "/usakus.jpg" },
     { name: "佐藤花子", tweet: "あああ", img: "/usakus.jpg" },
-    { name: "山田太郎", tweet: "いいい", img: "/usakus.jpg" },
+    {
+      name: "山田太郎",
+      tweet:
+        "あああああああああああいいいいいいいいううううううううううえええええええええええええおおおおおおおおおおおおおおおうひうひひょひょほほほほほほほほほほほほほ",
+      img: "/usakus.jpg",
+    },
     { name: "ランチックス", tweet: "ううう", img: "/usakus.jpg" },
   ]);
 
@@ -45,13 +50,15 @@ const Timeline: NextPage = () => {
                       alt="icon"
                     />
                   </td>
-                  <td className="text-xl font-extrabold">{value.name}</td>
+                  <td className="text-xl font-extrabold pt-3 pb-3">
+                    {value.name}
+                  </td>
                 </tr>
                 <tr>
-                  <td> {value.tweet}</td>
+                  <td className="pt-5 pb-5 pl-5 pr-60 "> {value.tweet}</td>
                 </tr>
                 <tr>
-                  <td>
+                  <td className="text-right pr-20">
                     <button type="button">♡</button>
                   </td>
                 </tr>
