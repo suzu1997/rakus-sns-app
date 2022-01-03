@@ -1,10 +1,13 @@
+/**
+ * タイムラインページ.
+ */
 import type { NextPage } from "next";
-// import Link from "next/link";
-// import { Button } from "../components/Button";
 import Image from "next/image";
 import { useState } from "react";
 import { MenuBar } from "../../components/MenuBar";
+import { SubHeader } from "../../components/SubHeader";
 
+//テストデータ
 const Timeline: NextPage = () => {
   const [data] = useState([
     { name: "佐藤花子", tweet: "あああ", img: "/usakus.jpg" },
@@ -15,18 +18,21 @@ const Timeline: NextPage = () => {
     { name: "ランチックス", tweet: "ううう", img: "/usakus.jpg" },
   ]);
 
+  //1人1人のつぶやきの下に入る線がどうしてもtailwindで上手くいかなかった
   const style = {
     borderBottom: "solid 1px black",
   };
 
+  //HTMLコーナー
   return (
     <>
       <div className="flex">
-        <MenuBar></MenuBar>
+        <div>
+          <MenuBar />
+        </div>
+
         <div className="w-10/12">
-          <div className="bg-bgc h-20 text-center pt-7 font-black">
-            タイムライン
-          </div>
+          <SubHeader title="つぶやき" />
           <table className="w-full">
             {data.map((value, key) => (
               <tbody style={style} key={key}>
