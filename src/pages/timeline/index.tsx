@@ -44,7 +44,7 @@ const Timeline: NextPage = () => {
         <div>
           <MenuBar />
           {/* 一旦トップに飛ばす仕様にしています。投稿ページ完成したらリンク先変更 */}
-          <Link href="/aaa/test">
+          <Link href="/timeline/post">
             <div className="bg-basic hover:bg-yellow-600 text-xl text-white rounded text-center p-3">
               つぶやく<i className="fas fa-plus"></i>
             </div>
