@@ -1,6 +1,3 @@
-/**
- * タイムラインページ.
- */
 import type { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,8 +13,11 @@ import { TweetFavoBtn } from "../../components/TweetFavoBtn";
 //自分のつぶやきを消せるボタンコンポーネント(自分のつぶやきの時のみ表示させたい)
 import { TweetTrashBtn } from "../../components/TweetTrashBtn";
 
-//テストデータ
+/**
+ * タイムラインページ.
+ */
 const Timeline: NextPage = () => {
+  //テストデータ
   const [data] = useState([
     { name: "佐藤花子", tweet: "あああ", img: "/usakus.jpg" },
     { name: "山田太郎", tweet: "いいい", img: "/usakus.jpg" },
@@ -43,7 +43,6 @@ const Timeline: NextPage = () => {
       <div className="flex">
         <div>
           <MenuBar />
-          {/* 一旦トップに飛ばす仕様にしています。投稿ページ完成したらリンク先変更 */}
           <Link href="/timeline/post">
             <div className="bg-basic hover:bg-yellow-600 text-xl text-white rounded text-center p-3">
               つぶやく<i className="fas fa-plus"></i>

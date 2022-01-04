@@ -1,8 +1,4 @@
-/**
- * コメント追加ボタン
- * @remarks コメント数を渡してあげる
- */
-import { FC, memo } from "react";
+import { FC, memo, useCallback } from "react";
 
 const comment = () => {
   console.log("コメント");
@@ -12,6 +8,10 @@ export type Props = {
   commentCount: number;
 };
 
+/**
+ * コメント追加ボタン
+ * @remarks コメント数を渡してあげる
+ */
 export const CommentIcon: FC<Props> = memo((props) => {
   return (
     <>

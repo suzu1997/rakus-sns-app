@@ -1,12 +1,12 @@
-/**
- * つぶやきをお気に入りに登録するボタン.
- */
 import { FC, memo } from "react";
 
 const favo = () => {
   console.log("つぶやきお気に入り登録");
 };
 
+/**
+ * つぶやきをお気に入りに登録するボタン.
+ */
 export const TweetFavoBtn: FC = memo(() => {
   return (
     <>

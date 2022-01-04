@@ -1,12 +1,12 @@
-/**
- * つぶやきを削除するボタン.
- */
 import { FC, memo } from "react";
 
 const trash = () => {
   console.log("つぶやき削除");
 };
 
+/**
+ * つぶやきを削除するボタン.
+ */
 export const TweetTrashBtn: FC = memo(() => {
   return (
     <>
