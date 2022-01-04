@@ -8,7 +8,7 @@ const Home: NextPage = () => {
     <>
       {" "}
       <div className="flex">
-        <MenuBar label="メニューバー"></MenuBar>
+        <MenuBar />
         <div className="flex-col items-center mt-10 flex">
           <p className="font-mono text-text-brown">
             ランチックスを作るよ テスト

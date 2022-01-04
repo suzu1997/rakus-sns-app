@@ -1,14 +1,14 @@
 import { Meta, Story } from "@storybook/react";
-import { MenuBar, Props } from "../components/MenuBar";
+import { MenuBar } from "../components/MenuBar";
 
 export default {
   title: "MenuBar",
   component: MenuBar,
 } as Meta;
 
-const Template: Story<Props> = (args) => <MenuBar {...args} />;
+const Template: Story = (args) => <MenuBar {...args} />;
 
-export const Default: Story<Props> = Template.bind({});
+export const Default: Story = Template.bind({});
 Default.args = {
   label: "Default",
 };
