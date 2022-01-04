@@ -1,4 +1,5 @@
 import { NextPage } from "next";
+import { useState } from "react";
 import Image from "next/image";
 //メニューバーコンポーネント
 import { MenuBar } from "../../components/MenuBar";
@@ -10,8 +11,11 @@ import { SubHeader } from "../../components/SubHeader";
 import { TweetFavoBtn } from "../../components/TweetFavoBtn";
 //自分のつぶやきを消せるボタンコンポーネント(自分のつぶやきの時のみ表示させたい)
 import { TweetTrashBtn } from "../../components/TweetTrashBtn";
-import { useState } from "react";
 
+/**
+ * つぶやき詳細画面.
+ * @returns つぶやき詳細画面
+ */
 const TweetDetail: NextPage = () => {
   //テストデータ
   const [data] = useState({
@@ -19,6 +23,7 @@ const TweetDetail: NextPage = () => {
     tweet:
       "あああああああああああいいいいいいいいううううううううううえええええええええええええおおおおおおおおおおおおおおおうひうひひょひょほほほほほほほほほほほほほ",
     img: "/usakus.jpg",
+    time: "00:00・0000/00/00",
     comment: [
       { name: "佐藤花子", tweet: "まじうける", img: "/usakus.jpg" },
       {
@@ -44,7 +49,7 @@ const TweetDetail: NextPage = () => {
         <div className="w-10/12">
           <SubHeader title="つぶやき詳細" />
           {/* つぶやき詳細 */}
-          <div style={style}>
+          <div>
             <div className="w-10/12 pt-3 pb-3 flex">
               <div className="w-3/12">
                 <Image src={data.img} width={300} height={300} alt="icon" />
@@ -56,14 +61,15 @@ const TweetDetail: NextPage = () => {
                 <div className="pl-10">{data.tweet}</div>
               </div>
             </div>
-            <div className="text-right pb-5">
+
+            <div className="text-right pb-5" style={style}>
+              <span className="mr-7">投稿日時：{data.time}</span>
               <CommentIcon commentCount={300} />
               <TweetFavoBtn />
               <TweetTrashBtn />
             </div>
           </div>
           {/* コメント部分 */}
-          {/* タイムラインゾーン */}
           {data.comment.map((value, key) => (
             <div style={style} key={key} className="flex">
               <div className="w-1/5 text-center pt-5">
