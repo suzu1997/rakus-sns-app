@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import Link from "next/link";
 import { LunchSearchArea } from "../../components/LunchSearchArea";
-import { LunchTab } from "../../components/LunchTabList";
+import { LunchTab } from "../../components/LunchTab";
 import { MenuBar } from "../../components/MenuBar";
 
 /**
