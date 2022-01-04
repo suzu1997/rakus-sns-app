@@ -20,19 +20,19 @@ const SingUp = () => {
 
   const inputFirstNameValue = useCallback((e) => {
     setFirstName(e.target.value);
-  }, []);
+  }, [setFirstName]);
   const inputLastNameValue = useCallback((e) => {
     setLastName(e.target.value);
-  }, []);
+  }, [setLastName]);
   const inputEMailValue = useCallback((e) => {
     setEMail(e.target.value);
-  }, []);
+  }, [setEMail]);
   const inputPasswordValue = useCallback((e) => {
     setPassword(e.target.value);
-  }, []);
+  }, [setPassword]);
   const inputPasswordConfValue = useCallback((e) => {
     setPasswordConf(e.target.value);
-  }, []);
+  }, [setPasswordConf]);
 
   //登録ボタンを押した時に呼ばれる
   const submitForm = () => {

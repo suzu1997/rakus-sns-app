@@ -7,12 +7,18 @@ const Login = () => {
   const [eMail, setEMail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const inputEMailValue = useCallback((e) => {
-    setEMail(e.target.value);
-  }, []);
-  const inputPasswordValue = useCallback((e) => {
-    setPassword(e.target.value);
-  }, []);
+  const inputEMailValue = useCallback(
+    (e) => {
+      setEMail(e.target.value);
+    },
+    [setEMail],
+  );
+  const inputPasswordValue = useCallback(
+    (e) => {
+      setPassword(e.target.value);
+    },
+    [setPassword],
+  );
 
   //ログインボタンを押した時に呼ばれる
   const submitForm = () => {
