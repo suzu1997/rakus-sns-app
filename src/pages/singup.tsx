@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { TextInput } from "../components/TextInput";
 import { Button } from "../components/Button";
 import { SelectBox } from "../components/SelectBox";
+import { Radio } from "../components/radio";
 import Router from "next/router";
 
 const SingUp = () => {
@@ -18,21 +19,36 @@ const SingUp = () => {
 
   const [selectValue, setSelectValue] = useState<string>(options[0].name);
 
-  const inputFirstNameValue = useCallback((e) => {
-    setFirstName(e.target.value);
-  }, [setFirstName]);
-  const inputLastNameValue = useCallback((e) => {
-    setLastName(e.target.value);
-  }, [setLastName]);
-  const inputEMailValue = useCallback((e) => {
-    setEMail(e.target.value);
-  }, [setEMail]);
-  const inputPasswordValue = useCallback((e) => {
-    setPassword(e.target.value);
-  }, [setPassword]);
-  const inputPasswordConfValue = useCallback((e) => {
-    setPasswordConf(e.target.value);
-  }, [setPasswordConf]);
+  const inputFirstNameValue = useCallback(
+    (e) => {
+      setFirstName(e.target.value);
+    },
+    [setFirstName],
+  );
+  const inputLastNameValue = useCallback(
+    (e) => {
+      setLastName(e.target.value);
+    },
+    [setLastName],
+  );
+  const inputEMailValue = useCallback(
+    (e) => {
+      setEMail(e.target.value);
+    },
+    [setEMail],
+  );
+  const inputPasswordValue = useCallback(
+    (e) => {
+      setPassword(e.target.value);
+    },
+    [setPassword],
+  );
+  const inputPasswordConfValue = useCallback(
+    (e) => {
+      setPasswordConf(e.target.value);
+    },
+    [setPasswordConf],
+  );
 
   //登録ボタンを押した時に呼ばれる
   const submitForm = () => {
@@ -83,6 +99,14 @@ const SingUp = () => {
             options={options}
           />
         </div>
+      </div>
+      <div className="mt-3">職種を選択してください</div>
+      <div className="flex gap-5">
+        <Radio value="ML" />
+        <Radio value="QA" />
+        <Radio value="CL" />
+        <Radio value="FR" />
+        <Radio value="Java" />
       </div>
       <div className="w-96 mt-3">
         <TextInput
