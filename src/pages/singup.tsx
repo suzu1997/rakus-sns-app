@@ -4,8 +4,9 @@ import { Button } from "../components/Button";
 import { SelectBox } from "../components/SelectBox";
 import { Radio } from "../components/Radio";
 import Router from "next/router";
+import { NextPage } from "next";
 
-const SingUp = () => {
+const SingUp: NextPage = () => {
   //メールアドレスのドメイン選択肢
   const options = [
     { id: "1", name: "@rakus-patners.co.jp" },

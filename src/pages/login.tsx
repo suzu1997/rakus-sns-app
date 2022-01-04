@@ -2,8 +2,9 @@ import { TextInput } from "../components/TextInput";
 import { useState, useCallback } from "react";
 import { Button } from "../components/Button";
 import Router from "next/router";
+import { NextPage } from "next";
 
-const Login = () => {
+const Login: NextPage = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
