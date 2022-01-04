@@ -8,7 +8,7 @@ const Home: NextPage = () => {
     <>
       {" "}
       <div className="flex">
-        <MenuBar></MenuBar>
+        <MenuBar />
         <div className="flex-col items-center mt-10 flex">
           <p className="font-mono text-text-brown">
             ランチックスを作るよ テスト
@@ -30,6 +30,11 @@ const Home: NextPage = () => {
           />
           <Link href="/aaa/test">
             <a className="underline hover:text-blue-800 mt-3">リンクです</a>
+          </Link>
+          <Link href="/singup">
+            <a className="underline hover:text-blue-800 mt-3">
+              ユーザー登録画面
+            </a>
           </Link>
         </div>
       </div>
