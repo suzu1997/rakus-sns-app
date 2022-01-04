@@ -50,7 +50,7 @@ const Timeline: NextPage = () => {
       <div className="flex">
         <div>
           <MenuBar />
-          <div className="m-2">
+          <div className="m-1 mt-10">
             <Button label="つぶやく" size="lg" onClick={goPostPage} />
           </div>
         </div>
