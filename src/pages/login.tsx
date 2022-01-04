@@ -7,8 +7,10 @@ const Login = () => {
   const [eMail, setEMail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const inputValue = useCallback((e) => {
+  const inputEMailValue = useCallback((e) => {
     setEMail(e.target.value);
+  }, []);
+  const inputPasswordValue = useCallback((e) => {
     setPassword(e.target.value);
   }, []);
 
@@ -31,7 +33,7 @@ const Login = () => {
           type="text"
           fullWidth={true}
           required
-          onChange={inputValue}
+          onChange={inputEMailValue}
         />
       </div>
       <div className="w-96 mt-3">
@@ -41,7 +43,7 @@ const Login = () => {
           type="password"
           fullWidth={true}
           required
-          onChange={inputValue}
+          onChange={inputPasswordValue}
         />
       </div>
       <div className="flex gap-3 mt-10">

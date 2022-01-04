@@ -10,7 +10,6 @@ const SingUp = () => {
     { id: "2", name: "@rakus.co.jp" },
   ];
 
-  // const [value, setValue] = useState<string>("");
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [eMail, setEMail] = useState<string>("");
@@ -18,11 +17,20 @@ const SingUp = () => {
   const [passwordConf, setPasswordConf] = useState<string>("");
 
   const [selectValue, setSelectValue] = useState<string>(options[0].name);
-  const inputValue = useCallback((e) => {
+
+  const inputFirstNameValue = useCallback((e) => {
     setFirstName(e.target.value);
+  }, []);
+  const inputLastNameValue = useCallback((e) => {
     setLastName(e.target.value);
+  }, []);
+  const inputEMailValue = useCallback((e) => {
     setEMail(e.target.value);
+  }, []);
+  const inputPasswordValue = useCallback((e) => {
     setPassword(e.target.value);
+  }, []);
+  const inputPasswordConfValue = useCallback((e) => {
     setPasswordConf(e.target.value);
   }, []);
 
@@ -47,7 +55,7 @@ const SingUp = () => {
           type="text"
           fullWidth={false}
           required
-          onChange={inputValue}
+          onChange={inputFirstNameValue}
         />
         <TextInput
           label="名"
@@ -55,7 +63,7 @@ const SingUp = () => {
           type="text"
           fullWidth={false}
           required
-          onChange={inputValue}
+          onChange={inputLastNameValue}
         />
       </div>
       <div className="flex gap-3 w-96 mt-3">
@@ -65,7 +73,7 @@ const SingUp = () => {
           type="text"
           fullWidth={false}
           required
-          onChange={inputValue}
+          onChange={inputEMailValue}
         />
         <div className="mt-2">
           <SelectBox
@@ -83,7 +91,7 @@ const SingUp = () => {
           type="password"
           fullWidth={true}
           required
-          onChange={inputValue}
+          onChange={inputPasswordValue}
         />
       </div>
       <div className="w-96 mt-3">
@@ -93,7 +101,7 @@ const SingUp = () => {
           type="password"
           fullWidth={true}
           required
-          onChange={inputValue}
+          onChange={inputPasswordConfValue}
         />
       </div>
       <div className="flex gap-3 mt-10">
