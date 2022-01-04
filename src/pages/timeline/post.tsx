@@ -1,10 +1,7 @@
 import { NextPage } from "next";
 import { useState, useCallback } from "react";
-//ボタン
 import { Button } from "../../components/Button";
-//メニューバー
 import { MenuBar } from "../../components/MenuBar";
-//テキストボックス
 import { TextInput } from "../../components/TextInput";
 
 /**
@@ -28,24 +25,26 @@ const Post: NextPage = () => {
   return (
     <div className="flex">
       <MenuBar />
-      <div className="bg-bgc w-full h-96 rounded">
-        <div className="w-3/6">
+      <div className="bg-bgc w-full h-96 rounded text-center">
+        <div className="h-96">
           <TextInput
-            label={"つぶやきたい内容を下記に入力"}
+            label={"つぶやきたい内容を下記に入力(140字以内)"}
             value={tweet}
             type="text"
-            fullWidth={false}
+            fullWidth={true}
             required={false}
             onChange={inputTweet}
           />
         </div>
-        <Button
-          label="つぶやく"
-          size="md"
-          onClick={() => {
-            alert("「" + tweet + "」が呟かれました");
-          }}
-        />
+        <div className="mt-5">
+          <Button
+            label="つぶやく"
+            size="md"
+            onClick={() => {
+              alert("「" + tweet + "」が呟かれました");
+            }}
+          />
+        </div>
       </div>
     </div>
   );
