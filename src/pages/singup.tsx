@@ -2,13 +2,30 @@ import { useCallback, useState } from "react";
 import { TextInput } from "../components/TextInput";
 import { Button } from "../components/Button";
 import { SelectBox } from "../components/SelectBox";
-import { Radio } from "../components/radio";
+import { Radio } from "../components/Radio";
 import Router from "next/router";
 
 const SingUp = () => {
+  //メールアドレスのドメイン選択肢
   const options = [
     { id: "1", name: "@rakus-patners.co.jp" },
     { id: "2", name: "@rakus.co.jp" },
+  ];
+  //入社年の選択肢
+  const hireYear = [
+    { id: "2018", name: "2018年" },
+    { id: "2019", name: "2019年" },
+    { id: "2020", name: "2020年" },
+    { id: "2021", name: "2021年" },
+    { id: "2022", name: "2022年" },
+    { id: "2023", name: "2023年" },
+  ];
+  //入社月の選択肢
+  const hireMonth = [
+    { id: "1", name: "1月" },
+    { id: "4", name: "4月" },
+    { id: "7", name: "7月" },
+    { id: "10", name: "10月" },
   ];
 
   const [firstName, setFirstName] = useState<string>("");
@@ -18,6 +35,12 @@ const SingUp = () => {
   const [passwordConf, setPasswordConf] = useState<string>("");
 
   const [selectValue, setSelectValue] = useState<string>(options[0].name);
+  const [selectHireYearValue, setSelectHireYearValue] = useState<string>(
+    hireYear[0].name,
+  );
+  const [selectHireMonthValue, setSelectHireMonthValue] = useState<string>(
+    hireMonth[0].name,
+  );
 
   const inputFirstNameValue = useCallback(
     (e) => {
@@ -97,6 +120,24 @@ const SingUp = () => {
             value={selectValue}
             select={setSelectValue}
             options={options}
+          />
+        </div>
+      </div>
+      <div className="flex gap-3">
+        <div className="mt-2">
+          <SelectBox
+            label="入社年"
+            value={selectHireYearValue}
+            select={setSelectHireYearValue}
+            options={hireYear}
+          />
+        </div>
+        <div className="mt-2">
+          <SelectBox
+            label="入社月"
+            value={selectHireMonthValue}
+            select={setSelectHireMonthValue}
+            options={hireMonth}
           />
         </div>
       </div>
