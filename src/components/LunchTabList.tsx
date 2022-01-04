@@ -1,16 +1,21 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import { Tab } from "@headlessui/react";
+import { useRouter } from "next/router";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
 /**
- * ランチのレビューと店情報を表示するタブ.
+ * ランチのレビューと店情報の切り替え用タブ.
  */
-export default function LunchTabList() {
+export const LunchTab = memo(() => {
+  const router = useRouter();
+  // タブの種類
+  const tabMap = ["review", "restaurant"];
+
   const [categories] = useState({
-     ランチレビュー: [
+    ランチレビュー: [
       {
         id: 1,
         title: "Does drinking coffee make you smarter?",
@@ -46,7 +51,21 @@ export default function LunchTabList() {
 
   return (
     <div className="w-full px-2 sm:px-0">
-      <Tab.Group>
+      <Tab.Group
+        onChange={(idx) => {
+          // タブが変更されたらrouterへpush。
+          router.push(
+            {
+              pathname: router.pathname,
+              query: {
+                path: [tabMap[idx]],
+              },
+            },
+            undefined,
+            { shallow: true },
+          ); // shallowすることでrouterを再度呼び出さない
+        }}
+      >
         <Tab.List className="flex p-1 space-x-1 bg-bgc rounded-xl">
           {Object.keys(categories).map((category) => (
             <Tab
@@ -68,4 +87,4 @@ export default function LunchTabList() {
       </Tab.Group>
     </div>
   );
-}
+});
