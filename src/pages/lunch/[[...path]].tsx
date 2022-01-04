@@ -4,6 +4,11 @@ import { LunchSearchArea } from "../../components/LunchSearchArea";
 import { LunchTab } from "../../components/LunchTabList";
 import { MenuBar } from "../../components/MenuBar";
 
+/**
+ * ランチの一覧ページ.
+ * @remarks
+ * タブの切り替えによって擬似的にURLも切り替わり、レビュー一覧またはお店一覧を表示
+ */
 const LunchListPage: NextPage = () => {
   return (
     <div className="flex">
