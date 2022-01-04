@@ -30,7 +30,7 @@ const SingUp = () => {
 
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
-  const [eMail, setEMail] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [passwordConf, setPasswordConf] = useState<string>("");
 
@@ -54,11 +54,11 @@ const SingUp = () => {
     },
     [setLastName],
   );
-  const inputEMailValue = useCallback(
+  const inputEmailValue = useCallback(
     (e) => {
-      setEMail(e.target.value);
+      setEmail(e.target.value);
     },
-    [setEMail],
+    [setEmail],
   );
   const inputPasswordValue = useCallback(
     (e) => {
@@ -81,7 +81,7 @@ const SingUp = () => {
   const formClear = () => {
     setFirstName("");
     setLastName("");
-    setEMail("");
+    setEmail("");
     setPassword("");
     setPasswordConf("");
   };
@@ -108,11 +108,11 @@ const SingUp = () => {
       <div className="flex gap-3 w-96 mt-3">
         <TextInput
           label="メールアドレス"
-          value={eMail}
+          value={email}
           type="text"
           fullWidth={false}
           required
-          onChange={inputEMailValue}
+          onChange={inputEmailValue}
         />
         <div className="mt-2">
           <SelectBox
