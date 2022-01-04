@@ -55,35 +55,25 @@ const Timeline: NextPage = () => {
           <SubHeader title="つぶやき" />
 
           {/* タイムラインゾーン */}
-          <table className="w-full">
-            {data.map((value, key) => (
-              <tbody style={style} key={key}>
-                <tr>
-                  <td rowSpan={3} className="pl-6 pr-0 w-36">
-                    <Image
-                      src={value.img}
-                      width={100}
-                      height={100}
-                      alt="icon"
-                    />
-                  </td>
-                  <td className="text-xl font-extrabold pt-3 pb-3">
-                    {value.name}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="pt-5 pb-5 pl-5 pr-60"> {value.tweet}</td>
-                </tr>
-                <tr>
-                  <td className="text-right pr-20 pb-5">
-                    <CommentIcon commentCount={300} />
-                    <TweetFavoBtn />
-                    <TweetTrashBtn />
-                  </td>
-                </tr>
-              </tbody>
-            ))}
-          </table>
+          {data.map((value, key) => (
+            <div style={style} key={key} className="flex">
+              <div className="w-1/5 text-center pt-5">
+                <Image src={value.img} width={100} height={100} alt="icon" />
+              </div>
+
+              <div className="w-4/5">
+                <div className="text-xl font-extrabold pt-3 pb-3">
+                  {value.name}
+                </div>
+                <div className="pt-5 pb-5 pl-5 w-8/12">{value.tweet}</div>
+                <div className="w-full text-right pt-3 pb-3">
+                  <CommentIcon commentCount={300} />
+                  <TweetFavoBtn />
+                  <TweetTrashBtn />
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </>
