@@ -73,9 +73,11 @@ export const LunchTab: FC<Props> = memo((props) => {
         </Tab.List>
         <Tab.Panels>
           <Tab.Panel>
+            {/* タブがランチレビューの時はレビュー一覧表示 */}
             <ReviewList />
           </Tab.Panel>
           <Tab.Panel>
+            {/* タブがお店情報の時は店一覧表示 */}
             <RestaurantList />
           </Tab.Panel>
         </Tab.Panels>
