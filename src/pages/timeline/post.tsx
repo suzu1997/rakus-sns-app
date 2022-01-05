@@ -1,7 +1,7 @@
 import Router from "next/router";
 import Image from "next/image";
 import { NextPage } from "next";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Button } from "../../components/Button";
 import { MenuBar } from "../../components/MenuBar";
 
@@ -25,9 +25,25 @@ const Post: NextPage = () => {
 
   const style = { animation: "fadeIn 1s ease 0s 1 normal" };
 
+  const postTweet = () => {
+    if (tweet === "") {
+      alert("入力して下さい");
+    } else if (tweet.length > 140) {
+      alert("つぶやきは140文字以内にして下さい");
+    } else {
+      alert("「" + tweet + "」が呟かれました");
+    }
+  };
+
   const backPage = () => {
     Router.push("/timeline");
   };
+
+  const [tweetLength, setTweetLength] = useState<number>(0);
+
+  useEffect(() => {
+    setTweetLength(140 - tweet.length);
+  });
 
   return (
     <>
@@ -52,13 +68,7 @@ const Post: NextPage = () => {
         >
           <div className="my-5">
             <span>
-              <Button
-                label="つぶやく"
-                size="md"
-                onClick={() => {
-                  alert("「" + tweet + "」が呟かれました");
-                }}
-              />
+              <Button label="つぶやく" size="md" onClick={postTweet} />
             </span>
             <span className="ml-3">
               <Button label="キャンセル" size="md" onClick={backPage} />
@@ -88,6 +98,7 @@ const Post: NextPage = () => {
               </form>
             </div>
           </div>
+          残り文字数：{tweetLength}
         </div>
       </div>
     </>
