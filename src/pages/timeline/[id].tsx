@@ -11,6 +11,8 @@ import { SubHeader } from "../../components/SubHeader";
 import { TweetFavoBtn } from "../../components/TweetFavoBtn";
 //自分のつぶやきを消せるボタンコンポーネント(自分のつぶやきの時のみ表示させたい)
 import { TweetTrashBtn } from "../../components/TweetTrashBtn";
+import { Button } from "../../components/Button";
+import Router from "next/router";
 
 /**
  * つぶやき詳細画面.
@@ -38,11 +40,21 @@ const TweetDetail: NextPage = () => {
     borderBottom: "solid 1px black",
   };
 
+  /**
+   * つぶやき投稿ページに飛ぶメソッド.
+   */
+  const goPostPage = () => {
+    Router.push("/timeline/post");
+  };
+
   return (
     <>
       <div className="flex">
         <div>
           <MenuBar />
+          <div className="m-1 mt-10">
+            <Button label="つぶやく" size="lg" onClick={goPostPage} />
+          </div>
         </div>
 
         {/* サブヘッダー */}
