@@ -15,7 +15,7 @@ function classNames(...classes: unknown[]) {
 const User: NextPage = () => {
   //テストデータ
   const [data] = useState({
-    name: "やまちゃん",
+    name: "ランチックス",
     hireDate: "2021年10月",
     img: "/usakus.jpg",
     jobtype: "FR",
@@ -105,7 +105,7 @@ const User: NextPage = () => {
                 <div>自己紹介:</div>
               </div>
             </div>
-            <div className="text-right mr-10 mb-10">
+            <div className="text-right mr-10 mb-5">
               <Button
                 label="プロフィール編集"
                 backgroundColor="#f28728"
@@ -165,7 +165,7 @@ const User: NextPage = () => {
                           </ul>
 
                           <a
-                            href="#"
+                            href="/user"
                             className={classNames(
                               "absolute inset-0 rounded-md",
                               "focus:z-10 focus:outline-none focus:ring-2 ring-blue-400",
