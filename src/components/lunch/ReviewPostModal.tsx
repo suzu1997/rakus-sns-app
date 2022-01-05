@@ -75,13 +75,14 @@ export const ReviewPostModal: FC<Props> = memo((props) => {
               <Dialog.Overlay className="fixed inset-0" />
             </Transition.Child>
 
-            {/* This element is to trick the browser into centering the modal contents. */}
+            {/* モーダルを画面の中央に配置するための要素 */}
             <span
               className="inline-block h-screen align-middle"
               aria-hidden="true"
             >
               &#8203;
             </span>
+            {/* モーダルの中身部分 */}
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -126,7 +127,7 @@ export const ReviewPostModal: FC<Props> = memo((props) => {
                     </div>
                   </div>
                 </div>
-
+                {/* 投稿/キャンセルのボタン */}
                 <div className="mt-4 flex gap-5 justify-center">
                   <Button label={"投稿"} onClick={postReview} />
                   <Button
