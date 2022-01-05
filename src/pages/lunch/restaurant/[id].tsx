@@ -1,4 +1,6 @@
 import { NextPage } from "next";
+import Image from "next/image";
+import { ReviewList } from "../../../components/lunch/ReviewList";
 import { MenuBar } from "../../../components/MenuBar";
 
 /**
@@ -18,7 +20,7 @@ const RestaurantDetail: NextPage = () => {
   return (
     <div className="flex">
       <MenuBar />
-      <div className="flex-col">
+      <div className="flex-col mt-10 ml-24">
         <p className="text-3xl font-extrabold border-l-8 border-basic mb-5">
           {dummyData.name}
         </p>
@@ -26,6 +28,22 @@ const RestaurantDetail: NextPage = () => {
           ジャンル: {dummyData.genre}
           <span className="ml-8">タイプ: {dummyData.type}</span>
         </div>
+        <div className="">⭐️⭐️⭐️⭐️⭐️</div>
+        <Image
+          src={dummyData.img}
+          width={300}
+          height={200}
+          alt="restaurant photo"
+        />
+        {/* ここに地図を埋め込みたい */}
+        <p className="mt-10">場所</p>
+        <div>
+          <Image src="/map-sample.png" width={600} height={400} alt="map" />
+        </div>
+      </div>
+      <div className="w-1/4 mt-10 ml-auto">
+        <div className="font-bold">この店へのレビュー</div>
+        <ReviewList />
       </div>
     </div>
   );
