@@ -3,6 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { Button } from "../Button";
 import Image from "next/image";
+import { TextArea } from "../TextArea";
 
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
@@ -115,15 +116,16 @@ export const ReviewPostModal: FC<Props> = memo((props) => {
                     </div>
                     <div className="mx-5">
                       <form>
-                        <textarea
+                        <TextArea
                           value={review}
-                          onChange={inputReview}
-                          rows={5}
+                          rows={10}
                           cols={28}
-                          className="p-5 focus:outline-none focus:border-basic border border-gray-300 shadow-md outline-none"
-                        ></textarea>
+                          onChange={inputReview}
+                        />
                       </form>
-                      <span className={`${reviewLength < 0 && "text-red-700"}`}>残り文字数：{reviewLength}</span>
+                      <span className={`${reviewLength < 0 && "text-red-700"}`}>
+                        残り文字数：{reviewLength}
+                      </span>
                     </div>
                   </div>
                 </div>
