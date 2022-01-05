@@ -1,8 +1,9 @@
 import { NextPage } from "next";
-import Link from "next/link";
 import { LunchSearchArea } from "../../components/LunchSearchArea";
 import { LunchTab } from "../../components/LunchTab";
 import { MenuBar } from "../../components/MenuBar";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 /**
  * ランチの一覧ページ.
@@ -10,16 +11,28 @@ import { MenuBar } from "../../components/MenuBar";
  * タブの切り替えによって擬似的にURLも切り替わり、レビュー一覧またはお店一覧を表示
  */
 const LunchListPage: NextPage = () => {
+  // レビューのタブにいるか店情報のタブにいるか
+  const [path, setPath] = useState<string>("review");
+  const router = useRouter();
+
+  // URLのパスが変わるたびに実行する
+  useEffect(() => {
+    // URLからタブを取得
+    const path = router.query.path;
+    if (path !== undefined) {
+      setPath(path[0]);
+    }
+  }, [router.query.path]);
+
   return (
     <div className="flex">
       <MenuBar />
       <div className="flex-1 my-5 px-8">
         <h1 className="text-3xl">近くのランチ</h1>
-        <Link href="/lunch/restaurant" passHref>
-          <a className="underline">お店情報一覧へ</a>
-        </Link>
         <div className="flex justify-between gap-8 flex-col-reverse items-center sm:flex-row sm:items-start">
-          <LunchTab />
+          <div className="flex flex-col w-full">
+            <LunchTab path={path} />
+          </div>
           <LunchSearchArea />
         </div>
       </div>
