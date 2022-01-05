@@ -1,14 +1,13 @@
 /* eslint-disable @next/next/link-passhref */
 import type { NextPage } from "next";
 import Image from "next/image";
-import Link from "next/link";
+import Router from "next/router";
 import { useState } from "react";
+import { MenuBar } from "../../components/MenuBar";
+import { SubHeader } from "../../components/SubHeader";
+import { Button } from "../../components/Button";
 //コメントアイコンコンポーネント
 import { CommentIcon } from "../../components/CommentIcon";
-//メニューバーコンポーネント
-import { MenuBar } from "../../components/MenuBar";
-//サブヘッダーコンポーネント
-import { SubHeader } from "../../components/SubHeader";
 //つぶやきをお気に入り登録するボタンコンポーネント
 import { TweetFavoBtn } from "../../components/TweetFavoBtn";
 //自分のつぶやきを消せるボタンコンポーネント(自分のつぶやきの時のみ表示させたい)
@@ -39,17 +38,22 @@ const Timeline: NextPage = () => {
     borderBottom: "solid 1px black",
   };
 
+  /**
+   * つぶやき投稿ページに飛ぶメソッド.
+   */
+  const goPostPage = () => {
+    Router.push("/timeline/post");
+  };
+
   //HTMLコーナー
   return (
     <>
       <div className="flex">
         <div>
           <MenuBar />
-          <Link href="/timeline/post">
-            <div className="bg-basic hover:bg-yellow-600 text-xl text-white rounded text-center p-3">
-              つぶやく<i className="fas fa-plus"></i>
-            </div>
-          </Link>
+          <div className="m-1 mt-10">
+            <Button label="つぶやく" size="lg" onClick={goPostPage} />
+          </div>
         </div>
 
         {/* サブヘッダー */}
