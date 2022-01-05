@@ -42,6 +42,13 @@ const LunchListPage: NextPage = () => {
               onClick={() => router.push("/lunch/restaurant/add")}
               size="lg"
             />
+            <br />
+            <br />
+            <Button
+              label={"ホットペッパーテスト"}
+              onClick={() => router.push("/lunch/hotpepper")}
+              size="lg"
+            />
           </div>
         </div>
       </div>
