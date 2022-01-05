@@ -1,16 +1,16 @@
 import type { NextPage } from "next";
 import Image from "next/image";
+import Router from "next/router";
 import { useState } from "react";
 import { MenuBar } from "../../components/MenuBar";
 import { SubHeader } from "../../components/SubHeader";
-import Router from "next/router";
+import { Button } from "../../components/Button";
 //コメントアイコンコンポーネント
 import { CommentIcon } from "../../components/CommentIcon";
 //つぶやきをお気に入り登録するボタンコンポーネント
 import { TweetFavoBtn } from "../../components/TweetFavoBtn";
 //自分のつぶやきを消せるボタンコンポーネント(自分のつぶやきの時のみ表示させたい)
 import { TweetTrashBtn } from "../../components/TweetTrashBtn";
-import { Button } from "../../components/Button";
 
 /**
  * タイムラインページ.
