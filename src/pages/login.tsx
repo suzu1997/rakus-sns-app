@@ -1,17 +1,25 @@
 import { TextInput } from "../components/TextInput";
 import { useState, useCallback } from "react";
 import { Button } from "../components/Button";
-import Router from "next/router";
+import { NextPage } from "next";
+import { useRouter } from "next/router";
 
-const Login = () => {
-  const [eMail, setEMail] = useState<string>("");
+/**
+ * ログインページ
+ * @returns ログインするためのページ
+ */
+const Login: NextPage = () => {
+  const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const inputEMailValue = useCallback(
+  //ルーターリンク
+  const router = useRouter();
+
+  const inputEmailValue = useCallback(
     (e) => {
-      setEMail(e.target.value);
+      setEmail(e.target.value);
     },
-    [setEMail],
+    [setEmail],
   );
   const inputPasswordValue = useCallback(
     (e) => {
@@ -22,11 +30,11 @@ const Login = () => {
 
   //ログインボタンを押した時に呼ばれる
   const submitForm = () => {
-    Router.push("/");
+    router.push("/");
   };
   //クリアボタンを押した時に呼ばれる
   const formClear = () => {
-    setEMail("");
+    setEmail("");
     setPassword("");
   };
 
@@ -35,11 +43,11 @@ const Login = () => {
       <div className="w-96 mt-3">
         <TextInput
           label="メールアドレス"
-          value={eMail}
+          value={email}
           type="text"
           fullWidth={true}
           required
-          onChange={inputEMailValue}
+          onChange={inputEmailValue}
         />
       </div>
       <div className="w-96 mt-3">
