@@ -16,6 +16,7 @@ const RestaurantDetail: NextPage = () => {
     type: "店内",
     favarite: 100,
     img: "/cake.jpg",
+    address: "東京都新宿区新宿◯-◯-◯",
   };
 
   return (
@@ -36,6 +37,10 @@ const RestaurantDetail: NextPage = () => {
           height={200}
           alt="restaurant photo"
         />
+            <div className="mt-10">
+              店の説明？店の説明？店の説明？店の説明？店の説明？店の説明？店の説明？店の説明？店の説明？店の説明？店の説明？店の説明？店の説明？
+            </div>
+          <p className="mt-10">住所: {dummyData.address}</p>
         {/* ここに地図を埋め込みたい */}
         <p className="mt-10">場所</p>
         <div>
