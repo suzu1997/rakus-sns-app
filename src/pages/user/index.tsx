@@ -5,7 +5,7 @@ import Image from "next/image";
 import { SubHeader } from "../../components/SubHeader";
 import { Tab } from "@headlessui/react";
 import { Button } from "../../components/Button";
-import Router from "next/router";
+import { useRouter } from "next/router";
 
 //タブテスト
 function classNames(...classes: unknown[]) {
@@ -25,9 +25,12 @@ const User: NextPage = () => {
     jobtype: "FR",
   });
 
+  //ルーターリンク
+  const router = useRouter();
+
   //編集ボタンを押した時に呼ばれる
   const editInfo = () => {
-    Router.push("/user/edit");
+    router.push("/user/edit");
   };
 
   //タブテストデータ

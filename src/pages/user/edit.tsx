@@ -1,9 +1,9 @@
 import { NextPage } from "next";
 import Image from "next/image";
 import { useCallback, useState } from "react";
+import { useRouter } from "next/router";
 import { TextInput } from "../../components/TextInput";
 import { Button } from "../../components/Button";
-import Router from "next/router";
 
 /**
  * ユーザー情報編集画面
@@ -19,6 +19,9 @@ const Edit: NextPage = () => {
     birthDay: "",
     profile: "",
   });
+
+  //ルーターリンク
+  const router = useRouter();
 
   //入力フォームの初期値
   const [nameValue, setNameValue] = useState<string>(data.name);
@@ -48,12 +51,12 @@ const Edit: NextPage = () => {
   //更新ボタンを押した時に呼ばれる
   const updateUserInfo = () => {
     //本来はデータを更新
-    Router.push("/user");
+    router.push("/user");
   };
 
   //キャンセルボタンを押した時に呼ばれる
   const cancel = () => {
-    Router.push("/user");
+    router.push("/user");
   };
 
   return (

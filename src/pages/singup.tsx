@@ -3,8 +3,8 @@ import { TextInput } from "../components/TextInput";
 import { Button } from "../components/Button";
 import { SelectBox } from "../components/SelectBox";
 import { Radio } from "../components/Radio";
-import Router from "next/router";
 import { NextPage } from "next";
+import { useRouter } from "next/router";
 
 /**
  * ユーザー登録画面
@@ -32,6 +32,9 @@ const SingUp: NextPage = () => {
     { id: "7", name: "7月" },
     { id: "10", name: "10月" },
   ];
+
+  //ルーターリンク
+  const router = useRouter();
 
   //入力フォームの初期値
   const [firstName, setFirstName] = useState<string>("");
@@ -82,7 +85,7 @@ const SingUp: NextPage = () => {
 
   //登録ボタンを押した時に呼ばれる
   const submitForm = () => {
-    Router.push("/login");
+    router.push("/login");
   };
   //クリアボタンを押した時に呼ばれる
   const formClear = () => {
