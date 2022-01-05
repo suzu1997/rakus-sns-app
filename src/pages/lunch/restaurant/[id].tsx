@@ -14,7 +14,7 @@ const RestaurantDetail: NextPage = () => {
     name: "イタリアンが美味しい店",
     genre: "イタリアン",
     type: "店内",
-    favarite: 100,
+    favorite: 100,
     img: "/cake.jpg",
     address: "東京都新宿区新宿◯-◯-◯",
   };
