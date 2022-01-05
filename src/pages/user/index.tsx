@@ -5,13 +5,17 @@ import Image from "next/image";
 import { SubHeader } from "../../components/SubHeader";
 import { Tab } from "@headlessui/react";
 import { Button } from "../../components/Button";
-import Router from "next/router";
+import { useRouter } from "next/router";
 
 //タブテスト
 function classNames(...classes: unknown[]) {
   return classes.filter(Boolean).join(" ");
 }
 
+/**
+ * ユーザー情報画面
+ * @returns ユーザー情報を表示するページ
+ */
 const User: NextPage = () => {
   //テストデータ
   const [data] = useState({
@@ -21,8 +25,12 @@ const User: NextPage = () => {
     jobtype: "FR",
   });
 
+  //ルーターリンク
+  const router = useRouter();
+
+  //編集ボタンを押した時に呼ばれる
   const editInfo = () => {
-    Router.push("/user/edit");
+    router.push("/user/edit");
   };
 
   //タブテストデータ
@@ -84,6 +92,7 @@ const User: NextPage = () => {
         <div>
           <MenuBar />
         </div>
+        {/* ユーザー情報 */}
         <div className="w-full">
           <SubHeader title="ユーザー情報" />
           <div className="border-solid  border-2 border-bgc-200 m-5 shadow-lg rounded-md">
@@ -116,7 +125,7 @@ const User: NextPage = () => {
             </div>
           </div>
 
-          {/* タブテスト */}
+          {/* タブテスト（履歴表示欄） */}
           <div className="w-full px-2 sm:px-0">
             <Tab.Group>
               <Tab.List className="flex p-1 space-x-1 bg-blue-900/20 rounded-xl">

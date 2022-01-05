@@ -3,9 +3,13 @@ import { TextInput } from "../components/TextInput";
 import { Button } from "../components/Button";
 import { SelectBox } from "../components/SelectBox";
 import { Radio } from "../components/Radio";
-import Router from "next/router";
 import { NextPage } from "next";
+import { useRouter } from "next/router";
 
+/**
+ * ユーザー登録画面
+ * @returns ユーザー登録するためのページ
+ */
 const SingUp: NextPage = () => {
   //メールアドレスのドメイン選択肢
   const options = [
@@ -29,12 +33,16 @@ const SingUp: NextPage = () => {
     { id: "10", name: "10月" },
   ];
 
+  //ルーターリンク
+  const router = useRouter();
+
+  //入力フォームの初期値
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [passwordConf, setPasswordConf] = useState<string>("");
-
+  //セレクトボックスの初期値
   const [selectValue, setSelectValue] = useState<string>(options[0].name);
   const [selectHireYearValue, setSelectHireYearValue] = useState<string>(
     hireYear[0].name,
@@ -43,6 +51,7 @@ const SingUp: NextPage = () => {
     hireMonth[0].name,
   );
 
+  //各入力フォームに入力した際に更新される
   const inputFirstNameValue = useCallback(
     (e) => {
       setFirstName(e.target.value);
@@ -76,7 +85,7 @@ const SingUp: NextPage = () => {
 
   //登録ボタンを押した時に呼ばれる
   const submitForm = () => {
-    Router.push("/login");
+    router.push("/login");
   };
   //クリアボタンを押した時に呼ばれる
   const formClear = () => {
@@ -86,6 +95,7 @@ const SingUp: NextPage = () => {
     setPassword("");
     setPasswordConf("");
   };
+
   return (
     <div className="flex flex-col items-center mt-10">
       <div className="flex w-96 gap-3 mt-3">

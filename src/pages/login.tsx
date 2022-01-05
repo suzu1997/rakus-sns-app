@@ -1,12 +1,19 @@
 import { TextInput } from "../components/TextInput";
 import { useState, useCallback } from "react";
 import { Button } from "../components/Button";
-import Router from "next/router";
 import { NextPage } from "next";
+import { useRouter } from "next/router";
 
+/**
+ * ログインページ
+ * @returns ログインするためのページ
+ */
 const Login: NextPage = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+
+  //ルーターリンク
+  const router = useRouter();
 
   const inputEmailValue = useCallback(
     (e) => {
@@ -23,7 +30,7 @@ const Login: NextPage = () => {
 
   //ログインボタンを押した時に呼ばれる
   const submitForm = () => {
-    Router.push("/");
+    router.push("/");
   };
   //クリアボタンを押した時に呼ばれる
   const formClear = () => {
