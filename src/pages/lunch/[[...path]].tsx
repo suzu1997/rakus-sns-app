@@ -1,6 +1,6 @@
 import { NextPage } from "next";
-import { LunchSearchArea } from "../../components/LunchSearchArea";
-import { LunchTab } from "../../components/LunchTab";
+import { LunchSearchArea } from "../../components/lunch/LunchSearchArea";
+import { LunchTab } from "../../components/lunch/LunchTab";
 import { MenuBar } from "../../components/MenuBar";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";

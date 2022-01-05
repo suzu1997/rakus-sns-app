@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { ReviewCard } from "./reviewCard";
+import { ReviewCard } from "./ReviewCard";
 
 export const ReviewList: FC = () => {
   //テストデータ

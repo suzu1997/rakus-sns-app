@@ -1,8 +1,8 @@
 import Image from "next/image";
 import { FC } from "react";
-import { CommentIcon } from "./CommentIcon";
-import { TweetFavoBtn } from "./TweetFavoBtn";
-import { TweetTrashBtn } from "./TweetTrashBtn";
+import { CommentIcon } from "../CommentIcon";
+import { TweetFavoBtn } from "../TweetFavoBtn";
+import { TweetTrashBtn } from "../TweetTrashBtn";
 
 type Props = {
   id: number;

@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { SelectBox } from "./SelectBox";
+import { SelectBox } from "../SelectBox";
 
 /**
  * ランチの並び替えと絞り込みを行うエリア.
