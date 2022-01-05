@@ -1,64 +1,51 @@
-import { memo, useState } from "react";
+import { FC, memo } from "react";
 import { Tab } from "@headlessui/react";
 import { useRouter } from "next/router";
+import { ReviewList } from "./ReviewList";
+import { RestaurantList } from "./RestaurantList";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
+type Props = {
+  path: string;
+};
+
+// タブの種類
+const tabMap = [
+  {
+    path: "review",
+    display: "ランチレビュー",
+  },
+  {
+    path: "restaurant",
+    display: "お店情報",
+  },
+];
+
 /**
  * ランチのレビューと店情報の切り替え用タブ.
+ *
+ * @params - path:URLの末尾を渡す
  */
-export const LunchTab = memo(() => {
-  const router = useRouter();
-  // タブの種類
-  const tabMap = ["review", "restaurant"];
+export const LunchTab: FC<Props> = memo((props) => {
+  const { path } = props;
+  const initialTab = tabMap.findIndex((tab) => tab.path === path);
 
-  const [categories] = useState({
-    ランチレビュー: [
-      {
-        id: 1,
-        title: "Does drinking coffee make you smarter?",
-        date: "5h ago",
-        commentCount: 5,
-        shareCount: 2,
-      },
-      {
-        id: 2,
-        title: "So you've bought coffee... now what?",
-        date: "2h ago",
-        commentCount: 3,
-        shareCount: 2,
-      },
-    ],
-    お店情報: [
-      {
-        id: 1,
-        title: "Is tech making coffee better or worse?",
-        date: "Jan 7",
-        commentCount: 29,
-        shareCount: 16,
-      },
-      {
-        id: 2,
-        title: "The most innovative things happening in coffee",
-        date: "Mar 19",
-        commentCount: 24,
-        shareCount: 12,
-      },
-    ],
-  });
+  const router = useRouter();
 
   return (
     <div className="w-full px-2 sm:px-0">
       <Tab.Group
+        defaultIndex={initialTab}
         onChange={(idx) => {
           // タブが変更されたらrouterへpush。
           router.push(
             {
               pathname: router.pathname,
               query: {
-                path: [tabMap[idx]],
+                path: [tabMap[idx].path],
               },
             },
             undefined,
@@ -67,9 +54,9 @@ export const LunchTab = memo(() => {
         }}
       >
         <Tab.List className="flex p-1 space-x-1 bg-bgc rounded-xl">
-          {Object.keys(categories).map((category) => (
+          {tabMap.map((tab) => (
             <Tab
-              key={category}
+              key={tab.path}
               className={({ selected }) =>
                 classNames(
                   "w-full py-2.5 text-sm leading-5 font-bold text-text-brown rounded-lg",
@@ -80,10 +67,18 @@ export const LunchTab = memo(() => {
                 )
               }
             >
-              {category}
+              {tab.display}
             </Tab>
           ))}
         </Tab.List>
+        <Tab.Panels>
+          <Tab.Panel>
+            <ReviewList />
+          </Tab.Panel>
+          <Tab.Panel>
+            <RestaurantList />
+          </Tab.Panel>
+        </Tab.Panels>
       </Tab.Group>
     </div>
   );
