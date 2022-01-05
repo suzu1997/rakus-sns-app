@@ -1,4 +1,5 @@
 import Router from "next/router";
+import Image from "next/image";
 import { NextPage } from "next";
 import { useState, useCallback } from "react";
 import { Button } from "../../components/Button";
@@ -49,20 +50,8 @@ const Post: NextPage = () => {
           className="bg-bgc  ml-80 mt-20 h-80 w-96 rounded text-center"
           style={style}
         >
-          <div className="mt-10">
-            つぶやきたい内容を下記に入力して下さい。(140字以内)
-          </div>
-
-          <div>
-            <form>
-              <textarea
-                value={tweet}
-                onChange={inputTweet}
-                rows={5}
-                cols={28}
-              ></textarea>
-            </form>
-            <div className="my-5">
+          <div className="my-5">
+            <span>
               <Button
                 label="つぶやく"
                 size="md"
@@ -70,9 +59,33 @@ const Post: NextPage = () => {
                   alert("「" + tweet + "」が呟かれました");
                 }}
               />
-              <div className="mt-3">
-                <Button label="キャンセル" size="md" onClick={backPage} />
-              </div>
+            </span>
+            <span className="ml-3">
+              <Button label="キャンセル" size="md" onClick={backPage} />
+            </span>
+          </div>
+          <div className="mt-10">
+            つぶやきたい内容を下記に入力して下さい。(140字以内)
+          </div>
+          <div className="flex mt-5">
+            <div className="ml-5">
+              <Image
+                src="/usakus.jpg"
+                width={100}
+                height={100}
+                alt="icon"
+                className="rounded-full"
+              />
+            </div>
+            <div className="mx-5">
+              <form>
+                <textarea
+                  value={tweet}
+                  onChange={inputTweet}
+                  rows={5}
+                  cols={28}
+                ></textarea>
+              </form>
             </div>
           </div>
         </div>
