@@ -4,7 +4,7 @@ export type Props = {
   label: string;
   backgroundColor?: string;
   color?: string;
-  size?: "sm" | "md" | "lg";
+  size?: "xs" | "sm" | "md" | "lg";
   onClick: MouseEventHandler<HTMLButtonElement>;
 };
 
@@ -18,6 +18,7 @@ export const Button: FC<Props> = memo((props) => {
   } = props;
 
   let scale = 1;
+  if (size === "xs") scale = 0.3;
   if (size === "sm") scale = 0.75;
   if (size === "lg") scale = 1.5;
 
