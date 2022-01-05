@@ -1,5 +1,6 @@
 import { NextPage } from "next";
 import Image from "next/image";
+import { Button } from "../../../components/Button";
 import { ReviewList } from "../../../components/lunch/ReviewList";
 import { MenuBar } from "../../../components/MenuBar";
 
@@ -41,9 +42,13 @@ const RestaurantDetail: NextPage = () => {
           <Image src="/map-sample.png" width={600} height={400} alt="map" />
         </div>
       </div>
-      <div className="w-1/4 mt-10 ml-auto">
-        <div className="font-bold">この店へのレビュー</div>
-        <ReviewList />
+            <span className="ml-5">
+              <Button
+                label={"レビュー投稿"}
+                size="sm"
+                onClick={() => alert("レビュー投稿画面へ")}
+              />
+            </span>
       </div>
     </div>
   );
