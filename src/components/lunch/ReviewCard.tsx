@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FC } from "react";
+import { FC, memo } from "react";
 import { CommentIcon } from "../CommentIcon";
 import { TweetFavoBtn } from "../TweetFavoBtn";
 import { TweetTrashBtn } from "../TweetTrashBtn";
@@ -11,7 +11,7 @@ type Props = {
   img: string;
 };
 
-export const ReviewCard: FC<Props> = (props) => {
+export const ReviewCard: FC<Props> = memo((props) => {
   const { name, content, img } = props;
 
   return (
@@ -30,4 +30,4 @@ export const ReviewCard: FC<Props> = (props) => {
       </div>
     </div>
   );
-};
+});

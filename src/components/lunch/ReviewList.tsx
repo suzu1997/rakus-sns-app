@@ -1,7 +1,7 @@
-import { FC, useState } from "react";
+import { FC, memo, useState } from "react";
 import { ReviewCard } from "./ReviewCard";
 
-export const ReviewList: FC = () => {
+export const ReviewList: FC = memo(() => {
   //テストデータ
   const [reviewData] = useState([
     { id: 1, name: "佐藤花子", content: "あああ", img: "/usakus.jpg" },
@@ -27,4 +27,4 @@ export const ReviewList: FC = () => {
       ))}
     </div>
   );
-};
+});

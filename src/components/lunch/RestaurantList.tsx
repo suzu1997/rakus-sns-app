@@ -1,7 +1,7 @@
-import { FC, useState } from "react";
+import { FC, memo, useState } from "react";
 import { RestaurantCard } from "./RestaurantCard";
 
-export const RestaurantList: FC = () => {
+export const RestaurantList: FC = memo(() => {
   //テストデータ
   const [restaurantData] = useState([
     {
@@ -39,4 +39,4 @@ export const RestaurantList: FC = () => {
       ))}
     </div>
   );
-};
+});

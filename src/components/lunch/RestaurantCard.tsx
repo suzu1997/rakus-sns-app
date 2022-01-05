@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FC } from "react";
+import { FC, memo } from "react";
 import { CommentIcon } from "../CommentIcon";
 import { TweetFavoBtn } from "../TweetFavoBtn";
 
@@ -12,7 +12,7 @@ type Props = {
   img: string;
 };
 
-export const RestaurantCard: FC<Props> = (props) => {
+export const RestaurantCard: FC<Props> = memo((props) => {
   const { name, genre, type, img } = props;
 
   return (
@@ -32,4 +32,4 @@ export const RestaurantCard: FC<Props> = (props) => {
       </div>
     </div>
   );
-};
+});

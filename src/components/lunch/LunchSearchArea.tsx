@@ -1,10 +1,10 @@
-import { FC, useState } from "react";
+import { FC, memo, useState } from "react";
 import { SelectBox } from "../SelectBox";
 
 /**
  * ランチの並び替えと絞り込みを行うエリア.
  */
-export const LunchSearchArea: FC = () => {
+export const LunchSearchArea: FC = memo(() => {
   // 並び替えのオプション
   const orderOptions = [
     {
@@ -82,4 +82,4 @@ export const LunchSearchArea: FC = () => {
       </div>
     </div>
   );
-};
+});
