@@ -13,7 +13,7 @@ export const LunchSearchArea: FC = () => {
     },
     {
       id: "2",
-      name: "評価順",
+      name: "いいね数順",
     },
   ];
   // ランチのジャンルのオプション
