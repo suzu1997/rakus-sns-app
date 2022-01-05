@@ -4,6 +4,10 @@ import { SubHeader } from "../../components/SubHeader";
 import Image from "next/image";
 import Link from "next/link";
 
+/**
+ * ラーニングセンター基本情報画面.
+ * @returns ラーニングセンターの基本情報の照会ページ
+ */
 const Info: NextPage = () => {
   return (
     <>
@@ -18,6 +22,7 @@ const Info: NextPage = () => {
               <a className="underline hover:text-blue-800 mt-3">→戻る</a>
             </Link>
           </div>
+          {/* 基本情報 */}
           <div className="border-solid  border-2 border-bgc-200 m-5 shadow-lg rounded-md text-center">
             <div className="mt-3 text-xl font-bold">第二ラーニングセンター</div>
             <Image
