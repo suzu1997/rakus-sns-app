@@ -15,6 +15,7 @@ import { TweetTrashBtn } from "../../components/TweetTrashBtn";
 
 /**
  * タイムラインページ.
+ * @returns つぶやきの一覧が流れてくるページ
  */
 const Timeline: NextPage = () => {
   //テストデータ
