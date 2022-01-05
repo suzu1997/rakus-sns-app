@@ -8,6 +8,8 @@ import { MenuBar } from "../../../components/MenuBar";
 
 /**
  * お店情報の詳細を表示するページ.
+ * 
+ * @returns お店情報の詳細を表示する画面
  */
 const RestaurantDetail: NextPage = () => {
   // レビュー投稿のモーダルのオープン状態
