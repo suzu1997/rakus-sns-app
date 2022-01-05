@@ -4,6 +4,10 @@ import { Button } from "../components/Button";
 import Router from "next/router";
 import { NextPage } from "next";
 
+/**
+ * ログインページ
+ * @returns ログインするためのページ
+ */
 const Login: NextPage = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");

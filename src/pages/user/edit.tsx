@@ -5,6 +5,10 @@ import { TextInput } from "../../components/TextInput";
 import { Button } from "../../components/Button";
 import Router from "next/router";
 
+/**
+ * ユーザー情報編集画面
+ * @returns ユーザー情報を編集するためのページ
+ */
 const Edit: NextPage = () => {
   //テストデータ
   const [data] = useState({
@@ -16,10 +20,12 @@ const Edit: NextPage = () => {
     profile: "",
   });
 
+  //入力フォームの初期値
   const [nameValue, setNameValue] = useState<string>(data.name);
   const [birthDayValue, setBirthDayValue] = useState<string>(data.birthDay);
   const [profileValue, setProfileValue] = useState<string>(data.profile);
 
+  //各入力フォームに入力した際に更新される
   const inputNameValue = useCallback(
     (e) => {
       setNameValue(e.target.value);
