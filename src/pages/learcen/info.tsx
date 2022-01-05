@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import { MenuBar } from "../../components/MenuBar";
 import { SubHeader } from "../../components/SubHeader";
 import Image from "next/image";
+import Link from "next/link";
 
 const Info: NextPage = () => {
   return (
@@ -12,6 +13,11 @@ const Info: NextPage = () => {
         </div>
         <div className="w-full">
           <SubHeader title="ラーセン基本情報" />
+          <div className="ml-5 mt-5">
+            <Link href="/">
+              <a className="underline hover:text-blue-800 mt-3">→戻る</a>
+            </Link>
+          </div>
           <div className="border-solid  border-2 border-bgc-200 m-5 shadow-lg rounded-md text-center">
             <div className="mt-3 text-xl font-bold">第二ラーニングセンター</div>
             <Image
