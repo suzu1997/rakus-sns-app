@@ -10,8 +10,12 @@ import { MenuBar } from "../../components/MenuBar";
  * @returns つぶやき投稿画面
  */
 const Post: NextPage = () => {
+  //モーダルアニメーション用
+  const style = { animation: "fadeIn 1s ease 0s 1 normal" };
   //つぶやき内容を入れる変数
   const [tweet, setTweet] = useState<string>("");
+  //つぶやきの文字数数える変数
+  const [tweetLength, setTweetLength] = useState<number>(0);
 
   /**
    * つぶやき内容をtweetに代入するメソッド.
@@ -23,8 +27,10 @@ const Post: NextPage = () => {
     [setTweet],
   );
 
-  const style = { animation: "fadeIn 1s ease 0s 1 normal" };
-
+  /**
+   * ボタン押下でつぶやきを投稿する.
+   * @remarks 1-140文字の時のみOK
+   */
   const postTweet = () => {
     if (tweet === "") {
       alert("入力して下さい");
@@ -35,18 +41,23 @@ const Post: NextPage = () => {
     }
   };
 
+  /**
+   * ボタン押下でタイムラインページに戻る.
+   */
   const backPage = () => {
     Router.push("/timeline");
   };
 
-  const [tweetLength, setTweetLength] = useState<number>(0);
-
+  /**
+   * リアルタイムにつぶやきの文字数をカウントしてくれる.
+   */
   useEffect(() => {
     setTweetLength(140 - tweet.length);
   });
 
   return (
     <>
+      {/* アニメ―ションCSS */}
       <style>
         {`@keyframes fadeIn {
         0% {
@@ -60,12 +71,16 @@ const Post: NextPage = () => {
       }`}
       </style>
 
+      {/* メニューバー */}
       <div className="flex">
         <MenuBar />
+
+        {/* つぶやき部分本体 */}
         <div
           className="bg-bgc  ml-80 mt-20 h-80 w-96 rounded text-center"
           style={style}
         >
+          {/* ボタンゾーン */}
           <div className="my-5">
             <span>
               <Button label="つぶやく" size="md" onClick={postTweet} />
@@ -74,6 +89,7 @@ const Post: NextPage = () => {
               <Button label="キャンセル" size="md" onClick={backPage} />
             </span>
           </div>
+          {/* 画像＋テキストエリア */}
           <div className="mt-10">
             つぶやきたい内容を下記に入力して下さい。(140字以内)
           </div>
