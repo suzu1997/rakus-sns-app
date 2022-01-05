@@ -21,7 +21,7 @@ export const MenuBar: FC = memo(() => {
               通知
             </a>
           </Link>
-          <Link href="/aaa/test">
+          <Link href="/learcen/info">
             <a className="flex items-center opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
               ラーセン内情報
             </a>
