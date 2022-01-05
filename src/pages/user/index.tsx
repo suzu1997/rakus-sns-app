@@ -4,6 +4,8 @@ import { MenuBar } from "../../components/MenuBar";
 import Image from "next/image";
 import { SubHeader } from "../../components/SubHeader";
 import { Tab } from "@headlessui/react";
+import { Button } from "../../components/Button";
+import Router from "next/router";
 
 //タブテスト
 function classNames(...classes: unknown[]) {
@@ -18,6 +20,10 @@ const User: NextPage = () => {
     img: "/usakus.jpg",
     jobtype: "FR",
   });
+
+  const editInfo = () => {
+    Router.push("/user/edit");
+  };
 
   //タブテストデータ
   // eslint-disable-next-line prefer-const
@@ -79,23 +85,39 @@ const User: NextPage = () => {
           <MenuBar />
         </div>
         <div className="w-full">
-          <div className=" text-center  ">
-            <SubHeader title="ユーザー情報" />
-            <div className="w-12/12">
-              <Image src={data.img} width={100} height={100} alt="icon"></Image>
+          <SubHeader title="ユーザー情報" />
+          <div className="border-solid  border-2 border-bgc-200 m-5 shadow-lg rounded-md">
+            <div className=" text-center">
+              <div className="mt-3 text-xl font-bold">名前:{data.name}</div>
+              <div className="w-12/12">
+                <Image
+                  src={data.img}
+                  width={100}
+                  height={100}
+                  alt="icon"
+                ></Image>
+              </div>
+              <div>
+                <div>入社日:{data.hireDate}</div>
+                <div>職種:{data.jobtype}</div>
+                <div>アカウント名:</div>
+                <div>誕生日:</div>
+                <div>自己紹介:</div>
+              </div>
             </div>
-            <div>
-              <div>名前:{data.name}</div>
-              <div>入社日:{data.hireDate}</div>
-              <div>職種:{data.jobtype}</div>
-              <div>アカウント名:</div>
-              <div>誕生日:</div>
-              <div>自己紹介:</div>
+            <div className="text-right mr-10 mb-10">
+              <Button
+                label="プロフィール編集"
+                backgroundColor="#f28728"
+                color="white"
+                size="md"
+                onClick={editInfo}
+              />
             </div>
           </div>
 
           {/* タブテスト */}
-          <div className="w-full px-2 py-16 sm:px-0">
+          <div className="w-full px-2 sm:px-0">
             <Tab.Group>
               <Tab.List className="flex p-1 space-x-1 bg-blue-900/20 rounded-xl">
                 {Object.keys(categories).map((category) => (
@@ -103,11 +125,11 @@ const User: NextPage = () => {
                     key={category}
                     className={({ selected }) =>
                       classNames(
-                        "w-full py-2.5 text-sm leading-5 font-medium text-blue-700 rounded-lg",
-                        "focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60",
+                        "w-full py-2.5 text-sm leading-5 font-medium text-bgc rounded-lg",
+                        "focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60 bg-text-brown",
                         selected
                           ? "bg-white shadow"
-                          : "text-blue-100 hover:bg-white/[0.12] hover:text-white",
+                          : "text-blue-100 hover:bg-white/[0.12] hover:text-basic",
                       )
                     }
                   >
@@ -120,7 +142,7 @@ const User: NextPage = () => {
                   <Tab.Panel
                     key={idx}
                     className={classNames(
-                      "bg-white rounded-xl p-3",
+                      "bg-bgc rounded-xl p-3",
                       "focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60",
                     )}
                   >
