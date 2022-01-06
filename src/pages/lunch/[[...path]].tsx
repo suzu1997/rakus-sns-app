@@ -11,6 +11,8 @@ import { Button } from "../../components/Button";
  * ランチの一覧ページ.
  * @remarks
  * タブの切り替えによって擬似的にURLも切り替わり、レビュー一覧またはお店一覧を表示
+ * 
+ * @returns ランチの一覧を表示する画面
  */
 const LunchListPage: NextPage = () => {
   // レビューのタブにいるか店情報のタブにいるか
