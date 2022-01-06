@@ -5,6 +5,7 @@ import { MenuBar } from "../../components/MenuBar";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { SubHeader } from "../../components/SubHeader";
+import { Button } from "../../components/Button";
 
 /**
  * ランチの一覧ページ.
@@ -36,7 +37,21 @@ const LunchListPage: NextPage = () => {
           <div className="flex flex-col w-full">
             <LunchTab path={path} />
           </div>
-          <LunchSearchArea />
+          <div>
+            <LunchSearchArea />
+            <Button
+              label={"店追加"}
+              onClick={() => router.push("/lunch/restaurant/add")}
+              size="lg"
+            />
+            <br />
+            <br />
+            <Button
+              label={"ホットペッパーテスト"}
+              onClick={() => router.push("/lunch/hotpepper")}
+              size="lg"
+            />
+          </div>
         </div>
       </div>
     </div>

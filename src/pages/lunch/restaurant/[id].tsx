@@ -8,7 +8,7 @@ import { MenuBar } from "../../../components/MenuBar";
 
 /**
  * お店情報の詳細を表示するページ.
- * 
+ *
  * @returns お店情報の詳細を表示する画面
  */
 const RestaurantDetail: NextPage = () => {
@@ -31,13 +31,19 @@ const RestaurantDetail: NextPage = () => {
 
   // ダミーデータ
   const dummyData = {
-    id: 1,
-    name: "イタリアンが美味しい店",
-    genre: "イタリアン",
+    id: "J001041443",
+    name: "らーめん 氣華",
+    genre: "ラーメン",
     type: "店内",
     favorite: 100,
-    img: "/cake.jpg",
-    address: "東京都新宿区新宿◯-◯-◯",
+    img: "https://imgfp.hotp.jp/IMGH/76/15/P018367615/P018367615_238.jpg",
+    address: "東京都新宿区新宿２－７－５松田ビル１F",
+    access:
+      "新宿三丁目駅から新宿通りを新宿御苑前駅方面に進んでいただいて、徒歩4分大通りに面しております。",
+    lat: "35.6896771976",  // 緯度
+    lng: "139.7079539006", // 経度
+    url: "https://www.hotpepper.jp/strJ001041443/?vos=nhppalsa000016",
+    catch: "野菜を使ったメニュー サイドメニューもご用意",
   };
 
   return (
@@ -62,16 +68,21 @@ const RestaurantDetail: NextPage = () => {
                 alt="restaurant photo"
               />
             </div>
-            <div className="mt-10">
-              店の説明？店の説明？店の説明？店の説明？店の説明？店の説明？店の説明？店の説明？店の説明？店の説明？店の説明？店の説明？店の説明？
-            </div>
+            <div className="mt-10">{dummyData.catch}</div>
           </div>
           <p className="mt-10">住所: {dummyData.address}</p>
+          <p className="mt-10">アクセス: {dummyData.access}</p>
           {/* ここに地図を埋め込みたい */}
           <p className="mt-10">場所(マップを埋め込みたい。)</p>
           <div>
             <Image src="/map-sample.png" width={600} height={400} alt="map" />
           </div>
+          <p>
+            ホットペッパーURL:{" "}
+            <a href="https://www.hotpepper.jp/strJ001041443/?vos=nhppalsa000016">
+              https://www.hotpepper.jp/strJ001041443/?vos=nhppalsa000016
+            </a>
+          </p>
         </div>
         <div className="w-1/3 mt-10 ml-auto">
           <div className="font-bold">

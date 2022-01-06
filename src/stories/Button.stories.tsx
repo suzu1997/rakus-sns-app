@@ -38,6 +38,11 @@ Large.args = {
   label: "Large",
   size: "lg",
 };
+export const Tiny: Story<Props> = Template.bind({});
+Large.args = {
+  label: "Tiny",
+  size: "xs",
+};
 
 export const SubSmall: Story<Props> = Template.bind({});
 SubSmall.args = {
