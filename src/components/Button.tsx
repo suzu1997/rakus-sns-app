@@ -32,7 +32,7 @@ export const Button: FC<Props> = memo((props) => {
     <button
       onClick={onClick}
       style={style}
-      className="rounded-md shadow-md border-none font-bold"
+      className="rounded-md shadow-md border-none font-bold hover:opacity-90"
     >
       {label}
     </button>

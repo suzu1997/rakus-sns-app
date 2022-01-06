@@ -1,13 +1,34 @@
 import { NextPage } from "next";
 import Image from "next/image";
+import { useCallback, useState } from "react";
 import { Button } from "../../../components/Button";
 import { ReviewList } from "../../../components/lunch/ReviewList";
+import { ReviewPostModal } from "../../../components/lunch/ReviewPostModal";
 import { MenuBar } from "../../../components/MenuBar";
 
 /**
  * お店情報の詳細を表示するページ.
+ * 
+ * @returns お店情報の詳細を表示する画面
  */
 const RestaurantDetail: NextPage = () => {
+  // レビュー投稿のモーダルのオープン状態
+  const [isOpen, setIsOpen] = useState(false);
+
+  /**
+   * モーダルを閉じるメソッド.
+   */
+  const closeModal = useCallback(() => {
+    setIsOpen(false);
+  }, [setIsOpen]);
+
+  /**
+   * モーダルを開けるメソッド.
+   */
+  const openModal = useCallback(() => {
+    setIsOpen(true);
+  }, [setIsOpen]);
+
   // ダミーデータ
   const dummyData = {
     id: 1,
@@ -56,16 +77,13 @@ const RestaurantDetail: NextPage = () => {
           <div className="font-bold">
             この店へのレビュー
             <span className="ml-5">
-              <Button
-                label={"レビュー投稿"}
-                size="sm"
-                onClick={() => alert("レビュー投稿画面へ")}
-              />
+              <Button label={"レビュー投稿"} size="sm" onClick={openModal} />
             </span>
           </div>
           <ReviewList />
         </div>
       </div>
+      <ReviewPostModal isOpen={isOpen} closeModal={closeModal} />
     </div>
   );
 };
