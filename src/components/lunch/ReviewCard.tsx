@@ -1,8 +1,8 @@
 import Image from "next/image";
 import { FC, memo } from "react";
 import { CommentIcon } from "../CommentIcon";
-import { TweetFavoBtn } from "../TweetFavoBtn";
-import { TweetTrashBtn } from "../TweetTrashBtn";
+import { FavoBtn } from "../FavoBtn";
+import { TrashBtn } from "../TrashBtn";
 
 type Props = {
   id: number;
@@ -24,8 +24,8 @@ export const ReviewCard: FC<Props> = memo((props) => {
         <div className="pt-5 pb-5 pl-5">{content}</div>
         <div className="w-full text-right">
           <CommentIcon commentCount={300} />
-          <TweetFavoBtn />
-          <TweetTrashBtn />
+          <FavoBtn />
+          <TrashBtn />
         </div>
       </div>
     </div>

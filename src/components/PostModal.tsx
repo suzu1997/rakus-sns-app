@@ -1,57 +1,57 @@
 import { FC, memo, useCallback, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
-import { Button } from "../Button";
+import { Button } from "./Button";
 import Image from "next/image";
-import { TextArea } from "../TextArea";
+import { TextArea } from "./TextArea";
 
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
   closeModal: () => void; // モーダルを閉じるメソッド
+  title: string; // レビューとかつぶやきとか
 };
 
 /**
  * レビューを投稿するためのモーダルのコンポーネント.
  */
-export const ReviewPostModal: FC<Props> = memo((props) => {
-  const { isOpen, closeModal } = props;
+export const PostModal: FC<Props> = memo((props) => {
+  const { isOpen, closeModal, title } = props;
 
-  // レビュー内容を格納するstate
-  const [review, setReview] = useState<string>("");
-  //レビューの文字数数える変数
-  const [reviewLength, setReviewLength] = useState<number>(0);
+  //入力テキストの内容を格納するstate
+  const [post, setPost] = useState<string>("");
+
+  //入力テキスト残り文字数
+  const [postLength, setPostLength] = useState<number>(0);
 
   /**
-   * レビュー内容をstateに格納する.
+   * 入力テキストの内容をstateに格納する.
    */
-  const inputReview = useCallback(
-    (e) => {
-      setReview(e.target.value);
-    },
-    [setReview],
-  );
+  const inputPost = useCallback((e) => {
+    setPost(e.target.value);
+  }, []);
 
   /**
-   * レビューを投稿するメソッド.
+   * 入力内容を投稿するメソッド.
+   * @remarks API完成したらこのメソッド内で送信.
    */
   const postReview = () => {
-    if (review === "") {
+    if (post === "") {
       alert("入力して下さい");
-    } else if (review.length > 140) {
-      alert("レビューは140文字以内にして下さい");
+    } else if (post.length > 140) {
+      alert(`${title}は140文字以内にして下さい`);
     } else {
       closeModal();
-      alert(`レビューを投稿しました\nレビュー内容: ${review}`);
-      setReview("");
+      alert(`${title}を投稿しました\n${title}内容: ${post}`);
+      setPost("");
     }
   };
 
   /**
-   * リアルタイムにレビューの文字数をカウントしてくれる.
+   * リアルタイムに文字数をカウントしてくれる.
    */
   useEffect(() => {
-    setReviewLength(140 - review.length);
-  }, [review.length]);
+    setPostLength(140 - post.length);
+  }, [post.length]);
 
   return (
     <>
@@ -98,11 +98,11 @@ export const ReviewPostModal: FC<Props> = memo((props) => {
                   as="h3"
                   className="text-xl font-bold leading-6 text-text-brown text-center"
                 >
-                  レビューを投稿
+                  {title}を投稿
                 </Dialog.Title>
                 <div className="mt-2">
                   <div className="mt-10">
-                    レビュー内容を下記に入力して下さい。(140字以内)
+                    {title}内容を下記に入力して下さい。(140字以内)
                   </div>
                   <div className="flex mt-5">
                     <div className="ml-5">
@@ -117,14 +117,14 @@ export const ReviewPostModal: FC<Props> = memo((props) => {
                     <div className="mx-5">
                       <form>
                         <TextArea
-                          value={review}
+                          value={post}
                           rows={10}
                           cols={28}
-                          onChange={inputReview}
+                          onChange={inputPost}
                         />
                       </form>
-                      <span className={`${reviewLength < 0 && "text-red-700"}`}>
-                        残り文字数：{reviewLength}
+                      <span className={`${postLength < 0 && "text-red-700"}`}>
+                        残り文字数：{postLength}
                       </span>
                     </div>
                   </div>

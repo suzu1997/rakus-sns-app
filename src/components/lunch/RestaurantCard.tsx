@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { FC, memo } from "react";
 import { CommentIcon } from "../CommentIcon";
-import { TweetFavoBtn } from "../TweetFavoBtn";
+import { FavoBtn } from "../FavoBtn";
 
 type Props = {
   id: number;
@@ -38,7 +38,7 @@ export const RestaurantCard: FC<Props> = memo((props) => {
         <div className="ml-10">おすすめ度: ⭐️⭐️⭐️⭐️⭐️</div>
         <div className="absolute bottom-3 left-3">
           <CommentIcon commentCount={300} />
-          <TweetFavoBtn />
+          <FavoBtn />
         </div>
       </div>
       <div className="mx-6 mt-3">
