@@ -38,10 +38,10 @@ export const PostModal: FC<Props> = memo((props) => {
     if (post === "") {
       alert("入力して下さい");
     } else if (post.length > 140) {
-      alert("レビューは140文字以内にして下さい");
+      alert(`${title}は140文字以内にして下さい`);
     } else {
       closeModal();
-      alert(`レビューを投稿しました\nレビュー内容: ${post}`);
+      alert(`${title}を投稿しました\n${title}内容: ${post}`);
       setPost("");
     }
   };

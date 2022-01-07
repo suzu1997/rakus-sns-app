@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Image from "next/image";
 import { MenuBar } from "../../components/MenuBar";
 import { CommentIcon } from "../../components/CommentIcon";
@@ -8,7 +8,7 @@ import { FavoBtn } from "../../components/FavoBtn";
 //自分のつぶやきを消せるボタンコンポーネント(自分のつぶやきの時のみ表示させたい)
 import { TrashBtn } from "../../components/TrashBtn";
 import { Button } from "../../components/Button";
-import Router from "next/router";
+import { PostModal } from "../../components/PostModal";
 
 /**
  * つぶやき詳細画面.
@@ -36,20 +36,33 @@ const TweetDetail: NextPage = () => {
     borderBottom: "solid 1px black",
   };
 
+  // レビュー投稿のモーダルのオープン状態
+  const [isOpen, setIsOpen] = useState(false);
+
   /**
-   * つぶやき投稿ページに飛ぶメソッド.
+   * モーダルを閉じるメソッド.
    */
-  const goPostPage = () => {
-    Router.push("/timeline/post");
-  };
+  const closeModal = useCallback(() => {
+    setIsOpen(false);
+  }, []);
+
+  /**
+   * モーダルを開けるメソッド.
+   */
+  const openModal = useCallback(() => {
+    setIsOpen(true);
+  }, []);
 
   return (
     <>
+      {/* 投稿モーダル */}
+      <PostModal isOpen={isOpen} closeModal={closeModal} title={"つぶやき"} />
+
       <div className="flex">
         <div>
           <MenuBar />
           <div className="m-1 mt-10">
-            <Button label="つぶやく" size="lg" onClick={goPostPage} />
+            <Button label="つぶやく" size="lg" onClick={openModal} />
           </div>
         </div>
 
