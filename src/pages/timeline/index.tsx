@@ -93,10 +93,18 @@ const Timeline: NextPage = () => {
 
   //ルーターリンク
   const router = useRouter();
+  /**
+   * 画像クリックで投稿ユーザ情報ページに飛ぶ.
+   * @param userId - 投稿者ID
+   */
   const goUserPage = (userId: number) => {
     router.push(`/user/${userId}`);
   };
 
+  /**
+   * 投稿クリックで投稿詳細ページに飛ぶ.
+   * @param postId - 投稿ID
+   */
   const goDetailPage = (postId: number) => {
     router.push(`/timeline/${postId}`);
   };
