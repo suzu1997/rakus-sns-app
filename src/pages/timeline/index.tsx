@@ -1,8 +1,7 @@
 /* eslint-disable @next/next/link-passhref */
 import type { NextPage } from "next";
 import Image from "next/image";
-import Router from "next/router";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { MenuBar } from "../../components/MenuBar";
 import { SubHeader } from "../../components/SubHeader";
 import { Button } from "../../components/Button";
@@ -10,6 +9,7 @@ import { CommentIcon } from "../../components/CommentIcon";
 import { FavoBtn } from "../../components/FavoBtn";
 //自分のつぶやきを消せるボタンコンポーネント(自分のつぶやきの時のみ表示させたい)
 import { TrashBtn } from "../../components/TrashBtn";
+import { PostModal } from "../../components/PostModal";
 
 /**
  * タイムラインページ.
@@ -36,21 +36,34 @@ const Timeline: NextPage = () => {
     borderBottom: "solid 1px black",
   };
 
+  // レビュー投稿のモーダルのオープン状態
+  const [isOpen, setIsOpen] = useState(false);
+
   /**
-   * つぶやき投稿ページに飛ぶメソッド.
+   * モーダルを開けるメソッド.
    */
-  const goPostPage = () => {
-    Router.push("/timeline/post");
-  };
+  const openModal = useCallback(() => {
+    setIsOpen(true);
+  }, []);
+
+  /**
+   * モーダルを閉じるメソッド.
+   */
+  const closeModal = useCallback(() => {
+    setIsOpen(false);
+  }, []);
 
   //HTMLコーナー
   return (
     <>
+      {/* 投稿モーダル */}
+      <PostModal isOpen={isOpen} closeModal={closeModal} title={"つぶやき"} />
+
       <div className="flex">
         <div>
           <MenuBar />
           <div className="m-1 mt-10">
-            <Button label="つぶやく" size="lg" onClick={goPostPage} />
+            <Button label="つぶやく" size="lg" onClick={openModal} />
           </div>
         </div>
 
