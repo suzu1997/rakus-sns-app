@@ -17,32 +17,29 @@ export const PostModal: FC<Props> = memo((props) => {
   const { isOpen, closeModal } = props;
 
   // レビュー内容を格納するstate
-  const [review, setReview] = useState<string>("");
-  //レビューの文字数数える変数
-  const [reviewLength, setReviewLength] = useState<number>(0);
+  const [post, setPost] = useState<string>("");
+  //レビューの文字数数える変数(残り文字数)
+  const [postLength, setPostLength] = useState<number>(0);
 
   /**
    * レビュー内容をstateに格納する.
    */
-  const inputReview = useCallback(
-    (e) => {
-      setReview(e.target.value);
-    },
-    [setReview],
-  );
+  const inputPost = useCallback((e) => {
+    setPost(e.target.value);
+  }, []);
 
   /**
    * レビューを投稿するメソッド.
    */
   const postReview = () => {
-    if (review === "") {
+    if (post === "") {
       alert("入力して下さい");
-    } else if (review.length > 140) {
+    } else if (post.length > 140) {
       alert("レビューは140文字以内にして下さい");
     } else {
       closeModal();
-      alert(`レビューを投稿しました\nレビュー内容: ${review}`);
-      setReview("");
+      alert(`レビューを投稿しました\nレビュー内容: ${post}`);
+      setPost("");
     }
   };
 
@@ -50,8 +47,8 @@ export const PostModal: FC<Props> = memo((props) => {
    * リアルタイムにレビューの文字数をカウントしてくれる.
    */
   useEffect(() => {
-    setReviewLength(140 - review.length);
-  }, [review.length]);
+    setPostLength(140 - post.length);
+  }, [post.length]);
 
   return (
     <>
@@ -117,14 +114,14 @@ export const PostModal: FC<Props> = memo((props) => {
                     <div className="mx-5">
                       <form>
                         <TextArea
-                          value={review}
+                          value={post}
                           rows={10}
                           cols={28}
-                          onChange={inputReview}
+                          onChange={inputPost}
                         />
                       </form>
-                      <span className={`${reviewLength < 0 && "text-red-700"}`}>
-                        残り文字数：{reviewLength}
+                      <span className={`${postLength < 0 && "text-red-700"}`}>
+                        残り文字数：{postLength}
                       </span>
                     </div>
                   </div>
