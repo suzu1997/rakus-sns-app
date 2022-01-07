@@ -10,6 +10,7 @@ import { FavoBtn } from "../../components/FavoBtn";
 //自分のつぶやきを消せるボタンコンポーネント(自分のつぶやきの時のみ表示させたい)
 import { TrashBtn } from "../../components/TrashBtn";
 import { PostModal } from "../../components/PostModal";
+import { GoogleMap } from "../../components/GoogleMap";
 
 /**
  * タイムラインページ.
