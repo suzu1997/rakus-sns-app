@@ -10,7 +10,7 @@ import { FavoBtn } from "../../components/FavoBtn";
 //自分のつぶやきを消せるボタンコンポーネント(自分のつぶやきの時のみ表示させたい)
 import { TrashBtn } from "../../components/TrashBtn";
 import { PostModal } from "../../components/PostModal";
-import { GoogleMap } from "../../components/GoogleMap";
+import { useRouter } from "next/router";
 
 /**
  * タイムラインページ.
@@ -19,17 +19,49 @@ import { GoogleMap } from "../../components/GoogleMap";
 const Timeline: NextPage = () => {
   //テストデータ
   const [data] = useState([
-    { name: "佐藤花子", tweet: "あああ", img: "/usakus.jpg" },
-    { name: "山田太郎", tweet: "いいい", img: "/usakus.jpg" },
-    { name: "ランチックス", tweet: "ううう", img: "/usakus.jpg" },
-    { name: "佐藤花子", tweet: "あああ", img: "/usakus.jpg" },
     {
+      id: 1,
+      name: "佐藤花子",
+      postId: 100,
+      tweet: "あああ",
+      img: "/usakus.jpg",
+    },
+    {
+      id: 2,
       name: "山田太郎",
+      postId: 200,
+      tweet: "いいい",
+      img: "/usakus.jpg",
+    },
+    {
+      id: 3,
+      name: "ランチックス",
+      postId: 300,
+      tweet: "ううう",
+      img: "/usakus.jpg",
+    },
+    {
+      id: 1,
+      name: "佐藤花子",
+      postId: 400,
+      tweet: "あああ",
+      img: "/usakus.jpg",
+    },
+    {
+      id: 2,
+      name: "山田太郎",
+      postId: 500,
       tweet:
         "あああああああああああいいいいいいいいううううううううううえええええええええええええおおおおおおおおおおおおおおおうひうひひょひょほほほほほほほほほほほほほ",
       img: "/usakus.jpg",
     },
-    { name: "ランチックス", tweet: "ううう", img: "/usakus.jpg" },
+    {
+      id: 3,
+      name: "ランチックス",
+      postId: 600,
+      tweet: "ううう",
+      img: "/usakus.jpg",
+    },
   ]);
 
   //1人1人のつぶやきの下に入る線がどうしてもtailwindで上手くいかなかった
@@ -54,6 +86,29 @@ const Timeline: NextPage = () => {
     setIsOpen(false);
   }, []);
 
+  //過去の投稿を読み込むがテキストで指しても指にならないので、ポインターを指にした
+  const pointStyle = {
+    cursor: "pointer",
+  };
+
+  //ルーターリンク
+  const router = useRouter();
+  /**
+   * 画像クリックで投稿ユーザ情報ページに飛ぶ.
+   * @param userId - 投稿者ID
+   */
+  const goUserPage = (userId: number) => {
+    router.push(`/user/${userId}`);
+  };
+
+  /**
+   * 投稿クリックで投稿詳細ページに飛ぶ.
+   * @param postId - 投稿ID
+   */
+  const goDetailPage = (postId: number) => {
+    router.push(`/timeline/${postId}`);
+  };
+
   //HTMLコーナー
   return (
     <>
@@ -73,13 +128,36 @@ const Timeline: NextPage = () => {
           <SubHeader title="つぶやき" />
 
           {/* タイムラインゾーン */}
+
+          <div className="text-center my-10 animate-bounce">
+            <Button
+              label="新しいつぶやきを読み込む"
+              size="lg"
+              onClick={() => {
+                alert("新しいつぶやき読み込み");
+              }}
+            />
+          </div>
+
           {data.map((value, key) => (
             <div style={style} key={key} className="flex">
-              <div className="w-1/5 text-center pt-5">
+              <div
+                className="w-1/5 text-center pt-5"
+                onClick={() => {
+                  goUserPage(value.id);
+                }}
+                style={pointStyle}
+              >
                 <Image src={value.img} width={100} height={100} alt="icon" />
               </div>
 
-              <div className="w-4/5">
+              <div
+                style={pointStyle}
+                className="w-4/5"
+                onClick={() => {
+                  goDetailPage(value.postId);
+                }}
+              >
                 <div className="text-xl font-extrabold pt-3 pb-3">
                   {value.name}
                 </div>
@@ -92,6 +170,15 @@ const Timeline: NextPage = () => {
               </div>
             </div>
           ))}
+          <div
+            className="text-text-brown text-center my-5"
+            style={pointStyle}
+            onClick={() => {
+              alert("過去のつぶやき読み込み");
+            }}
+          >
+            過去の投稿を見る…
+          </div>
         </div>
       </div>
     </>
