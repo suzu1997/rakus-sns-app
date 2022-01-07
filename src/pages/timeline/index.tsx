@@ -53,6 +53,7 @@ const Timeline: NextPage = () => {
     setIsOpen(false);
   }, []);
 
+  //過去の投稿を読み込むがテキストで指しても指にならないので、ポインターを指にした
   const pointStyle = {
     cursor: "pointer",
   };
