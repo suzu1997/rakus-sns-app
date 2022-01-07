@@ -146,11 +146,13 @@ const Timeline: NextPage = () => {
                 onClick={() => {
                   goUserPage(value.id);
                 }}
+                style={pointStyle}
               >
                 <Image src={value.img} width={100} height={100} alt="icon" />
               </div>
 
               <div
+                style={pointStyle}
                 className="w-4/5"
                 onClick={() => {
                   goDetailPage(value.postId);
