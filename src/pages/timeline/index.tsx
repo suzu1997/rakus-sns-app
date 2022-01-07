@@ -53,6 +53,10 @@ const Timeline: NextPage = () => {
     setIsOpen(false);
   }, []);
 
+  const pointStyle = {
+    cursor: "pointer",
+  };
+
   //HTMLコーナー
   return (
     <>
@@ -73,11 +77,12 @@ const Timeline: NextPage = () => {
 
           {/* タイムラインゾーン */}
 
-          <div className="text-center my-10">
+          <div className="text-center my-10 animate-bounce">
             <Button
               label="新しいつぶやきを読み込む"
+              size="lg"
               onClick={() => {
-                alert("やあ");
+                alert("新しいつぶやき読み込み");
               }}
             />
           </div>
@@ -101,7 +106,15 @@ const Timeline: NextPage = () => {
               </div>
             </div>
           ))}
-          <div className="text-text-brown text-center"> 過去の投稿を見る…</div>
+          <div
+            className="text-text-brown text-center my-5"
+            style={pointStyle}
+            onClick={() => {
+              alert("過去のつぶやき読み込み");
+            }}
+          >
+            過去の投稿を見る…
+          </div>
         </div>
       </div>
     </>
