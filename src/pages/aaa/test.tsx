@@ -26,16 +26,19 @@ const Test: NextPage = () => {
   );
 
   const cookie = new Cookie();
+
   const loginTest = () => {
-    cookie.set("loginFlug", true, { path: "/" });
-    console.log("ログインしました：" + cookie.get("loginFlug"));
+    cookie.set("name", "ログイン花子", { path: "/" });
+    console.log("ログ印しました：" + cookie.get("name"));
   };
+
   const checkTest = () => {
-    console.log("ログイン状況：" + cookie.get("loginFlug"));
+    console.log("ログインしているのは：" + cookie.get("name"));
   };
+
   const logoutTest = () => {
-    cookie.set("loginFlug", false, { path: "/" });
-    console.log("ログアウトしました：" + cookie.get("loginFlug"));
+    cookie.set("name", "ログアウト太郎", { path: "/" });
+    console.log("ログアウトしました：" + cookie.get("name"));
   };
 
   return (
