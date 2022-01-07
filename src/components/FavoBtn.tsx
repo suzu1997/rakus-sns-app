@@ -3,13 +3,21 @@ import { FC, memo } from "react";
 /**
  * つぶやきをお気に入りに登録するボタン.
  */
-export const TweetFavoBtn: FC = memo((props) => {
+export const FavoBtn: FC = memo((props) => {
+  //APIによってURLを変えたいため、propsでURLを受け取る
   // const { url = "" } = props;
 
+  /**
+   * APIでお気に入り登録を行う.
+   * @remarks APIによってURLを変えたいため、propsでURLを受け取る
+   */
   // const favo = () => {
   //   console.log("URL" + url);
   // };
 
+  /**
+   * 仮のメソッド.(API完成したら削除)
+   */
   const favo = () => {
     console.log("お気に入り登録");
   };
