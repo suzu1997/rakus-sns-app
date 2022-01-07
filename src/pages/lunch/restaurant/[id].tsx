@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useCallback, useState } from "react";
 import { Button } from "../../../components/Button";
 import { ReviewList } from "../../../components/lunch/ReviewList";
-import { ReviewPostModal } from "../../../components/lunch/ReviewPostModal";
+import { PostModal } from "../../../components/PostModal";
 import { MenuBar } from "../../../components/MenuBar";
 
 /**
@@ -40,7 +40,7 @@ const RestaurantDetail: NextPage = () => {
     address: "東京都新宿区新宿２－７－５松田ビル１F",
     access:
       "新宿三丁目駅から新宿通りを新宿御苑前駅方面に進んでいただいて、徒歩4分大通りに面しております。",
-    lat: "35.6896771976",  // 緯度
+    lat: "35.6896771976", // 緯度
     lng: "139.7079539006", // 経度
     url: "https://www.hotpepper.jp/strJ001041443/?vos=nhppalsa000016",
     catch: "野菜を使ったメニュー サイドメニューもご用意",
@@ -94,7 +94,7 @@ const RestaurantDetail: NextPage = () => {
           <ReviewList />
         </div>
       </div>
-      <ReviewPostModal isOpen={isOpen} closeModal={closeModal} />
+      <PostModal isOpen={isOpen} closeModal={closeModal} />
     </div>
   );
 };

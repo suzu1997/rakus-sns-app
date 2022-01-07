@@ -1,9 +1,9 @@
 import { FC, memo, useCallback, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
-import { Button } from "../Button";
+import { Button } from "./Button";
 import Image from "next/image";
-import { TextArea } from "../TextArea";
+import { TextArea } from "./TextArea";
 
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
@@ -13,7 +13,7 @@ type Props = {
 /**
  * レビューを投稿するためのモーダルのコンポーネント.
  */
-export const ReviewPostModal: FC<Props> = memo((props) => {
+export const PostModal: FC<Props> = memo((props) => {
   const { isOpen, closeModal } = props;
 
   // レビュー内容を格納するstate
