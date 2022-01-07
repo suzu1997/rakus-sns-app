@@ -1,13 +1,9 @@
 import { NextPage } from "next";
 import { useState } from "react";
 import Image from "next/image";
-//メニューバーコンポーネント
 import { MenuBar } from "../../components/MenuBar";
-//コメントアイコンコンポーネント
 import { CommentIcon } from "../../components/CommentIcon";
-//サブヘッダーコンポーネント
 import { SubHeader } from "../../components/SubHeader";
-//つぶやきをお気に入り登録するボタンコンポーネント
 import { FavoBtn } from "../../components/FavoBtn";
 //自分のつぶやきを消せるボタンコンポーネント(自分のつぶやきの時のみ表示させたい)
 import { TrashBtn } from "../../components/TrashBtn";
@@ -94,7 +90,6 @@ const TweetDetail: NextPage = () => {
                 </div>
                 <div className="pt-5 pb-5 pl-5 w-8/12">{value.tweet}</div>
                 <div className="w-full text-right pt-3 pb-3">
-                  <CommentIcon commentCount={300} />
                   <FavoBtn />
                   <TrashBtn />
                 </div>
