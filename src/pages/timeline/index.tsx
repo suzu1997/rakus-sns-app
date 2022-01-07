@@ -9,7 +9,7 @@ import { Button } from "../../components/Button";
 import { CommentIcon } from "../../components/CommentIcon";
 import { FavoBtn } from "../../components/FavoBtn";
 //自分のつぶやきを消せるボタンコンポーネント(自分のつぶやきの時のみ表示させたい)
-import { TweetTrashBtn } from "../../components/TweetTrashBtn";
+import { TrashBtn } from "../../components/TrashBtn";
 
 /**
  * タイムラインページ.
@@ -73,7 +73,7 @@ const Timeline: NextPage = () => {
                 <div className="w-full text-right pt-3 pb-3">
                   <CommentIcon commentCount={300} />
                   <FavoBtn />
-                  <TweetTrashBtn />
+                  <TrashBtn />
                 </div>
               </div>
             </div>

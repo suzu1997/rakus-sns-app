@@ -10,7 +10,7 @@ import { SubHeader } from "../../components/SubHeader";
 //つぶやきをお気に入り登録するボタンコンポーネント
 import { FavoBtn } from "../../components/FavoBtn";
 //自分のつぶやきを消せるボタンコンポーネント(自分のつぶやきの時のみ表示させたい)
-import { TweetTrashBtn } from "../../components/TweetTrashBtn";
+import { TrashBtn } from "../../components/TrashBtn";
 import { Button } from "../../components/Button";
 import Router from "next/router";
 
@@ -78,7 +78,7 @@ const TweetDetail: NextPage = () => {
               <span className="mr-7">投稿日時：{data.time}</span>
               <CommentIcon commentCount={300} />
               <FavoBtn />
-              <TweetTrashBtn />
+              <TrashBtn />
             </div>
           </div>
           {/* コメント部分 */}
@@ -96,7 +96,7 @@ const TweetDetail: NextPage = () => {
                 <div className="w-full text-right pt-3 pb-3">
                   <CommentIcon commentCount={300} />
                   <FavoBtn />
-                  <TweetTrashBtn />
+                  <TrashBtn />
                 </div>
               </div>
             </div>
