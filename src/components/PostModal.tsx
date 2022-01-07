@@ -8,28 +8,31 @@ import { TextArea } from "./TextArea";
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
   closeModal: () => void; // モーダルを閉じるメソッド
+  title: string; // レビューとかつぶやきとか
 };
 
 /**
  * レビューを投稿するためのモーダルのコンポーネント.
  */
 export const PostModal: FC<Props> = memo((props) => {
-  const { isOpen, closeModal } = props;
+  const { isOpen, closeModal, title } = props;
 
-  // レビュー内容を格納するstate
+  //入力テキストの内容を格納するstate
   const [post, setPost] = useState<string>("");
-  //レビューの文字数数える変数(残り文字数)
+
+  //入力テキスト残り文字数
   const [postLength, setPostLength] = useState<number>(0);
 
   /**
-   * レビュー内容をstateに格納する.
+   * 入力テキストの内容をstateに格納する.
    */
   const inputPost = useCallback((e) => {
     setPost(e.target.value);
   }, []);
 
   /**
-   * レビューを投稿するメソッド.
+   * 入力内容を投稿するメソッド.
+   * @remarks API完成したらこのメソッド内で送信.
    */
   const postReview = () => {
     if (post === "") {
@@ -44,7 +47,7 @@ export const PostModal: FC<Props> = memo((props) => {
   };
 
   /**
-   * リアルタイムにレビューの文字数をカウントしてくれる.
+   * リアルタイムに文字数をカウントしてくれる.
    */
   useEffect(() => {
     setPostLength(140 - post.length);
@@ -95,11 +98,11 @@ export const PostModal: FC<Props> = memo((props) => {
                   as="h3"
                   className="text-xl font-bold leading-6 text-text-brown text-center"
                 >
-                  レビューを投稿
+                  {title}を投稿
                 </Dialog.Title>
                 <div className="mt-2">
                   <div className="mt-10">
-                    レビュー内容を下記に入力して下さい。(140字以内)
+                    {title}内容を下記に入力して下さい。(140字以内)
                   </div>
                   <div className="flex mt-5">
                     <div className="ml-5">

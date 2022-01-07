@@ -94,7 +94,7 @@ const RestaurantDetail: NextPage = () => {
           <ReviewList />
         </div>
       </div>
-      <PostModal isOpen={isOpen} closeModal={closeModal} />
+      <PostModal isOpen={isOpen} closeModal={closeModal} title={"レビュー"} />
     </div>
   );
 };
