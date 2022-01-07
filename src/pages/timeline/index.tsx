@@ -72,6 +72,16 @@ const Timeline: NextPage = () => {
           <SubHeader title="つぶやき" />
 
           {/* タイムラインゾーン */}
+
+          <div className="text-center my-10">
+            <Button
+              label="新しいつぶやきを読み込む"
+              onClick={() => {
+                alert("やあ");
+              }}
+            />
+          </div>
+
           {data.map((value, key) => (
             <div style={style} key={key} className="flex">
               <div className="w-1/5 text-center pt-5">
@@ -91,6 +101,7 @@ const Timeline: NextPage = () => {
               </div>
             </div>
           ))}
+          <div className="text-text-brown text-center"> 過去の投稿を見る…</div>
         </div>
       </div>
     </>
