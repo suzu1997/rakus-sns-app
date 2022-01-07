@@ -10,6 +10,7 @@ import { FavoBtn } from "../../components/FavoBtn";
 //自分のつぶやきを消せるボタンコンポーネント(自分のつぶやきの時のみ表示させたい)
 import { TrashBtn } from "../../components/TrashBtn";
 import { PostModal } from "../../components/PostModal";
+import { useRouter } from "next/router";
 
 /**
  * タイムラインページ.
@@ -18,17 +19,18 @@ import { PostModal } from "../../components/PostModal";
 const Timeline: NextPage = () => {
   //テストデータ
   const [data] = useState([
-    { name: "佐藤花子", tweet: "あああ", img: "/usakus.jpg" },
-    { name: "山田太郎", tweet: "いいい", img: "/usakus.jpg" },
-    { name: "ランチックス", tweet: "ううう", img: "/usakus.jpg" },
-    { name: "佐藤花子", tweet: "あああ", img: "/usakus.jpg" },
+    { id: 1, name: "佐藤花子", tweet: "あああ", img: "/usakus.jpg" },
+    { id: 2, name: "山田太郎", tweet: "いいい", img: "/usakus.jpg" },
+    { id: 3, name: "ランチックス", tweet: "ううう", img: "/usakus.jpg" },
+    { id: 1, name: "佐藤花子", tweet: "あああ", img: "/usakus.jpg" },
     {
+      id: 2,
       name: "山田太郎",
       tweet:
         "あああああああああああいいいいいいいいううううううううううえええええええええええええおおおおおおおおおおおおおおおうひうひひょひょほほほほほほほほほほほほほ",
       img: "/usakus.jpg",
     },
-    { name: "ランチックス", tweet: "ううう", img: "/usakus.jpg" },
+    { id: 3, name: "ランチックス", tweet: "ううう", img: "/usakus.jpg" },
   ]);
 
   //1人1人のつぶやきの下に入る線がどうしてもtailwindで上手くいかなかった
@@ -56,6 +58,12 @@ const Timeline: NextPage = () => {
   //過去の投稿を読み込むがテキストで指しても指にならないので、ポインターを指にした
   const pointStyle = {
     cursor: "pointer",
+  };
+
+  //ルーターリンク
+  const router = useRouter();
+  const goUserPage = (userId: number) => {
+    router.push(`/user/${userId}`);
   };
 
   //HTMLコーナー
@@ -90,7 +98,12 @@ const Timeline: NextPage = () => {
 
           {data.map((value, key) => (
             <div style={style} key={key} className="flex">
-              <div className="w-1/5 text-center pt-5">
+              <div
+                className="w-1/5 text-center pt-5"
+                onClick={() => {
+                  goUserPage(value.id);
+                }}
+              >
                 <Image src={value.img} width={100} height={100} alt="icon" />
               </div>
 
