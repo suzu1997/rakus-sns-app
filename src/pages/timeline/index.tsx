@@ -19,18 +19,49 @@ import { useRouter } from "next/router";
 const Timeline: NextPage = () => {
   //テストデータ
   const [data] = useState([
-    { id: 1, name: "佐藤花子", tweet: "あああ", img: "/usakus.jpg" },
-    { id: 2, name: "山田太郎", tweet: "いいい", img: "/usakus.jpg" },
-    { id: 3, name: "ランチックス", tweet: "ううう", img: "/usakus.jpg" },
-    { id: 1, name: "佐藤花子", tweet: "あああ", img: "/usakus.jpg" },
+    {
+      id: 1,
+      name: "佐藤花子",
+      postId: 100,
+      tweet: "あああ",
+      img: "/usakus.jpg",
+    },
     {
       id: 2,
       name: "山田太郎",
+      postId: 200,
+      tweet: "いいい",
+      img: "/usakus.jpg",
+    },
+    {
+      id: 3,
+      name: "ランチックス",
+      postId: 300,
+      tweet: "ううう",
+      img: "/usakus.jpg",
+    },
+    {
+      id: 1,
+      name: "佐藤花子",
+      postId: 400,
+      tweet: "あああ",
+      img: "/usakus.jpg",
+    },
+    {
+      id: 2,
+      name: "山田太郎",
+      postId: 500,
       tweet:
         "あああああああああああいいいいいいいいううううううううううえええええええええええええおおおおおおおおおおおおおおおうひうひひょひょほほほほほほほほほほほほほ",
       img: "/usakus.jpg",
     },
-    { id: 3, name: "ランチックス", tweet: "ううう", img: "/usakus.jpg" },
+    {
+      id: 3,
+      name: "ランチックス",
+      postId: 600,
+      tweet: "ううう",
+      img: "/usakus.jpg",
+    },
   ]);
 
   //1人1人のつぶやきの下に入る線がどうしてもtailwindで上手くいかなかった
@@ -64,6 +95,10 @@ const Timeline: NextPage = () => {
   const router = useRouter();
   const goUserPage = (userId: number) => {
     router.push(`/user/${userId}`);
+  };
+
+  const goDetailPage = (postId: number) => {
+    router.push(`/timeline/${postId}`);
   };
 
   //HTMLコーナー
@@ -107,7 +142,12 @@ const Timeline: NextPage = () => {
                 <Image src={value.img} width={100} height={100} alt="icon" />
               </div>
 
-              <div className="w-4/5">
+              <div
+                className="w-4/5"
+                onClick={() => {
+                  goDetailPage(value.postId);
+                }}
+              >
                 <div className="text-xl font-extrabold pt-3 pb-3">
                   {value.name}
                 </div>
