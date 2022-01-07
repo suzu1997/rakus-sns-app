@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useCallback, useState } from "react";
 import { SelectBox } from "../../components/SelectBox";
 import { TextInput } from "../../components/TextInput";
+import Cookie from "universal-cookie";
 
 const Test: NextPage = () => {
   const options = [
@@ -24,8 +25,36 @@ const Test: NextPage = () => {
     [setValue],
   );
 
+  const cookie = new Cookie();
+
+  const loginTest = () => {
+    cookie.set("name", "ログイン花子", { path: "/" });
+    console.log("ログ印しました：" + cookie.get("name"));
+  };
+
+  const checkTest = () => {
+    console.log("ログインしているのは：" + cookie.get("name"));
+  };
+
+  const logoutTest = () => {
+    cookie.set("name", "ログアウト太郎", { path: "/" });
+    console.log("ログアウトしました：" + cookie.get("name"));
+  };
+
   return (
     <div className="flex flex-col items-center mt-10">
+      <button type="button" onClick={loginTest}>
+        ログインテスト
+      </button>
+      <br />
+      <button type="button" onClick={checkTest}>
+        ログイン状況
+      </button>
+      <br />
+      <button type="button" onClick={logoutTest}>
+        ログアウト
+      </button>
+
       <p className="font-mono text-red-700">テスト</p>
       <Link href="/">
         <a className="underline hover:text-blue-800 mt-3">トップへ戻る</a>
