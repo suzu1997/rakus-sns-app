@@ -2,11 +2,22 @@ import type { NextPage } from "next";
 import Link from "next/link";
 import { Button } from "../components/Button";
 import { MenuBar } from "../components/MenuBar";
+import Cookie from "universal-cookie";
 
 const Home: NextPage = () => {
+  /**
+   * クッキーテスト.
+   */
+  const cookie = new Cookie();
+  const checkTest = () => {
+    console.log("ログイン状況：" + cookie.get("loginFlug"));
+  };
+
   return (
     <>
-      {" "}
+      <button type="button" onClick={checkTest}>
+        ログイン状況
+      </button>{" "}
       <div className="flex">
         <MenuBar />
         <div className="flex-col items-center mt-10 flex">
