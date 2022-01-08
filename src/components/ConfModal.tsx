@@ -7,6 +7,7 @@ type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
   closeModal: () => void; // モーダルを閉じるメソッド
   title: string; // モーダルに表示する内容
+  message: string; //モーダル内のメッセージ
   button: string; //ボタン内のコメント
   doOnButton: () => void; //ボタンを押した時のメソッド
 };
@@ -14,8 +15,8 @@ type Props = {
 /**
  * レビューを投稿するためのモーダルのコンポーネント.
  */
-export const PostModal: FC<Props> = memo((props) => {
-  const { isOpen, closeModal, title, button, doOnButton } = props;
+export const ConfModal: FC<Props> = memo((props) => {
+  const { isOpen, closeModal, title, message, button, doOnButton } = props;
 
   return (
     <>
@@ -64,9 +65,7 @@ export const PostModal: FC<Props> = memo((props) => {
                 >
                   {title}
                 </Dialog.Title>
-                <div className="mt-2">
-                  <div className="mt-10">{title}</div>
-                </div>
+                <div className="mt-2 text-center">{message}</div>
                 {/* 確認ボタン */}
                 <div className="mt-4 flex gap-5 justify-center">
                   <Button label={button} onClick={doOnButton} />
