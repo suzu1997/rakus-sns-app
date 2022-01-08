@@ -42,9 +42,14 @@ const Home: NextPage = () => {
           <Link href="/aaa/test">
             <a className="underline hover:text-blue-800 mt-3">リンクです</a>
           </Link>
+          <Link href="/presingup">
+            <a className="underline hover:text-blue-800 mt-3">
+              ユーザー仮登録画面
+            </a>
+          </Link>
           <Link href="/singup">
             <a className="underline hover:text-blue-800 mt-3">
-              ユーザー登録画面
+              ユーザー本登録画面
             </a>
           </Link>
         </div>
