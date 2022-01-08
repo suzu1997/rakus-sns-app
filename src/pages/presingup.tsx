@@ -40,6 +40,8 @@ const PreSingUp: NextPage = () => {
 
   //登録ボタンを押した時に呼ばれる
   const submitForm = () => {
+    //バリデーションチェック後で実装、全てtrueならば以下に進む
+
     //本来はAPIにデータを送る
     //メール送信が成功ならば、モーダル画面を開く
     setIsOpen(true);
@@ -69,6 +71,9 @@ const PreSingUp: NextPage = () => {
   return (
     <>
       <div className="border-solid  border-2 border-bgc-200 m-10  shadow-lg rounded-xl text-center">
+        <div className="text-3xl text-text-brown mt-5 font-bold ">
+          仮登録フォーム
+        </div>
         <ConfModal
           isOpen={isOpen}
           closeModal={closeModal}
