@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Button } from "../components/Button";
 import { MenuBar } from "../components/MenuBar";
 import Cookie from "universal-cookie";
+import { Star } from "../components/Star";
 
 const Home: NextPage = () => {
   /**
@@ -49,6 +50,7 @@ const Home: NextPage = () => {
           </Link>
         </div>
       </div>
+      <Star starCount={3.8} />
     </>
   );
 };
