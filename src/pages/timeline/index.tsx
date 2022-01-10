@@ -169,7 +169,7 @@ const Timeline: NextPage = () => {
           </div>
         </div>
         <div>
-          <PostBtn />
+          <PostBtn onClick={openModal} />
         </div>
       </div>
     </>
