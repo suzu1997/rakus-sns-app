@@ -1,4 +1,4 @@
-import { FC, memo, useState } from "react";
+import { FC, memo, useCallback, useState } from "react";
 
 export type Props = {
   starCount: number;
@@ -12,26 +12,30 @@ export const Star: FC<Props> = memo((props) => {
   //星を入れる配列
   const [starArray] = useState<string[]>([]);
 
-  //星の配列を空に
-  starArray.splice(0, starArray.length);
+  const makeStarArray = useCallback(() => {
+    //星の配列を空に
+    starArray.splice(0, starArray.length);
 
-  //整数分(1の位の数字文)色付き星をpush
-  for (let i = 1; mathNum >= i; i++) {
-    starArray.push("fas fa-star");
-  }
+    //整数分(1の位の数字文)色付き星をpush
+    for (let i = 1; mathNum >= i; i++) {
+      starArray.push("fas fa-star");
+    }
 
-  //始めに受け取った数字が整数→残りは白星で埋める
-  //始めに受け取った数字が少数→1つ半分の星で埋めて、残りは白星で埋める
-  if (Number.isInteger(starCount)) {
-    for (let i = 1; 5 - mathNum >= i; i++) {
-      starArray.push("far fa-star");
+    //始めに受け取った数字が整数→残りは白星で埋める
+    //始めに受け取った数字が少数→1つ半分の星で埋めて、残りは白星で埋める
+    if (Number.isInteger(starCount)) {
+      for (let i = 1; 5 - mathNum >= i; i++) {
+        starArray.push("far fa-star");
+      }
+    } else {
+      starArray.push("fas fa-star-half-alt");
+      for (let i = 1; 4 - mathNum >= i; i++) {
+        starArray.push("far fa-star");
+      }
     }
-  } else {
-    starArray.push("fas fa-star-half-alt");
-    for (let i = 1; 4 - mathNum >= i; i++) {
-      starArray.push("far fa-star");
-    }
-  }
+  }, []);
+
+  makeStarArray();
 
   return (
     <>
