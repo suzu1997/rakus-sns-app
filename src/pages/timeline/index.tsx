@@ -11,6 +11,7 @@ import { FavoBtn } from "../../components/FavoBtn";
 import { TrashBtn } from "../../components/TrashBtn";
 import { PostModal } from "../../components/PostModal";
 import { useRouter } from "next/router";
+import { PostBtn } from "../../components/PostBtn";
 
 /**
  * タイムラインページ.
@@ -109,15 +110,8 @@ const Timeline: NextPage = () => {
     <>
       {/* 投稿モーダル */}
       <PostModal isOpen={isOpen} closeModal={closeModal} title={"つぶやき"} />
-
       <div className="flex">
-        <div>
-          <MenuBar />
-          <div className="m-1 mt-10">
-            <Button label="つぶやく" size="lg" onClick={openModal} />
-          </div>
-        </div>
-
+        <MenuBar />
         {/* サブヘッダー */}
         <div className="w-10/12">
           <SubHeader title="つぶやき" />
@@ -175,6 +169,7 @@ const Timeline: NextPage = () => {
           </div>
         </div>
       </div>
+      <PostBtn />
     </>
   );
 };
