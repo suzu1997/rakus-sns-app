@@ -140,7 +140,7 @@ const Timeline: NextPage = () => {
               </div>
               <div className="w-4/5">
                 <div
-                  className="cursor-pointer hover:text-basic"
+                  className="cursor-pointer hover:opacity-50"
                   onClick={() => {
                     goDetailPage(value.postId);
                   }}
@@ -151,7 +151,7 @@ const Timeline: NextPage = () => {
                   <div className="pt-5 pb-5 pl-5 w-8/12">{value.tweet}</div>
                 </div>
 
-                <div className="w-full text-right pt-3 pb-3">
+                <div className="w-full text-right py-3 pr-14">
                   <CommentIcon commentCount={300} />
                   <FavoBtn />
                   <TrashBtn />
