@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { NextPage } from "next";
 import { SubHeader } from "../components/SubHeader";
 import { MenuBar } from "../components/MenuBar";
