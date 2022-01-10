@@ -47,6 +47,9 @@ const Home: NextPage = () => {
               ユーザー登録画面
             </a>
           </Link>
+          <Link href="/timeline">
+            <a className="underline hover:text-blue-800 mt-3">タイムライン</a>
+          </Link>
         </div>
       </div>
     </>
