@@ -4,6 +4,9 @@ export type Props = {
   starCount: number;
 };
 
+/**
+ * 店の評価を星で表すコンポーネント.
+ */
 export const Star: FC<Props> = memo((props) => {
   //受け取った星の数
   const { starCount } = props;
@@ -12,6 +15,9 @@ export const Star: FC<Props> = memo((props) => {
   //星を入れる配列
   const [starArray] = useState<string[]>([]);
 
+  /**
+   * 星の配列を作成.
+   */
   const makeStarArray = useCallback(() => {
     //星の配列を空に
     starArray.splice(0, starArray.length);
