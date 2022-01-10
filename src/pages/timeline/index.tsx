@@ -86,11 +86,6 @@ const Timeline: NextPage = () => {
     setIsOpen(false);
   }, []);
 
-  //過去の投稿を読み込むがテキストで指しても指にならないので、ポインターを指にした
-  const pointStyle = {
-    cursor: "pointer",
-  };
-
   //ルーターリンク
   const router = useRouter();
   /**
@@ -142,26 +137,26 @@ const Timeline: NextPage = () => {
           {data.map((value, key) => (
             <div style={style} key={key} className="flex">
               <div
-                className="w-1/5 text-center pt-5"
+                className="rounded-full w-1/5 text-center pt-5 cursor-pointer hover:opacity-50"
                 onClick={() => {
                   goUserPage(value.id);
                 }}
-                style={pointStyle}
               >
                 <Image src={value.img} width={100} height={100} alt="icon" />
               </div>
-
-              <div
-                style={pointStyle}
-                className="w-4/5"
-                onClick={() => {
-                  goDetailPage(value.postId);
-                }}
-              >
-                <div className="text-xl font-extrabold pt-3 pb-3">
-                  {value.name}
+              <div className="w-4/5">
+                <div
+                  className="cursor-pointer hover:text-basic"
+                  onClick={() => {
+                    goDetailPage(value.postId);
+                  }}
+                >
+                  <div className="text-xl font-extrabold pt-3 pb-3">
+                    {value.name}
+                  </div>
+                  <div className="pt-5 pb-5 pl-5 w-8/12">{value.tweet}</div>
                 </div>
-                <div className="pt-5 pb-5 pl-5 w-8/12">{value.tweet}</div>
+
                 <div className="w-full text-right pt-3 pb-3">
                   <CommentIcon commentCount={300} />
                   <FavoBtn />
@@ -171,8 +166,7 @@ const Timeline: NextPage = () => {
             </div>
           ))}
           <div
-            className="text-text-brown text-center my-5"
-            style={pointStyle}
+            className="text-text-brown text-center my-5 cursor-pointer hover:text-basic"
             onClick={() => {
               alert("過去のつぶやき読み込み");
             }}
