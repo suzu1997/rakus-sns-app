@@ -21,46 +21,45 @@ const Timeline: NextPage = () => {
   //テストデータ
   const [data] = useState([
     {
-      id: 1,
+      postId: 1,
       name: "佐藤花子",
-      postId: 100,
-      tweet: "あああ",
+      userId: 100,
+      post: "あああ",
       img: "/usakus.jpg",
     },
     {
-      id: 2,
+      postId: 2,
       name: "山田太郎",
-      postId: 200,
-      tweet: "いいい",
+      userId: 200,
+      post: "いいい",
       img: "/usakus.jpg",
     },
     {
-      id: 3,
+      postId: 3,
       name: "ランチックス",
-      postId: 300,
-      tweet: "ううう",
+      userId: 300,
+      post: "ううう",
       img: "/usakus.jpg",
     },
     {
-      id: 1,
+      postId: 1,
       name: "佐藤花子",
-      postId: 400,
-      tweet: "あああ",
+      userId: 400,
+      post: "あああ",
       img: "/usakus.jpg",
     },
     {
-      id: 2,
+      postId: 2,
       name: "山田太郎",
-      postId: 500,
-      tweet:
-        "あああああああああああいいいいいいいいううううううううううえええええええええええええおおおおおおおおおおおおおおおうひうひひょひょほほほほほほほほほほほほほ",
+      userId: 500,
+      post: "あああああああああああいいいいいいいいううううううううううえええええええええええええおおおおおおおおおおおおおおおうひうひひょひょほほほほほほほほほほほほほ",
       img: "/usakus.jpg",
     },
     {
-      id: 3,
+      postId: 3,
       name: "ランチックス",
-      postId: 600,
-      tweet: "ううう",
+      userId: 600,
+      post: "ううう",
       img: "/usakus.jpg",
     },
   ]);
@@ -71,20 +70,20 @@ const Timeline: NextPage = () => {
   };
 
   // レビュー投稿のモーダルのオープン状態
-  const [isOpen, setIsOpen] = useState(false);
+  const [isPostOpen, setPostIsOpen] = useState(false);
 
   /**
    * モーダルを開けるメソッド.
    */
-  const openModal = useCallback(() => {
-    setIsOpen(true);
+  const openPostModal = useCallback(() => {
+    setPostIsOpen(true);
   }, []);
 
   /**
    * モーダルを閉じるメソッド.
    */
-  const closeModal = useCallback(() => {
-    setIsOpen(false);
+  const closePostModal = useCallback(() => {
+    setPostIsOpen(false);
   }, []);
 
   //ルーターリンク
@@ -109,7 +108,12 @@ const Timeline: NextPage = () => {
   return (
     <>
       {/* 投稿モーダル */}
-      <PostModal isOpen={isOpen} closeModal={closeModal} title={"つぶやき"} />
+      <PostModal
+        isOpen={isPostOpen}
+        closeModal={closePostModal}
+        title={"つぶやき"}
+      />
+
       <div className="flex">
         <MenuBar />
         {/* サブヘッダー */}
@@ -133,7 +137,7 @@ const Timeline: NextPage = () => {
               <div
                 className="rounded-full w-1/5 text-center pt-5 cursor-pointer hover:opacity-50"
                 onClick={() => {
-                  goUserPage(value.id);
+                  goUserPage(value.userId);
                 }}
               >
                 <Image src={value.img} width={100} height={100} alt="icon" />
@@ -148,11 +152,11 @@ const Timeline: NextPage = () => {
                   <div className="text-xl font-extrabold pt-3 pb-3">
                     {value.name}
                   </div>
-                  <div className="pt-5 pb-5 pl-5 w-8/12">{value.tweet}</div>
+                  <div className="pt-5 pb-5 pl-5 w-8/12">{value.post}</div>
                 </div>
 
                 <div className="w-full text-right py-3 pr-14">
-                  <CommentIcon commentCount={300} />
+                  <CommentIcon commentCount={300} postId={value.postId} />
                   <FavoBtn />
                   <TrashBtn />
                 </div>
@@ -169,7 +173,7 @@ const Timeline: NextPage = () => {
           </div>
         </div>
         <div>
-          <PostBtn onClick={openModal} />
+          <PostBtn onClick={openPostModal} />
         </div>
       </div>
     </>
