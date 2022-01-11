@@ -86,6 +86,10 @@ const User: NextPage = () => {
     ],
   });
 
+  /**
+   * 押下投稿の詳細に画面遷移.
+   * @remarks IDによって遷移先をタイムラインページかレビューページに分ける
+   */
   const goDetailPage = useCallback((postId: number) => {
     if (postId > 100) {
       router.push(`/timeline/${postId}`);
