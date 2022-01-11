@@ -171,7 +171,9 @@ const User: NextPage = () => {
 
                         <div className="flex mt-1 space-x-1 text-xs font-normal leading-4 text-coolGray-500">
                           <span>{post.date}</span>
+                          &middot;
                           <span>{post.commentCount} comments</span>
+                          &middot;
                           <span>{post.shareCount} shares</span>
                           {/* <Link href="/">
                             <a className="absolute inset-0 rounded-md focus:z-10 focus:outline-none focus:ring-2 ring-blue-400"></a>
