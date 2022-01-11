@@ -31,7 +31,7 @@ export const PostBtn: FC = memo(() => {
         <div className="fixed bottom-14 right-10">
           <button
             type="button"
-            className="rounded-full text-white bg-basic w-10 h-10"
+            className="rounded-full text-white bg-basic w-10 h-10 shadow-lg"
             onClick={openPostModal}
           >
             <i className="fas fa-plus"></i>

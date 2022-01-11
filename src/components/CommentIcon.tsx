@@ -4,7 +4,7 @@ import { PostModal } from "./PostModal";
 //コメント数・対象の投稿IDを受け取る
 export type Props = {
   commentCount: number;
-  postId?: number;
+  postId: number;
 };
 
 /**
