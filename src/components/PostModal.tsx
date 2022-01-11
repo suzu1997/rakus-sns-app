@@ -10,6 +10,7 @@ type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
   closeModal: () => void; // モーダルを閉じるメソッド
   title: string; // レビューとかつぶやきとか
+  restaurantId?: string; // 店のID(レビュー投稿なら渡ってくる)。投稿の際にAPIに渡す。
 };
 
 /**
