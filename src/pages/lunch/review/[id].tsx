@@ -35,7 +35,7 @@ const ReviewDetail: NextPage = () => {
       <MenuBar />
       <div className="flex-1 w-10/12">
         <SubHeader title={"レビュー詳細"} />
-        <ReviewCard {...reviewData} />
+        <ReviewCard {...reviewData} type="詳細"/>
         {/* コメント部分 */}
         {reviewData.comment.map((value, key) => (
           <div key={key} className="flex border border-b border-gray-200">
