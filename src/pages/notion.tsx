@@ -3,6 +3,7 @@ import { useState } from "react";
 import { NextPage } from "next";
 import { SubHeader } from "../components/SubHeader";
 import { MenuBar } from "../components/MenuBar";
+import { useRouter } from "next/router";
 
 /**
  * 通知ページ.
@@ -14,40 +15,68 @@ const Notion: NextPage = () => {
   //反応した人の名前／アイコン／いいねかコメントか／対象の投稿(レビューに対してか／つぶやきに対してかも表示？)
   const [data] = useState([
     {
+      id: 1,
       name: "佐藤花子",
       action: "お気に入り",
       img: "/usakus.jpg",
-      tweet: "あああ",
+      postId: 500,
+      post: "あああ",
     },
     {
+      id: 1,
       name: "佐藤花子",
       action: "コメント",
       img: "/usakus.jpg",
-      tweet: "いいい",
+      postId: 400,
+      post: "いいい",
     },
     {
+      id: 2,
       name: "三角次郎",
       action: "お気に入り",
       img: "/usakus.jpg",
-      tweet: "あああ",
+      postId: 300,
+      post: "あああ",
     },
     {
+      id: 3,
       name: "山田太郎",
       action: "コメント",
       img: "/usakus.jpg",
-      tweet: "うおお",
+      postId: 200,
+      post: "うおお",
     },
     {
+      id: 1,
       name: "佐藤花子",
       action: "お気に入り",
       img: "/usakus.jpg",
-      tweet: "良い気持ち",
+      postId: 100,
+      post: "良い気持ち",
     },
   ]);
 
-  //1人1人のつぶやきの下に入る線がどうしてもtailwindで上手くいかなかった
+  //1人1人のつぶやきの下に入る線
   const style = {
     borderBottom: "solid 1px black",
+  };
+
+  //ルーターリンク
+  const router = useRouter();
+  /**
+   * 画像クリックで投稿ユーザ情報ページに飛ぶ.
+   * @param userId - 投稿者ID
+   */
+  const goUserPage = (userId: number) => {
+    router.push(`/user/${userId}`);
+  };
+
+  /**
+   * 投稿クリックで投稿詳細ページに飛ぶ.
+   * @param postId - 投稿ID
+   */
+  const goDetailPage = (postId: number) => {
+    router.push(`/timeline/${postId}`);
   };
 
   return (
@@ -64,7 +93,12 @@ const Notion: NextPage = () => {
           {/* タイムラインゾーン */}
           {data.map((value, key) => (
             <div style={style} key={key}>
-              <div className="p-5 ml-10">
+              <div
+                className="p-5 ml-10"
+                onClick={() => {
+                  goDetailPage(value.postId);
+                }}
+              >
                 <div className="flex">
                   {value.action === "お気に入り" && (
                     <span className="text-2xl text-red-500 mt-10">
@@ -76,7 +110,12 @@ const Notion: NextPage = () => {
                       <i className="fas fa-comment"></i>
                     </span>
                   )}
-                  <span className="ml-3">
+                  <span
+                    className="ml-3"
+                    onClick={() => {
+                      goUserPage(value.id);
+                    }}
+                  >
                     <Image
                       src={value.img}
                       width={100}
@@ -90,7 +129,7 @@ const Notion: NextPage = () => {
                   {value.name}さんがあなたの投稿に{value.action}しました
                 </div>
                 <div className="pt-5 pb-5 pl-5 w-8/12 ml-20 text-text-brown">
-                  {value.tweet}
+                  {value.post}
                 </div>
               </div>
             </div>
