@@ -19,7 +19,9 @@ export const CommentIcon: FC<Props> = memo((props) => {
   /**
    * モーダルを開けるメソッド.
    */
-  const openCommentModal = useCallback(() => {
+  const openCommentModal = useCallback((e) => {
+    // 親要素へのイベントの伝搬を止める
+    e.stopPropagation();
     setCommentIsOpen(true);
   }, []);
 
