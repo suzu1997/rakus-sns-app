@@ -6,6 +6,7 @@ import { SubHeader } from "../../components/SubHeader";
 import { Tab } from "@headlessui/react";
 import { Button } from "../../components/Button";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 //タブテスト
 function classNames(...classes: unknown[]) {
@@ -172,14 +173,9 @@ const User: NextPage = () => {
                             <li>&middot;</li>
                             <li>{post.shareCount} shares</li>
                           </ul>
-
-                          <a
-                            href="/user"
-                            className={classNames(
-                              "absolute inset-0 rounded-md",
-                              "focus:z-10 focus:outline-none focus:ring-2 ring-blue-400",
-                            )}
-                          />
+                          <Link href="/">
+                            <a className="absolute inset-0 rounded-md focus:z-10 focus:outline-none focus:ring-2 ring-blue-400"></a>
+                          </Link>
                         </li>
                       ))}
                     </ul>
