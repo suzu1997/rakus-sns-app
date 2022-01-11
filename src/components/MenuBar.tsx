@@ -49,7 +49,7 @@ export const MenuBar: FC = memo(() => {
               ランチ情報
             </a>
           </Link>
-          <Link href="/aaa/test">
+          <Link href="/logout">
             <a className="flex items-center opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
               ログアウト
             </a>
