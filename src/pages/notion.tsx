@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { NextPage } from "next";
 import { SubHeader } from "../components/SubHeader";
 import { MenuBar } from "../components/MenuBar";
@@ -67,17 +67,21 @@ const Notion: NextPage = () => {
    * 画像クリックで投稿ユーザ情報ページに飛ぶ.
    * @param userId - 投稿者ID
    */
-  const goUserPage = (userId: number) => {
+  const goUserPage = useCallback((userId: number) => {
     router.push(`/user/${userId}`);
-  };
+  }, []);
 
   /**
    * 投稿クリックで投稿詳細ページに飛ぶ.
    * @param postId - 投稿ID
    */
-  const goDetailPage = (postId: number) => {
-    router.push(`/timeline/${postId}`);
-  };
+  const goDetailPage = useCallback((postId: number) => {
+    if (postId > 100) {
+      router.push(`/timeline/${postId}`);
+    } else {
+      router.push(`/lunch/review/${postId}`);
+    }
+  }, []);
 
   return (
     <>
