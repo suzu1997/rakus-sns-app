@@ -4,6 +4,7 @@ import { Fragment } from "react";
 import { Button } from "./Button";
 import Image from "next/image";
 import { TextArea } from "./TextArea";
+import { SelectBox } from "./SelectBox";
 
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
@@ -12,7 +13,7 @@ type Props = {
 };
 
 /**
- * レビューを投稿するためのモーダルのコンポーネント.
+ * つぶやきもしくはレビューを投稿するためのモーダルのコンポーネント.
  */
 export const PostModal: FC<Props> = memo((props) => {
   const { isOpen, closeModal, title } = props;
@@ -22,6 +23,17 @@ export const PostModal: FC<Props> = memo((props) => {
 
   //入力テキスト残り文字数
   const [postLength, setPostLength] = useState<number>(0);
+
+  // 星の数の選択オプション
+  const starOptions = [
+    { id: "1", name: "1" },
+    { id: "2", name: "2" },
+    { id: "3", name: "3" },
+    { id: "4", name: "4" },
+    { id: "5", name: "5" },
+  ];
+  // 選択した星の数を格納するstate
+  const [star, setStar] = useState(starOptions[0].name);
 
   /**
    * 入力テキストの内容をstateに格納する.
@@ -100,6 +112,17 @@ export const PostModal: FC<Props> = memo((props) => {
                 >
                   {title}を投稿
                 </Dialog.Title>
+                {/* レビューの登録なら、星の数を選択してもらう */}
+                {title === "レビュー" && (
+                  <div>
+                    <SelectBox
+                      label="評価"
+                      value={star}
+                      select={setStar}
+                      options={starOptions}
+                    />
+                  </div>
+                )}
                 <div className="mt-2">
                   <div className="mt-10">
                     {title}内容を下記に入力して下さい。(140字以内)
