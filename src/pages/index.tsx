@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Button } from "../components/Button";
 import { MenuBar } from "../components/MenuBar";
 import Cookie from "universal-cookie";
+import { Star } from "../components/Star";
 
 const Home: NextPage = () => {
   /**
@@ -52,8 +53,12 @@ const Home: NextPage = () => {
               ユーザー本登録画面
             </a>
           </Link>
+          <Link href="/timeline">
+            <a className="underline hover:text-blue-800 mt-3">タイムライン</a>
+          </Link>
         </div>
       </div>
+      <Star starCount={3.8} />
     </>
   );
 };
