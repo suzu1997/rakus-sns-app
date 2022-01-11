@@ -115,7 +115,7 @@ const Notion: NextPage = () => {
                     </span>
                   )}
                   <span
-                    className="ml-3"
+                    className="ml-3 cursor-pointer hover:opacity-50"
                     onClick={() => {
                       goUserPage(value.id);
                     }}
@@ -128,12 +128,13 @@ const Notion: NextPage = () => {
                     />
                   </span>
                 </div>
-
-                <div className="text-xl pt-3 pb-3 ml-16">
-                  {value.name}さんがあなたの投稿に{value.action}しました
-                </div>
-                <div className="pt-5 pb-5 pl-5 w-8/12 ml-20 text-text-brown">
-                  {value.post}
+                <div className=" cursor-pointer hover:opacity-50">
+                  <div className="text-xl pt-3 pb-3 ml-16">
+                    {value.name}さんがあなたの投稿に{value.action}しました
+                  </div>
+                  <div className="pt-5 pb-5 pl-5 w-8/12 ml-20 text-text-brown">
+                    {value.post}
+                  </div>
                 </div>
               </div>
             </div>
