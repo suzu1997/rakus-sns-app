@@ -1,7 +1,25 @@
-import { FC, memo } from "react";
+import { FC, memo, useEffect, useState } from "react";
 import Link from "next/link";
+import Cookie from "universal-cookie";
 
 export const MenuBar: FC = memo(() => {
+  //cookieを使用する
+  const cookie = new Cookie();
+  const [myInfo, setMyInfo] = useState("");
+
+  //テスト時用(API作成後削除)
+  useEffect(() => {
+    if (cookie.get("id") === undefined) {
+      setMyInfo("/user/1");
+    } else {
+      setMyInfo(`/user${cookie.get("id")}`);
+    }
+  }, []);
+
+  //本番用
+  //ユーザ情報のリンクをログインユーザ先にする
+  // const [myInfo] = useState(`/user${loginUserId}`);
+
   return (
     <>
       <aside className="relative bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
@@ -11,7 +29,7 @@ export const MenuBar: FC = memo(() => {
               HOME
             </a>
           </Link>
-          <Link href="/user">
+          <Link href={myInfo}>
             <a className="flex items-center opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
               プロフィール
             </a>
