@@ -100,11 +100,12 @@ const User: NextPage = () => {
 
   return (
     <>
-      <div className="flex">
+      <div className="flex mb-3">
         <div>
           <MenuBar />
         </div>
         {/* ユーザー情報 */}
+
         <div className="w-full">
           <SubHeader title="ユーザー情報" />
           <div className="border-solid  border-2 border-bgc-200 m-5 shadow-lg rounded-md">
@@ -137,7 +138,17 @@ const User: NextPage = () => {
             </div>
           </div>
 
-          {/* タブテスト（履歴表示欄） */}
+          <div className="w-full text-center mb-2">
+            <Button
+              label="投稿を再読み込み"
+              size="lg"
+              onClick={() => {
+                alert("新しいつぶやき読み込み");
+              }}
+            />
+          </div>
+
+          {/* タブ（履歴表示欄） */}
           <div className="w-full px-2 sm:px-0">
             <Tab.Group>
               <Tab.List className="flex p-1 space-x-1 bg-blue-900/20 rounded-xl">
