@@ -15,14 +15,26 @@ const Logout: NextPage = () => {
   //cookieを使用する
   const cookie = new Cookie();
 
+  //モーダル開け閉めフラグ
   const [isOpen, setIsOpen] = useState(true);
+
+  /**
+   * キャンセルボタン押下で発動.
+   */
   const closeModal = useCallback(() => {
-    // console.log(document.referrer);
+    //モーダルを閉じる
     setIsOpen(false);
+    //元のページに戻る
+    router.back();
   }, []);
 
+  /**
+   * ログアウトボタン押下で発動.
+   */
   const logout = useCallback(() => {
+    //cookieからログインID削除
     cookie.remove("id");
+    //ログインページに戻る
     router.push("/login");
   }, []);
 
