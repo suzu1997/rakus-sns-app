@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { FC, memo } from "react";
 import { CommentIcon } from "../CommentIcon";
 import { FavoBtn } from "../FavoBtn";
+import { Star } from "../Star";
 import { TrashBtn } from "../TrashBtn";
 
 type Props = {
@@ -36,7 +37,9 @@ export const ReviewCard: FC<Props> = memo((props) => {
       </div>
       <div className="flex flex-col w-full">
         <div className="text-xl font-extrabold pt-3 pb-3">{name}</div>
-        <div>⭐️⭐️⭐️⭐️⭐️({star})</div>
+        <div>
+          <Star starCount={star} />
+        </div>
         <div className="pt-5 pb-5 pl-5">{content}</div>
         <div className="w-full text-right">
           {type === "詳細" && <span className="mr-7">投稿日時：{time}</span>}

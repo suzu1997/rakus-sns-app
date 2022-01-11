@@ -6,6 +6,7 @@ import { ReviewList } from "../../../components/lunch/ReviewList";
 import { PostModal } from "../../../components/PostModal";
 import { MenuBar } from "../../../components/MenuBar";
 import { GoogleMap } from "../../../components/GoogleMap";
+import { Star } from "../../../components/Star";
 
 /**
  * お店情報の詳細を表示するページ.
@@ -36,7 +37,7 @@ const RestaurantDetail: NextPage = () => {
     name: "らーめん 氣華",
     genre: "ラーメン",
     type: "店内",
-    favorite: 100,
+    star: 4.5,
     img: "https://imgfp.hotp.jp/IMGH/76/15/P018367615/P018367615_238.jpg",
     address: "東京都新宿区新宿２－７－５松田ビル１F",
     access:
@@ -56,7 +57,9 @@ const RestaurantDetail: NextPage = () => {
             {dummyData.name}
           </p>
           <div className="">
-            <span className="mr-8">⭐️⭐️⭐️⭐️⭐️</span>
+            <span className="mr-8">
+              <Star starCount={dummyData.star} />
+            </span>
             ジャンル: {dummyData.genre}
             <span className="ml-8">タイプ: {dummyData.type}</span>
           </div>
@@ -93,7 +96,12 @@ const RestaurantDetail: NextPage = () => {
           <ReviewList />
         </div>
       </div>
-      <PostModal isOpen={isOpen} closeModal={closeModal} title={"レビュー"} restaurantId={dummyData.id} />
+      <PostModal
+        isOpen={isOpen}
+        closeModal={closeModal}
+        title={"レビュー"}
+        restaurantId={dummyData.id}
+      />
     </div>
   );
 };

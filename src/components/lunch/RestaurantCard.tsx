@@ -1,18 +1,19 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { FC, memo } from "react";
+import { Star } from "../Star";
 
 type Props = {
   id: number;
   name: string;
   genre: string;
   type: string;
-  favarite: number;
+  star: number;
   img: string;
 };
 
 export const RestaurantCard: FC<Props> = memo((props) => {
-  const { id, name, genre, type, img } = props;
+  const { id, name, genre, type, star, img } = props;
   const router = useRouter();
 
   /**
@@ -33,7 +34,9 @@ export const RestaurantCard: FC<Props> = memo((props) => {
         </p>
         <div className="ml-10">ジャンル: {genre}</div>
         <div className="ml-10">タイプ: {type}</div>
-        <div className="ml-10">評価(平均): ⭐️⭐️⭐️⭐️⭐️</div>
+        <div className="ml-10">
+          評価(平均): <Star starCount={star} />
+        </div>
       </div>
       <div className="mx-6 mt-3">
         <Image src={img} width={300} height={200} alt="icon" />

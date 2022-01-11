@@ -9,7 +9,7 @@ export const RestaurantList: FC = memo(() => {
       name: "イタリアンが美味しい店",
       genre: "イタリアン",
       type: "店内",
-      favarite: 100,
+      star: 4.5, 
       img: "/cake.jpg",
     },
     {
@@ -17,7 +17,7 @@ export const RestaurantList: FC = memo(() => {
       name: "行列のできるラーメン屋",
       genre: "ラーメン",
       type: "店内",
-      favarite: 200,
+      star: 3.8, 
       img: "/cake.jpg",
     },
     {
@@ -25,7 +25,7 @@ export const RestaurantList: FC = memo(() => {
       name: "生クリームうどん",
       genre: "うどん",
       type: "店内",
-      favarite: 300,
+      star: 4, 
       img: "/cake.jpg",
     },
   ]);
