@@ -9,10 +9,11 @@ type Props = {
   name: string;
   content: string;
   img: string;
+  star: number;
 };
 
 export const ReviewCard: FC<Props> = memo((props) => {
-  const { name, content, img } = props;
+  const { name, content, img, star } = props;
 
   return (
     <div className="flex w-full p-5 relative h-auto border border-t-0 border-gray-200">
@@ -21,6 +22,7 @@ export const ReviewCard: FC<Props> = memo((props) => {
       </div>
       <div className="flex flex-col w-full">
         <div className="text-xl font-extrabold pt-3 pb-3">{name}</div>
+        <div>⭐️⭐️⭐️⭐️⭐️({star})</div>
         <div className="pt-5 pb-5 pl-5">{content}</div>
         <div className="w-full text-right">
           <CommentIcon commentCount={300} />
