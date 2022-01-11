@@ -58,7 +58,7 @@ export const LunchSearchArea: FC = memo(() => {
   const [type, setType] = useState(typeOptions[0].name);
 
   return (
-    <div className="bg-bgc w-full sm:w-96 p-5 rounded-lg">
+    <div className="w-full sm:w-96 p-5 rounded-lg">
       <div className="text-center">検索</div>
       <div className="flex flex-col gap-3">
         <SelectBox

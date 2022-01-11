@@ -3,6 +3,7 @@ import { Tab } from "@headlessui/react";
 import { useRouter } from "next/router";
 import { ReviewList } from "./ReviewList";
 import { RestaurantList } from "./RestaurantList";
+import { LunchSearchArea } from "./LunchSearchArea";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -78,7 +79,10 @@ export const LunchTab: FC<Props> = memo((props) => {
           </Tab.Panel>
           <Tab.Panel>
             {/* タブがお店情報の時は店一覧表示 */}
-            <RestaurantList />
+            <div className="flex">
+              <RestaurantList />
+              <LunchSearchArea />
+            </div>
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
