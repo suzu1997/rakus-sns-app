@@ -5,6 +5,7 @@ import { Button } from "../../../components/Button";
 import { ReviewList } from "../../../components/lunch/ReviewList";
 import { PostModal } from "../../../components/PostModal";
 import { MenuBar } from "../../../components/MenuBar";
+import { GoogleMap } from "../../../components/GoogleMap";
 
 /**
  * お店情報の詳細を表示するページ.
@@ -72,12 +73,10 @@ const RestaurantDetail: NextPage = () => {
           </div>
           <p className="mt-10">住所: {dummyData.address}</p>
           <p className="mt-10">アクセス: {dummyData.access}</p>
-          {/* ここに地図を埋め込みたい */}
-          <p className="mt-10">場所(マップを埋め込みたい。)</p>
-          <div>
-            <Image src="/map-sample.png" width={600} height={400} alt="map" />
-          </div>
-          <p>
+          {/* 緯度と軽度から、googleマップを表示 */}
+          <p className="mt-10">Map</p>
+          <GoogleMap latitude={dummyData.lat} longitude={dummyData.lng} />
+          <p className="mt-10">
             ホットペッパーURL:{" "}
             <a href="https://www.hotpepper.jp/strJ001041443/?vos=nhppalsa000016">
               https://www.hotpepper.jp/strJ001041443/?vos=nhppalsa000016
