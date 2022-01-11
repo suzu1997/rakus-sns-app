@@ -2,20 +2,28 @@ import { NextPage } from "next";
 import { useCallback, useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Button } from "../components/Button";
-// import Cookie from "universal-cookie";
+import { useRouter } from "next/router";
+import Cookie from "universal-cookie";
 
 /**
  * ログアウトページ.
  * @returns ログアウトページ
  */
 const Logout: NextPage = () => {
+  //ルーターリンク
+  const router = useRouter();
   //cookieを使用する
-  //   const cookie = new Cookie();
-  //   cookie.remove("id");
+  const cookie = new Cookie();
 
   const [isOpen, setIsOpen] = useState(true);
   const closeModal = useCallback(() => {
+    // console.log(document.referrer);
     setIsOpen(false);
+  }, []);
+
+  const logout = useCallback(() => {
+    cookie.remove("id");
+    router.push("/login");
   }, []);
 
   return (
@@ -66,7 +74,7 @@ const Logout: NextPage = () => {
                   ログアウトしますか？
                 </Dialog.Title>
                 <div className="text-center mt-5 mr-3">
-                  <Button color="#622d18" label={"はい"} onClick={closeModal} />
+                  <Button color="#622d18" label={"はい"} onClick={logout} />
                   <span className="ml-5">
                     <Button
                       backgroundColor="#f6f0ea"
