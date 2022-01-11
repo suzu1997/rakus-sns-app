@@ -27,11 +27,11 @@ export const PostModal: FC<Props> = memo((props) => {
 
   // 星の数の選択オプション
   const starOptions = [
-    { id: "1", name: "1" },
-    { id: "2", name: "2" },
-    { id: "3", name: "3" },
-    { id: "4", name: "4" },
     { id: "5", name: "5" },
+    { id: "4", name: "4" },
+    { id: "3", name: "3" },
+    { id: "2", name: "2" },
+    { id: "1", name: "1" },
   ];
   // 選択した星の数を格納するstate
   const [star, setStar] = useState(starOptions[0].name);
