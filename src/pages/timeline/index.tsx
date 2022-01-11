@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/link-passhref */
-import type { NextPage } from "next";
 import Image from "next/image";
-import { useCallback, useState } from "react";
+import type { NextPage } from "next";
+import { useState } from "react";
 import { MenuBar } from "../../components/MenuBar";
 import { SubHeader } from "../../components/SubHeader";
 import { Button } from "../../components/Button";
@@ -9,8 +9,8 @@ import { CommentIcon } from "../../components/CommentIcon";
 import { FavoBtn } from "../../components/FavoBtn";
 //自分のつぶやきを消せるボタンコンポーネント(自分のつぶやきの時のみ表示させたい)
 import { TrashBtn } from "../../components/TrashBtn";
-import { PostModal } from "../../components/PostModal";
 import { useRouter } from "next/router";
+import { PostBtn } from "../../components/PostBtn";
 
 /**
  * タイムラインページ.
@@ -20,75 +20,52 @@ const Timeline: NextPage = () => {
   //テストデータ
   const [data] = useState([
     {
-      id: 1,
+      postId: 1,
       name: "佐藤花子",
-      postId: 100,
-      tweet: "あああ",
+      userId: 100,
+      post: "あああ",
       img: "/usakus.jpg",
     },
     {
-      id: 2,
+      postId: 2,
       name: "山田太郎",
-      postId: 200,
-      tweet: "いいい",
+      userId: 200,
+      post: "いいい",
       img: "/usakus.jpg",
     },
     {
-      id: 3,
+      postId: 3,
       name: "ランチックス",
-      postId: 300,
-      tweet: "ううう",
+      userId: 300,
+      post: "ううう",
       img: "/usakus.jpg",
     },
     {
-      id: 1,
+      postId: 1,
       name: "佐藤花子",
-      postId: 400,
-      tweet: "あああ",
+      userId: 400,
+      post: "あああ",
       img: "/usakus.jpg",
     },
     {
-      id: 2,
+      postId: 2,
       name: "山田太郎",
-      postId: 500,
-      tweet:
-        "あああああああああああいいいいいいいいううううううううううえええええええええええええおおおおおおおおおおおおおおおうひうひひょひょほほほほほほほほほほほほほ",
+      userId: 500,
+      post: "あああああああああああいいいいいいいいううううううううううえええええええええええええおおおおおおおおおおおおおおおうひうひひょひょほほほほほほほほほほほほほ",
       img: "/usakus.jpg",
     },
     {
-      id: 3,
+      postId: 3,
       name: "ランチックス",
-      postId: 600,
-      tweet: "ううう",
+      userId: 600,
+      post: "ううう",
       img: "/usakus.jpg",
     },
   ]);
 
-  //1人1人のつぶやきの下に入る線がどうしてもtailwindで上手くいかなかった
+  //1人1人のつぶやきの下に入る線
   const style = {
     borderBottom: "solid 1px black",
-  };
-
-  // レビュー投稿のモーダルのオープン状態
-  const [isOpen, setIsOpen] = useState(false);
-
-  /**
-   * モーダルを開けるメソッド.
-   */
-  const openModal = useCallback(() => {
-    setIsOpen(true);
-  }, []);
-
-  /**
-   * モーダルを閉じるメソッド.
-   */
-  const closeModal = useCallback(() => {
-    setIsOpen(false);
-  }, []);
-
-  //過去の投稿を読み込むがテキストで指しても指にならないので、ポインターを指にした
-  const pointStyle = {
-    cursor: "pointer",
   };
 
   //ルーターリンク
@@ -112,16 +89,8 @@ const Timeline: NextPage = () => {
   //HTMLコーナー
   return (
     <>
-      {/* 投稿モーダル */}
-      <PostModal isOpen={isOpen} closeModal={closeModal} title={"つぶやき"} />
       <div className="flex">
-        <div>
-          <MenuBar />
-          <div className="m-1 mt-10">
-            <Button label="つぶやく" size="lg" onClick={openModal} />
-          </div>
-        </div>
-
+        <MenuBar />
         {/* サブヘッダー */}
         <div className="w-10/12">
           <SubHeader title="つぶやき" />
@@ -141,28 +110,28 @@ const Timeline: NextPage = () => {
           {data.map((value, key) => (
             <div style={style} key={key} className="flex">
               <div
-                className="w-1/5 text-center pt-5"
+                className="rounded-full w-1/5 text-center pt-5 cursor-pointer hover:opacity-50"
                 onClick={() => {
-                  goUserPage(value.id);
+                  goUserPage(value.userId);
                 }}
-                style={pointStyle}
               >
                 <Image src={value.img} width={100} height={100} alt="icon" />
               </div>
-
-              <div
-                style={pointStyle}
-                className="w-4/5"
-                onClick={() => {
-                  goDetailPage(value.postId);
-                }}
-              >
-                <div className="text-xl font-extrabold pt-3 pb-3">
-                  {value.name}
+              <div className="w-4/5">
+                <div
+                  className="cursor-pointer hover:opacity-50"
+                  onClick={() => {
+                    goDetailPage(value.postId);
+                  }}
+                >
+                  <div className="text-xl font-extrabold pt-3 pb-3">
+                    {value.name}
+                  </div>
+                  <div className="pt-5 pb-5 pl-5 w-8/12">{value.post}</div>
                 </div>
-                <div className="pt-5 pb-5 pl-5 w-8/12">{value.tweet}</div>
-                <div className="w-full text-right pt-3 pb-3">
-                  <CommentIcon commentCount={300} />
+
+                <div className="w-full text-right py-3 pr-14">
+                  <CommentIcon commentCount={300} postId={value.postId} />
                   <FavoBtn />
                   <TrashBtn />
                 </div>
@@ -170,14 +139,16 @@ const Timeline: NextPage = () => {
             </div>
           ))}
           <div
-            className="text-text-brown text-center my-5"
-            style={pointStyle}
+            className="text-text-brown text-center my-5 cursor-pointer hover:text-basic"
             onClick={() => {
               alert("過去のつぶやき読み込み");
             }}
           >
             過去の投稿を見る…
           </div>
+        </div>
+        <div>
+          <PostBtn />
         </div>
       </div>
     </>
