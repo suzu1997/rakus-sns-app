@@ -14,8 +14,6 @@ export const LoginChecker: FC = memo(() => {
   const [path, setPath] = useState(router.pathname);
   useEffect(() => {
     setPath(router.pathname);
-    console.log("パス：" + path);
-    console.log("cookie：" + cookie.get("name"));
   }, [cookie, path, router.pathname]);
 
   /**
@@ -31,7 +29,9 @@ export const LoginChecker: FC = memo(() => {
     }
   }, []);
 
-  cookieCheck();
+  useEffect(() => {
+    cookieCheck();
+  });
 
   return null;
 });
