@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Button } from "../components/Button";
 import { MenuBar } from "../components/MenuBar";
 import Cookie from "universal-cookie";
+import { LoginChecker } from "../components/LoginChecker";
 
 const Home: NextPage = () => {
   /**
@@ -15,6 +16,7 @@ const Home: NextPage = () => {
 
   return (
     <>
+      <LoginChecker />
       <button type="button" onClick={checkTest}>
         ログイン状況
       </button>{" "}
