@@ -6,7 +6,6 @@ import { SubHeader } from "../../components/SubHeader";
 import { Tab } from "@headlessui/react";
 import { Button } from "../../components/Button";
 import { useRouter } from "next/router";
-import Link from "next/link";
 
 //タブテスト
 function classNames(...classes: unknown[]) {
@@ -88,7 +87,11 @@ const User: NextPage = () => {
   });
 
   const goDetailPage = useCallback((postId: number) => {
-    router.push(`/timeline/${postId}`);
+    if (postId > 100) {
+      router.push(`/timeline/${postId}`);
+    } else {
+      router.push(`/lunch/review/${postId}`);
+    }
   }, []);
 
   return (
