@@ -45,7 +45,7 @@ const ReviewDetail: NextPage = () => {
         >
           ←戻る
         </div>
-        <ReviewCard {...reviewData} type="詳細" />
+        <ReviewCard {...reviewData} type="詳細" hasRestaurantInfo={true} />
         {/* コメント部分 */}
         {reviewData.comment.map((value, key) => (
           <div key={key} className="flex border border-b border-gray-200">

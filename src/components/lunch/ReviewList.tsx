@@ -1,7 +1,24 @@
-import { FC, memo, useState } from "react";
+import { useRouter } from "next/router";
+import { FC, memo, useEffect, useState } from "react";
 import { ReviewCard } from "./ReviewCard";
 
 export const ReviewList: FC = memo(() => {
+  // レビューカードがレストラン情報を持つかどうか
+  const [hasRestaurantInfo, setHasRestaurantInfo] = useState<boolean>(true);
+  const router = useRouter();
+
+  // pathにrestaurantが含まれている(店詳細ページにいる)場合はfalseにする
+  // レビューページにいるときだけ店詳細ページへのリンクを付けたい
+  useEffect(() => {
+    const path = router.pathname;
+    path.includes("restaurant");
+    if (path.includes("restaurant")) {
+      setHasRestaurantInfo(false);
+    } else {
+      setHasRestaurantInfo(true);
+    }
+  }, [router.pathname]);
+
   //テストデータ
   const [reviewData] = useState([
     {
@@ -59,7 +76,11 @@ export const ReviewList: FC = memo(() => {
     <div className="w-full">
       {reviewData.map((review) => (
         <div key={review.id}>
-          <ReviewCard {...review} type="一覧" />
+          <ReviewCard
+            {...review}
+            type="一覧"
+            hasRestaurantInfo={hasRestaurantInfo}
+          />
         </div>
       ))}
     </div>
