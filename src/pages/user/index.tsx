@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { MenuBar } from "../../components/MenuBar";
 import Image from "next/image";
 import { SubHeader } from "../../components/SubHeader";
@@ -87,6 +87,10 @@ const User: NextPage = () => {
     ],
   });
 
+  const goDetailPage = useCallback((postId: number) => {
+    router.push(`/timeline/${postId}`);
+  }, []);
+
   return (
     <>
       <div className="flex">
@@ -151,34 +155,30 @@ const User: NextPage = () => {
                 {Object.values(categories).map((posts, idx) => (
                   <Tab.Panel
                     key={idx}
-                    className={classNames(
-                      "bg-bgc rounded-xl p-3",
-                      "focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60",
-                    )}
+                    className="bg-bgc rounded-xl p-3 focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60"
                   >
-                    <ul>
-                      {posts.map((post) => (
-                        <li
-                          key={post.id}
-                          className="relative p-3 rounded-md hover:bg-coolGray-100"
-                        >
-                          <h3 className="text-sm font-medium leading-5">
-                            {post.title}
-                          </h3>
+                    {posts.map((post) => (
+                      <div
+                        key={post.id}
+                        className="focus:outline-none relative p-3 rounded-md hover:bg-coolGray-100 cursor-pointer hover:opacity-50"
+                        onClick={() => {
+                          goDetailPage(post.id);
+                        }}
+                      >
+                        <h3 className="text-sm font-medium leading-5">
+                          {post.title}
+                        </h3>
 
-                          <ul className="flex mt-1 space-x-1 text-xs font-normal leading-4 text-coolGray-500">
-                            <li>{post.date}</li>
-                            <li>&middot;</li>
-                            <li>{post.commentCount} comments</li>
-                            <li>&middot;</li>
-                            <li>{post.shareCount} shares</li>
-                          </ul>
-                          <Link href="/">
+                        <div className="flex mt-1 space-x-1 text-xs font-normal leading-4 text-coolGray-500">
+                          <span>{post.date}</span>
+                          <span>{post.commentCount} comments</span>
+                          <span>{post.shareCount} shares</span>
+                          {/* <Link href="/">
                             <a className="absolute inset-0 rounded-md focus:z-10 focus:outline-none focus:ring-2 ring-blue-400"></a>
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
+                          </Link> */}
+                        </div>
+                      </div>
+                    ))}
                   </Tab.Panel>
                 ))}
               </Tab.Panels>
