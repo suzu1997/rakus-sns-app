@@ -31,7 +31,7 @@ export const LoginChecker: FC = memo(() => {
 
   useEffect(() => {
     cookieCheck();
-  });
+  }, []);
 
   return null;
 });
