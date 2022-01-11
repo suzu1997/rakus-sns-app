@@ -114,18 +114,19 @@ export const PostModal: FC<Props> = memo((props) => {
                   {title}を投稿
                 </Dialog.Title>
                 {/* レビューの登録なら、星の数を選択してもらう */}
-                {title === "レビュー" && (
-                  <div>
-                    <SelectBox
-                      label="評価"
-                      value={star}
-                      select={setStar}
-                      options={starOptions}
-                    />
-                  </div>
-                )}
                 <div className="mt-2">
                   <div className="mt-10">
+                    {title === "レビュー" && (
+                      <div className="w-60 flex gap-3 items-center mb-3">
+                        評価: 星
+                        <SelectBox
+                          value={star}
+                          select={setStar}
+                          options={starOptions}
+                        />
+                        つ
+                      </div>
+                    )}
                     {title}内容を下記に入力して下さい。(140字以内)
                   </div>
                   <div className="flex mt-5">
