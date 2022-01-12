@@ -12,6 +12,7 @@
   "dependencies": {
     "@headlessui/react": "^1.4.2",
     "@heroicons/react": "^1.0.5",
+    "@hookform/resolvers": "^2.8.5",
     "@storybook/addon-postcss": "^2.0.0",
     "@tailwindcss/postcss7-compat": "^2.2.17",
     "autoprefixer": "^9.8.8",
@@ -23,7 +24,8 @@
     "react-hook-form": "^7.22.5",
     "swr": "^1.1.2",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17",
-    "universal-cookie": "^4.0.4"
+    "universal-cookie": "^4.0.4",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.16.5",
