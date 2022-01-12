@@ -1,3 +1,7 @@
+import { Button } from "../components/Button";
+import { SelectBox } from "../components/SelectBox";
+import { Radio } from "../components/Radio";
+import { NextPage } from "next";
 import * as yup from "yup";
 //バリデーションチェック
 const schema = yup.object().shape({
@@ -48,3 +52,31 @@ const schema = yup.object().shape({
     .oneOf([yup.ref("password"), null], "確認用パスワードが一致していません"),
 });
 
+/**
+ * ユーザー登録画面
+ * @returns ユーザー登録するためのページ
+ */
+const SignUp: NextPage = () => {
+  //メールアドレスのドメイン選択肢
+  const options = [
+    { id: "1", name: "@rakus-patners.co.jp" },
+    { id: "2", name: "@rakus.co.jp" },
+  ];
+
+  //ルーターリンク
+  const router = useRouter();
+
+  //セレクトボックスの初期値
+  const [selectValue, setSelectValue] = useState<string>(options[0].name);
+
+  return (
+    <>
+      <div className="border-solid  border-2 border-bgc-200 m-10  shadow-lg rounded-xl text-center">
+        <div className="text-3xl text-text-brown mt-5 font-bold ">
+          本登録フォーム
+        </div>
+      </div>
+    </>
+  );
+};
+export default SignUp;
