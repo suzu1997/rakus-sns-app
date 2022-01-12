@@ -1,6 +1,6 @@
 import { Dispatch, FC, Fragment, SetStateAction } from "react";
 import { Listbox, Transition } from "@headlessui/react";
-import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
+import { SelectorIcon } from "@heroicons/react/solid";
 
 export type Props = {
   label?: string;
