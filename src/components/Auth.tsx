@@ -1,15 +1,22 @@
-import { memo, FC, useEffect, useState, useContext } from "react";
+import { memo, FC, useEffect, useState, useContext, ReactNode } from "react";
 import { useRouter } from "next/router";
 import { loginIdContext } from "./Provider";
+
+type Props = {
+  children: ReactNode;
+};
 
 /**
  * ログインチェックコンポーネント
  */
-export const LoginChecker: FC = memo(() => {
+export const LoginChecker: FC<Props> = memo((props) => {
+  const { children } = props;
   //ルーターリンク
   const router = useRouter();
   //ログインID
   const loginId = useContext(loginIdContext);
+  //ローディングフラグ
+  const [flug, setFlug] = useState(false);
 
   /**
    * cookieをチェックして指定のページに飛ばす.
@@ -27,12 +34,18 @@ export const LoginChecker: FC = memo(() => {
         router.push("/login");
         //トップページ＆ログインしている→タイムラインページへ
       } else if (path === "/") {
+        setFlug(true);
         router.push("/timeline");
       }
+    } else {
+      setFlug(true);
     }
     //現在のパスが変わったら発動
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.pathname]);
 
-  return null;
+  /**
+   * ログインしているか読み込み中はローディングを表示.
+   */
+  return <>{flug ? <>{children}</> : <></>}</>;
 });
