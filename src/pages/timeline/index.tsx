@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/link-passhref */
 import Image from "next/image";
 import type { NextPage } from "next";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { MenuBar } from "../../components/MenuBar";
 import { SubHeader } from "../../components/SubHeader";
 import { Button } from "../../components/Button";
@@ -11,6 +11,7 @@ import { FavoBtn } from "../../components/FavoBtn";
 import { TrashBtn } from "../../components/TrashBtn";
 import { useRouter } from "next/router";
 import { PostBtn } from "../../components/PostBtn";
+import { loginIdContext } from "../../components/Provider";
 
 /**
  * タイムラインページ.
@@ -85,6 +86,12 @@ const Timeline: NextPage = () => {
   const goDetailPage = (postId: number) => {
     router.push(`/timeline/${postId}`);
   };
+
+  //ログインID
+  const loginId = useContext(loginIdContext);
+  if (!loginId) {
+    return <>Loding…</>;
+  }
 
   //HTMLコーナー
   return (

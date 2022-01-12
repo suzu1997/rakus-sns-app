@@ -16,7 +16,7 @@ export const LoginIdProvider: FC<Props> = (props) => {
   const [loginId] = useState(cookie.get("id"));
 
   return (
-    <loginIdContext.Provider value={{ loginId }}>
+    <loginIdContext.Provider value={loginId}>
       {children}
     </loginIdContext.Provider>
   );

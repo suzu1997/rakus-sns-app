@@ -1,6 +1,6 @@
-import { memo, FC, useEffect, useState } from "react";
+import { memo, FC, useEffect, useState, useContext } from "react";
 import { useRouter } from "next/router";
-import Cookie from "universal-cookie";
+import { loginIdContext } from "./Provider";
 
 /**
  * ログインチェックコンポーネント
@@ -8,10 +8,8 @@ import Cookie from "universal-cookie";
 export const LoginChecker: FC = memo(() => {
   //ルーターリンク
   const router = useRouter();
-  //cookieを使用する
-  const cookie = new Cookie();
   //ログインID
-  const [loginId, setLoginId] = useState(cookie.get("name"));
+  const loginId = useContext(loginIdContext);
 
   /**
    * cookieをチェックして指定のページに飛ばす.
