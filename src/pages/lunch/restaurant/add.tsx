@@ -1,4 +1,6 @@
 import axios from "axios";
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const axiosJsonpAdapter = require("axios-jsonp");
 import { FC, useCallback, useState } from "react";
 import Image from "next/image";
 import { Button } from "../../../components/Button";
@@ -45,9 +47,17 @@ const RestaurantAdd: FC = () => {
    * @remarks
    * &name_anyとすることで漢字でもかなでも検索できる
    */
-  const searchByNameInIn2km = async () => {
+  const searchByNameIn2km = async () => {
+    // ホットペッパーAPIは、サーバー側でのみデータフェッチ可
+    // （クライアント側（JavaScriptによるブラウザ側）では不可のため、CORSによりブロックされてしまう。）
+    // そのためJSONPでCORSエラー回避する
+
+    // jsonpのためaxiosにてデータフェッチ
     const res = await axios.get(
       `${HOTPEPPER_URL}&name_any=${searchName}&lat=35.689445&lng=139.70735&range=3&count=50`,
+      {
+        adapter: axiosJsonpAdapter,
+      },
     );
     setResult(res.data.results.shop);
   };
