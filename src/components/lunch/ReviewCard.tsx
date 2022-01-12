@@ -5,6 +5,7 @@ import { CommentIcon } from "../CommentIcon";
 import { FavoBtn } from "../FavoBtn";
 import { Star } from "../Star";
 import { TrashBtn } from "../TrashBtn";
+import { LinkToRestaurant } from "./LinkToRestaurat";
 
 type Props = {
   id: number;
@@ -14,10 +15,11 @@ type Props = {
   time: string;
   star: number;
   type: string; // 一覧か詳細か
+  hasRestaurantInfo: boolean; // 店詳細ページへのリンクを表示するかどうか
 };
 
 export const ReviewCard: FC<Props> = memo((props) => {
-  const { id, name, content, img, time, star, type } = props;
+  const { id, name, content, img, time, star, type, hasRestaurantInfo } = props;
   const router = useRouter();
 
   /**
@@ -41,9 +43,11 @@ export const ReviewCard: FC<Props> = memo((props) => {
           <Star starCount={star} />
         </div>
         <div className="pt-5 pb-5 pl-5">{content}</div>
+        {/* hasRestaurantInfoがtrueならばレストラン情報へのリンクを表示する */}
+        {hasRestaurantInfo && <LinkToRestaurant />}
         <div className="w-full text-right">
           {type === "詳細" && <span className="mr-7">投稿日時：{time}</span>}
-          <CommentIcon commentCount={300} postId={id} />
+          <CommentIcon commentCount={300} />
           <FavoBtn />
           <TrashBtn />
         </div>

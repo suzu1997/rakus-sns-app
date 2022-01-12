@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { MenuBar } from "../../components/MenuBar";
 import Image from "next/image";
 import { SubHeader } from "../../components/SubHeader";
@@ -86,13 +86,26 @@ const User: NextPage = () => {
     ],
   });
 
+  /**
+   * 押下投稿の詳細に画面遷移.
+   * @remarks IDによって遷移先をタイムラインページかレビューページに分ける
+   */
+  const goDetailPage = useCallback((postId: number) => {
+    if (postId > 100) {
+      router.push(`/timeline/${postId}`);
+    } else {
+      router.push(`/lunch/review/${postId}`);
+    }
+  }, []);
+
   return (
     <>
-      <div className="flex">
+      <div className="flex mb-3">
         <div>
           <MenuBar />
         </div>
         {/* ユーザー情報 */}
+
         <div className="w-full">
           <SubHeader title="ユーザー情報" />
           <div className="border-solid  border-2 border-bgc-200 m-5 shadow-lg rounded-md">
@@ -125,7 +138,17 @@ const User: NextPage = () => {
             </div>
           </div>
 
-          {/* タブテスト（履歴表示欄） */}
+          <div className="w-full text-center mb-2">
+            <Button
+              label="投稿を再読み込み"
+              size="lg"
+              onClick={() => {
+                alert("新しいつぶやき読み込み");
+              }}
+            />
+          </div>
+
+          {/* タブ（履歴表示欄） */}
           <div className="w-full px-2 sm:px-0">
             <Tab.Group>
               <Tab.List className="flex p-1 space-x-1 bg-blue-900/20 rounded-xl">
@@ -150,39 +173,32 @@ const User: NextPage = () => {
                 {Object.values(categories).map((posts, idx) => (
                   <Tab.Panel
                     key={idx}
-                    className={classNames(
-                      "bg-bgc rounded-xl p-3",
-                      "focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60",
-                    )}
+                    className="bg-bgc rounded-xl p-3 focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60"
                   >
-                    <ul>
-                      {posts.map((post) => (
-                        <li
-                          key={post.id}
-                          className="relative p-3 rounded-md hover:bg-coolGray-100"
-                        >
-                          <h3 className="text-sm font-medium leading-5">
-                            {post.title}
-                          </h3>
+                    {posts.map((post) => (
+                      <div
+                        key={post.id}
+                        className="focus:outline-none relative p-3 rounded-md hover:bg-coolGray-100 cursor-pointer hover:opacity-50"
+                        onClick={() => {
+                          goDetailPage(post.id);
+                        }}
+                      >
+                        <h3 className="text-sm font-medium leading-5">
+                          {post.title}
+                        </h3>
 
-                          <ul className="flex mt-1 space-x-1 text-xs font-normal leading-4 text-coolGray-500">
-                            <li>{post.date}</li>
-                            <li>&middot;</li>
-                            <li>{post.commentCount} comments</li>
-                            <li>&middot;</li>
-                            <li>{post.shareCount} shares</li>
-                          </ul>
-
-                          <a
-                            href="/user"
-                            className={classNames(
-                              "absolute inset-0 rounded-md",
-                              "focus:z-10 focus:outline-none focus:ring-2 ring-blue-400",
-                            )}
-                          />
-                        </li>
-                      ))}
-                    </ul>
+                        <div className="flex mt-1 space-x-1 text-xs font-normal leading-4 text-coolGray-500">
+                          <span>{post.date}</span>
+                          &middot;
+                          <span>{post.commentCount} comments</span>
+                          &middot;
+                          <span>{post.shareCount} shares</span>
+                          {/* <Link href="/">
+                            <a className="absolute inset-0 rounded-md focus:z-10 focus:outline-none focus:ring-2 ring-blue-400"></a>
+                          </Link> */}
+                        </div>
+                      </div>
+                    ))}
                   </Tab.Panel>
                 ))}
               </Tab.Panels>
