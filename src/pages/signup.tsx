@@ -14,21 +14,24 @@ const schema = yup.object().shape({
   //姓のバリデーション
   firstName: yup
     .string()
-    .required("姓を入力してください")
-    .max(30, "姓は30文字以内で入力してください"),
+    .required("姓名を入力してください")
+    .max(15, "姓名は15文字以内で入力してください"),
   //名のバリデーション
   lastName: yup
     .string()
-    .required("名を入力してください")
-    .max(30, "名は30文字以内で入力してください"),
+    .required("名前を入力してください")
+    .max(15, "名前は15文字以内で入力してください"),
   //メールのバリデーション
   email: yup
     .string()
     .required("メールアドレスを入力してください")
-    .matches(/^[0-9a-zA-Z]+$/, "半角英数字に入力してください")
+    .matches(/^[0-9a-zA-Z]+$/, "半角英数字で入力してください")
     .max(200, "メールアドレスは200文字以内で入力してください"),
   //アカウント名のバリデーション
-  accountName: yup.string().required("アカウント名を入力してください"),
+  accountName: yup
+    .string()
+    .required("アカウント名を入力してください")
+    .max(30, "アカウント名は30文字以内で入力してください"),
   //入社年のバリデーション
   hireDate: yup.string().required("入社年を入力してください"),
   //誕生日のバリデーション
