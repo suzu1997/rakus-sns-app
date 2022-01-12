@@ -1,13 +1,23 @@
 //provider(値を渡す)
-import { createContext, useState } from "react";
+import { createContext, FC, ReactNode, useState } from "react";
 import Cookie from "universal-cookie";
 
 export const loginIdContext = createContext({});
 
-export const LoginIdProvider = () => {
+type Props = {
+  children: ReactNode;
+};
+
+export const LoginIdProvider: FC<Props> = (props) => {
+  const { children } = props;
+
   //cookie
   const cookie = new Cookie();
   const [loginId] = useState(cookie.get("id"));
 
-  return <loginIdContext.Provider value={{ loginId }} />;
+  return (
+    <loginIdContext.Provider value={{ loginId }}>
+      {children}
+    </loginIdContext.Provider>
+  );
 };
