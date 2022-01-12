@@ -10,8 +10,6 @@ export const LoginChecker: FC = memo(() => {
   const router = useRouter();
   //cookieを使用する
   const cookie = new Cookie();
-  //現在のパス
-  const [path, setPath] = useState(router.pathname);
   //ログインID
   const [loginId, setLoginId] = useState(cookie.get("name"));
 
@@ -21,11 +19,13 @@ export const LoginChecker: FC = memo(() => {
    * ログインしていてトップにいた場合→タイムラインページに飛ばす
    */
   useEffect(() => {
-    setPath(router.pathname);
+    //現在のパス
+    const path = router.pathname;
+
     //仮登録、登録、ログインページは除外
     if (path != "/presingup" && path != "/singup" && path != "/login") {
       //IDが入っていなければ/loginへ
-      if (loginId) {
+      if (!loginId) {
         router.push("/login");
         //トップページ＆ログインしている→タイムラインページへ
       } else if (path === "/") {
