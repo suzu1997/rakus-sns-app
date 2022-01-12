@@ -1,6 +1,6 @@
 import { Dispatch, FC, Fragment, SetStateAction } from "react";
 import { Listbox, Transition } from "@headlessui/react";
-import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
+import { SelectorIcon } from "@heroicons/react/solid";
 
 export type Props = {
   label?: string;
@@ -39,27 +39,19 @@ export const SelectBox: FC<Props> = (props) => {
                   key={option.id}
                   className={({ active }) =>
                     `${active ? "text-text-brown bg-bgc" : "text-gray-900"}
-                           select-none relative py-2 pl-10 pr-4`
+                           select-none relative py-2 pl-4 pr-4`
                   }
                   value={option.name}
                 >
-                  {({ selected, active }) => (
+                  {({ selected }) => (
                     <>
                       <span
                         className={`${
-                          selected ? "font-medium" : "font-normal"
+                          selected ? "font-bold" : "font-normal"
                         } block truncate`}
                       >
                         {option.name}
                       </span>
-                      {selected ? (
-                        <span
-                          className={`${active ? "text-basic" : "text-basic"}
-                                absolute inset-y-0 left-0 flex items-center pl-3`}
-                        >
-                          <CheckIcon className="w-5 h-5" aria-hidden="true" />
-                        </span>
-                      ) : null}
                     </>
                   )}
                 </Listbox.Option>

@@ -4,7 +4,6 @@ import { PostModal } from "./PostModal";
 //コメント数・対象の投稿IDを受け取る
 export type Props = {
   commentCount: number;
-  postId: number;
 };
 
 /**
@@ -12,14 +11,16 @@ export type Props = {
  * @remarks コメント数を渡してあげる
  */
 export const CommentIcon: FC<Props> = memo((props) => {
-  const { commentCount, postId } = props;
+  const { commentCount } = props;
   // コメント投稿のモーダルのオープン状態
   const [isCommentOpen, setCommentIsOpen] = useState(false);
 
   /**
    * モーダルを開けるメソッド.
    */
-  const openCommentModal = useCallback(() => {
+  const openCommentModal = useCallback((e) => {
+    // 親要素へのイベントの伝搬を止める
+    e.stopPropagation();
     setCommentIsOpen(true);
   }, []);
 

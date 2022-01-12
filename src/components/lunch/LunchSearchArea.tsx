@@ -1,4 +1,5 @@
-import { FC, memo, useState } from "react";
+import { FC, memo, useCallback, useState } from "react";
+import { Button } from "../Button";
 import { SelectBox } from "../SelectBox";
 
 /**
@@ -52,13 +53,17 @@ export const LunchSearchArea: FC = memo(() => {
   ];
   // 選択中の並び替え
   const [order, setOrder] = useState(orderOptions[0].name);
-   // 選択中のジャンル
+  // 選択中のジャンル
   const [genre, setGenre] = useState(genreOptions[0].name);
   // 選択中のタイプ
   const [type, setType] = useState(typeOptions[0].name);
 
+  const search = useCallback(() => {
+    alert("検索");
+  }, []);
+
   return (
-    <div className="bg-bgc w-full sm:w-96 p-5 rounded-lg">
+    <div className="w-full sm:w-96 p-5 rounded-lg">
       <div className="text-center">検索</div>
       <div className="flex flex-col gap-3">
         <SelectBox
@@ -79,6 +84,7 @@ export const LunchSearchArea: FC = memo(() => {
           value={type}
           select={setType}
         />
+        <Button label="検索" onClick={search} />
       </div>
     </div>
   );
