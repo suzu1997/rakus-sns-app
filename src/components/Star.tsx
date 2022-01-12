@@ -1,4 +1,4 @@
-import { FC, memo, useCallback, useEffect, useState } from "react";
+import { FC, memo, useEffect, useState } from "react";
 
 export type Props = {
   starCount: number;
@@ -18,7 +18,7 @@ export const Star: FC<Props> = memo((props) => {
   /**
    * 星の配列を作成.
    */
-  const makeStarArray = useCallback(() => {
+  const makeStarArray = () => {
     const array = [];
     //星の配列を空に
     setStarArray([]);
@@ -42,7 +42,7 @@ export const Star: FC<Props> = memo((props) => {
     }
     setStarArray(array);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  };
 
   useEffect(() => {
     makeStarArray();
