@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import Link from "next/link";
 
-const CompSingUp: NextPage = () => {
+const CompSignUp: NextPage = () => {
   return (
     <>
       <div className="border-solid  border-2 border-bgc-200 m-10 h-48 shadow-sm  text-center">
@@ -19,4 +19,4 @@ const CompSingUp: NextPage = () => {
     </>
   );
 };
-export default CompSingUp;
+export default CompSignUp;
