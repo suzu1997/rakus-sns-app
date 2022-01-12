@@ -1,5 +1,6 @@
 import { NextPage } from "next";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { FavoBtn } from "../../../components/FavoBtn";
 import { ReviewCard } from "../../../components/lunch/ReviewCard";
@@ -8,6 +9,7 @@ import { SubHeader } from "../../../components/SubHeader";
 import { TrashBtn } from "../../../components/TrashBtn";
 
 const ReviewDetail: NextPage = () => {
+  const router = useRouter();
   //テストデータ
   const [reviewData] = useState({
     id: 1,
@@ -35,7 +37,15 @@ const ReviewDetail: NextPage = () => {
       <MenuBar />
       <div className="flex-1 w-10/12">
         <SubHeader title={"レビュー詳細"} />
-        <ReviewCard {...reviewData} type="詳細"/>
+        <div
+          className="cursor-pointer ml-5 mt-2"
+          onClick={() => {
+            router.back();
+          }}
+        >
+          ←戻る
+        </div>
+        <ReviewCard {...reviewData} type="詳細" hasRestaurantInfo={true} />
         {/* コメント部分 */}
         {reviewData.comment.map((value, key) => (
           <div key={key} className="flex border border-b border-gray-200">

@@ -7,6 +7,7 @@ import { PostModal } from "../../../components/PostModal";
 import { MenuBar } from "../../../components/MenuBar";
 import { GoogleMap } from "../../../components/GoogleMap";
 import { Star } from "../../../components/Star";
+import { useRouter } from "next/router";
 
 /**
  * お店情報の詳細を表示するページ.
@@ -16,6 +17,7 @@ import { Star } from "../../../components/Star";
 const RestaurantDetail: NextPage = () => {
   // レビュー投稿のモーダルのオープン状態
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   /**
    * モーダルを閉じるメソッド.
@@ -53,6 +55,14 @@ const RestaurantDetail: NextPage = () => {
       <MenuBar />
       <div className="flex- flex w-10/12">
         <div className="flex-col mt-10 mx-24 w-2/3">
+          <div
+            className="cursor-pointer mb-4"
+            onClick={() => {
+              router.back();
+            }}
+          >
+            ←戻る
+          </div>
           <p className="text-3xl font-extrabold border-l-8 border-basic mb-5">
             {dummyData.name}
           </p>
