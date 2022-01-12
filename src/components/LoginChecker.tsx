@@ -1,4 +1,4 @@
-import { memo, FC, useCallback, useEffect, useState } from "react";
+import { memo, FC, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Cookie from "universal-cookie";
 
@@ -12,26 +12,29 @@ export const LoginChecker: FC = memo(() => {
   const cookie = new Cookie();
   //現在のパス
   const [path, setPath] = useState(router.pathname);
-  useEffect(() => {
-    setPath(router.pathname);
-  }, [cookie, path, router.pathname]);
+  //ログインID
+  const [loginId, setLoginId] = useState(cookie.get("name"));
 
   /**
    * cookieをチェックして指定のページに飛ばす.
    * ログインしていない→ログインページに飛ばす
    * ログインしていてトップにいた場合→タイムラインページに飛ばす
    */
-  const cookieCheck = useCallback(() => {
-    if (cookie.get("id") === undefined) {
-      router.push("/login");
-    } else if (path === "/") {
-      router.push("/timeline");
-    }
-  }, []);
-
   useEffect(() => {
-    cookieCheck();
-  }, []);
+    setPath(router.pathname);
+    //仮登録、登録、ログインページは除外
+    if (path != "/presingup" && path != "/singup" && path != "/login") {
+      //IDが入っていなければ/loginへ
+      if (loginId) {
+        router.push("/login");
+        //トップページ＆ログインしている→タイムラインページへ
+      } else if (path === "/") {
+        router.push("/timeline");
+      }
+    }
+    //現在のパスが変わったら発動
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.pathname]);
 
   return null;
 });
