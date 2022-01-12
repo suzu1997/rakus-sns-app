@@ -34,7 +34,7 @@ export const MenuBar: FC = memo(() => {
               プロフィール
             </a>
           </Link>
-          <Link href="/aaa/test">
+          <Link href="/notion">
             <a className="flex items-center opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
               通知
             </a>
