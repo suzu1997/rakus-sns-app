@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { NextPage } from "next";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { MenuBar } from "../../components/MenuBar";
 import { CommentIcon } from "../../components/CommentIcon";
 import { SubHeader } from "../../components/SubHeader";
@@ -8,6 +8,8 @@ import { FavoBtn } from "../../components/FavoBtn";
 //自分のつぶやきを消せるボタンコンポーネント(自分のつぶやきの時のみ表示させたい)
 import { TrashBtn } from "../../components/TrashBtn";
 import { PostBtn } from "../../components/PostBtn";
+import { useRouter } from "next/router";
+import { Button } from "../../components/Button";
 
 /**
  * つぶやき詳細画面.
@@ -35,6 +37,15 @@ const TweetDetail: NextPage = () => {
     borderBottom: "solid 1px black",
   };
 
+  //ルーターリンク
+  const router = useRouter();
+  /**
+   * 戻るボタン押下で発動.
+   */
+  const backPage = useCallback(() => {
+    router.back();
+  }, []);
+
   return (
     <>
       <div className="flex">
@@ -43,6 +54,11 @@ const TweetDetail: NextPage = () => {
         {/* サブヘッダー */}
         <div className="sm:w-10/12 w-full">
           <SubHeader title="つぶやき詳細" />
+
+          <div className="my-3 ml-3">
+            <Button label="←戻る" size="sm" onClick={backPage} />
+          </div>
+
           {/* つぶやき詳細 */}
           <div>
             <div className="pt-3 pb-3 flex">
