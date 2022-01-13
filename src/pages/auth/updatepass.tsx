@@ -9,6 +9,14 @@ import { Button } from "../../components/Button";
  * @returns パスワードを忘れたときの画面
  */
 const UpdatePass: NextPage = () => {
+  //バリデーション機能を呼び出し
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
   return (
     <>
       <div className="border-solid  border-2 border-bgc-200 m-10  shadow-lg rounded-xl text-center">
