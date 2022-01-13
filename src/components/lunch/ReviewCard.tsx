@@ -31,25 +31,31 @@ export const ReviewCard: FC<Props> = memo((props) => {
 
   return (
     <div
-      className="flex w-full p-5 relative h-auto border border-t-0 border-gray-200 cursor-pointer"
+      className="flex flex-col w-full p-5 relative h-auto border border-t-0 border-gray-200 cursor-pointer"
       onClick={goReviewDetail}
     >
-      <div className="mr-6">
-        <Image src={img} width={100} height={100} alt="icon" />
-      </div>
-      <div className="flex flex-col w-full">
-        <div className="text-xl font-extrabold pt-3 pb-3">{name}</div>
-        <div>
-          <Star starCount={star} />
+      <div className="flex">
+        <div className="mr-6">
+          <Image src={img} width={100} height={100} alt="icon" />
         </div>
-        <div className="pt-5 pb-5 pl-5">{content}</div>
+        <div className="flex flex-col w-full">
+          <div className="text-xl font-extrabold pt-3 pb-3">{name}</div>
+          <div>
+            <Star starCount={star} />
+          </div>
+          <div className="pt-5 pb-5">{content}</div>
+        </div>
+      </div>
+      <div>
         {/* hasRestaurantInfoがtrueならばレストラン情報へのリンクを表示する */}
         {hasRestaurantInfo && <LinkToRestaurant />}
-        <div className="w-full text-right">
+        <div className="flex flex-col items-end gap-3 sm:flex-row justify-end">
           {type === "詳細" && <span className="mr-7">投稿日時：{time}</span>}
-          <CommentIcon commentCount={300} />
-          <FavoBtn />
-          <TrashBtn />
+          <div>
+            <CommentIcon commentCount={300} />
+            <FavoBtn />
+            <TrashBtn />
+          </div>
         </div>
       </div>
     </div>

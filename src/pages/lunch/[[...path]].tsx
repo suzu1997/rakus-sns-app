@@ -32,16 +32,16 @@ const LunchListPage: NextPage = () => {
       <MenuBar />
       <div className="flex-1 w-10/12">
         <SubHeader title={"近くのランチ"} />
-        <div className="flex gap-3 ml-8">
+        <div className="flex gap-3 justify-center">
           <Button
             label={"店追加"}
             onClick={() => router.push("/lunch/restaurant/add")}
-            size="lg"
+            size="md"
           />
           <Button
             label={"ホットペッパーテスト"}
             onClick={() => router.push("/lunch/hotpepper")}
-            size="lg"
+            size="md"
           />
         </div>
         <div className="my-5 px-8 flex justify-between gap-8 flex-col-reverse items-center sm:flex-row sm:items-start">
