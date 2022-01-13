@@ -4,6 +4,37 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { TextInput } from "../../components/TextInput";
 import { Button } from "../../components/Button";
+//バリデーションチェック
+const schema = yup.object().shape({
+  //メールアドレスのバリデーション
+  email: yup
+    .string()
+    .required("メールアドレスを入力してください")
+    .email("メールアドレス形式で入力してください")
+    .max(255, "メールアドレスは255文字以内で入力してください"),
+  //パスワードのバリデーション
+  password: yup
+    .string()
+    .required("パスワードを入力してください")
+    .matches(
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]+$/,
+      "アルファベット（大文字小文字混在）と数字とを組み合わせて入力してください",
+    )
+    .max(16, "16文字以内で入力してください")
+    .min(8, "8文字以上で入力してください"),
+  //確認用パスワードのバリデーション
+  passwordConf: yup
+    .string()
+    .required("確認用パスワードを入力してください")
+    .matches(
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]+$/,
+      "アルファベット（大文字小文字混在）と数字とを組み合わせて入力してください",
+    )
+    .max(16, "16文字以内で入力してください")
+    .min(8, "8文字以上で入力してください")
+    .oneOf([yup.ref("password"), null], "確認用パスワードが一致していません"),
+});
+
 /**
  * パスワードを忘れたときの画面
  * @returns パスワードを忘れたときの画面
@@ -32,7 +63,9 @@ const UpdatePass: NextPage = () => {
                 type="text"
                 fullWidth={true}
                 required
+                errorMessage={errors.email?.message}
                 placeholder="メールアドレス"
+                registers={register("email")}
               />
             </div>
             <div className="w-96 mt-3">
@@ -42,7 +75,9 @@ const UpdatePass: NextPage = () => {
                 type="password"
                 fullWidth={true}
                 required
+                errorMessage={errors.password?.message}
                 placeholder="8文字以上16文字以内(大文字小文字数字含む)"
+                registers={register("password")}
               />
             </div>
             <div className="w-96 mt-3">
@@ -52,7 +87,9 @@ const UpdatePass: NextPage = () => {
                 type="password"
                 fullWidth={true}
                 required
+                errorMessage={errors.passwordConf?.message}
                 placeholder="8文字以上16文字以内(大文字小文字数字含む)"
+                registers={register("passwordConf")}
               />
             </div>
             <div className="mt-10 mb-10">
