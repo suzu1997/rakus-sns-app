@@ -28,7 +28,7 @@ export const Header: FC = memo(() => {
   return (
     <>
       <header
-        className="h-16 w-full shadow-md bg-white flex mb-5"
+        className="h-16 w-full shadow-md bg-white flex"
         style={headerStyle}
       >
         <span className="ml-5">
