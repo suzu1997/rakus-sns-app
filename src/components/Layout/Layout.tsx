@@ -4,6 +4,7 @@ import { Header } from "./Header";
 //ログインチェッカーをONにしたいときコメント外す
 import { LoginChecker } from "../Auth";
 import { LoginIdProvider } from "../../providers/LoginIdProvider";
+import { MenuBar } from "./MenuBar";
 
 type Props = {
   children: ReactNode;
@@ -17,7 +18,12 @@ export const Layout: FC<Props> = memo((props) => {
       <LoginIdProvider>
         {/* <LoginChecker> */}
         <Header />
-        <main className="flex-1">{children}</main>
+        <div className="flex">
+          <div className="hidden md:block lg:block">
+            <MenuBar />
+          </div>
+          <main className="flex-1">{children}</main>
+        </div>
         <Footer />
         {/* </LoginChecker> */}
       </LoginIdProvider>

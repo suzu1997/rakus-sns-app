@@ -89,67 +89,61 @@ const Timeline: NextPage = () => {
   //HTMLコーナー
   return (
     <>
-      <div className="flex">
-        <MenuBar />
-        {/* サブヘッダー */}
-        <div className="w-10/12">
-          <SubHeader title="つぶやき" />
+      {/* サブヘッダー */}
+      <SubHeader title="つぶやき" />
 
-          {/* タイムラインゾーン */}
+      {/* タイムラインゾーン */}
+      <div className="text-center my-10 animate-bounce">
+        <Button
+          label="新しいつぶやきを読み込む"
+          size="lg"
+          onClick={() => {
+            alert("新しいつぶやき読み込み");
+          }}
+        />
+      </div>
 
-          <div className="text-center my-10 animate-bounce">
-            <Button
-              label="新しいつぶやきを読み込む"
-              size="lg"
-              onClick={() => {
-                alert("新しいつぶやき読み込み");
-              }}
-            />
-          </div>
-
-          {data.map((value, key) => (
-            <div style={style} key={key} className="flex">
-              <div
-                className="rounded-full w-1/5 text-center pt-5 cursor-pointer hover:opacity-50"
-                onClick={() => {
-                  goUserPage(value.userId);
-                }}
-              >
-                <Image src={value.img} width={100} height={100} alt="icon" />
-              </div>
-              <div className="w-4/5">
-                <div
-                  className="cursor-pointer hover:opacity-50"
-                  onClick={() => {
-                    goDetailPage(value.postId);
-                  }}
-                >
-                  <div className="text-xl font-extrabold pt-3 pb-3">
-                    {value.name}
-                  </div>
-                  <div className="pt-5 pb-5 pl-5 w-8/12">{value.post}</div>
-                </div>
-
-                <div className="w-full text-right py-3 pr-14">
-                  <CommentIcon commentCount={300} />
-                  <FavoBtn />
-                  <TrashBtn />
-                </div>
-              </div>
-            </div>
-          ))}
+      {data.map((value, key) => (
+        <div style={style} key={key} className="flex">
           <div
-            className="text-text-brown text-center my-5 cursor-pointer hover:text-basic"
+            className="rounded-full w-1/5 text-center pt-5 cursor-pointer hover:opacity-50"
             onClick={() => {
-              alert("過去のつぶやき読み込み");
+              goUserPage(value.userId);
             }}
           >
-            過去の投稿を見る…
+            <Image src={value.img} width={100} height={100} alt="icon" />
+          </div>
+          <div className="w-4/5">
+            <div
+              className="cursor-pointer hover:opacity-50"
+              onClick={() => {
+                goDetailPage(value.postId);
+              }}
+            >
+              <div className="text-xl font-extrabold pt-3 pb-3">
+                {value.name}
+              </div>
+              <div className="pt-5 pb-5 pl-5 w-8/12">{value.post}</div>
+            </div>
+
+            <div className="w-full text-right py-3 pr-14">
+              <CommentIcon commentCount={300} />
+              <FavoBtn />
+              <TrashBtn />
+            </div>
           </div>
         </div>
-        <div>
-          <PostBtn />
-        </div>
+      ))}
+      <div
+        className="text-text-brown text-center my-5 cursor-pointer hover:text-basic"
+        onClick={() => {
+          alert("過去のつぶやき読み込み");
+        }}
+      >
+        過去の投稿を見る…
+      </div>
+      <div>
+        <PostBtn />
       </div>
     </>
   );
