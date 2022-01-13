@@ -8,6 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Radio } from "../../components/Form/Radio";
 import { useForm } from "react-hook-form";
 import { TextArea } from "../../components/Form/TextArea";
+import { PasswordModal } from "../../components/Modal/PasswordModal";
 
 /**
  * ユーザー情報編集画面
@@ -92,6 +93,12 @@ const Edit: NextPage = () => {
 
   return (
     <div>
+      <PasswordModal
+        isOpen={true}
+        closeModal={() => console.log("")}
+        message=""
+        doOnButton={() => console.log("")}
+      />
       <div className="text-center bg-bgc border-solid  border-2 border-bgc-200 m-10 shadow-lg rounded-md">
         <div className="flex flex-col items-center">
           <div className="mt-3 text-3xl font-extrabold">ユーザー情報編集</div>

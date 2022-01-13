@@ -7,7 +7,6 @@ type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
   closeModal: () => void; // モーダルを閉じるメソッド
   message: string; //モーダル内のメッセージ
-  button: string; //ボタン内のコメント
   doOnButton: () => void; //ボタンを押した時のメソッド
 };
 
@@ -15,7 +14,7 @@ type Props = {
  * パスワード変更のためのモーダルのコンポーネント.
  */
 export const PasswordModal: FC<Props> = memo((props) => {
-  const { isOpen, closeModal, message, button, doOnButton } = props;
+  const { isOpen, closeModal, message, doOnButton } = props;
 
   return (
     <>
@@ -67,7 +66,8 @@ export const PasswordModal: FC<Props> = memo((props) => {
                 <div className="mt-2 text-center">{message}</div>
                 {/* 確認ボタン */}
                 <div className="mt-4 flex gap-5 justify-center">
-                  <Button label={button} onClick={doOnButton} />
+                  <Button label="更新" onClick={doOnButton} />
+                  <Button label="キャンセル" onClick={doOnButton} />
                 </div>
               </div>
             </Transition.Child>
