@@ -20,10 +20,8 @@ export const GoogleMap: FC<Props> = memo((props) => {
   );
 
   return (
-    <>
-      <div>
-        <iframe src={url} width="600" height="450" loading="lazy" ></iframe>
-      </div>
-    </>
+    <div>
+      <iframe src={url} loading="lazy" className="w-full h-48 sm:h-96"></iframe>
+    </div>
   );
 });

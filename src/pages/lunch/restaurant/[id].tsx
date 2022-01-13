@@ -53,8 +53,8 @@ const RestaurantDetail: NextPage = () => {
   return (
     <div className="flex">
       <MenuBar />
-      <div className="flex- flex w-10/12">
-        <div className="flex-col mt-10 mx-24 w-2/3">
+      <div className="flex flex-col sm:flex-row sm:w-10/12">
+        <div className="flex-col mt-10 mx-5 sm:mx-24 sm:w-2/3">
           <div
             className="cursor-pointer mb-4"
             onClick={() => {
@@ -66,14 +66,14 @@ const RestaurantDetail: NextPage = () => {
           <p className="text-3xl font-extrabold border-l-8 border-basic mb-5">
             {dummyData.name}
           </p>
-          <div className="">
-            <span className="mr-8">
+          <div className="flex flex-col sm:flex-row items-baseline">
+            <span className="mr-8 mb-5 sm:mb-0">
               <Star starCount={dummyData.star} />
             </span>
             ジャンル: {dummyData.genre}
-            <span className="ml-8">タイプ: {dummyData.type}</span>
+            <span className="sm:ml-8">タイプ: {dummyData.type}</span>
           </div>
-          <div className="mt-10">
+          <div className="mt-5 sm:mt-10">
             <div>
               <Image
                 src={dummyData.img}
@@ -87,8 +87,10 @@ const RestaurantDetail: NextPage = () => {
           <p className="mt-10">住所: {dummyData.address}</p>
           <p className="mt-10">アクセス: {dummyData.access}</p>
           {/* 緯度と軽度から、googleマップを表示 */}
-          <p className="mt-10">Map</p>
-          <GoogleMap latitude={dummyData.lat} longitude={dummyData.lng} />
+          <div className="w-5/6 mx-auto">
+            <p className="mt-10">Map</p>
+            <GoogleMap latitude={dummyData.lat} longitude={dummyData.lng} />
+          </div>
           <p className="mt-10">
             ホットペッパーURL:{" "}
             <a href="https://www.hotpepper.jp/strJ001041443/?vos=nhppalsa000016">
@@ -96,8 +98,8 @@ const RestaurantDetail: NextPage = () => {
             </a>
           </p>
         </div>
-        <div className="w-1/3 mt-10 ml-auto">
-          <div className="font-bold">
+        <div className="sm:w-1/3 mt-10 ml-auto">
+          <div className="font-bold ml-3">
             この店へのレビュー
             <span className="ml-5">
               <Button label={"レビュー投稿"} size="sm" onClick={openModal} />
