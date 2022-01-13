@@ -2,9 +2,9 @@ import { NextPage } from "next";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { TextInput } from "../../components/TextInput";
-import { Button } from "../../components/Button";
-import { ConfModal } from "../../components/ConfModal";
+import { TextInput } from "../../components/Form/TextInput";
+import { Button } from "../../components/Button/Button";
+import { ConfModal } from "../../components//Modal/ConfModal";
 import { useState, useCallback } from "react";
 
 //バリデーションチェック
