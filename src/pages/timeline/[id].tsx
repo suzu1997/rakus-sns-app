@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import { useState } from "react";
 import { MenuBar } from "../../components/MenuBar";
 import { CommentIcon } from "../../components/CommentIcon";
-import { SubHeader } from "../../components/SubHeader";
+import { SubHeader } from "../../components/Layout/SubHeader";
 import { FavoBtn } from "../../components/FavoBtn";
 //自分のつぶやきを消せるボタンコンポーネント(自分のつぶやきの時のみ表示させたい)
 import { TrashBtn } from "../../components/TrashBtn";

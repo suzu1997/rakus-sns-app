@@ -5,7 +5,7 @@ import { useState } from "react";
 import { FavoBtn } from "../../../components/FavoBtn";
 import { ReviewCard } from "../../../components/lunch/ReviewCard";
 import { MenuBar } from "../../../components/MenuBar";
-import { SubHeader } from "../../../components/SubHeader";
+import { SubHeader } from "../../../components/Layout/SubHeader";
 import { TrashBtn } from "../../../components/TrashBtn";
 
 const ReviewDetail: NextPage = () => {

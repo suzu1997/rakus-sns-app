@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useCallback, useState } from "react";
 import { NextPage } from "next";
-import { SubHeader } from "../components/SubHeader";
+import { SubHeader } from "../components/Layout/SubHeader";
 import { MenuBar } from "../components/MenuBar";
 import { useRouter } from "next/router";
 

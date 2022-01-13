@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import { MenuBar } from "../../components/MenuBar";
-import { SubHeader } from "../../components/SubHeader";
+import { SubHeader } from "../../components/Layout/SubHeader";
 import Image from "next/image";
 import Link from "next/link";
 

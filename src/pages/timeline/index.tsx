@@ -3,7 +3,7 @@ import Image from "next/image";
 import type { NextPage } from "next";
 import { useState } from "react";
 import { MenuBar } from "../../components/MenuBar";
-import { SubHeader } from "../../components/SubHeader";
+import { SubHeader } from "../../components/Layout/SubHeader";
 import { Button } from "../../components/Button";
 import { CommentIcon } from "../../components/CommentIcon";
 import { FavoBtn } from "../../components/FavoBtn";
