@@ -28,7 +28,7 @@ export const Header: FC = memo(() => {
   return (
     <>
       <header
-        className="h-16 w-full shadow-md bg-white flex items-center"
+        className="h-16 w-full shadow-md bg-white flex"
         style={headerStyle}
       >
         <span className="ml-5">
@@ -45,7 +45,7 @@ export const Header: FC = memo(() => {
           </Link>
         </span>
 
-        <span className="ml-32 lg:hidden md:hidden block">
+        <span className="ml-auto mr-5 mt-5 lg:hidden md:hidden block">
           <button type="button" onClick={openMenu}>
             <i className="fas fa-bars"></i>
           </button>
