@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useCallback, useState } from "react";
 import { Button } from "../../../components/Button";
 import { ReviewList } from "../../../components/lunch/ReviewList";
-import { PostModal } from "../../../components/PostModal";
+import { PostModal } from "../../../components/Modal/PostModal";
 import { MenuBar } from "../../../components/MenuBar";
 import { GoogleMap } from "../../../components/GoogleMap";
 import { Star } from "../../../components/Star";

@@ -1,5 +1,5 @@
 import { memo, FC, useCallback, useState } from "react";
-import { PostModal } from "./PostModal";
+import { PostModal } from "./Modal/PostModal";
 
 export const PostBtn: FC = memo(() => {
   // レビュー投稿のモーダルのオープン状態

@@ -1,5 +1,5 @@
 import { FC, memo, useCallback, useState } from "react";
-import { PostModal } from "./PostModal";
+import { PostModal } from "./Modal/PostModal";
 
 //コメント数・対象の投稿IDを受け取る
 export type Props = {
