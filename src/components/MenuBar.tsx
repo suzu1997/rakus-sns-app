@@ -1,4 +1,4 @@
-import { FC, memo, useContext, useEffect, useState } from "react";
+import { FC, memo, useContext, useState } from "react";
 import Link from "next/link";
 import { loginIdContext } from "./Provider";
 

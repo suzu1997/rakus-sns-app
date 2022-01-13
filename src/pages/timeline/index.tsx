@@ -130,7 +130,7 @@ const Timeline: NextPage = () => {
                   <div className="pt-5 pb-5 pl-5 w-8/12">{value.post}</div>
                 </div>
 
-                <div className="w-full text-right py-3 pr-14">
+                <div className="w-full text-right py-3">
                   <CommentIcon commentCount={300} />
                   <FavoBtn />
                   <TrashBtn />
