@@ -3,6 +3,7 @@ import { useState, useCallback } from "react";
 import { Button } from "../../components/Button";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 /**
  * ログインページ
@@ -76,6 +77,11 @@ const Login: NextPage = () => {
           onClick={formClear}
         />
       </div>
+      <Link href="/auth/forgetpass">
+        <a className="underline hover:text-blue-800 mt-3">
+          パスワードを忘れた方はコチラ
+        </a>
+      </Link>
     </div>
   );
 };
