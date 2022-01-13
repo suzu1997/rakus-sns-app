@@ -22,7 +22,7 @@ export const MenuBar: FC = memo(() => {
 
   return (
     <>
-      <aside className="relative bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
+      <aside className="relative bg-sidebar h-fit w-64 hidden sm:block shadow-xl">
         <nav className="text-white text-base font-semibold bg-basic pt-3">
           <Link href="/aaa/test">
             <a className="flex items-center opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
