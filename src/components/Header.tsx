@@ -1,7 +1,7 @@
-import { memo, FC, useState } from "react";
+import { memo, FC, useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { MenuBar } from "./MenuBar";
+import { useRouter } from "next/router";
 
 export const Header: FC = memo(() => {
   //ヘッダー下線
@@ -9,12 +9,22 @@ export const Header: FC = memo(() => {
     borderBottom: "5px solid orange",
   };
 
+  //ルーターリンク
+  const router = useRouter();
+
   const [isOpen, setIsOpen] = useState(false);
 
-  const openMenu = () => {
-    isOpen ? setIsOpen(false) : setIsOpen(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  };
+  const openMenu = useCallback(() => {
+    if (isOpen) {
+      setIsOpen(false);
+    } else {
+      setIsOpen(true);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    setIsOpen(false);
+  }, [router.pathname]);
 
   return (
     <>
@@ -42,14 +52,20 @@ export const Header: FC = memo(() => {
           </button>
         </span>
       </header>
-      <div className="relative">
+      <div>
         {isOpen ? (
+          // <div className="relative">
           <div className="absolute top-0 right-0">
             <aside className="relative bg-bgc h-screen w-64">
               <nav className="text-white text-base font-semibold bg-basic pt-3">
                 <Link href="/aaa/test">
                   <a className="flex items-center opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
                     HOME
+                  </a>
+                </Link>
+                <Link href="/timeline">
+                  <a className="flex items-center opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
+                    タイムライン
                   </a>
                 </Link>
                 <Link href="/">
@@ -81,6 +97,7 @@ export const Header: FC = memo(() => {
             </aside>
           </div>
         ) : (
+          // </div>
           <></>
         )}
       </div>
