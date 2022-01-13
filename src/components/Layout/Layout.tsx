@@ -3,7 +3,7 @@ import { Footer } from "./Footer";
 import { Header } from "./Header";
 //ログインチェッカーをONにしたいときコメント外す
 import { LoginChecker } from "../Auth";
-import { LoginIdProvider } from "../Provider";
+import { LoginIdProvider } from "../../providers/LoginIdProvider";
 
 type Props = {
   children: ReactNode;
