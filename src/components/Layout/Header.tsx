@@ -19,6 +19,7 @@ export const Header: FC = memo(() => {
 
   /**
    * メニューバーの開閉.
+   * @remarks [isOpen]入れないと反映しないため入れています
    */
   const openMenu = useCallback(() => {
     {
@@ -49,7 +50,7 @@ export const Header: FC = memo(() => {
     } else {
       setShowMenuBtn(true);
     }
-  }, [showMenuBtn, router.pathname]);
+  }, [router.pathname]);
 
   return (
     <>
