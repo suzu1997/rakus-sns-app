@@ -131,62 +131,64 @@ export const PasswordModal: FC<Props> = memo((props) => {
                 >
                   パスワード変更
                 </Dialog.Title>
-                <div className="mt-2">
-                  <div className="text-red-500">
-                    {errors.currentPassword?.message}
+                <form>
+                  <div className="mt-2">
+                    <div className="text-red-500">
+                      {errors.currentPassword?.message}
+                    </div>
+                    <TextInput
+                      label="現在のパスワード(半角英数字)"
+                      type="password"
+                      fullWidth={true}
+                      required
+                      placeholder="8文字以上16文字以内(大文字小文字数字含む)"
+                      registers={register("currentPassword")}
+                    />
                   </div>
-                  <TextInput
-                    label="現在のパスワード(半角英数字)"
-                    type="password"
-                    fullWidth={true}
-                    required
-                    placeholder="8文字以上16文字以内(大文字小文字数字含む)"
-                    registers={register("currentPassword")}
-                  />
-                </div>
-                <div className="mt-2">
-                  <div className="text-red-500">
-                    {errors.newPassword?.message}
+                  <div className="mt-2">
+                    <div className="text-red-500">
+                      {errors.newPassword?.message}
+                    </div>
+                    <TextInput
+                      label="新しいパスワード(半角英数字)"
+                      type="password"
+                      fullWidth={true}
+                      required
+                      placeholder="8文字以上16文字以内(大文字小文字数字含む)"
+                      registers={register("newPassword")}
+                    />
                   </div>
-                  <TextInput
-                    label="新しいパスワード(半角英数字)"
-                    type="password"
-                    fullWidth={true}
-                    required
-                    placeholder="8文字以上16文字以内(大文字小文字数字含む)"
-                    registers={register("newPassword")}
-                  />
-                </div>
-                <div className="mt-2">
-                  <div className="text-red-500">
-                    {errors.passwordConf?.message}
+                  <div className="mt-2">
+                    <div className="text-red-500">
+                      {errors.passwordConf?.message}
+                    </div>
+                    <TextInput
+                      label="確認用パスワード(半角英数字)"
+                      type="password"
+                      fullWidth={true}
+                      required
+                      placeholder="8文字以上16文字以内(大文字小文字数字含む)"
+                      registers={register("passwordConf")}
+                    />
                   </div>
-                  <TextInput
-                    label="確認用パスワード(半角英数字)"
-                    type="password"
-                    fullWidth={true}
-                    required
-                    placeholder="8文字以上16文字以内(大文字小文字数字含む)"
-                    registers={register("passwordConf")}
-                  />
-                </div>
-                {/* ボタン */}
-                <div className="mt-4 flex gap-5 justify-center">
-                  <Button
-                    label="登録"
-                    backgroundColor="#f28728"
-                    color="white"
-                    size="md"
-                    onClick={handleSubmit(onSubmit)}
-                  />
-                  <Button
-                    label="キャンセル"
-                    backgroundColor="#f6f0ea"
-                    color="#f28728"
-                    size="md"
-                    onClick={cancel}
-                  />
-                </div>
+                  {/* ボタン */}
+                  <div className="mt-4 flex gap-5 justify-center">
+                    <Button
+                      label="登録"
+                      backgroundColor="#f28728"
+                      color="white"
+                      size="md"
+                      onClick={handleSubmit(onSubmit)}
+                    />
+                    <Button
+                      label="キャンセル"
+                      backgroundColor="#f6f0ea"
+                      color="#f28728"
+                      size="md"
+                      onClick={cancel}
+                    />
+                  </div>
+                </form>
               </div>
             </Transition.Child>
           </div>
