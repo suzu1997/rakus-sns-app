@@ -2,8 +2,8 @@ import { NextPage } from "next";
 import Image from "next/image";
 import { useCallback, useState } from "react";
 import { useRouter } from "next/router";
-import { TextInput } from "../../components/TextInput";
-import { Button } from "../../components/Button";
+import { TextInput } from "../../components/Form/TextInput";
+import { Button } from "../../components/Button/Button";
 
 /**
  * ユーザー情報編集画面

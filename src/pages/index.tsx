@@ -1,9 +1,9 @@
 import type { NextPage } from "next";
 import Link from "next/link";
-import { Button } from "../components/Button";
-import { MenuBar } from "../components/MenuBar";
+import { Button } from "../components/Button/Button";
+import { MenuBar } from "../components/Layout/MenuBar";
 import Cookie from "universal-cookie";
-import { Star } from "../components/Star";
+import { Star } from "../components/Lunch/Star";
 
 const Home: NextPage = () => {
   /**

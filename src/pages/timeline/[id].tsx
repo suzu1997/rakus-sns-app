@@ -1,15 +1,14 @@
-import Image from "next/image";
 import { NextPage } from "next";
-import { useCallback, useState } from "react";
-import { MenuBar } from "../../components/MenuBar";
-import { CommentIcon } from "../../components/CommentIcon";
-import { SubHeader } from "../../components/SubHeader";
-import { FavoBtn } from "../../components/FavoBtn";
-//自分のつぶやきを消せるボタンコンポーネント(自分のつぶやきの時のみ表示させたい)
-import { TrashBtn } from "../../components/TrashBtn";
-import { PostBtn } from "../../components/PostBtn";
 import { useRouter } from "next/router";
-import { Button } from "../../components/Button";
+import { useState } from "react";
+import { Button } from "../../components/Button/Button";
+import { CommentIcon } from "../../components/Button/CommentIcon";
+import { FavoBtn } from "../../components/Button/FavoBtn";
+import { PostBtn } from "../../components/Button/PostBtn";
+import { TrashBtn } from "../../components/Button/TrashBtn";
+import { MenuBar } from "../../components/Layout/MenuBar";
+import { SubHeader } from "../../components/Layout/SubHeader";
+import Image from "next/image";
 
 /**
  * つぶやき詳細画面.
@@ -42,9 +41,9 @@ const TweetDetail: NextPage = () => {
   /**
    * 戻るボタン押下で発動.
    */
-  const backPage = useCallback(() => {
+  const backPage = () => {
     router.back();
-  }, []);
+  };
 
   return (
     <>
