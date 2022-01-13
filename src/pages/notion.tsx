@@ -4,7 +4,7 @@ import { NextPage } from "next";
 import { SubHeader } from "../components/Layout/SubHeader";
 import { MenuBar } from "../components/Layout/MenuBar";
 import { useRouter } from "next/router";
-import { Button } from "../components/Button";
+import { Button } from "../components/Button/Button";
 
 /**
  * 通知ページ.

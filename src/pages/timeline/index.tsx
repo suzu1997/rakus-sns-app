@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/link-passhref */
 import Image from "next/image";
 import type { NextPage } from "next";
 import { useState } from "react";

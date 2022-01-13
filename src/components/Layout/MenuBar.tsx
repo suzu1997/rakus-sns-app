@@ -1,13 +1,13 @@
 import { FC, memo, useContext, useState } from "react";
 import Link from "next/link";
-import { loginIdContext } from "./Provider";
+import { loginIdContext } from "../../providers/LoginIdProvider";
 
 export const MenuBar: FC = memo(() => {
   //ログインID
   const loginId = useContext(loginIdContext);
 
   //ユーザ情報のリンクをログインユーザ先にする
-  const [myInfo] = useState(`/user${loginId}`);
+  const [myInfo] = useState(`/user/${loginId}`);
 
   return (
     <>
