@@ -15,8 +15,18 @@ type Props = {
 
 //バリデーションチェック
 const schema = yup.object().shape({
-  //パスワードのバリデーション
-  password: yup
+  //現在のパスワードのバリデーション
+  currentPassword: yup
+    .string()
+    .required("パスワードを入力してください")
+    .matches(
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]+$/,
+      "アルファベット（大文字小文字混在）と数字とを組み合わせて入力してください",
+    )
+    .max(16, "16文字以内で入力してください")
+    .min(8, "8文字以上で入力してください"),
+  //新しいのパスワードのバリデーション
+  newPassword: yup
     .string()
     .required("パスワードを入力してください")
     .matches(
@@ -35,7 +45,10 @@ const schema = yup.object().shape({
     )
     .max(16, "16文字以内で入力してください")
     .min(8, "8文字以上で入力してください")
-    .oneOf([yup.ref("password"), null], "確認用パスワードが一致していません"),
+    .oneOf(
+      [yup.ref("newPassword"), null],
+      "確認用パスワードが一致していません",
+    ),
 });
 /**
  * パスワード変更のためのモーダルのコンポーネント.
@@ -60,7 +73,6 @@ export const PasswordModal: FC<Props> = memo((props) => {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
-    console.log("発動");
     console.log(data);
     //更新完了でユーザ画面に戻る
     router.push("/user/1");
@@ -122,17 +134,27 @@ export const PasswordModal: FC<Props> = memo((props) => {
                 </Dialog.Title>
                 <div className="mt-2 text-center">
                   <TextInput
-                    label="パスワード(半角英数字)"
+                    label="現在のパスワード(半角英数字)"
                     type="password"
                     fullWidth={true}
                     required
-                    errorMessage={errors.password?.message}
+                    errorMessage={errors.currentPassword?.message}
                     placeholder="8文字以上16文字以内(大文字小文字数字含む)"
-                    registers={register("password")}
+                    registers={register("currentPassword")}
                   />
                 </div>
-                <div className="w-96 mt-3">
-                  {/* 確認用パスワードのテキストフォーム */}
+                <div className="mt-2 text-center">
+                  <TextInput
+                    label="新しいパスワード(半角英数字)"
+                    type="password"
+                    fullWidth={true}
+                    required
+                    errorMessage={errors.newPassword?.message}
+                    placeholder="8文字以上16文字以内(大文字小文字数字含む)"
+                    registers={register("newPassword")}
+                  />
+                </div>
+                <div className="mt-2 text-center">
                   <TextInput
                     label="確認用パスワード(半角英数字)"
                     type="password"
@@ -153,7 +175,7 @@ export const PasswordModal: FC<Props> = memo((props) => {
                     onClick={handleSubmit(onSubmit)}
                   />
                   <Button
-                    label="クリア"
+                    label="キャンセル"
                     backgroundColor="#f6f0ea"
                     color="#f28728"
                     size="md"
