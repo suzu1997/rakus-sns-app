@@ -10,6 +10,32 @@ import { useForm } from "react-hook-form";
 import { TextArea } from "../../components/Form/TextArea";
 import { PasswordModal } from "../../components/Modal/PasswordModal";
 
+//バリデーションチェック
+const schema = yup.object().shape({
+  //姓のバリデーション
+  firstName: yup
+    .string()
+    .required("姓名を入力してください")
+    .max(15, "姓名は15文字以内で入力してください"),
+  //名のバリデーション
+  lastName: yup
+    .string()
+    .required("名前を入力してください")
+    .max(15, "名前は15文字以内で入力してください"),
+  //アカウント名のバリデーション
+  accountName: yup
+    .string()
+    .required("アカウント名を入力してください")
+    .max(30, "アカウント名は30文字以内で入力してください"),
+  //入社年のバリデーション
+  hireDate: yup.string().required("入社年を入力してください"),
+  //誕生日のバリデーション
+  birthDate: yup.string().required("誕生日を入力してください"),
+  //職種のバリデーション
+  service: yup.string().required("職種を選択してください"),
+  profile: yup.string().max(140, "自己紹介は140文字以内で入力してください"),
+});
+
 /**
  * ユーザー情報編集画面
  * @returns ユーザー情報を編集するためのページ
@@ -24,32 +50,6 @@ const Edit: NextPage = () => {
   //   birthDay: "",
   //   profile: "",
   // });
-
-  //バリデーションチェック
-  const schema = yup.object().shape({
-    //姓のバリデーション
-    firstName: yup
-      .string()
-      .required("姓名を入力してください")
-      .max(15, "姓名は15文字以内で入力してください"),
-    //名のバリデーション
-    lastName: yup
-      .string()
-      .required("名前を入力してください")
-      .max(15, "名前は15文字以内で入力してください"),
-    //アカウント名のバリデーション
-    accountName: yup
-      .string()
-      .required("アカウント名を入力してください")
-      .max(30, "アカウント名は30文字以内で入力してください"),
-    //入社年のバリデーション
-    hireDate: yup.string().required("入社年を入力してください"),
-    //誕生日のバリデーション
-    birthDate: yup.string().required("誕生日を入力してください"),
-    //職種のバリデーション
-    service: yup.string().required("職種を選択してください"),
-    profile: yup.string().max(140, "自己紹介は140文字以内で入力してください"),
-  });
 
   // バリデーション機能を呼び出し
   const {
@@ -93,11 +93,7 @@ const Edit: NextPage = () => {
 
   return (
     <div>
-      <PasswordModal
-        isOpen={true}
-        closeModal={() => console.log("")}
-        message=""
-      />
+      <PasswordModal isOpen={true} closeModal={() => console.log("")} />
       <div className="text-center bg-bgc border-solid  border-2 border-bgc-200 m-10 shadow-lg rounded-md">
         <div className="flex flex-col items-center">
           <div className="mt-3 text-3xl font-extrabold">ユーザー情報編集</div>

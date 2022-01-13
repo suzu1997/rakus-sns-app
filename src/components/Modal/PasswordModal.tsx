@@ -11,7 +11,6 @@ import { useRouter } from "next/router";
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
   closeModal: () => void; // モーダルを閉じるメソッド
-  message: string; //モーダル内のメッセージ
 };
 
 //バリデーションチェック
@@ -42,7 +41,7 @@ const schema = yup.object().shape({
  * パスワード変更のためのモーダルのコンポーネント.
  */
 export const PasswordModal: FC<Props> = memo((props) => {
-  const { isOpen, closeModal, message } = props;
+  const { isOpen, closeModal } = props;
 
   // バリデーション機能を呼び出し
   const {
@@ -122,7 +121,6 @@ export const PasswordModal: FC<Props> = memo((props) => {
                   パスワード変更
                 </Dialog.Title>
                 <div className="mt-2 text-center">
-                  {message}
                   <TextInput
                     label="パスワード(半角英数字)"
                     type="password"
