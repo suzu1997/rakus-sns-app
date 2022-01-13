@@ -1,24 +1,13 @@
-import { FC, memo, useEffect, useState } from "react";
+import { FC, memo, useContext, useState } from "react";
 import Link from "next/link";
-import Cookie from "universal-cookie";
+import { loginIdContext } from "../../providers/LoginIdProvider";
 
 export const MenuBar: FC = memo(() => {
-  //cookieを使用する
-  const cookie = new Cookie();
-  const [myInfo, setMyInfo] = useState("");
+  //ログインID
+  const loginId = useContext(loginIdContext);
 
-  //テスト時用(API作成後削除)
-  useEffect(() => {
-    if (cookie.get("id") === undefined) {
-      setMyInfo("/user/1");
-    } else {
-      setMyInfo(`/user${cookie.get("id")}`);
-    }
-  }, []);
-
-  //本番用
   //ユーザ情報のリンクをログインユーザ先にする
-  // const [myInfo] = useState(`/user${loginUserId}`);
+  const [myInfo] = useState(`/user/${loginId}`);
 
   return (
     <>
