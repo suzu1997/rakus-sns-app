@@ -1,4 +1,4 @@
-import { TextInput } from "../../components/TextInput";
+import { TextInput } from "../../components/Form/TextInput";
 import { useState, useCallback } from "react";
 import { Button } from "../../components/Button";
 import { NextPage } from "next";
