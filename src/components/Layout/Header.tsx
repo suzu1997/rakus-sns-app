@@ -12,18 +12,44 @@ export const Header: FC = memo(() => {
 
   //ルーターリンク
   const router = useRouter();
-
+  //メニューバー表示非表示
   const [isOpen, setIsOpen] = useState(false);
+  //メニューバーのボタン表示非表示
+  const [showMenuBtn, setShowMenuBtn] = useState(true);
 
+  /**
+   * メニューバーの開閉.
+   */
   const openMenu = useCallback(() => {
     {
       isOpen ? setIsOpen(false) : setIsOpen(true);
     }
   }, [isOpen]);
 
+  /**
+   * 画面切り替えでメニュー閉じる.
+   */
   useEffect(() => {
     setIsOpen(false);
   }, [router.pathname]);
+
+  /**
+   * 特定のパスの場合、メニューボタンを非表示に.
+   */
+  useEffect(() => {
+    //現在のパス
+    const path = router.pathname;
+    if (
+      path === "/auth/presingup" ||
+      path === "/auth/signup" ||
+      path === "/auth/login" ||
+      path === "/"
+    ) {
+      setShowMenuBtn(false);
+    } else {
+      setShowMenuBtn(true);
+    }
+  }, [showMenuBtn, router.pathname]);
 
   return (
     <>
@@ -44,12 +70,15 @@ export const Header: FC = memo(() => {
             </a>
           </Link>
         </span>
-
-        <span className="ml-auto mr-5 mt-5 lg:hidden md:hidden block">
-          <button type="button" onClick={openMenu}>
-            <i className="fas fa-bars"></i>
-          </button>
-        </span>
+        {showMenuBtn ? (
+          <span className="ml-auto mr-5 mt-5 lg:hidden md:hidden block">
+            <button type="button" onClick={openMenu}>
+              <i className="fas fa-bars"></i>
+            </button>
+          </span>
+        ) : (
+          <></>
+        )}
       </header>
       <div>
         {isOpen ? (

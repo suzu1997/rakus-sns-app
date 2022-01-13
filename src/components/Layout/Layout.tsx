@@ -23,7 +23,7 @@ export const Layout: FC<Props> = memo((props) => {
     //現在のパス
     const path = router.pathname;
 
-    //仮登録、登録、ログインページは除外
+    //仮登録、登録、ログインページ、トップページは除外
     if (
       path === "/auth/presingup" ||
       path === "/auth/singup" ||
