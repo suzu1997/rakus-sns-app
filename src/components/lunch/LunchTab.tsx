@@ -79,7 +79,7 @@ export const LunchTab: FC<Props> = memo((props) => {
           </Tab.Panel>
           <Tab.Panel>
             {/* タブがお店情報の時は店一覧表示 */}
-            <div className="flex">
+            <div className="flex flex-col-reverse sm:flex-row">
               <RestaurantList />
               <LunchSearchArea />
             </div>
