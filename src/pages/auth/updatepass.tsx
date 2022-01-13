@@ -4,6 +4,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { TextInput } from "../../components/TextInput";
 import { Button } from "../../components/Button";
+import { useRouter } from "next/router";
+
 //バリデーションチェック
 const schema = yup.object().shape({
   //メールアドレスのバリデーション
@@ -48,6 +50,18 @@ const UpdatePass: NextPage = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
+
+  //ルーターリンク
+  const router = useRouter();
+
+  //送信ボタンを押したときに呼ばれる
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onSubmit = (data: any) => {
+    console.log(data);
+    //パスワード変更完了したら画面遷移
+    router.push("/auth/compupdatepass");
+  };
+
   return (
     <>
       <div className="border-solid  border-2 border-bgc-200 m-10  shadow-lg rounded-xl text-center">
@@ -98,6 +112,7 @@ const UpdatePass: NextPage = () => {
                 backgroundColor="#f28728"
                 color="white"
                 size="md"
+                onClick={handleSubmit(onSubmit)}
               />
             </div>{" "}
           </div>{" "}
