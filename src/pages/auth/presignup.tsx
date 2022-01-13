@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { TextInput } from "../../components/Form/TextInput";
 import { Button } from "../../components/Button/Button";
 import { SelectBox } from "../../components/Form/SelectBox";
@@ -48,24 +48,8 @@ const PreSignUp: NextPage = () => {
     { id: "2", name: "@rakus.co.jp" },
   ];
 
-  //入力フォームの初期値
-  const [firstName, setFirstName] = useState<string>("");
-  const [lastName, setLastName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-
   //セレクトボックスの初期値
   const [selectValue, setSelectValue] = useState<string>(options[0].name);
-
-  //各入力フォームに入力した際に更新される
-  const inputFirstNameValue = useCallback((e) => {
-    setFirstName(e.target.value);
-  }, []);
-  const inputLastNameValue = useCallback((e) => {
-    setLastName(e.target.value);
-  }, []);
-  const inputEmailValue = useCallback((e) => {
-    setEmail(e.target.value);
-  }, []);
 
   //ルーターリンク
   const router = useRouter();
@@ -79,12 +63,6 @@ const PreSignUp: NextPage = () => {
     reset;
     router.push("/auth/comppresignup");
   };
-  //クリアボタンを押した時に呼ばれる
-  const formClear = () => {
-    setFirstName("");
-    setLastName("");
-    setEmail("");
-  };
 
   return (
     <>
@@ -97,7 +75,6 @@ const PreSignUp: NextPage = () => {
           <div className="flex w-96 gap-3 mt-3">
             <TextInput
               label="姓"
-              value={firstName}
               type="text"
               fullWidth={false}
               required
@@ -107,7 +84,6 @@ const PreSignUp: NextPage = () => {
             />
             <TextInput
               label="名"
-              value={lastName}
               type="text"
               fullWidth={false}
               required
@@ -119,7 +95,6 @@ const PreSignUp: NextPage = () => {
           <div className="flex gap-3 w-96 mt-3">
             <TextInput
               label="メールアドレス"
-              value={email}
               type="text"
               fullWidth={false}
               required
