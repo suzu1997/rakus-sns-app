@@ -1,7 +1,6 @@
 import Image from "next/image";
 import type { NextPage } from "next";
 import { useState } from "react";
-import { MenuBar } from "../../components/Layout/MenuBar";
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { Button } from "../../components/Button/Button";
 import { CommentIcon } from "../../components/Button/CommentIcon";

@@ -6,7 +6,6 @@ import { CommentIcon } from "../../components/Button/CommentIcon";
 import { FavoBtn } from "../../components/Button/FavoBtn";
 import { PostBtn } from "../../components/Button/PostBtn";
 import { TrashBtn } from "../../components/Button/TrashBtn";
-import { MenuBar } from "../../components/Layout/MenuBar";
 import { SubHeader } from "../../components/Layout/SubHeader";
 import Image from "next/image";
 

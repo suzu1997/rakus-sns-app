@@ -49,7 +49,11 @@ export const Layout: FC<Props> = memo((props) => {
           )}
           <main className="flex-1">{children}</main>
         </div>
-        <Footer />
+
+        <div className="relative bottom-0 left-0 w-full">
+          <Footer />
+        </div>
+
         {/* </LoginChecker> */}
       </LoginIdProvider>
     </div>
