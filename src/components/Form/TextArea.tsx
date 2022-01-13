@@ -2,11 +2,14 @@ import { ChangeEventHandler, FC, memo } from "react";
 
 type Props = {
   label?: string; // 必要ならラベル名を渡せる
-  value: string; // 入力値
+  value?: string; // 入力値
   rows: number; // 列数
   cols: number; // 行数
   placeholder?: string; // 必要ならplaceholderを渡せる
-  onChange: ChangeEventHandler<HTMLTextAreaElement>;
+  onChange?: ChangeEventHandler<HTMLTextAreaElement>;
+  errorMessage?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  registers?: any;
 };
 
 /**
@@ -14,7 +17,7 @@ type Props = {
  */
 export const TextArea: FC<Props> = memo((props) => {
   const { label, value, rows, cols, placeholder, onChange } = props;
-  
+
   return (
     <div className="flex flex-col">
       {label && <label htmlFor={label}>{label}</label>}

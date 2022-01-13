@@ -7,6 +7,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Radio } from "../../components/Form/Radio";
 import { useForm } from "react-hook-form";
+import { TextArea } from "../../components/Form/TextArea";
 
 /**
  * ユーザー情報編集画面
@@ -46,6 +47,7 @@ const Edit: NextPage = () => {
     birthDate: yup.string().required("誕生日を入力してください"),
     //職種のバリデーション
     service: yup.string().required("職種を選択してください"),
+    profile: yup.string().max(140, "自己紹介は140文字以内で入力してください"),
   });
 
   // バリデーション機能を呼び出し
@@ -63,6 +65,7 @@ const Edit: NextPage = () => {
       hireDate: "2022-10",
       birthDate: "2022-01-01",
       service: "FR",
+      profile: "とても元気です",
     },
   });
 
@@ -172,6 +175,14 @@ const Edit: NextPage = () => {
                   registers={register("birthDate")}
                 />
               </div>
+
+              <TextArea
+                label="プロフィール"
+                rows={3}
+                cols={3}
+                errorMessage={errors.profile?.message}
+                registers={register("profile")}
+              />
 
               <div className="flex gap-3 mt-10 mb-10">
                 <Button
