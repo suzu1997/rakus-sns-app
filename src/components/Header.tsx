@@ -54,7 +54,7 @@ export const Header: FC = memo(() => {
       </header>
       <div>
         {isOpen ? (
-          <div className="relative">
+          <div className="relative z-40">
             <div className="absolute top-0 right-0">
               <aside className="relative bg-bgc h-screen w-64">
                 <nav className="text-white text-base font-semibold bg-basic pt-3">
