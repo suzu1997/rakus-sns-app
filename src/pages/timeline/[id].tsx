@@ -1,13 +1,14 @@
-import Image from "next/image";
 import { NextPage } from "next";
+import { useRouter } from "next/router";
 import { useState } from "react";
-import { MenuBar } from "../../components/Layout/MenuBar";
+import { Button } from "../../components/Button/Button";
 import { CommentIcon } from "../../components/Button/CommentIcon";
-import { SubHeader } from "../../components/Layout/SubHeader";
 import { FavoBtn } from "../../components/Button/FavoBtn";
-//自分のつぶやきを消せるボタンコンポーネント(自分のつぶやきの時のみ表示させたい)
-import { TrashBtn } from "../../components/Button/TrashBtn";
 import { PostBtn } from "../../components/Button/PostBtn";
+import { TrashBtn } from "../../components/Button/TrashBtn";
+import { MenuBar } from "../../components/Layout/MenuBar";
+import { SubHeader } from "../../components/Layout/SubHeader";
+import Image from "next/image";
 
 /**
  * つぶやき詳細画面.
@@ -35,46 +36,47 @@ const TweetDetail: NextPage = () => {
     borderBottom: "solid 1px black",
   };
 
+  //ルーターリンク
+  const router = useRouter();
+  /**
+   * 戻るボタン押下で発動.
+   */
+  const backPage = () => {
+    router.back();
+  };
+
   return (
     <>
       {/* サブヘッダー */}
-      <SubHeader title="つぶやき詳細" />
-      {/* つぶやき詳細 */}
-      <div>
-        <div className="w-10/12 pt-3 pb-3 flex">
-          <div className="w-3/12">
-            <Image src={data.img} width={300} height={300} alt="icon" />
-          </div>
-          <div className="w-9/12">
-            <div className="text-xl font-extrabold pt-3 pb-3">{data.name}</div>
-            <div className="pl-10">{data.tweet}</div>
-          </div>
+      <div className="sm:w-10/12 w-full">
+        <SubHeader title="つぶやき詳細" />
+
+        <div className="my-3 ml-3">
+          <Button label="←戻る" size="sm" onClick={backPage} />
         </div>
 
-        <div className="text-right pb-5" style={style}>
-          <span className="mr-7">投稿日時：{data.time}</span>
-          <CommentIcon commentCount={300} />
-          <FavoBtn />
-          <TrashBtn />
-        </div>
-      </div>
-      {/* コメント部分 */}
-      {data.comment.map((value, key) => (
-        <div style={style} key={key} className="flex">
-          <div className="w-1/5 text-center pt-5">
-            <Image src={value.img} width={100} height={100} alt="icon" />
-          </div>
-
-          <div className="w-4/5">
-            <div className="text-xl font-extrabold pt-3 pb-3">{value.name}</div>
-            <div className="pt-5 pb-5 pl-5 w-8/12">{value.tweet}</div>
-            <div className="w-full text-right pt-3 pb-3">
-              <FavoBtn />
-              <TrashBtn />
+        {/* つぶやき詳細 */}
+        <div>
+          <div className="pt-3 pb-3 flex">
+            <div className="w-3/12">
+              <Image src={data.img} width={300} height={300} alt="icon" />
+            </div>
+            <div className="w-9/12">
+              <div className="text-xl font-extrabold py-3">{data.name}</div>
+              <div className="w-8/12 ml-3">{data.tweet}</div>
             </div>
           </div>
+
+          <div className="text-right pb-5" style={style}>
+            <div className="mr-7 my-3">投稿日時：{data.time}</div>
+            <CommentIcon commentCount={300} />
+
+            <FavoBtn />
+            <TrashBtn />
+          </div>
         </div>
-      ))}
+      </div>
+
       <div>
         <PostBtn />
       </div>

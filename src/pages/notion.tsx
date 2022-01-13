@@ -4,6 +4,7 @@ import { NextPage } from "next";
 import { SubHeader } from "../components/Layout/SubHeader";
 import { MenuBar } from "../components/Layout/MenuBar";
 import { useRouter } from "next/router";
+import { Button } from "../components/Button/Button";
 
 /**
  * 通知ページ.
@@ -128,6 +129,14 @@ const Notion: NextPage = () => {
           </div>
         </div>
       ))}
+      <div
+        className="text-text-brown text-center my-5 cursor-pointer hover:text-basic"
+        onClick={() => {
+          alert("過去の通知読み込み");
+        }}
+      >
+        過去の通知を見る…
+      </div>
     </>
   );
 };

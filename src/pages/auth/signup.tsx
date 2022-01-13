@@ -25,7 +25,6 @@ const schema = yup.object().shape({
   email: yup
     .string()
     .required("メールアドレスを入力してください")
-    .matches(/^[0-9a-zA-Z]+$/, "半角英数字で入力してください")
     .max(200, "メールアドレスは200文字以内で入力してください"),
   //アカウント名のバリデーション
   accountName: yup
