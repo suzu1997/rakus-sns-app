@@ -48,18 +48,31 @@ const RestaurantAdd: FC = () => {
    * &name_anyとすることで漢字でもかなでも検索できる
    */
   const searchByNameIn2km = async () => {
+    // ----------クライアント側から直接API叩く-----------
+    // APIキーが見えてしまう。
+
     // ホットペッパーAPIは、サーバー側でのみデータフェッチ可
     // （クライアント側（JavaScriptによるブラウザ側）では不可のため、CORSによりブロックされてしまう。）
     // そのためJSONPでCORSエラー回避する
 
     // jsonpのためaxiosにてデータフェッチ
-    const res = await axios.get(
-      `${HOTPEPPER_URL}&name_any=${searchName}&lat=35.689445&lng=139.70735&range=3&count=50`,
-      {
-        adapter: axiosJsonpAdapter,
-      },
-    );
-    setResult(res.data.results.shop);
+    // const res = await axios.get(
+    //   `${HOTPEPPER_URL}&name_any=${searchName}&lat=35.689445&lng=139.70735&range=3&count=50`,
+    //   {
+    //     adapter: axiosJsonpAdapter,
+    //   },
+    // );
+    // setResult(res.data.results.shop);
+
+    // -------------------------------------------------
+
+    // ---------作成したWebAPIエンドポイントを利用する------------
+    // API Routeを使用することで、APIキーを隠せる
+    const res = await axios.get(`/api/hotpepper?name_any=${searchName}`);
+    console.log(res);
+    console.log(res.data.shops);
+
+    setResult(res.data.shops);
   };
 
   /**
