@@ -1,4 +1,4 @@
-import { memo, FC } from "react";
+import { memo, FC, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -6,6 +6,13 @@ export const Header: FC = memo(() => {
   //ヘッダー下線
   const headerStyle = {
     borderBottom: "5px solid orange",
+  };
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openMenu = () => {
+    isOpen ? setIsOpen(false) : setIsOpen(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   };
 
   return (
@@ -24,6 +31,9 @@ export const Header: FC = memo(() => {
             </div>
           </a>
         </Link>
+        <button type="button" onClick={openMenu}>
+          <i className="fas fa-bars"></i>
+        </button>
       </header>
       <div className="relative">
         <aside className="absolute top-0 right-0 bg-sidebar h-screen w-64 shadow-xl">
