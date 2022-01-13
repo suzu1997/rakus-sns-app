@@ -97,7 +97,6 @@ const Edit: NextPage = () => {
         isOpen={true}
         closeModal={() => console.log("")}
         message=""
-        doOnButton={() => console.log("")}
       />
       <div className="text-center bg-bgc border-solid  border-2 border-bgc-200 m-10 shadow-lg rounded-md">
         <div className="flex flex-col items-center">

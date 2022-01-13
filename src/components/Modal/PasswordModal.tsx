@@ -2,19 +2,77 @@ import { FC, memo } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { Button } from "../Button/Button";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { TextInput } from "../Form/TextInput";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
 
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
   closeModal: () => void; // モーダルを閉じるメソッド
   message: string; //モーダル内のメッセージ
-  doOnButton: () => void; //ボタンを押した時のメソッド
 };
 
+//バリデーションチェック
+const schema = yup.object().shape({
+  //パスワードのバリデーション
+  password: yup
+    .string()
+    .required("パスワードを入力してください")
+    .matches(
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]+$/,
+      "アルファベット（大文字小文字混在）と数字とを組み合わせて入力してください",
+    )
+    .max(16, "16文字以内で入力してください")
+    .min(8, "8文字以上で入力してください"),
+  //確認用パスワードのバリデーション
+  passwordConf: yup
+    .string()
+    .required("確認用パスワードを入力してください")
+    .matches(
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]+$/,
+      "アルファベット（大文字小文字混在）と数字とを組み合わせて入力してください",
+    )
+    .max(16, "16文字以内で入力してください")
+    .min(8, "8文字以上で入力してください")
+    .oneOf([yup.ref("password"), null], "確認用パスワードが一致していません"),
+});
 /**
  * パスワード変更のためのモーダルのコンポーネント.
  */
 export const PasswordModal: FC<Props> = memo((props) => {
-  const { isOpen, closeModal, message, doOnButton } = props;
+  const { isOpen, closeModal, message } = props;
+
+  // バリデーション機能を呼び出し
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  //ルーターリンク
+  const router = useRouter();
+  /**
+   * 登録ボタンを押した時に呼ばれる
+   * @param data - 入力したデータ
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onSubmit = (data: any) => {
+    console.log("発動");
+    console.log(data);
+    //更新完了でユーザ画面に戻る
+    router.push("/user/1");
+  };
+
+  /**
+   * キャンセルボタンを押した時に呼ばれる
+   */
+  const cancel = () => {
+    router.push("/user/1");
+  };
 
   return (
     <>
@@ -63,11 +121,46 @@ export const PasswordModal: FC<Props> = memo((props) => {
                 >
                   パスワード変更
                 </Dialog.Title>
-                <div className="mt-2 text-center">{message}</div>
-                {/* 確認ボタン */}
+                <div className="mt-2 text-center">
+                  {message}
+                  <TextInput
+                    label="パスワード(半角英数字)"
+                    type="password"
+                    fullWidth={true}
+                    required
+                    errorMessage={errors.password?.message}
+                    placeholder="8文字以上16文字以内(大文字小文字数字含む)"
+                    registers={register("password")}
+                  />
+                </div>
+                <div className="w-96 mt-3">
+                  {/* 確認用パスワードのテキストフォーム */}
+                  <TextInput
+                    label="確認用パスワード(半角英数字)"
+                    type="password"
+                    fullWidth={true}
+                    required
+                    errorMessage={errors.passwordConf?.message}
+                    placeholder="8文字以上16文字以内(大文字小文字数字含む)"
+                    registers={register("passwordConf")}
+                  />
+                </div>
+                {/* ボタン */}
                 <div className="mt-4 flex gap-5 justify-center">
-                  <Button label="更新" onClick={doOnButton} />
-                  <Button label="キャンセル" onClick={doOnButton} />
+                  <Button
+                    label="登録"
+                    backgroundColor="#f28728"
+                    color="white"
+                    size="md"
+                    onClick={handleSubmit(onSubmit)}
+                  />
+                  <Button
+                    label="クリア"
+                    backgroundColor="#f6f0ea"
+                    color="#f28728"
+                    size="md"
+                    onClick={cancel}
+                  />
                 </div>
               </div>
             </Transition.Child>
