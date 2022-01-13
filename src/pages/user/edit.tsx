@@ -105,14 +105,14 @@ const Edit: NextPage = () => {
   const onSubmit = (data: any) => {
     console.log(data);
     //更新完了でユーザ画面に戻る
-    router.push("/user");
+    router.back();
   };
 
   /**
    * キャンセルボタンを押した時に呼ばれる
    */
   const cancel = () => {
-    router.push("/user");
+    router.back();
   };
 
   return (
@@ -210,6 +210,13 @@ const Edit: NextPage = () => {
                   color="#f28728"
                   size="md"
                   onClick={reset}
+                />
+                <Button
+                  label="キャンセル"
+                  backgroundColor="#f6f0ea"
+                  color="#f28728"
+                  size="md"
+                  onClick={cancel}
                 />
               </div>
             </div>
