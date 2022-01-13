@@ -4,6 +4,7 @@ import { NextPage } from "next";
 import { SubHeader } from "../components/SubHeader";
 import { MenuBar } from "../components/MenuBar";
 import { useRouter } from "next/router";
+import { Button } from "../components/Button";
 
 /**
  * 通知ページ.
@@ -94,6 +95,16 @@ const Notion: NextPage = () => {
         <div className="sm:w-10/12 w-full">
           <SubHeader title="通知" />
 
+          <div className="text-center my-10">
+            <Button
+              label="新しい通知を読み込む"
+              size="lg"
+              onClick={() => {
+                alert("新しい通知読み込み");
+              }}
+            />
+          </div>
+
           {/* タイムラインゾーン */}
           {data.map((value, key) => (
             <div style={style} key={key}>
@@ -139,6 +150,14 @@ const Notion: NextPage = () => {
               </div>
             </div>
           ))}
+          <div
+            className="text-text-brown text-center my-5 cursor-pointer hover:text-basic"
+            onClick={() => {
+              alert("過去の通知読み込み");
+            }}
+          >
+            過去の通知を見る…
+          </div>
         </div>
       </div>
     </>
