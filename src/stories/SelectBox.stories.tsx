@@ -1,5 +1,5 @@
 import { Meta, Story } from "@storybook/react";
-import { SelectBox, Props } from "../components/SelectBox";
+import { SelectBox, Props } from "../components/Form/SelectBox";
 
 export default {
   title: "SelectBox",

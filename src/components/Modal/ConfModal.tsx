@@ -1,7 +1,7 @@
 import { FC, memo } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
-import { Button } from "./Button";
+import { Button } from "../Button/Button";
 
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか

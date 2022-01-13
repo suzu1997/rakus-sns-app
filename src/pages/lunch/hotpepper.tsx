@@ -1,9 +1,9 @@
 import axios from "axios";
 import { FC, useCallback, useState } from "react";
 import Image from "next/image";
-import { Button } from "../../components/Button";
-import { MenuBar } from "../../components/MenuBar";
-import { TextInput } from "../../components/TextInput";
+import { Button } from "../../components/Button/Button";
+import { MenuBar } from "../../components/Layout/MenuBar";
+import { TextInput } from "../../components/Form/TextInput";
 import { HOTPEPPER_URL } from "../../utils/const";
 
 const Hotpepper: FC = () => {

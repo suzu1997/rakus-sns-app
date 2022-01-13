@@ -1,6 +1,6 @@
 import { memo, FC, useEffect, useState, useContext, ReactNode } from "react";
 import { useRouter } from "next/router";
-import { loginIdContext } from "./Provider";
+import { loginIdContext } from "../providers/LoginIdProvider";
 
 type Props = {
   children: ReactNode;

@@ -1,10 +1,10 @@
 import { FC, memo, useCallback, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
-import { Button } from "./Button";
+import { Button } from "../Button/Button";
 import Image from "next/image";
-import { TextArea } from "./TextArea";
-import { SelectBox } from "./SelectBox";
+import { TextArea } from "../Form/TextArea";
+import { SelectBox } from "../Form/SelectBox";
 
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
