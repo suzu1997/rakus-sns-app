@@ -93,7 +93,7 @@ const Edit: NextPage = () => {
 
   return (
     <div>
-      <PasswordModal isOpen={true} closeModal={() => console.log("")} />
+      <PasswordModal isOpen={true} />
       <div className="text-center bg-bgc border-solid  border-2 border-bgc-200 m-10 shadow-lg rounded-md">
         <div className="flex flex-col items-center">
           <div className="mt-3 text-3xl font-extrabold">ユーザー情報編集</div>

@@ -10,7 +10,6 @@ import { useRouter } from "next/router";
 
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
-  closeModal: () => void; // モーダルを閉じるメソッド
 };
 
 //バリデーションチェック
@@ -18,7 +17,7 @@ const schema = yup.object().shape({
   //現在のパスワードのバリデーション
   currentPassword: yup
     .string()
-    .required("パスワードを入力してください")
+    .required("現在のパスワードを入力してください")
     .matches(
       /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]+$/,
       "アルファベット（大文字小文字混在）と数字とを組み合わせて入力してください",
@@ -28,7 +27,7 @@ const schema = yup.object().shape({
   //新しいのパスワードのバリデーション
   newPassword: yup
     .string()
-    .required("パスワードを入力してください")
+    .required("新しいパスワードを入力してください")
     .matches(
       /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]+$/,
       "アルファベット（大文字小文字混在）と数字とを組み合わせて入力してください",
@@ -54,7 +53,7 @@ const schema = yup.object().shape({
  * パスワード変更のためのモーダルのコンポーネント.
  */
 export const PasswordModal: FC<Props> = memo((props) => {
-  const { isOpen, closeModal } = props;
+  const { isOpen } = props;
 
   // バリデーション機能を呼び出し
   const {
@@ -91,7 +90,7 @@ export const PasswordModal: FC<Props> = memo((props) => {
         <Dialog
           as="div"
           className="fixed inset-0 z-10 overflow-y-auto"
-          onClose={closeModal}
+          onClose={() => null}
         >
           {/* モーダルの背景を暗くする */}
           <Dialog.Overlay className="fixed inset-0 bg-black opacity-50" />
@@ -132,35 +131,41 @@ export const PasswordModal: FC<Props> = memo((props) => {
                 >
                   パスワード変更
                 </Dialog.Title>
-                <div className="mt-2 text-center">
+                <div className="mt-2">
+                  <div className="text-red-500">
+                    {errors.currentPassword?.message}
+                  </div>
                   <TextInput
                     label="現在のパスワード(半角英数字)"
                     type="password"
                     fullWidth={true}
                     required
-                    errorMessage={errors.currentPassword?.message}
                     placeholder="8文字以上16文字以内(大文字小文字数字含む)"
                     registers={register("currentPassword")}
                   />
                 </div>
-                <div className="mt-2 text-center">
+                <div className="mt-2">
+                  <div className="text-red-500">
+                    {errors.newPassword?.message}
+                  </div>
                   <TextInput
                     label="新しいパスワード(半角英数字)"
                     type="password"
                     fullWidth={true}
                     required
-                    errorMessage={errors.newPassword?.message}
                     placeholder="8文字以上16文字以内(大文字小文字数字含む)"
                     registers={register("newPassword")}
                   />
                 </div>
-                <div className="mt-2 text-center">
+                <div className="mt-2">
+                  <div className="text-red-500">
+                    {errors.passwordConf?.message}
+                  </div>
                   <TextInput
                     label="確認用パスワード(半角英数字)"
                     type="password"
                     fullWidth={true}
                     required
-                    errorMessage={errors.passwordConf?.message}
                     placeholder="8文字以上16文字以内(大文字小文字数字含む)"
                     registers={register("passwordConf")}
                   />
