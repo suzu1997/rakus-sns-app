@@ -17,10 +17,13 @@ export const Header: FC = memo(() => {
 
   return (
     <>
-      <header className="h-16 w-full shadow-md bg-white" style={headerStyle}>
-        <Link href="/">
-          <a>
-            <div className="ml-5 flex items-center">
+      <header
+        className="h-16 w-full shadow-md bg-white flex items-center"
+        style={headerStyle}
+      >
+        <span className="ml-5">
+          <Link href="/">
+            <a className="flex items-center">
               <Image
                 src="/image/rakuraku-sns.png"
                 width={50}
@@ -28,12 +31,15 @@ export const Header: FC = memo(() => {
                 alt="ロゴ"
               />
               <span className="text-2xl text-gray-500 m-3">ラクラクSNS</span>
-            </div>
-          </a>
-        </Link>
-        <button type="button" onClick={openMenu}>
-          <i className="fas fa-bars"></i>
-        </button>
+            </a>
+          </Link>
+        </span>
+
+        <span className="ml-32 sm:hidden block">
+          <button type="button" onClick={openMenu}>
+            <i className="fas fa-bars"></i>
+          </button>
+        </span>
       </header>
       <div className="relative">
         <aside className="absolute top-0 right-0 bg-sidebar h-screen w-64 shadow-xl">
