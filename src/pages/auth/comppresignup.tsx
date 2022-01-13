@@ -13,7 +13,7 @@ const CompPreSignUp: NextPage = () => {
         </div>
         <div className="mt-10">
           しばらく待っていただいて届かない場合は
-          <Link href="/presignup">
+          <Link href="/auth/presignup">
             <a className="underline hover:text-blue-800 mt-3">コチラ</a>
           </Link>
           から再度お手続きをお願いします

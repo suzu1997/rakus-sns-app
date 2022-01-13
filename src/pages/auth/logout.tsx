@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import { useCallback, useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { Button } from "../components/Button";
+import { Button } from "../../components/Button";
 import { useRouter } from "next/router";
 import Cookie from "universal-cookie";
 
@@ -35,7 +35,7 @@ const Logout: NextPage = () => {
     //cookieからログインID削除
     cookie.remove("id");
     //ログインページに戻る
-    router.push("/login");
+    router.push("/auth/login");
   }, []);
 
   return (

@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
-import { TextInput } from "../components/TextInput";
-import { Button } from "../components/Button";
-import { SelectBox } from "../components/SelectBox";
+import { TextInput } from "../../components/TextInput";
+import { Button } from "../../components/Button";
+import { SelectBox } from "../../components/SelectBox";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 
@@ -47,7 +47,7 @@ const PreSignUp: NextPage = () => {
     setFirstName("");
     setLastName("");
     setEmail("");
-    router.push("/comppresignup");
+    router.push("/auth/comppresignup");
   };
   //クリアボタンを押した時に呼ばれる
   const formClear = () => {

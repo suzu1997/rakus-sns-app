@@ -9,7 +9,7 @@ const CompSignUp: NextPage = () => {
           会員登録が完了しました
         </div>
         <div className="mt-10">
-          <Link href="/login">
+          <Link href="/auth/login">
             <a className="underline hover:text-blue-800 mt-3">
               ログインページはコチラから
             </a>

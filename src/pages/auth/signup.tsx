@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { Button } from "../components/Button";
-import { SelectBox } from "../components/SelectBox";
-import { Radio } from "../components/Radio";
+import { Button } from "../../components/Button";
+import { SelectBox } from "../../components/SelectBox";
+import { Radio } from "../../components/Radio";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { TextInput } from "../components/TextInput";
+import { TextInput } from "../../components/TextInput";
 
 //バリデーションチェック
 const schema = yup.object().shape({
@@ -93,7 +93,7 @@ const SignUp: NextPage = () => {
   const onSubmit = (data: any) => {
     console.log(data);
     //会員登録に成功したら登録完了画面に遷移する
-    router.push("/compsignup");
+    router.push("/auth/compsignup");
   };
 
   return (
