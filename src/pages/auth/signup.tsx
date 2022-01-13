@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "../../components/Button";
+import { Button } from "../../components/Button/Button";
 import { SelectBox } from "../../components/Form/SelectBox";
 import { Radio } from "../../components/Form/Radio";
 import { NextPage } from "next";

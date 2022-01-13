@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { FC, memo } from "react";
-import { CommentIcon } from "../CommentIcon";
-import { FavoBtn } from "../FavoBtn";
+import { CommentIcon } from "../Button/CommentIcon";
+import { FavoBtn } from "../Button/FavoBtn";
 import { Star } from "../Star";
-import { TrashBtn } from "../TrashBtn";
+import { TrashBtn } from "../Button/TrashBtn";
 import { LinkToRestaurant } from "./LinkToRestaurat";
 
 type Props = {

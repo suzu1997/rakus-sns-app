@@ -1,5 +1,5 @@
 import { FC, memo, useCallback, useState } from "react";
-import { Button } from "../Button";
+import { Button } from "../Button/Button";
 import { SelectBox } from "../Form/SelectBox";
 
 /**

@@ -2,12 +2,12 @@ import Image from "next/image";
 import { NextPage } from "next";
 import { useState } from "react";
 import { MenuBar } from "../../components/MenuBar";
-import { CommentIcon } from "../../components/CommentIcon";
+import { CommentIcon } from "../../components/Button/CommentIcon";
 import { SubHeader } from "../../components/Layout/SubHeader";
-import { FavoBtn } from "../../components/FavoBtn";
+import { FavoBtn } from "../../components/Button/FavoBtn";
 //自分のつぶやきを消せるボタンコンポーネント(自分のつぶやきの時のみ表示させたい)
-import { TrashBtn } from "../../components/TrashBtn";
-import { PostBtn } from "../../components/PostBtn";
+import { TrashBtn } from "../../components/Button/TrashBtn";
+import { PostBtn } from "../../components/Button/PostBtn";
 
 /**
  * つぶやき詳細画面.

@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Link from "next/link";
-import { Button } from "../components/Button";
+import { Button } from "../components/Button/Button";
 import { MenuBar } from "../components/MenuBar";
 import Cookie from "universal-cookie";
 import { Star } from "../components/Star";

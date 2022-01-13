@@ -1,6 +1,6 @@
 import { TextInput } from "../../components/Form/TextInput";
 import { useState, useCallback } from "react";
-import { Button } from "../../components/Button";
+import { Button } from "../../components/Button/Button";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 

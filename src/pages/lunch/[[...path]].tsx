@@ -4,7 +4,7 @@ import { MenuBar } from "../../components/MenuBar";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { SubHeader } from "../../components/Layout/SubHeader";
-import { Button } from "../../components/Button";
+import { Button } from "../../components/Button/Button";
 
 /**
  * ランチの一覧ページ.

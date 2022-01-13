@@ -3,7 +3,7 @@ import axios from "axios";
 const axiosJsonpAdapter = require("axios-jsonp");
 import { FC, useCallback, useState } from "react";
 import Image from "next/image";
-import { Button } from "../../../components/Button";
+import { Button } from "../../../components/Button/Button";
 import { MenuBar } from "../../../components/MenuBar";
 import { TextInput } from "../../../components/Form/TextInput";
 import { useRouter } from "next/router";

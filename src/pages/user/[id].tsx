@@ -4,7 +4,7 @@ import { MenuBar } from "../../components/MenuBar";
 import Image from "next/image";
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { Tab } from "@headlessui/react";
-import { Button } from "../../components/Button";
+import { Button } from "../../components/Button/Button";
 import { useRouter } from "next/router";
 
 //タブテスト

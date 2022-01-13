@@ -4,13 +4,13 @@ import type { NextPage } from "next";
 import { useState } from "react";
 import { MenuBar } from "../../components/MenuBar";
 import { SubHeader } from "../../components/Layout/SubHeader";
-import { Button } from "../../components/Button";
-import { CommentIcon } from "../../components/CommentIcon";
-import { FavoBtn } from "../../components/FavoBtn";
+import { Button } from "../../components/Button/Button";
+import { CommentIcon } from "../../components/Button/CommentIcon";
+import { FavoBtn } from "../../components/Button/FavoBtn";
 //自分のつぶやきを消せるボタンコンポーネント(自分のつぶやきの時のみ表示させたい)
-import { TrashBtn } from "../../components/TrashBtn";
+import { TrashBtn } from "../../components/Button/TrashBtn";
 import { useRouter } from "next/router";
-import { PostBtn } from "../../components/PostBtn";
+import { PostBtn } from "../../components/Button/PostBtn";
 
 /**
  * タイムラインページ.
