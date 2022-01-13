@@ -9,6 +9,7 @@ import { Radio } from "../../components/Form/Radio";
 import { useForm } from "react-hook-form";
 import { TextArea } from "../../components/Form/TextArea";
 import { PasswordModal } from "../../components/Modal/PasswordModal";
+import { useState } from "react";
 
 //バリデーションチェック
 const schema = yup.object().shape({
@@ -84,6 +85,11 @@ const Edit: NextPage = () => {
     router.push("/user/1");
   };
 
+  const [openModal, serOpenModal] = useState(false);
+  const openPasswordModal = () => {
+    serOpenModal(true);
+  };
+
   /**
    * キャンセルボタンを押した時に呼ばれる
    */
@@ -93,7 +99,7 @@ const Edit: NextPage = () => {
 
   return (
     <div>
-      <PasswordModal isOpen={true} />
+      <PasswordModal isOpen={openModal} />
       <div className="text-center bg-bgc border-solid  border-2 border-bgc-200 m-10 shadow-lg rounded-md">
         <div className="flex flex-col items-center">
           <div className="mt-3 text-3xl font-extrabold">ユーザー情報編集</div>
@@ -104,6 +110,12 @@ const Edit: NextPage = () => {
               height={200}
               alt="icon"
             ></Image>
+          </div>
+          <div
+            onClick={openPasswordModal}
+            className="text-text-brown my-5 cursor-pointer hover:text-basic"
+          >
+            パスワード変更はこちら
           </div>
           <form name="SignupForm" noValidate>
             <div className="flex flex-col items-center mt-10">
@@ -207,7 +219,6 @@ const Edit: NextPage = () => {
               </div>
             </div>
           </form>
-          パスワード変更はこちら
         </div>
       </div>
     </div>
