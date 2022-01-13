@@ -112,7 +112,6 @@ const Edit: NextPage = () => {
                   type="text"
                   fullWidth={false}
                   required
-                  errorMessage={errors.firstName?.message}
                   placeholder="姓"
                   registers={register("firstName")}
                 />
@@ -125,11 +124,12 @@ const Edit: NextPage = () => {
                   type="text"
                   fullWidth={false}
                   required
-                  errorMessage={errors.lastName?.message}
                   placeholder="名"
                   registers={register("lastName")}
                 />
               </div>
+              <div className="text-red-500">{errors.firstName?.message}</div>
+              <div className="text-red-500">{errors.lastName?.message}</div>
 
               <div className="w-96 mt-3">
                 {/* アカウント名のテキストフォーム */}
@@ -138,10 +138,12 @@ const Edit: NextPage = () => {
                   type="text"
                   fullWidth={true}
                   required
-                  errorMessage={errors.accountName?.message}
                   placeholder="アカウント名"
                   registers={register("accountName")}
                 />
+                <div className="text-red-500">
+                  {errors.accountName?.message}
+                </div>
               </div>
               <div className="w-96 mt-3">
                 {/* 入社年のテキストフォーム*/}
@@ -150,9 +152,9 @@ const Edit: NextPage = () => {
                   type="month"
                   fullWidth={true}
                   required
-                  errorMessage={errors.hireDate?.message}
                   registers={register("hireDate")}
                 />
+                <div className="text-red-500">{errors.hireDate?.message}</div>
               </div>
               {/* 職種のラジオボタン */}
               <div className="mt-3">職種を選択してください</div>
@@ -171,18 +173,18 @@ const Edit: NextPage = () => {
                   type="date"
                   fullWidth={true}
                   required
-                  errorMessage={errors.birthDate?.message}
                   registers={register("birthDate")}
                 />
+                <div className="text-red-500">{errors.birthDate?.message}</div>
               </div>
-
+              {/* 自己紹介のテキストフォーム */}
               <TextArea
                 label="プロフィール"
-                rows={3}
-                cols={3}
-                errorMessage={errors.profile?.message}
+                rows={6}
+                cols={30}
                 registers={register("profile")}
               />
+              <div className="text-red-500">{errors.profile?.message}</div>
 
               <div className="flex gap-3 mt-10 mb-10">
                 <Button
