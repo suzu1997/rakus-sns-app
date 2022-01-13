@@ -11,7 +11,7 @@ export const LinkToRestaurant = () => {
   // ダミーのレストランデータ
   const restaurantInfo = {
     id: "J001041443",
-    name: "らーめん 氣華",
+    name: "らーめん 氣華ああああああああああああああ",
     img: "https://imgfp.hotp.jp/IMGH/76/15/P018367615/P018367615_238.jpg",
   };
 
