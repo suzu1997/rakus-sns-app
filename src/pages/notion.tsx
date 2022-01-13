@@ -91,14 +91,14 @@ const Notion: NextPage = () => {
         </div>
 
         {/* サブヘッダー */}
-        <div className="w-10/12">
+        <div className="sm:w-10/12 w-full">
           <SubHeader title="通知" />
 
           {/* タイムラインゾーン */}
           {data.map((value, key) => (
             <div style={style} key={key}>
               <div
-                className="p-5 ml-10"
+                className="p-5 ml-5"
                 onClick={() => {
                   goDetailPage(value.postId);
                 }}

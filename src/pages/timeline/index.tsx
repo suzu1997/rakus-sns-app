@@ -92,7 +92,7 @@ const Timeline: NextPage = () => {
       <div className="flex">
         <MenuBar />
         {/* サブヘッダー */}
-        <div className="w-10/12">
+        <div className="sm:w-10/12 w-full">
           <SubHeader title="つぶやき" />
 
           {/* タイムラインゾーン */}

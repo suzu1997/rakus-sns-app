@@ -41,24 +41,22 @@ const TweetDetail: NextPage = () => {
         <MenuBar />
 
         {/* サブヘッダー */}
-        <div className="w-10/12">
+        <div className="sm:w-10/12 w-full">
           <SubHeader title="つぶやき詳細" />
           {/* つぶやき詳細 */}
           <div>
-            <div className="w-10/12 pt-3 pb-3 flex">
+            <div className="pt-3 pb-3 flex">
               <div className="w-3/12">
                 <Image src={data.img} width={300} height={300} alt="icon" />
               </div>
               <div className="w-9/12">
-                <div className="text-xl font-extrabold pt-3 pb-3">
-                  {data.name}
-                </div>
-                <div className="pl-10">{data.tweet}</div>
+                <div className="text-xl font-extrabold py-3">{data.name}</div>
+                <div className="w-8/12 ml-3">{data.tweet}</div>
               </div>
             </div>
 
             <div className="text-right pb-5" style={style}>
-              <span className="mr-7">投稿日時：{data.time}</span>
+              <div className="mr-7 my-3">投稿日時：{data.time}</div>
               <CommentIcon commentCount={300} />
               <FavoBtn />
               <TrashBtn />
