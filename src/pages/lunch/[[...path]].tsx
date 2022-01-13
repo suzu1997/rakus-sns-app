@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { LunchTab } from "../../components/lunch/LunchTab";
+import { LunchTab } from "../../components/Lunch/LunchTab";
 import { MenuBar } from "../../components/MenuBar";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";

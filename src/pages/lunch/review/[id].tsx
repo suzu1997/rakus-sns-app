@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { FavoBtn } from "../../../components/FavoBtn";
-import { ReviewCard } from "../../../components/lunch/ReviewCard";
+import { ReviewCard } from "../../../components/Lunch/ReviewCard";
 import { MenuBar } from "../../../components/MenuBar";
 import { SubHeader } from "../../../components/Layout/SubHeader";
 import { TrashBtn } from "../../../components/TrashBtn";
