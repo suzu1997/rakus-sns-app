@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { FC, memo } from "react";
 import { CommentIcon } from "../Button/CommentIcon";
 import { FavoBtn } from "../Button/FavoBtn";
-import { Star } from "../Star";
+import { Star } from "./Star";
 import { TrashBtn } from "../Button/TrashBtn";
 import { LinkToRestaurant } from "./LinkToRestaurat";
 

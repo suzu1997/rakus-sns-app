@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Button } from "../components/Button/Button";
 import { MenuBar } from "../components/MenuBar";
 import Cookie from "universal-cookie";
-import { Star } from "../components/Star";
+import { Star } from "../components/Lunch/Star";
 
 const Home: NextPage = () => {
   /**
