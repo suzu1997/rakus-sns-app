@@ -2,7 +2,6 @@ import Image from "next/image";
 import { useCallback, useState } from "react";
 import { NextPage } from "next";
 import { SubHeader } from "../components/Layout/SubHeader";
-import { MenuBar } from "../components/Layout/MenuBar";
 import { useRouter } from "next/router";
 
 /**
@@ -85,61 +84,56 @@ const Notion: NextPage = () => {
 
   return (
     <>
-      <div className="flex">
-        <div>
-          <MenuBar />
-        </div>
+      {/* サブヘッダー */}
+      <SubHeader title="通知" />
 
-        {/* サブヘッダー */}
-        <div className="w-10/12">
-          <SubHeader title="通知" />
-
-          {/* タイムラインゾーン */}
-          {data.map((value, key) => (
-            <div style={style} key={key}>
-              <div
-                className="p-5 ml-10"
+      {/* タイムラインゾーン */}
+      {data.map((value, key) => (
+        <div style={style} key={key}>
+          <div
+            className="p-5 ml-10"
+            onClick={() => {
+              goDetailPage(value.postId);
+            }}
+          >
+            <div className="flex">
+              {value.action === "お気に入り" && (
+                <span className="text-2xl text-red-500 mt-10">
+                  <i className="fas fa-heart"></i>
+                </span>
+              )}
+              {value.action === "コメント" && (
+                <span className="text-3xl text-yellow-600 mt-10">
+                  <i className="fas fa-comment"></i>
+                </span>
+              )}
+              <span
+                className="ml-3 cursor-pointer hover:opacity-50"
                 onClick={() => {
-                  goDetailPage(value.postId);
+                  goUserPage(value.id);
                 }}
               >
-                <div className="flex">
-                  {value.action === "お気に入り" && (
-                    <span className="text-2xl text-red-500 mt-10">
-                      <i className="fas fa-heart"></i>
-                    </span>
-                  )}
-                  {value.action === "コメント" && (
-                    <span className="text-3xl text-yellow-600 mt-10">
-                      <i className="fas fa-comment"></i>
-                    </span>
-                  )}
-                  <span
-                    className="ml-3 cursor-pointer hover:opacity-50"
-                    onClick={() => {
-                      goUserPage(value.id);
-                    }}
-                  >
-                    <Image
-                      src={value.img}
-                      width={100}
-                      height={100}
-                      alt="icon"
-                    />
-                  </span>
-                </div>
-                <div className=" cursor-pointer hover:opacity-50">
-                  <div className="text-xl pt-3 pb-3 ml-16">
-                    {value.name}さんがあなたの投稿に{value.action}しました
-                  </div>
-                  <div className="pt-5 pb-5 pl-5 w-8/12 ml-20 text-text-brown">
-                    {value.post}
-                  </div>
-                </div>
+                <Image src={value.img} width={100} height={100} alt="icon" />
+              </span>
+            </div>
+            <div className=" cursor-pointer hover:opacity-50">
+              <div className="text-xl pt-3 pb-3 ml-16">
+                {value.name}さんがあなたの投稿に{value.action}しました
+              </div>
+              <div className="pt-5 pb-5 pl-5 w-8/12 ml-20 text-text-brown">
+                {value.post}
               </div>
             </div>
-          ))}
+          </div>
         </div>
+      ))}
+      <div
+        className="text-text-brown text-center my-5 cursor-pointer hover:text-basic"
+        onClick={() => {
+          alert("過去の通知読み込み");
+        }}
+      >
+        過去の通知を見る…
       </div>
     </>
   );

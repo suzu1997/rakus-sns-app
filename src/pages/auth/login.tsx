@@ -6,6 +6,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import Cookie from "universal-cookie";
+import Link from "next/link";
 
 //バリデーションチェック
 const schema = yup.object().shape({
@@ -92,6 +93,11 @@ const Login: NextPage = () => {
           onClick={handleSubmit(onSubmit)}
         />
       </div>
+      <Link href="/auth/forgetpass">
+        <a className="underline hover:text-blue-800 mt-3">
+          パスワードを忘れた方はコチラ
+        </a>
+      </Link>
     </div>
   );
 };
