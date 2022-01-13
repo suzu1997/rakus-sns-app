@@ -4,7 +4,7 @@ const axiosJsonpAdapter = require("axios-jsonp");
 import { FC, useCallback, useState } from "react";
 import Image from "next/image";
 import { Button } from "../../../components/Button/Button";
-import { MenuBar } from "../../../components/MenuBar";
+import { MenuBar } from "../../../components/Layout/MenuBar";
 import { TextInput } from "../../../components/Form/TextInput";
 import { useRouter } from "next/router";
 import { HOTPEPPER_URL } from "../../../utils/const";

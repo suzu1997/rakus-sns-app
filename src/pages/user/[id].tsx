@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import { useCallback, useState } from "react";
-import { MenuBar } from "../../components/MenuBar";
+import { MenuBar } from "../../components/Layout/MenuBar";
 import Image from "next/image";
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { Tab } from "@headlessui/react";

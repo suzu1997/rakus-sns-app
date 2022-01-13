@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { FavoBtn } from "../../../components/Button/FavoBtn";
 import { ReviewCard } from "../../../components/Lunch/ReviewCard";
-import { MenuBar } from "../../../components/MenuBar";
+import { MenuBar } from "../../../components/Layout/MenuBar";
 import { SubHeader } from "../../../components/Layout/SubHeader";
 import { TrashBtn } from "../../../components/Button/TrashBtn";
 

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { NextPage } from "next";
 import { useState } from "react";
-import { MenuBar } from "../../components/MenuBar";
+import { MenuBar } from "../../components/Layout/MenuBar";
 import { CommentIcon } from "../../components/Button/CommentIcon";
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { FavoBtn } from "../../components/Button/FavoBtn";

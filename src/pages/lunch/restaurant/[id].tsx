@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import { Button } from "../../../components/Button/Button";
 import { ReviewList } from "../../../components/Lunch/ReviewList";
 import { PostModal } from "../../../components/Modal/PostModal";
-import { MenuBar } from "../../../components/MenuBar";
+import { MenuBar } from "../../../components/Layout/MenuBar";
 import { GoogleMap } from "../../../components/Lunch/GoogleMap";
 import { Star } from "../../../components/Lunch/Star";
 import { useRouter } from "next/router";
