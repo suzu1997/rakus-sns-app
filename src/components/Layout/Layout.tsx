@@ -26,13 +26,15 @@ export const Layout: FC<Props> = memo((props) => {
     //仮登録、登録、ログインページ、トップページは除外
     if (
       path === "/auth/presingup" ||
-      path === "/auth/singup" ||
+      path === "/auth/signup" ||
       path === "/auth/login" ||
       path === "/"
     ) {
       setShowMenu(false);
+    } else {
+      setShowMenu(true);
     }
-  }, [showMenu, router.pathname]);
+  }, [router.pathname]);
 
   return (
     <div>
