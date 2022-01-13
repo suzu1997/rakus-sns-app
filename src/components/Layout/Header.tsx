@@ -56,7 +56,7 @@ export const Header: FC = memo(() => {
         {isOpen ? (
           <div className="relative z-40">
             <div className="absolute top-0 right-0">
-              <aside className="relative bg-bgc h-screen w-64">
+              <aside className="relative bg-bgc w-64">
                 <nav className="text-white text-base font-semibold bg-basic pt-3">
                   <Link href="/aaa/test">
                     <a className="flex items-center opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
