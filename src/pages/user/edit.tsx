@@ -1,12 +1,10 @@
 import { NextPage } from "next";
 import Image from "next/image";
-import { useCallback, useState } from "react";
 import { useRouter } from "next/router";
 import { TextInput } from "../../components/Form/TextInput";
 import { Button } from "../../components/Button/Button";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { SelectBox } from "../../components/Form/SelectBox";
 import { Radio } from "../../components/Form/Radio";
 import { useForm } from "react-hook-form";
 
@@ -16,14 +14,14 @@ import { useForm } from "react-hook-form";
  */
 const Edit: NextPage = () => {
   //テストデータ
-  const [data] = useState({
-    name: "やまちゃん",
-    hireDate: "2021年10月",
-    img: "/usakus.jpg",
-    jobtype: "FR",
-    birthDay: "",
-    profile: "",
-  });
+  // const [data] = useState({
+  //   name: "やまちゃん",
+  //   hireDate: "2021年10月",
+  //   img: "/usakus.jpg",
+  //   jobtype: "FR",
+  //   birthDay: "",
+  //   profile: "",
+  // });
 
   //バリデーションチェック
   const schema = yup.object().shape({
@@ -37,11 +35,6 @@ const Edit: NextPage = () => {
       .string()
       .required("名前を入力してください")
       .max(15, "名前は15文字以内で入力してください"),
-    //メールのバリデーション
-    email: yup
-      .string()
-      .required("メールアドレスを入力してください")
-      .max(200, "メールアドレスは200文字以内で入力してください"),
     //アカウント名のバリデーション
     accountName: yup
       .string()
@@ -53,27 +46,6 @@ const Edit: NextPage = () => {
     birthDate: yup.string().required("誕生日を入力してください"),
     //職種のバリデーション
     service: yup.string().required("職種を選択してください"),
-    //パスワードのバリデーション
-    password: yup
-      .string()
-      .required("パスワードを入力してください")
-      .matches(
-        /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]+$/,
-        "アルファベット（大文字小文字混在）と数字とを組み合わせて入力してください",
-      )
-      .max(16, "16文字以内で入力してください")
-      .min(8, "8文字以上で入力してください"),
-    //確認用パスワードのバリデーション
-    passwordConf: yup
-      .string()
-      .required("確認用パスワードを入力してください")
-      .matches(
-        /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]+$/,
-        "アルファベット（大文字小文字混在）と数字とを組み合わせて入力してください",
-      )
-      .max(16, "16文字以内で入力してください")
-      .min(8, "8文字以上で入力してください")
-      .oneOf([yup.ref("password"), null], "確認用パスワードが一致していません"),
   });
 
   // バリデーション機能を呼び出し
@@ -81,38 +53,38 @@ const Edit: NextPage = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm({
     resolver: yupResolver(schema),
+    //初期値はログインしている人のデータを入れる
+    defaultValues: {
+      firstName: "やま",
+      lastName: "ちゃん",
+      accountName: "やまちゃん",
+      hireDate: "2022-10",
+      birthDate: "2022-01-01",
+      service: "FR",
+    },
   });
-
-  //メールアドレスのドメイン選択肢
-  const options = [
-    { id: "1", name: "@rakus-patners.co.jp" },
-    { id: "2", name: "@rakus.co.jp" },
-  ];
 
   //ルーターリンク
   const router = useRouter();
-
-  //セレクトボックスの初期値
-  const [selectValue, setSelectValue] = useState<string>(options[0].name);
-
   /**
    * 登録ボタンを押した時に呼ばれる
    * @param data - 入力したデータ
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
+    console.log("発動");
     console.log(data);
     //更新完了でユーザ画面に戻る
-    router.back();
+    router.push("/user/1");
   };
 
   /**
    * キャンセルボタンを押した時に呼ばれる
    */
   const cancel = () => {
-    router.back();
+    router.push("/user/1");
   };
 
   return (
@@ -121,7 +93,12 @@ const Edit: NextPage = () => {
         <div className="flex flex-col items-center">
           <div className="mt-3 text-3xl font-extrabold">ユーザー情報編集</div>
           <div>
-            <Image src={data.img} width={200} height={200} alt="icon"></Image>
+            <Image
+              src="/usakus.jpg"
+              width={200}
+              height={200}
+              alt="icon"
+            ></Image>
           </div>
           <form name="SignupForm" noValidate>
             <div className="flex flex-col items-center mt-10">
@@ -204,13 +181,7 @@ const Edit: NextPage = () => {
                   size="md"
                   onClick={handleSubmit(onSubmit)}
                 />
-                <Button
-                  label="クリア"
-                  backgroundColor="#f6f0ea"
-                  color="#f28728"
-                  size="md"
-                  onClick={reset}
-                />
+
                 <Button
                   label="キャンセル"
                   backgroundColor="#f6f0ea"
