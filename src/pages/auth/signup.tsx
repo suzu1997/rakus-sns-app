@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { Button } from "../../components/Button";
-import { SelectBox } from "../../components/SelectBox";
-import { Radio } from "../../components/Radio";
+import { Button } from "../../components/Button/Button";
+import { SelectBox } from "../../components/Form/SelectBox";
+import { Radio } from "../../components/Form/Radio";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { TextInput } from "../../components/TextInput";
+import { TextInput } from "../../components/Form/TextInput";
 
 //バリデーションチェック
 const schema = yup.object().shape({

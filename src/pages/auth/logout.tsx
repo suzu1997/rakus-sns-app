@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import { useCallback, useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { Button } from "../../components/Button";
+import { Button } from "../../components/Button/Button";
 import { useRouter } from "next/router";
 import Cookie from "universal-cookie";
 

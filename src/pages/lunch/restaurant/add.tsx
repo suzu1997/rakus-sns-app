@@ -3,12 +3,12 @@ import axios from "axios";
 const axiosJsonpAdapter = require("axios-jsonp");
 import { FC, useCallback, useState } from "react";
 import Image from "next/image";
-import { Button } from "../../../components/Button";
-import { MenuBar } from "../../../components/MenuBar";
-import { TextInput } from "../../../components/TextInput";
+import { Button } from "../../../components/Button/Button";
+import { MenuBar } from "../../../components/Layout/MenuBar";
+import { TextInput } from "../../../components/Form/TextInput";
 import { useRouter } from "next/router";
 import { HOTPEPPER_URL } from "../../../utils/const";
-import { SelectBox } from "../../../components/SelectBox";
+import { SelectBox } from "../../../components/Form/SelectBox";
 
 const RestaurantAdd: FC = () => {
   const router = useRouter();
@@ -48,18 +48,31 @@ const RestaurantAdd: FC = () => {
    * &name_anyとすることで漢字でもかなでも検索できる
    */
   const searchByNameIn2km = async () => {
+    // ----------クライアント側から直接API叩く-----------
+    // APIキーが見えてしまう。
+
     // ホットペッパーAPIは、サーバー側でのみデータフェッチ可
     // （クライアント側（JavaScriptによるブラウザ側）では不可のため、CORSによりブロックされてしまう。）
     // そのためJSONPでCORSエラー回避する
 
     // jsonpのためaxiosにてデータフェッチ
-    const res = await axios.get(
-      `${HOTPEPPER_URL}&name_any=${searchName}&lat=35.689445&lng=139.70735&range=3&count=50`,
-      {
-        adapter: axiosJsonpAdapter,
-      },
-    );
-    setResult(res.data.results.shop);
+    // const res = await axios.get(
+    //   `${HOTPEPPER_URL}&name_any=${searchName}&lat=35.689445&lng=139.70735&range=3&count=50`,
+    //   {
+    //     adapter: axiosJsonpAdapter,
+    //   },
+    // );
+    // setResult(res.data.results.shop);
+
+    // -------------------------------------------------
+
+    // ---------作成したWebAPIエンドポイントを利用する------------
+    // API Routeを使用することで、APIキーを隠せる
+    const res = await axios.get(`/api/hotpepper?name_any=${searchName}`);
+    console.log(res);
+    console.log(res.data.shops);
+
+    setResult(res.data.shops);
   };
 
   /**

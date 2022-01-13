@@ -1,12 +1,12 @@
 import { NextPage } from "next";
 import Image from "next/image";
 import { useCallback, useState } from "react";
-import { Button } from "../../../components/Button";
-import { ReviewList } from "../../../components/lunch/ReviewList";
-import { PostModal } from "../../../components/PostModal";
-import { MenuBar } from "../../../components/MenuBar";
-import { GoogleMap } from "../../../components/GoogleMap";
-import { Star } from "../../../components/Star";
+import { Button } from "../../../components/Button/Button";
+import { ReviewList } from "../../../components/Lunch/ReviewList";
+import { PostModal } from "../../../components/Modal/PostModal";
+import { MenuBar } from "../../../components/Layout/MenuBar";
+import { GoogleMap } from "../../../components/Lunch/GoogleMap";
+import { Star } from "../../../components/Lunch/Star";
 import { useRouter } from "next/router";
 
 /**
