@@ -44,7 +44,7 @@ const LunchListPage: NextPage = () => {
             size="md"
           />
         </div>
-        <div className="m-5 flex justify-between gap-8 flex-col-reverse items-center sm:flex-row sm:items-start">
+        <div className="mt-5 flex justify-between gap-8 flex-col-reverse items-center sm:flex-row sm:items-start">
           <div className="flex flex-col w-full">
             <LunchTab path={path} />
           </div>

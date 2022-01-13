@@ -37,7 +37,7 @@ export const LunchTab: FC<Props> = memo((props) => {
   const router = useRouter();
 
   return (
-    <div className="w-full px-2 sm:px-0">
+    <div className="w-full">
       <Tab.Group
         defaultIndex={initialTab}
         onChange={(idx) => {
