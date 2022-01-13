@@ -1,11 +1,11 @@
 import { TextInput } from "../../components/Form/TextInput";
-import { useState, useCallback } from "react";
 import { Button } from "../../components/Button/Button";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import Cookie from "universal-cookie";
 
 //バリデーションチェック
 const schema = yup.object().shape({
@@ -45,23 +45,15 @@ const Login: NextPage = () => {
   //ルーターリンク
   const router = useRouter();
 
-  const inputEmailValue = useCallback(
-    (e) => {
-      setEmail(e.target.value);
-    },
-    [setEmail],
-  );
-  const inputPasswordValue = useCallback(
-    (e) => {
-      setPassword(e.target.value);
-    },
-    [setPassword],
-  );
+  //クッキーに登録
+  const cookie = new Cookie();
 
   //ログインボタンを押した時に呼ばれる
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
     console.log(data);
+    //ログインに成功したらクッキーにログイン情報をセットし、タイムラインページに画面遷移
+    cookie.set("user", data.email, { path: "/" });
     console.log("ログイン成功" + cookie.get("user"));
     reset;
     router.push("/timeline");
@@ -72,7 +64,6 @@ const Login: NextPage = () => {
       <div className="w-96 mt-3">
         <TextInput
           label="メールアドレス"
-          value={email}
           type="text"
           fullWidth={true}
           required
@@ -84,7 +75,6 @@ const Login: NextPage = () => {
       <div className="w-96 mt-3">
         <TextInput
           label="パスワード"
-          value={password}
           type="password"
           fullWidth={true}
           required
