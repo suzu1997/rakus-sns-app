@@ -14,11 +14,11 @@ export const Layout: FC<Props> = memo((props) => {
   const { children } = props;
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col ">
       <LoginIdProvider>
         {/* <LoginChecker> */}
         <Header />
-        <div className="flex">
+        <div className="flex  min-h-screen">
           <div className="hidden md:block lg:block">
             <MenuBar />
           </div>
