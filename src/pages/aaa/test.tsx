@@ -1,8 +1,8 @@
 import type { NextPage } from "next";
 import Link from "next/link";
 import { useCallback, useState } from "react";
-import { SelectBox } from "../../components/SelectBox";
-import { TextInput } from "../../components/TextInput";
+import { SelectBox } from "../../components/Form/SelectBox";
+import { TextInput } from "../../components/Form/TextInput";
 import Cookie from "universal-cookie";
 
 const Test: NextPage = () => {

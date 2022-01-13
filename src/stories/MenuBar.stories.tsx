@@ -1,5 +1,5 @@
 import { Meta, Story } from "@storybook/react";
-import { MenuBar } from "../components/MenuBar";
+import { MenuBar } from "../components/Layout/MenuBar";
 
 export default {
   title: "MenuBar",

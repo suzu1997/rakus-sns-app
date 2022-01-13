@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
-import { TextInput } from "../../components/TextInput";
-import { Button } from "../../components/Button";
-import { SelectBox } from "../../components/SelectBox";
+import { TextInput } from "../../components/Form/TextInput";
+import { Button } from "../../components/Button/Button";
+import { SelectBox } from "../../components/Form/SelectBox";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 

@@ -1,5 +1,5 @@
 import { Meta, Story } from "@storybook/react";
-import { Button, Props } from "../components/Button";
+import { Button, Props } from "../components/Button/Button";
 
 export default {
   /* 👇 The title prop is optional.
