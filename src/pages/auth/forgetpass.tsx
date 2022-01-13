@@ -4,6 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { TextInput } from "../../components/TextInput";
 import { Button } from "../../components/Button";
+import { ConfModal } from "../../components/ConfModal";
 import { useState, useCallback } from "react";
 
 //バリデーションチェック
@@ -21,6 +22,8 @@ const schema = yup.object().shape({
  * @returns パスワードを忘れたときの画面
  */
 const ForgetPass: NextPage = () => {
+  // モーダルのオープン状態
+  const [isOpen, setIsOpen] = useState(false);
 
   //バリデーション機能を呼び出し
   const {
@@ -36,7 +39,20 @@ const ForgetPass: NextPage = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
     console.log(data);
+    //メール認証成功したらモーダルを開ける
+    setIsOpen(true);
   };
+
+  //モーダルを閉じるメソッド.
+  const closeModal = useCallback(() => {
+    setIsOpen(false);
+  }, []);
+
+  //入力内容をクリアしてモーダルを閉じる
+  const doOnButton = () => {
+    //本当は入力内容をクリアしたいがクリアされず
+    reset;
+    setIsOpen(false);
   };
 
   return (
@@ -69,6 +85,14 @@ const ForgetPass: NextPage = () => {
               />
             </div>{" "}
           </div>{" "}
+          <ConfModal
+            isOpen={isOpen}
+            closeModal={closeModal}
+            title="ご入力いただいたメールアドレス宛にメールを送信しました"
+            message="送信したメールアドレスよりパスワード変更手続きをお願い致します"
+            button="了解"
+            doOnButton={doOnButton}
+          />
         </form>
       </div>
     </>
