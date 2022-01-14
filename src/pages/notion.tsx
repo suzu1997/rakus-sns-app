@@ -3,6 +3,7 @@ import { useCallback, useState } from "react";
 import { NextPage } from "next";
 import { SubHeader } from "../components/Layout/SubHeader";
 import { useRouter } from "next/router";
+import { Button } from "../components/Button/Button";
 
 /**
  * 通知ページ.
@@ -86,6 +87,16 @@ const Notion: NextPage = () => {
     <>
       {/* サブヘッダー */}
       <SubHeader title="通知" />
+
+      <div className="text-center my-10">
+        <Button
+          label="新しい通知を読み込む"
+          size="lg"
+          onClick={() => {
+            alert("新しい通知読み込み");
+          }}
+        />
+      </div>
 
       {/* タイムラインゾーン */}
       {data.map((value, key) => (

@@ -101,11 +101,7 @@ const User: NextPage = () => {
   return (
     <>
       <div className="flex mb-3">
-        <div>
-          <MenuBar />
-        </div>
         {/* ユーザー情報 */}
-
         <div className="w-full">
           <SubHeader title="ユーザー情報" />
           <div className="border-solid  border-2 border-bgc-200 m-5 shadow-lg rounded-md">
