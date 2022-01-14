@@ -47,32 +47,30 @@ const TweetDetail: NextPage = () => {
   return (
     <>
       {/* サブヘッダー */}
-      <div className="sm:w-10/12 w-full">
-        <SubHeader title="つぶやき詳細" />
+      <SubHeader title="つぶやき詳細" />
 
-        <div className="my-3 ml-3">
-          <Button label="←戻る" size="sm" onClick={backPage} />
+      <div className="my-3 ml-3">
+        <Button label="←戻る" size="sm" onClick={backPage} />
+      </div>
+
+      {/* つぶやき詳細 */}
+      <div>
+        <div className="pt-3 pb-3 flex">
+          <div className="w-3/12">
+            <Image src={data.img} width={300} height={300} alt="icon" />
+          </div>
+          <div className="w-9/12">
+            <div className="text-xl font-extrabold py-3">{data.name}</div>
+            <div className="w-8/12 ml-3">{data.tweet}</div>
+          </div>
         </div>
 
-        {/* つぶやき詳細 */}
-        <div>
-          <div className="pt-3 pb-3 flex">
-            <div className="w-3/12">
-              <Image src={data.img} width={300} height={300} alt="icon" />
-            </div>
-            <div className="w-9/12">
-              <div className="text-xl font-extrabold py-3">{data.name}</div>
-              <div className="w-8/12 ml-3">{data.tweet}</div>
-            </div>
-          </div>
+        <div className="text-right pb-5" style={style}>
+          <div className="mr-7 my-3">投稿日時：{data.time}</div>
+          <CommentIcon commentCount={300} />
 
-          <div className="text-right pb-5" style={style}>
-            <div className="mr-7 my-3">投稿日時：{data.time}</div>
-            <CommentIcon commentCount={300} />
-
-            <FavoBtn />
-            <TrashBtn />
-          </div>
+          <FavoBtn />
+          <TrashBtn />
         </div>
       </div>
 
