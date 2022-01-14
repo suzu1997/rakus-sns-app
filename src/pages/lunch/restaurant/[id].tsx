@@ -52,8 +52,7 @@ const RestaurantDetail: NextPage = () => {
 
   return (
     <div className="flex">
-      <MenuBar />
-      <div className="flex- flex w-10/12">
+      <div className="flex- flex">
         <div className="flex-col mt-10 mx-24 w-2/3">
           <div
             className="cursor-pointer mb-4"
