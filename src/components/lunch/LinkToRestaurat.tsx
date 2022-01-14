@@ -28,7 +28,7 @@ export const LinkToRestaurant = () => {
 
   return (
     <div
-      className="flex gap-5 items-center border border-gray-300 rounded-md mb-3 md:mx-32"
+      className="flex gap-5 items-center border border-gray-300 rounded-md mb-3 sm:w-4/5 mx-auto"
       onClick={goRestaurantDetail}
     >
       <Image
