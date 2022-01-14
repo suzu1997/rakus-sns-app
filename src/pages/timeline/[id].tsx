@@ -76,6 +76,22 @@ const TweetDetail: NextPage = () => {
         </div>
       </div>
 
+      {data.comment.map((value, key) => (
+        <div style={style} key={key} className="flex">
+          <div className="w-1/5 text-center pt-5">
+            <Image src={value.img} width={100} height={100} alt="icon" />
+          </div>
+          <div className="w-4/5">
+            <div className="text-xl font-extrabold pt-3 pb-3">{value.name}</div>
+            <div className="pt-5 pb-5 pl-5 w-8/12">{value.tweet}</div>
+            <div className="w-full text-right pt-3 pb-3">
+              <FavoBtn />
+              <TrashBtn />
+            </div>
+          </div>
+        </div>
+      ))}
+
       <div>
         <PostBtn />
       </div>
