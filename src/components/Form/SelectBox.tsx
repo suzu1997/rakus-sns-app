@@ -18,7 +18,7 @@ export const SelectBox: FC<Props> = (props) => {
       {label && <label className="text-gray-500 text-sm">{label}</label>}
       <Listbox value={value} onChange={select}>
         <div className="relative">
-          <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white border border-gray-200 rounded-lg shadow-md focus:outline-none sm:text-sm">
+          <Listbox.Button className="relative w-44 sm:w-56 h-8  sm:h-10 lg:w-64 lg:h-11 py-1 pl-3 pr-10 text-left bg-white border border-gray-200 rounded-lg shadow-md focus:outline-none sm:text-sm">
             <span className="block truncate">{value}</span>
             <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
               <SelectorIcon
@@ -33,7 +33,7 @@ export const SelectBox: FC<Props> = (props) => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute w-full py-1 mt-1 z-20 text-base bg-white rounded-md shadow-lg max-h-60 focus:outline-none sm:text-sm">
+            <Listbox.Options className="absolute w-40 sm:w-56  py-1 mt-1 z-20 text-base bg-white rounded-md shadow-lg max-h-60 focus:outline-none sm:text-sm text-xs lg:text-lg ">
               {options.map((option) => (
                 <Listbox.Option
                   key={option.id}
