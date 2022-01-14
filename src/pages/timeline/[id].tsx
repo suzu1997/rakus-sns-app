@@ -16,14 +16,16 @@ import Image from "next/image";
 const TweetDetail: NextPage = () => {
   //テストデータ
   const [data] = useState({
+    userId: 1,
     name: "山田太郎",
     tweet:
       "あああああああああああいいいいいいいいううううううううううえええええええええええええおおおおおおおおおおおおおおおうひうひひょひょほほほほほほほほほほほほほ",
     img: "/usakus.jpg",
     time: "00:00・0000/00/00",
     comment: [
-      { name: "佐藤花子", tweet: "まじうける", img: "/usakus.jpg" },
+      { userId: 2, name: "佐藤花子", tweet: "まじうける", img: "/usakus.jpg" },
       {
+        userId: 3,
         name: "次郎@駆け出しエンジニア",
         tweet: "分かります",
         img: "/usakus.jpg",
@@ -44,6 +46,22 @@ const TweetDetail: NextPage = () => {
     router.back();
   };
 
+  /**
+   * 画像クリックで投稿ユーザ情報ページに飛ぶ.
+   * @param userId - 投稿者ID
+   */
+  const goUserPage = (userId: number) => {
+    router.push(`/user/${userId}`);
+  };
+
+  /**
+   * 投稿クリックで投稿詳細ページに飛ぶ.
+   * @param postId - 投稿ID
+   */
+  const goDetailPage = (postId: number) => {
+    router.push(`/timeline/${postId}`);
+  };
+
   return (
     <>
       {/* サブヘッダー */}
@@ -56,8 +74,16 @@ const TweetDetail: NextPage = () => {
       {/* つぶやき詳細 */}
       <div>
         <div className="pt-3 pb-3 flex">
-          <div className="w-3/12">
-            <Image src={data.img} width={300} height={300} alt="icon" />
+          <div className="w-3/12 cursor-pointer hover:opacity-50">
+            <Image
+              src={data.img}
+              width={300}
+              height={300}
+              alt="icon"
+              onClick={() => {
+                goUserPage(data.userId);
+              }}
+            />
           </div>
           <div className="w-9/12">
             <div className="text-xl font-extrabold py-3">{data.name}</div>
@@ -76,8 +102,16 @@ const TweetDetail: NextPage = () => {
 
       {data.comment.map((value, key) => (
         <div style={style} key={key} className="flex">
-          <div className="w-1/5 text-center pt-5">
-            <Image src={value.img} width={100} height={100} alt="icon" />
+          <div className="w-1/5 text-center pt-5 cursor-pointer hover:opacity-50">
+            <Image
+              src={value.img}
+              width={100}
+              height={100}
+              alt="icon"
+              onClick={() => {
+                goUserPage(value.userId);
+              }}
+            />
           </div>
           <div className="w-4/5">
             <div className="text-xl font-extrabold pt-3 pb-3">{value.name}</div>
