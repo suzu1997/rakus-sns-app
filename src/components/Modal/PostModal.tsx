@@ -129,7 +129,7 @@ export const PostModal: FC<Props> = memo((props) => {
                     )}
                     {title}内容を下記に入力して下さい。(140字以内)
                   </div>
-                  <div className="flex mt-5">
+                  <div className="flex flex-col sm:flex-row mt-5">
                     <div className="ml-5">
                       <Image
                         src="/usakus.jpg"
@@ -139,7 +139,7 @@ export const PostModal: FC<Props> = memo((props) => {
                         className="rounded-full"
                       />
                     </div>
-                    <div className="mx-5">
+                    <div className="sm:mx-5">
                       <form>
                         <TextArea
                           value={post}
