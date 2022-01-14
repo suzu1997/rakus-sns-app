@@ -24,7 +24,6 @@ export const Layout: FC<Props> = memo((props) => {
     const path = router.pathname;
 
     //仮登録、登録、ログインページ、トップページは除外
-
     if (path.includes("/auth/") || path === "/") {
       setShowMenu(false);
     } else {
@@ -37,13 +36,12 @@ export const Layout: FC<Props> = memo((props) => {
       <LoginIdProvider>
         {/* <LoginChecker> */}
         <Header />
+
         <div className="flex flex-1">
-          {showMenu ? (
+          {showMenu && (
             <div className="lg:block md:block hidden">
               <MenuBar />
             </div>
-          ) : (
-            <></>
           )}
           <main className="flex-1">{children}</main>
         </div>
@@ -51,7 +49,6 @@ export const Layout: FC<Props> = memo((props) => {
         <div className="relative bottom-0 left-0 w-full">
           <Footer />
         </div>
-
         {/* </LoginChecker> */}
       </LoginIdProvider>
     </div>
