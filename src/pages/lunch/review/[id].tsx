@@ -56,7 +56,7 @@ const ReviewDetail: NextPage = () => {
               <div className="text-xl font-extrabold pt-3 pb-3">
                 {value.name}
               </div>
-              <div className="pt-5 pb-5 pl-5 w-8/12">{value.content}</div>
+              <div className="pt-5 pb-5 pl-5">{value.content}</div>
               <div className="w-full text-right pt-3 pb-3">
                 <FavoBtn />
                 <TrashBtn />

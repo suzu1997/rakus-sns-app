@@ -14,7 +14,7 @@ export const RestaurantList: FC = memo(() => {
     },
     {
       id: 2,
-      name: "行列のできるラーメン屋",
+      name: "行列のできるラーメン屋ああああああああ",
       genre: "ラーメン",
       type: "店内",
       star: 3.8, 
