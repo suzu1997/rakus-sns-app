@@ -35,8 +35,6 @@ const schema = yup.object().shape({
   hireDate: yup.string().required("入社年を入力してください"),
   //誕生日のバリデーション
   birthDate: yup.string().required("誕生日を入力してください"),
-  //職種のバリデーション
-  service: yup.string().required("職種を選択してください"),
   //パスワードのバリデーション
   password: yup
     .string()
