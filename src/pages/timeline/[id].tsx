@@ -92,11 +92,14 @@ const TweetDetail: NextPage = () => {
         </div>
 
         <div className="text-right pb-5" style={style}>
-          <div className="mr-7 my-3">投稿日時：{data.time}</div>
-          <CommentIcon commentCount={300} />
-
-          <FavoBtn />
-          <TrashBtn />
+          <div className="flex flex-col items-end gap-3 sm:flex-row justify-end mr-5">
+            <div className="mr-5">投稿日時：{data.time}</div>
+            <div>
+              <CommentIcon commentCount={300} />
+              <FavoBtn />
+              <TrashBtn />
+            </div>
+          </div>
         </div>
       </div>
 
