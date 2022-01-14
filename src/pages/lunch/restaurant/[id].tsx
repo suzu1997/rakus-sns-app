@@ -2,10 +2,9 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState, useCallback } from "react";
 import { Button } from "../../../components/Button/Button";
-import { MenuBar } from "../../../components/Layout/MenuBar";
-import { GoogleMap } from "../../../components/lunch/GoogleMap";
-import { ReviewList } from "../../../components/lunch/ReviewList";
-import { Star } from "../../../components/lunch/Star";
+import { GoogleMap } from "../../../components/Lunch/GoogleMap";
+import { ReviewList } from "../../../components/Lunch/ReviewList";
+import { Star } from "../../../components/Lunch/Star";
 import { PostModal } from "../../../components/Modal/PostModal";
 import Image from "next/image";
 
@@ -52,7 +51,7 @@ const RestaurantDetail: NextPage = () => {
 
   return (
     <div className="flex">
-      <div className="flex flex-col sm:flex-row sm:w-10/12">
+      <div className="flex flex-col sm:flex-row">
         <div className="flex-col mt-10 mx-5 sm:mx-24 sm:w-2/3">
           <div
             className="cursor-pointer mb-4"
