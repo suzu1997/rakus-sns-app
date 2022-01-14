@@ -24,12 +24,8 @@ export const Layout: FC<Props> = memo((props) => {
     const path = router.pathname;
 
     //仮登録、登録、ログインページ、トップページは除外
-    if (
-      path === "/auth/presingup" ||
-      path === "/auth/signup" ||
-      path === "/auth/login" ||
-      path === "/"
-    ) {
+
+    if (path.includes("/auth/") || path === "/") {
       setShowMenu(false);
     } else {
       setShowMenu(true);
