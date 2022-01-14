@@ -1,38 +1,19 @@
-import { memo, FC, useState, useCallback, useEffect } from "react";
+import { memo, FC, useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { MenuBar } from "./MenuBar";
 
-export const Header: FC = memo(() => {
-  //ヘッダー下線
-  const headerStyle = {
-    borderBottom: "5px solid orange",
-  };
+type Props = {
+  openMenu: () => void;
+};
 
+export const Header: FC<Props> = memo((props) => {
+  const { openMenu } = props;
   //ルーターリンク
   const router = useRouter();
-  //メニューバー表示非表示
-  const [isOpen, setIsOpen] = useState(false);
+
   //メニューバーのボタン表示非表示
   const [showMenuBtn, setShowMenuBtn] = useState(true);
-
-  /**
-   * メニューバーの開閉.
-   * @remarks [isOpen]入れないと反映しないため入れています
-   */
-  const openMenu = useCallback(() => {
-    {
-      isOpen ? setIsOpen(false) : setIsOpen(true);
-    }
-  }, [isOpen]);
-
-  /**
-   * 画面切り替えでメニュー閉じる.
-   */
-  useEffect(() => {
-    setIsOpen(false);
-  }, [router.pathname]);
 
   /**
    * 特定のパスの場合、メニューボタンを非表示に.
@@ -54,10 +35,7 @@ export const Header: FC = memo(() => {
 
   return (
     <>
-      <header
-        className="h-16 w-full shadow-md bg-white flex"
-        style={headerStyle}
-      >
+      <header className="h-16 w-full shadow-md bg-white flex border-b-4 border-basic">
         <span className="ml-5">
           <Link href="/">
             <a className="flex items-center">
@@ -81,17 +59,6 @@ export const Header: FC = memo(() => {
           <></>
         )}
       </header>
-      <div>
-        {isOpen ? (
-          <div className="relative z-40">
-            <div className="absolute top-0 right-0">
-              <MenuBar />
-            </div>
-          </div>
-        ) : (
-          <></>
-        )}
-      </div>
     </>
   );
 });
