@@ -16,7 +16,7 @@ type Props = {
  * テキストエリアのコンポーネント.
  */
 export const TextArea: FC<Props> = memo((props) => {
-  const { label, value, rows, cols, placeholder, onChange } = props;
+  const { label, value, rows, cols, placeholder, onChange, registers } = props;
 
   return (
     <div className="flex flex-col">
@@ -29,6 +29,7 @@ export const TextArea: FC<Props> = memo((props) => {
         cols={cols}
         placeholder={placeholder}
         className="p-5 focus:outline-none focus:border-basic border border-gray-300 shadow-md outline-none"
+        {...registers}
       ></textarea>
     </div>
   );

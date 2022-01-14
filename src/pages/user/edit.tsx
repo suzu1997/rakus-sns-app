@@ -67,7 +67,7 @@ const Edit: NextPage = () => {
       hireDate: "2022-10",
       birthDate: "2022-01-01",
       service: "FR",
-      profile: "とても元気です",
+      profile: "とても元気",
     },
   });
 
@@ -79,7 +79,6 @@ const Edit: NextPage = () => {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
-    console.log("発動");
     console.log(data);
     //更新完了でユーザ画面に戻る
     router.push("/user/1");
@@ -192,14 +191,15 @@ const Edit: NextPage = () => {
                 <div className="text-red-500">{errors.birthDate?.message}</div>
               </div>
               {/* 自己紹介のテキストフォーム */}
-              <TextArea
-                label="プロフィール"
-                rows={6}
-                cols={30}
-                registers={register("profile")}
-              />
-              <div className="text-red-500">{errors.profile?.message}</div>
-
+              <div className="my-5">
+                <TextArea
+                  label="プロフィール"
+                  rows={6}
+                  cols={30}
+                  registers={register("profile")}
+                />
+                <div className="text-red-500">{errors.profile?.message}</div>
+              </div>
               <div className="flex gap-3 mt-10 mb-10">
                 <Button
                   label="更新"
