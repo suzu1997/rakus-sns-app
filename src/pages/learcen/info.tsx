@@ -12,14 +12,11 @@ const Info: NextPage = () => {
   return (
     <>
       <div className="flex">
-        <div>
-          <MenuBar />
-        </div>
         <div className="w-full">
           <SubHeader title="ラーセン基本情報" />
           <div className="ml-5 mt-5">
             <Link href="/">
-              <a className="underline hover:text-blue-800 mt-3">→戻る</a>
+              <a className="underline hover:text-blue-800 mt-3">←戻る</a>
             </Link>
           </div>
           {/* 基本情報 */}
@@ -31,7 +28,6 @@ const Info: NextPage = () => {
               height={100}
               alt="icon"
             ></Image>
-
             <div className="mb-5">
               <div>住所:東京都新宿区</div>
               <div>解放時間:毎週土曜日9:00-18:00</div>
