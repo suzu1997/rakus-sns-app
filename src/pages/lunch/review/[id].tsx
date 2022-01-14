@@ -34,8 +34,7 @@ const ReviewDetail: NextPage = () => {
 
   return (
     <div className="flex">
-      <MenuBar />
-      <div className="flex-1 w-10/12">
+      <div className="flex-1">
         <SubHeader title={"レビュー詳細"} />
         <div
           className="cursor-pointer ml-5 mt-2"

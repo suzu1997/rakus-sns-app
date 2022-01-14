@@ -29,7 +29,6 @@ const LunchListPage: NextPage = () => {
 
   return (
     <div className="flex">
-      <MenuBar />
       <div className="flex-1">
         <SubHeader title={"近くのランチ"} />
         <div className="flex gap-3 justify-center">

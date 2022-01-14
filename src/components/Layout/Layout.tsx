@@ -32,11 +32,12 @@ export const Layout: FC<Props> = memo((props) => {
   }, [router.pathname]);
 
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <LoginIdProvider>
         {/* <LoginChecker> */}
         <Header />
-        <div className="flex">
+
+        <div className="flex flex-1">
           {showMenu && (
             <div className="lg:block md:block hidden">
               <MenuBar />

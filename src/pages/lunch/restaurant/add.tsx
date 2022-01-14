@@ -119,7 +119,6 @@ const RestaurantAdd: FC = () => {
 
   return (
     <div className="flex">
-      <MenuBar />
       <div className="p-10">
         <h1 className="text-3xl">お店を新規登録するページ</h1>
         <div className="flex gap-5 mt-5 mb-5">

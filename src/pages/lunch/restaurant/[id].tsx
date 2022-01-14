@@ -52,7 +52,6 @@ const RestaurantDetail: NextPage = () => {
 
   return (
     <div className="flex">
-      <MenuBar />
       <div className="flex flex-col sm:flex-row sm:w-10/12">
         <div className="flex-col mt-10 mx-5 sm:mx-24 sm:w-2/3">
           <div
