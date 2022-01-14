@@ -28,7 +28,11 @@ export const LoginChecker: FC<Props> = memo((props) => {
     const path = router.pathname;
 
     //仮登録、登録、ログインページは除外
-    if (path != "/auth/presingup" && path != "/auth/singup" && path != "/auth/login") {
+    if (
+      path != "/auth/presingup" &&
+      path != "/auth/singup" &&
+      path != "/auth/login"
+    ) {
       //IDが入っていなければ/loginへ
       if (!loginId) {
         router.push("/auth/login");
@@ -47,5 +51,5 @@ export const LoginChecker: FC<Props> = memo((props) => {
   /**
    * ログインしているか読み込み中はローディングを表示.
    */
-  return <>{flug ? <>{children}</> : <></>}</>;
+  return <>{flug && <>{children}</>}</>;
 });
