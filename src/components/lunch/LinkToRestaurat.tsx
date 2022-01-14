@@ -11,7 +11,7 @@ export const LinkToRestaurant = () => {
   // ダミーのレストランデータ
   const restaurantInfo = {
     id: "J001041443",
-    name: "らーめん 氣華",
+    name: "らーめん 氣華ああああああああああああああ",
     img: "https://imgfp.hotp.jp/IMGH/76/15/P018367615/P018367615_238.jpg",
   };
 
@@ -28,7 +28,7 @@ export const LinkToRestaurant = () => {
 
   return (
     <div
-      className="flex gap-5 items-center border border-gray-300 rounded-md mr-32 mb-3"
+      className="flex gap-5 items-center border border-gray-300 rounded-md mb-3 sm:w-4/5 mx-auto"
       onClick={goRestaurantDetail}
     >
       <Image
@@ -37,7 +37,7 @@ export const LinkToRestaurant = () => {
         height={80}
         alt="restaurant photo"
       />
-      <div className="font-bold text-lg">{restaurantInfo.name}</div>
+      <div className="font-bold text-md sm:text-lg">{restaurantInfo.name}</div>
     </div>
   );
 };

@@ -37,7 +37,7 @@ export const LunchTab: FC<Props> = memo((props) => {
   const router = useRouter();
 
   return (
-    <div className="w-full px-2 sm:px-0">
+    <div className="w-full">
       <Tab.Group
         defaultIndex={initialTab}
         onChange={(idx) => {
@@ -79,7 +79,7 @@ export const LunchTab: FC<Props> = memo((props) => {
           </Tab.Panel>
           <Tab.Panel>
             {/* タブがお店情報の時は店一覧表示 */}
-            <div className="flex">
+            <div className="flex flex-col-reverse sm:flex-row">
               <RestaurantList />
               <LunchSearchArea />
             </div>
