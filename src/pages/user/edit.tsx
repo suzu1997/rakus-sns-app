@@ -9,7 +9,8 @@ import { Radio } from "../../components/Form/Radio";
 import { useForm } from "react-hook-form";
 import { TextArea } from "../../components/Form/TextArea";
 import { PasswordModal } from "../../components/Modal/PasswordModal";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { loginIdContext } from "../../providers/LoginIdProvider";
 
 //バリデーションチェック
 const schema = yup.object().shape({
@@ -42,15 +43,8 @@ const schema = yup.object().shape({
  * @returns ユーザー情報を編集するためのページ
  */
 const Edit: NextPage = () => {
-  //テストデータ
-  // const [data] = useState({
-  //   name: "やまちゃん",
-  //   hireDate: "2021年10月",
-  //   img: "/usakus.jpg",
-  //   jobtype: "FR",
-  //   birthDay: "",
-  //   profile: "",
-  // });
+  //ログインID
+  const loginId = useContext(loginIdContext);
 
   // バリデーション機能を呼び出し
   const {
@@ -81,7 +75,7 @@ const Edit: NextPage = () => {
   const onSubmit = (data: any) => {
     console.log(data);
     //更新完了でユーザ画面に戻る
-    router.push("/user/1");
+    router.push(`/user/${loginId}`);
   };
 
   const [openModal, serOpenModal] = useState(false);
@@ -93,7 +87,7 @@ const Edit: NextPage = () => {
    * キャンセルボタンを押した時に呼ばれる
    */
   const cancel = () => {
-    router.push("/user/1");
+    router.push(`/user/${loginId}`);
   };
 
   return (
