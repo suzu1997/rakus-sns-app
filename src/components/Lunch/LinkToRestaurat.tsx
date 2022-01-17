@@ -28,7 +28,7 @@ export const LinkToRestaurant = () => {
 
   return (
     <div
-      className="flex gap-5 items-center border border-gray-300 rounded-md mb-3 sm:w-4/5 mx-auto"
+      className="flex gap-5 items-center border border-gray-300 rounded-md mb-3 w-4/5 mx-auto"
       onClick={goRestaurantDetail}
     >
       <Image
@@ -37,7 +37,7 @@ export const LinkToRestaurant = () => {
         height={80}
         alt="restaurant photo"
       />
-      <div className="font-bold text-md sm:text-lg">{restaurantInfo.name}</div>
+      <div className="font-bold text-sm sm:text-md lg:text-lg pr-1">{restaurantInfo.name}</div>
     </div>
   );
 };

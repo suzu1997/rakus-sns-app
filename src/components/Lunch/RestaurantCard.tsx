@@ -26,15 +26,15 @@ export const RestaurantCard: FC<Props> = memo((props) => {
   return (
     <div
       onClick={goRestaurantDetail}
-      className="flex flex-col sm:flex-row justify-between w-full px-10 py-5 relative h-auto border border-t-0 border-gray-200 cursor-pointer"
+      className="flex flex-col xl:flex-row justify-between w-full px-10 py-5 relative h-auto border border-t-0 border-gray-200 cursor-pointer"
     >
       <div className="relative">
-        <p className="text-xl font-extrabold border-l-8 border-basic mb-5 sm:mb-10 hover:underline">
+        <p className="text-xl font-extrabold border-l-8 border-basic mb-5 lg:mb-10 hover:underline">
           {name}
         </p>
-        <div className="sm:ml-10">ジャンル: {genre}</div>
-        <div className="sm:ml-10">タイプ: {type}</div>
-        <div className="sm:ml-10">
+        <div className="xl:ml-10">ジャンル: {genre}</div>
+        <div className="xl:ml-10">タイプ: {type}</div>
+        <div className="xl:ml-10">
           評価(平均): <Star starCount={star} />
         </div>
       </div>
