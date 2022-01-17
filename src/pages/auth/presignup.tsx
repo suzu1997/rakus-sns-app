@@ -72,36 +72,42 @@ const PreSignUp: NextPage = () => {
         </div>
 
         <div className="flex flex-col items-center mt-10">
-          <div className="flex w-auto gap-3 m-3">
-            <TextInput
-              label="姓"
-              type="text"
-              fullWidth={false}
-              required
-              errorMessage={errors.firstName?.message}
-              placeholder="姓"
-              registers={register("firstName")}
-            />
-            <TextInput
-              label="名"
-              type="text"
-              fullWidth={false}
-              required
-              errorMessage={errors.lastName?.message}
-              placeholder="名"
-              registers={register("lastName")}
-            />
+          <div className="lg:flex sm:flex gap-3 w-auto">
+            <div className="mt-3">
+              <TextInput
+                label="姓"
+                type="text"
+                fullWidth={false}
+                required
+                errorMessage={errors.firstName?.message}
+                placeholder="姓"
+                registers={register("firstName")}
+              />
+            </div>
+            <div className="mt-3">
+              <TextInput
+                label="名"
+                type="text"
+                fullWidth={false}
+                required
+                errorMessage={errors.lastName?.message}
+                placeholder="名"
+                registers={register("lastName")}
+              />
+            </div>
           </div>
-          <div className="flex gap-3 w-auto mt-3">
-            <TextInput
-              label="メールアドレス"
-              type="text"
-              fullWidth={false}
-              required
-              errorMessage={errors.email?.message}
-              placeholder="メールアドレス"
-              registers={register("email")}
-            />
+          <div className="lg:flex sm:flex gap-3 w-auto">
+            <div className="mt-3">
+              <TextInput
+                label="メールアドレス"
+                type="text"
+                fullWidth={false}
+                required
+                errorMessage={errors.email?.message}
+                placeholder="メールアドレス"
+                registers={register("email")}
+              />
+            </div>
             <div className="mt-2">
               <SelectBox
                 label="ドメイン"
@@ -111,7 +117,7 @@ const PreSignUp: NextPage = () => {
               />
             </div>
           </div>
-          <div className="flex gap-3 mt-10 mb-10">
+          <div className="gap-3 mt-10 mb-10">
             <Button
               label="仮登録"
               backgroundColor="#f28728"

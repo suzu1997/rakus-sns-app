@@ -58,12 +58,12 @@ const ForgetPass: NextPage = () => {
   return (
     <>
       <div className="border-solid  border-2 border-bgc-200 m-10  shadow-lg rounded-xl text-center">
-        <div className="mt-10 ">
+        <div className="mt-10 text-base  sm:text-xl">
           ご登録いただいているメールアドレスをご入力してください
         </div>
         <form name="SignupForm" noValidate>
           <div className="flex flex-col items-center mt-5">
-            <div className="gap-3 w-96 mt-3">
+            <div className="gap-3 w-3/4 mt-3">
               {/* メールアドレスのテキストフォーム */}
               <TextInput
                 label="メールアドレス"

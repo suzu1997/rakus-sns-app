@@ -70,7 +70,7 @@ const UpdatePass: NextPage = () => {
         </div>
         <form name="SignupForm" noValidate>
           <div className="flex flex-col items-center mt-5">
-            <div className="gap-3 w-96 mt-3">
+            <div className="gap-3 w-3/4 sm:w-2/4 mt-3">
               {/* メールアドレスのテキストフォーム */}
               <TextInput
                 label="メールアドレス"
@@ -82,27 +82,27 @@ const UpdatePass: NextPage = () => {
                 registers={register("email")}
               />
             </div>
-            <div className="w-96 mt-3">
+            <div className="w-3/4 sm:w-2/4 mt-3">
               {/* パスワードのテキストフォーム */}
               <TextInput
-                label="パスワード(半角英数字)"
+                label="パスワード"
                 type="password"
                 fullWidth={true}
                 required
                 errorMessage={errors.password?.message}
-                placeholder="8文字以上16文字以内(大文字小文字数字含む)"
+                placeholder="8文字以上16文字以内"
                 registers={register("password")}
               />
             </div>
-            <div className="w-96 mt-3">
+            <div className="w-3/4 sm:w-2/4 mt-3">
               {/* 確認用パスワードのテキストフォーム */}
               <TextInput
-                label="確認用パスワード(半角英数字)"
+                label="確認用パスワード"
                 type="password"
                 fullWidth={true}
                 required
                 errorMessage={errors.passwordConf?.message}
-                placeholder="8文字以上16文字以内(大文字小文字数字含む)"
+                placeholder="8文字以上16文字以内"
                 registers={register("passwordConf")}
               />
             </div>
