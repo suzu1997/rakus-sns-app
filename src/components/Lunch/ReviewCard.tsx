@@ -31,7 +31,7 @@ export const ReviewCard: FC<Props> = memo((props) => {
 
   return (
     <div
-      className="flex flex-col w-full p-5 relative h-auto border border-t-0 border-gray-200 cursor-pointer"
+      className="flex flex-col w-full p-3 relative h-auto border border-t-0 border-gray-200 cursor-pointer"
       onClick={goReviewDetail}
     >
       <div className="flex">
@@ -43,7 +43,7 @@ export const ReviewCard: FC<Props> = memo((props) => {
           <div>
             <Star starCount={star} />
           </div>
-          <div className="pt-5 pb-5">{content}</div>
+          <div className="pt-5 pb-5 pr-1">{content}</div>
         </div>
       </div>
       <div>
