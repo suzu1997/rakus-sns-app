@@ -75,102 +75,102 @@ const SignUp: NextPage = () => {
   };
 
   return (
-    <>
-      <div className="border-solid  border-2 border-bgc-200 m-10  shadow-lg rounded-xl text-center">
+    <div>
+      <div className="border-solid  border-2 lg:m-10 sm:m-10  shadow-lg rounded-xl text-center">
         <div className="text-3xl text-text-brown mt-5 font-bold ">
           本登録フォーム
         </div>
-        <form name="SignupForm" noValidate>
-          <div className="flex flex-col items-center mt-10 mr-3 ml-3">
+
+        <div className="flex flex-col items-center mt-10 mr-3 ml-3">
           <div className="text-xl mt-3">名前:{data.name}</div>
           <div className="mt-3">メールアドレス:{data.email}</div>
-              {/* アカウント名のテキストフォーム */}
-              <TextInput
-                label="アカウント名"
-                type="text"
-                fullWidth={true}
-                required
-                errorMessage={errors.accountName?.message}
-                placeholder="アカウント名"
-                registers={register("accountName")}
-              />
-            </div>
-            <div className="w-96 mt-3">
-              {/* 入社年のテキストフォーム*/}
-              <TextInput
-                label="入社年"
-                type="month"
-                fullWidth={true}
-                required
-                errorMessage={errors.hireDate?.message}
-                registers={register("hireDate")}
-              />
-            </div>
-            {/* 職種のラジオボタン */}
-            <div className="mt-3">職種を選択してください</div>
-            <div className="flex gap-5">
-              <Radio id="FR" value="1" name="jobType" defaultChecked />
-              <Radio id="Java" value="2" name="jobType" />
-              <Radio id="CL" value="3" name="jobType" />
-              <Radio id="QA" value="4" name="jobType" />
-              <Radio id="ML" value="5" name="jobType" />
-              <Radio id="内勤" value="6" name="jobType" />
-            </div>
-            <div className="w-96 mt-3">
-              {/* 誕生日のテキストフォーム */}
-              <TextInput
-                label="誕生日"
-                type="date"
-                fullWidth={true}
-                required
-                errorMessage={errors.birthDate?.message}
-                registers={register("birthDate")}
-              />
-            </div>
-            <div className="w-96 mt-3">
-              {/* パスワードのテキストフォーム */}
-              <TextInput
-              label="パスワード"
-                type="password"
-                fullWidth={true}
-                required
-                errorMessage={errors.password?.message}
-              placeholder="8文字以上16文字以内"
-                registers={register("password")}
-              />
-            </div>
-            <div className="w-96 mt-3">
-              {/* 確認用パスワードのテキストフォーム */}
-              <TextInput
-              label="確認用パスワード"
-                type="password"
-                fullWidth={true}
-                required
-                errorMessage={errors.passwordConf?.message}
-              placeholder="8文字以上16文字以内"
-                registers={register("passwordConf")}
-              />
-            </div>
-            <div className="flex gap-3 mt-10 mb-10">
-              <Button
-                label="登録"
-                backgroundColor="#f28728"
-                color="white"
-                size="md"
-                onClick={handleSubmit(onSubmit)}
-              />
-              <Button
-                label="クリア"
-                backgroundColor="#f6f0ea"
-                color="#f28728"
-                size="md"
-                onClick={reset}
-              />
-            </div>{" "}
+          <div className="w-3/4 mt-3">
+            {/* アカウント名のテキストフォーム */}
+            <TextInput
+              label="アカウント名"
+              type="text"
+              fullWidth={true}
+              required
+              errorMessage={errors.accountName?.message}
+              placeholder="アカウント名"
+              registers={register("accountName")}
+            />
           </div>
-        </form>
+          <div className="w-3/4 mt-3">
+            {/* 入社年のテキストフォーム*/}
+            <TextInput
+              label="入社年"
+              type="month"
+              fullWidth={true}
+              required
+              errorMessage={errors.hireDate?.message}
+              registers={register("hireDate")}
+            />
+          </div>
+          {/* 職種のラジオボタン */}
+          <div className="mt-3">職種を選択してください</div>
+          <div className="flex gap-5">
+            <Radio id="FR" value="1" name="jobType" defaultChecked />
+            <Radio id="Java" value="2" name="jobType" />
+            <Radio id="CL" value="3" name="jobType" />
+            <Radio id="QA" value="4" name="jobType" />
+            <Radio id="ML" value="5" name="jobType" />
+            <Radio id="内勤" value="6" name="jobType" />
+          </div>
+          <div className="w-3/4 mt-3">
+            {/* 誕生日のテキストフォーム */}
+            <TextInput
+              label="誕生日"
+              type="date"
+              fullWidth={true}
+              required
+              errorMessage={errors.birthDate?.message}
+              registers={register("birthDate")}
+            />
+          </div>
+          <div className="w-3/4 mt-3">
+            {/* パスワードのテキストフォーム */}
+            <TextInput
+              label="パスワード"
+              type="password"
+              fullWidth={true}
+              required
+              errorMessage={errors.password?.message}
+              placeholder="8文字以上16文字以内"
+              registers={register("password")}
+            />
+          </div>
+          <div className="w-3/4 mt-3">
+            {/* 確認用パスワードのテキストフォーム */}
+            <TextInput
+              label="確認用パスワード"
+              type="password"
+              fullWidth={true}
+              required
+              errorMessage={errors.passwordConf?.message}
+              placeholder="8文字以上16文字以内"
+              registers={register("passwordConf")}
+            />
+          </div>
+          <div className="flex gap-3 mt-10 mb-10">
+            <Button
+              label="登録"
+              backgroundColor="#f28728"
+              color="white"
+              size="md"
+              onClick={handleSubmit(onSubmit)}
+            />
+            <Button
+              label="クリア"
+              backgroundColor="#f6f0ea"
+              color="#f28728"
+              size="md"
+              onClick={reset}
+            />
+          </div>{" "}
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 export default SignUp;
