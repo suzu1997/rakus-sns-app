@@ -57,7 +57,7 @@ const Login: NextPage = () => {
 
   return (
     <div className="flex flex-col items-center mt-10">
-      <div className="w-96 mt-3">
+      <div className="w-3/4 sm:w-2/4  mt-3">
         <TextInput
           label="メールアドレス"
           type="text"
@@ -68,14 +68,14 @@ const Login: NextPage = () => {
           registers={register("email")}
         />
       </div>
-      <div className="w-96 mt-3">
+      <div className="w-3/4 sm:w-2/4 mt-3">
         <TextInput
           label="パスワード"
           type="password"
           fullWidth={true}
           required
           errorMessage={errors.password?.message}
-          placeholder="8文字以上16文字以内(大文字小文字数字含む)"
+          placeholder="8文字以上16文字以内"
           registers={register("password")}
         />
       </div>
