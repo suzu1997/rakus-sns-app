@@ -73,17 +73,8 @@ const SignUp: NextPage = () => {
     resolver: yupResolver(schema),
   });
 
-  //メールアドレスのドメイン選択肢
-  const options = [
-    { id: "1", name: "@rakus-patners.co.jp" },
-    { id: "2", name: "@rakus.co.jp" },
-  ];
-
   //ルーターリンク
   const router = useRouter();
-
-  //セレクトボックスの初期値
-  const [selectValue, setSelectValue] = useState<string>(options[0].name);
 
   //登録ボタンを押した時に呼ばれる
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -100,52 +91,9 @@ const SignUp: NextPage = () => {
           本登録フォーム
         </div>
         <form name="SignupForm" noValidate>
-          <div className="flex flex-col items-center mt-10">
-            <div className="flex w-96 gap-3 mt-3">
-              {/* 姓のテキストフォーム */}
-              <TextInput
-                label="姓"
-                type="text"
-                fullWidth={false}
-                required
-                errorMessage={errors.firstName?.message}
-                placeholder="姓"
-                registers={register("firstName")}
-              />
-              {/* registers={register} でバリデーション機能に登録される */}
-              {/* errors はバリデーションエラー内容を持つ構造体で自動で更新される */}
-
-              {/* 名のテキストフォーム */}
-              <TextInput
-                label="名"
-                type="text"
-                fullWidth={false}
-                required
-                errorMessage={errors.lastName?.message}
-                placeholder="名"
-                registers={register("lastName")}
-              />
-            </div>
-            <div className="gap-3 w-96 mt-3">
-              {/* メールアドレスのテキストフォーム */}
-              <TextInput
-                label="メールアドレス"
-                type="text"
-                fullWidth={true}
-                required
-                errorMessage={errors.email?.message}
-                placeholder="メールアドレス"
-                registers={register("email")}
-              />
-              <div className="mt-2 text-left">
-                <SelectBox
-                  label="ドメイン"
-                  value={selectValue}
-                  select={setSelectValue}
-                  options={options}
-                />
-              </div>
-            </div>
+          <div className="flex flex-col items-center mt-10 mr-3 ml-3">
+            <div className="flex w-auto gap-3 text-xl mt-3">名前:◯◯◯◯</div>
+            <div className="gap-3 w-96  mt-3">メールアドレス:xxx@yyy</div>
             <div className="w-96 mt-3">
               {/* アカウント名のテキストフォーム */}
               <TextInput
