@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Button } from "../../components/Button/Button";
-import { SelectBox } from "../../components/Form/SelectBox";
 import { Radio } from "../../components/Form/Radio";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
@@ -11,21 +10,6 @@ import { TextInput } from "../../components/Form/TextInput";
 
 //バリデーションチェック
 const schema = yup.object().shape({
-  //姓のバリデーション
-  firstName: yup
-    .string()
-    .required("姓名を入力してください")
-    .max(15, "姓名は15文字以内で入力してください"),
-  //名のバリデーション
-  lastName: yup
-    .string()
-    .required("名前を入力してください")
-    .max(15, "名前は15文字以内で入力してください"),
-  //メールのバリデーション
-  email: yup
-    .string()
-    .required("メールアドレスを入力してください")
-    .max(200, "メールアドレスは200文字以内で入力してください"),
   //アカウント名のバリデーション
   accountName: yup
     .string()
