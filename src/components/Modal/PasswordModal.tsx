@@ -1,4 +1,4 @@
-import { FC, memo } from "react";
+import { FC, memo, useContext } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { Button } from "../Button/Button";
@@ -7,6 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { TextInput } from "../Form/TextInput";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
+import { loginIdContext } from "../../providers/LoginIdProvider";
 
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
@@ -56,6 +57,8 @@ export const PasswordModal: FC<Props> = memo((props) => {
 
   //ルーターリンク
   const router = useRouter();
+  //ログインID
+  const loginId = useContext(loginIdContext);
   /**
    * 登録ボタンを押した時に呼ばれる
    * @param data - 入力したデータ
@@ -64,14 +67,14 @@ export const PasswordModal: FC<Props> = memo((props) => {
   const onSubmit = (data: any) => {
     console.log(data);
     //更新完了でユーザ画面に戻る
-    router.push("/user/1");
+    router.push(`/user/${loginId}`);
   };
 
   /**
    * キャンセルボタンを押した時に呼ばれる
    */
   const cancel = () => {
-    router.push("/user/1");
+    router.push(`/user/${loginId}`);
   };
 
   return (
