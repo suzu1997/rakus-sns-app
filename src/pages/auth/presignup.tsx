@@ -67,12 +67,12 @@ const PreSignUp: NextPage = () => {
   return (
     <>
       <div className="border-solid  border-2 border-bgc-200 m-10  shadow-lg rounded-xl text-center">
-        <div className="text-3xl text-text-brown mt-5 font-bold ">
+        <div className="text-3xl text-text-brown mt-5 text-center font-bold ">
           仮登録フォーム
         </div>
 
         <div className="flex flex-col items-center mt-10">
-          <div className="flex w-96 gap-3 mt-3">
+          <div className="flex w-auto gap-3 m-3">
             <TextInput
               label="姓"
               type="text"
@@ -92,7 +92,7 @@ const PreSignUp: NextPage = () => {
               registers={register("lastName")}
             />
           </div>
-          <div className="flex gap-3 w-96 mt-3">
+          <div className="flex gap-3 w-auto mt-3">
             <TextInput
               label="メールアドレス"
               type="text"
