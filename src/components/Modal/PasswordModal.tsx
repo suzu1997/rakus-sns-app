@@ -15,15 +15,7 @@ type Props = {
 //バリデーションチェック
 const schema = yup.object().shape({
   //現在のパスワードのバリデーション
-  currentPassword: yup
-    .string()
-    .required("現在のパスワードを入力してください")
-    .matches(
-      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]+$/,
-      "アルファベット（大文字小文字混在）と数字とを組み合わせて入力してください",
-    )
-    .max(16, "16文字以内で入力してください")
-    .min(8, "8文字以上で入力してください"),
+  currentPassword: yup.string().required("現在のパスワードを入力してください"),
   //新しいのパスワードのバリデーション
   newPassword: yup
     .string()
@@ -42,8 +34,6 @@ const schema = yup.object().shape({
       /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]+$/,
       "アルファベット（大文字小文字混在）と数字とを組み合わせて入力してください",
     )
-    .max(16, "16文字以内で入力してください")
-    .min(8, "8文字以上で入力してください")
     .oneOf(
       [yup.ref("newPassword"), null],
       "確認用パスワードが一致していません",

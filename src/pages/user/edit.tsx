@@ -30,11 +30,12 @@ const schema = yup.object().shape({
     .required("アカウント名を入力してください")
     .max(30, "アカウント名は30文字以内で入力してください"),
   //入社年のバリデーション
-  hireDate: yup.string().required("入社年を入力してください"),
+  hireDate: yup.string(),
   //誕生日のバリデーション
-  birthDate: yup.string().required("誕生日を入力してください"),
+  birthDate: yup.string(),
   //職種のバリデーション
-  service: yup.string().required("職種を選択してください"),
+  service: yup.string(),
+  //プロフィールのバリデーション
   profile: yup.string().max(140, "自己紹介は140文字以内で入力してください"),
 });
 
