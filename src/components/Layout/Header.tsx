@@ -21,12 +21,7 @@ export const Header: FC<Props> = memo((props) => {
   useEffect(() => {
     //現在のパス
     const path = router.pathname;
-    if (
-      path === "/auth/presingup" ||
-      path === "/auth/signup" ||
-      path === "/auth/login" ||
-      path === "/"
-    ) {
+    if (path.includes("/auth/") || path === "/") {
       setShowMenuBtn(false);
     } else {
       setShowMenuBtn(true);
