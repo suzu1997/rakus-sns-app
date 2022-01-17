@@ -84,7 +84,9 @@ export const LunchSearchArea: FC = memo(() => {
           value={type}
           select={setType}
         />
-        <Button label="検索" onClick={search} />
+        <div className="text-center">
+          <Button label="検索" onClick={search} />
+        </div>
       </div>
     </div>
   );
