@@ -47,6 +47,12 @@ const schema = yup.object().shape({
  * @returns ユーザー登録するためのページ
  */
 const SignUp: NextPage = () => {
+  //テストデータ
+  const [data] = useState({
+    name: "ランチックス",
+    email: "xxx@yyy",
+  });
+
   // バリデーション機能を呼び出し
   const {
     register,
@@ -76,9 +82,8 @@ const SignUp: NextPage = () => {
         </div>
         <form name="SignupForm" noValidate>
           <div className="flex flex-col items-center mt-10 mr-3 ml-3">
-            <div className="flex w-auto gap-3 text-xl mt-3">名前:◯◯◯◯</div>
-            <div className="gap-3 w-96  mt-3">メールアドレス:xxx@yyy</div>
-            <div className="w-96 mt-3">
+          <div className="text-xl mt-3">名前:{data.name}</div>
+          <div className="mt-3">メールアドレス:{data.email}</div>
               {/* アカウント名のテキストフォーム */}
               <TextInput
                 label="アカウント名"
@@ -125,24 +130,24 @@ const SignUp: NextPage = () => {
             <div className="w-96 mt-3">
               {/* パスワードのテキストフォーム */}
               <TextInput
-                label="パスワード(半角英数字)"
+              label="パスワード"
                 type="password"
                 fullWidth={true}
                 required
                 errorMessage={errors.password?.message}
-                placeholder="8文字以上16文字以内(大文字小文字数字含む)"
+              placeholder="8文字以上16文字以内"
                 registers={register("password")}
               />
             </div>
             <div className="w-96 mt-3">
               {/* 確認用パスワードのテキストフォーム */}
               <TextInput
-                label="確認用パスワード(半角英数字)"
+              label="確認用パスワード"
                 type="password"
                 fullWidth={true}
                 required
                 errorMessage={errors.passwordConf?.message}
-                placeholder="8文字以上16文字以内(大文字小文字数字含む)"
+              placeholder="8文字以上16文字以内"
                 registers={register("passwordConf")}
               />
             </div>
