@@ -1,35 +1,28 @@
 import { NextPage } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import useSWR from "swr";
 import { FavoBtn } from "../../../components/Button/FavoBtn";
 import { SubHeader } from "../../../components/Layout/SubHeader";
 import { TrashBtn } from "../../../components/Button/TrashBtn";
 import { ReviewCard } from "../../../components/Lunch/ReviewCard";
+import { JAVA_API_URL } from "../../../utils/const";
 
 const ReviewDetail: NextPage = () => {
   const router = useRouter();
-  //テストデータ
-  const [reviewData] = useState({
-    id: 1,
-    name: "佐藤花子",
-    content: "おいしかったです",
-    img: "/usakus.jpg",
-    star: 4,
-    time: "00:00・0000/00/00",
-    comment: [
-      {
-        name: "山田太郎",
-        content: "俺もここ行った、うまかった",
-        img: "/usakus.jpg",
-      },
-      {
-        name: "ランチックス",
-        content: "今度行ってみよー",
-        img: "/usakus.jpg",
-      },
-    ],
-  });
+  const reviewId = Number(router.query.id);
+
+  const { data: review, error } = useSWR<LunchReview>(
+    `${JAVA_API_URL}/reviews/${reviewId}`,
+  );
+
+  if (!error && !review) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>データを取得できませんでした</div>;
+  }
 
   return (
     <div className="flex">
@@ -43,12 +36,12 @@ const ReviewDetail: NextPage = () => {
         >
           ←戻る
         </div>
-        <ReviewCard {...reviewData} type="詳細" hasRestaurantInfo={true} />
+        <ReviewCard {...review} type="詳細" hasRestaurantInfo={true} />
         {/* コメント部分 */}
-        {reviewData.comment.map((value, key) => (
-          <div key={key} className="flex border border-b border-gray-200">
+        {review?.comment.map((value: any, index: number) => (
+          <div key={index} className="flex border border-b border-gray-200">
             <div className="w-1/5 text-center pt-5">
-              <Image src={value.img} width={100} height={100} alt="icon" />
+              <Image src="/usakus.jpg" width={100} height={100} alt="icon" />
             </div>
 
             <div className="w-4/5">
