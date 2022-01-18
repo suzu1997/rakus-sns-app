@@ -11,6 +11,8 @@ import { TextArea } from "../../components/Form/TextArea";
 import { PasswordModal } from "../../components/Modal/PasswordModal";
 import { useContext, useState } from "react";
 import { loginIdContext } from "../../providers/LoginIdProvider";
+import axios from "axios";
+import { format } from "date-fns";
 
 //バリデーションチェック
 const schema = yup.object().shape({
@@ -56,12 +58,12 @@ const Edit: NextPage = () => {
     resolver: yupResolver(schema),
     //初期値はログインしている人のデータを入れる
     defaultValues: {
-      firstName: "やま",
-      lastName: "ちゃん",
+      firstName: "山田",
+      lastName: "太郎",
       accountName: "やまちゃん",
-      hireDate: "2022-10",
-      birthDay: "2022-01-01",
-      service: "FR",
+      hireDate: "2021-10",
+      birthDay: "2000-01-01",
+      service: "3",
       profile: "とても元気",
     },
   });
@@ -73,10 +75,42 @@ const Edit: NextPage = () => {
    * @param data - 入力したデータ
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = (data: any) => {
-    console.log(data);
-    //更新完了でユーザ画面に戻る
-    router.push(`/user/${loginId}`);
+  const onSubmit = async (data: any) => {
+    console.log("日付：" + data.hireDate);
+
+    const name = data.firstName + data.lastName;
+    const hireDate = String(format(data.hireDate, "yyyy-MM-dd"));
+    const birthDay = String(format(data.birthDay, "yyyy-MM-dd"));
+
+    const postData = {
+      name: name,
+      accountName: data.accountName,
+      //本来はログインユーザのメールアドレス
+      email: "useredit-test@rakus-partners.co.jp",
+      hireDate: hireDate,
+      birthDay: birthDay,
+      // serviceFk: data.serviceFk,
+      serviceFk: data.service,
+      //本来はログインユーザのPW
+      password: "aaaAAA1234567890",
+      introduction: data.profile,
+    };
+
+    console.dir("送るデータ" + JSON.stringify(postData));
+
+    // try {
+    //   const res = await axios.post("http://localhost:8080/signup", postData);
+    //   if (res.data.status === "success") {
+    //     console.log(res.data.status);
+    //     alert("更新しました");
+    //     //更新完了でユーザ画面に戻る
+    //     router.push(`/user/${loginId}`);
+    //   } else {
+    //     alert(res.data.message);
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   const [openModal, serOpenModal] = useState(false);
