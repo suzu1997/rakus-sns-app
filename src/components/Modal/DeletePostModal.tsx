@@ -1,6 +1,7 @@
 import { useCallback, Fragment, FC, memo } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Button } from "../Button/Button";
+import axios from "axios";
 
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
@@ -18,10 +19,21 @@ export const DeletePostModal: FC<Props> = memo((props) => {
   /**
    * はいボタン押下で発動.
    */
-  const deletePost = useCallback(() => {
+  const deletePost = useCallback(async () => {
     alert("投稿ID" + postId + "を削除しました");
-    //タイムラインページに戻る
-    closeModal();
+    // try {
+    //   const res = await axios.post("http://localhost:8080/signup");
+    //   console.log(JSON.stringify(res.data));
+    //   if (res.data.status === "success") {
+    //     console.log(res.data.status);
+    //     //成功→タイムラインページに戻る
+    //     closeModal();
+    //   } else {
+    //     alert(res.data.message);
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
   }, []);
 
   return (
