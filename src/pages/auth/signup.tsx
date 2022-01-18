@@ -52,7 +52,7 @@ const SignUp: NextPage = () => {
   //テストデータ
   const [testData] = useState({
     name: "ランチックス",
-    email: "xxx5@rakus-partners.co.jp",
+    email: "xxx7@rakus-partners.co.jp",
   });
 
   // バリデーション機能を呼び出し
@@ -86,7 +86,7 @@ const SignUp: NextPage = () => {
         serviceFk: data.serviceFk,
         password: data.password,
       });
-      console.log("送るデータ" + res.data);
+      console.log(JSON.stringify(res.data));
       if (res.data.status === "success") {
         console.log(res.data.status);
         //会員登録に成功したら登録完了画面に遷移する;
