@@ -9,7 +9,10 @@ import { Radio } from "../../components/Form/Radio";
 import { useForm } from "react-hook-form";
 import { TextArea } from "../../components/Form/TextArea";
 import { PasswordModal } from "../../components/Modal/PasswordModal";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { loginIdContext } from "../../providers/LoginIdProvider";
+import axios from "axios";
+import { format } from "date-fns";
 
 //バリデーションチェック
 const schema = yup.object().shape({
@@ -29,11 +32,12 @@ const schema = yup.object().shape({
     .required("アカウント名を入力してください")
     .max(30, "アカウント名は30文字以内で入力してください"),
   //入社年のバリデーション
-  hireDate: yup.string().required("入社年を入力してください"),
+  hireDate: yup.date().max(new Date(), "入社日は現在よりも前に設定して下さい"),
   //誕生日のバリデーション
-  birthDate: yup.string().required("誕生日を入力してください"),
+  birthDay: yup.date().max(new Date(), "誕生日は現在よりも前に設定して下さい"),
   //職種のバリデーション
-  service: yup.string().required("職種を選択してください"),
+  service: yup.string(),
+  //プロフィールのバリデーション
   profile: yup.string().max(140, "自己紹介は140文字以内で入力してください"),
 });
 
@@ -42,15 +46,8 @@ const schema = yup.object().shape({
  * @returns ユーザー情報を編集するためのページ
  */
 const Edit: NextPage = () => {
-  //テストデータ
-  // const [data] = useState({
-  //   name: "やまちゃん",
-  //   hireDate: "2021年10月",
-  //   img: "/usakus.jpg",
-  //   jobtype: "FR",
-  //   birthDay: "",
-  //   profile: "",
-  // });
+  //ログインID
+  const loginId = useContext(loginIdContext);
 
   // バリデーション機能を呼び出し
   const {
@@ -61,12 +58,12 @@ const Edit: NextPage = () => {
     resolver: yupResolver(schema),
     //初期値はログインしている人のデータを入れる
     defaultValues: {
-      firstName: "やま",
-      lastName: "ちゃん",
+      firstName: "山田",
+      lastName: "太郎",
       accountName: "やまちゃん",
-      hireDate: "2022-10",
-      birthDate: "2022-01-01",
-      service: "FR",
+      hireDate: "2021-10",
+      birthDay: "2000-01-01",
+      service: "3",
       profile: "とても元気",
     },
   });
@@ -78,10 +75,45 @@ const Edit: NextPage = () => {
    * @param data - 入力したデータ
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = (data: any) => {
-    console.log(data);
-    //更新完了でユーザ画面に戻る
-    router.push("/user/1");
+  const onSubmit = async (data: any) => {
+    console.log("日付：" + data.hireDate);
+
+    const name = data.firstName + data.lastName;
+    const hireDate = String(format(data.hireDate, "yyyy-MM-dd"));
+    const birthDay = String(format(data.birthDay, "yyyy-MM-dd"));
+
+    const postData = {
+      name: name,
+      accountName: data.accountName,
+      //本来はログインユーザのメールアドレス
+      email: "useredit-test@rakus-partners.co.jp",
+      hireDate: hireDate,
+      birthDay: birthDay,
+      // serviceFk: data.serviceFk,
+      serviceFk: data.service,
+      //本来はログインユーザのPW
+      password: "aaaAAA1234567890",
+      introduction: data.profile,
+    };
+
+    console.dir("送るデータ" + JSON.stringify(postData));
+
+    //APIURL
+    const url = "http://localhost:8080";
+
+    // try {
+    //   const res = await axios.post(url, postData);
+    //   if (res.data.status === "success") {
+    //     console.log(res.data.status);
+    //     alert("更新しました");
+    //     //更新完了でユーザ画面に戻る
+    //     router.push(`/user/${loginId}`);
+    //   } else {
+    //     alert(res.data.message);
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   const [openModal, serOpenModal] = useState(false);
@@ -93,7 +125,7 @@ const Edit: NextPage = () => {
    * キャンセルボタンを押した時に呼ばれる
    */
   const cancel = () => {
-    router.push("/user/1");
+    router.push(`/user/${loginId}`);
   };
 
   return (
@@ -159,9 +191,9 @@ const Edit: NextPage = () => {
                 </div>
               </div>
               <div className="w-96 mt-3">
-                {/* 入社年のテキストフォーム*/}
+                {/* 入社月のテキストフォーム*/}
                 <TextInput
-                  label="入社年"
+                  label="入社月"
                   type="month"
                   fullWidth={true}
                   required
@@ -186,9 +218,9 @@ const Edit: NextPage = () => {
                   type="date"
                   fullWidth={true}
                   required
-                  registers={register("birthDate")}
+                  registers={register("birthDay")}
                 />
-                <div className="text-red-500">{errors.birthDate?.message}</div>
+                <div className="text-red-500">{errors.birthDay?.message}</div>
               </div>
               {/* 自己紹介のテキストフォーム */}
               <div className="my-5">
