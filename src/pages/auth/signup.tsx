@@ -69,10 +69,29 @@ const SignUp: NextPage = () => {
 
   //登録ボタンを押した時に呼ばれる
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     console.log(data);
-    //会員登録に成功したら登録完了画面に遷移する
-    router.push("/auth/compsignup");
+    try {
+      const res = await axios.post("http://localhost:8080/signup", {
+        name: testData.name,
+        accountName: data.accountName,
+        email: testData.email,
+        hireDate: data.hireDate,
+        birthDay: data.birthDay,
+        serviceFk: data.serviceFk,
+        password: data.password,
+      });
+      console.log("送るデータ" + res.data);
+      if (res.data.status === "success") {
+        console.log(res.data.status);
+        //会員登録に成功したら登録完了画面に遷移する;
+        router.push("/auth/compsignup");
+      } else {
+        alert(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
