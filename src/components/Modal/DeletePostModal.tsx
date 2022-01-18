@@ -5,6 +5,7 @@ import { Button } from "../Button/Button";
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
   closeModal: () => void; // モーダルを閉じるメソッド
+  postId: number;
 };
 
 /**
@@ -12,13 +13,13 @@ type Props = {
  * @returns 投稿削除をするためのモーダル
  */
 export const DeletePostModal: FC<Props> = memo((props) => {
-  const { isOpen, closeModal } = props;
+  const { isOpen, closeModal, postId } = props;
 
   /**
    * はいボタン押下で発動.
    */
   const deletePost = useCallback(() => {
-    alert("削除しました");
+    alert("投稿ID" + postId + "を削除しました");
     //タイムラインページに戻る
     closeModal();
   }, []);
