@@ -5,10 +5,12 @@ export type Props = {
   value: string;
   name: string;
   defaultChecked?: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  registers?: any;
 };
 
 export const Radio: FC<Props> = (props) => {
-  const { value, id, name, defaultChecked } = props;
+  const { value, id, name, defaultChecked, registers } = props;
   return (
     <div>
       <div className="flex-col text-left">
@@ -18,6 +20,7 @@ export const Radio: FC<Props> = (props) => {
           value={value}
           id={id}
           defaultChecked={defaultChecked}
+          {...registers}
         />
         <label htmlFor={id}>{id}</label>
       </div>
