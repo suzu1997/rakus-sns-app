@@ -28,7 +28,7 @@ export const PostBtn: FC = memo(() => {
           title={"つぶやき"}
         />
       ) : (
-        <div className="fixed bottom-14 right-10">
+        <div className="fixed bottom-20 right-10">
           <button
             type="button"
             className="rounded-full text-white bg-basic w-10 h-10 shadow-lg"
