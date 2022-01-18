@@ -6,38 +6,38 @@ import { FavoBtn } from "../Button/FavoBtn";
 import { Star } from "./Star";
 import { TrashBtn } from "../Button/TrashBtn";
 import { LinkToRestaurant } from "./LinkToRestaurat";
+import { LunchReview } from "../../types/type";
 
-type Props = {
-  id: number;
-  name: string;
-  content: string;
-  img: string;
-  time: string;
-  star: number;
-  type: string; // 一覧か詳細か
-  hasRestaurantInfo: boolean; // 店詳細ページへのリンクを表示するかどうか
-  userId: string;
+type Props = LunchReview & {
+  type: string;
+  hasRestaurantInfo: boolean;
 };
 
 export const ReviewCard: FC<Props> = memo((props) => {
   const {
-    id,
-    name,
-    content,
-    img,
-    time,
+    reviewId,
     star,
+    sentence,
+    userId,
+    accountName,
+    userImg,
+    likeCount,
+    commentCount,
+    restaurantId,
+    restaurantName,
+    restaurantImg,
+    time,
     type,
     hasRestaurantInfo,
-    userId,
   } = props;
+
   const router = useRouter();
 
   /**
    * レビュー詳細ページへ遷移するメソッド.
    */
   const goReviewDetail = () => {
-    router.push(`/lunch/review/${id}`);
+    router.push(`/lunch/review/${reviewId}`);
   };
 
   /**
@@ -56,23 +56,29 @@ export const ReviewCard: FC<Props> = memo((props) => {
     >
       <div className="flex">
         <div className="mr-6" onClick={goUserPage}>
-          <Image src={img} width={100} height={100} alt="icon" />
+          <Image src={userImg} width={100} height={100} alt="icon" />
         </div>
         <div className="flex flex-col w-full">
-          <div className="text-xl font-extrabold pt-3 pb-3">{name}</div>
+          <div className="text-xl font-extrabold pt-3 pb-3">{accountName}</div>
           <div>
             <Star starCount={star} />
           </div>
-          <div className="pt-5 pb-5 pr-1">{content}</div>
+          <div className="pt-5 pb-5 pr-1">{sentence}</div>
         </div>
       </div>
       <div>
         {/* hasRestaurantInfoがtrueならばレストラン情報へのリンクを表示する */}
-        {hasRestaurantInfo && <LinkToRestaurant />}
+        {hasRestaurantInfo && (
+          <LinkToRestaurant
+            restaurantId={restaurantId}
+            restaurantName={restaurantName}
+            restaurantImg={restaurantImg}
+          />
+        )}
         <div className="flex flex-col items-end gap-3 sm:flex-row justify-end">
           {type === "詳細" && <span className="mr-7">投稿日時：{time}</span>}
           <div>
-            <CommentIcon commentCount={300} />
+            <CommentIcon commentCount={commentCount} />
             <FavoBtn />
             <TrashBtn />
           </div>
