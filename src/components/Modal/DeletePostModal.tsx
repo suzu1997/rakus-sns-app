@@ -1,13 +1,13 @@
 import { useCallback, useState, Fragment, FC } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { Button } from "../../components/Button/Button";
+import { Button } from "../Button/Button";
 import { useRouter } from "next/router";
 
 /**
  * 投稿削除をするためのモーダル.
  * @returns 投稿削除をするためのモーダル
  */
-export const TrashModal: FC = () => {
+export const DeletePostModal: FC = () => {
   //ルーターリンク
   const router = useRouter();
   //モーダル開け閉めフラグ
