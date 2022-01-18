@@ -2,14 +2,14 @@ import { FC, memo, useCallback, useState } from "react";
 import { DeletePostModal } from "../Modal/DeletePostModal";
 
 type Props = {
-  postId: number;
+  postId?: number;
 };
 
 /**
  * つぶやきを削除するボタン.
  */
 export const TrashBtn: FC<Props> = memo((props) => {
-  const { postId } = props;
+  const { postId = 0 } = props;
 
   // レビュー投稿のモーダルのオープン状態
   const [isPostOpen, setPostIsOpen] = useState(false);
