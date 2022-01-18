@@ -1,87 +1,155 @@
-import { FC, memo } from "react";
+import { FC, memo, useCallback, useContext, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { Button } from "../Button/Button";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { TextInput } from "../Form/TextInput";
-import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
+import { loginIdContext } from "../../providers/LoginIdProvider";
+import axios from "axios";
 
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
 };
 
-//バリデーションチェック
-const schema = yup.object().shape({
-  //現在のパスワードのバリデーション
-  currentPassword: yup
-    .string()
-    .required("現在のパスワードを入力してください")
-    .matches(
-      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]+$/,
-      "アルファベット（大文字小文字混在）と数字とを組み合わせて入力してください",
-    )
-    .max(16, "16文字以内で入力してください")
-    .min(8, "8文字以上で入力してください"),
-  //新しいのパスワードのバリデーション
-  newPassword: yup
-    .string()
-    .required("新しいパスワードを入力してください")
-    .matches(
-      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]+$/,
-      "アルファベット（大文字小文字混在）と数字とを組み合わせて入力してください",
-    )
-    .max(16, "16文字以内で入力してください")
-    .min(8, "8文字以上で入力してください"),
-  //確認用パスワードのバリデーション
-  passwordConf: yup
-    .string()
-    .required("確認用パスワードを入力してください")
-    .matches(
-      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]+$/,
-      "アルファベット（大文字小文字混在）と数字とを組み合わせて入力してください",
-    )
-    .max(16, "16文字以内で入力してください")
-    .min(8, "8文字以上で入力してください")
-    .oneOf(
-      [yup.ref("newPassword"), null],
-      "確認用パスワードが一致していません",
-    ),
-});
 /**
  * パスワード変更のためのモーダルのコンポーネント.
  */
 export const PasswordModal: FC<Props> = memo((props) => {
   const { isOpen } = props;
 
-  // バリデーション機能を呼び出し
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
+  //エラーメッセージ
+  const [currentPasswordErrorMessage, setCurrentPasswordError] = useState("");
+  const [newPasswordErrorMessage, setNewPasswordErrorMessage] = useState("");
+  const [passwordConfErrorMessage, setPasswordConfErrorMessage] = useState("");
+
+  //入力値
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [passwordConf, setPasswordConf] = useState("");
+
+  //APIから取得するログインユーザのパスワード
+  //consoleで表示させないため、意味のない言葉に変更
+  const [a4mnjkm5vf2c] = useState("aaaAAA1234567890");
+
+  //各入力フォームに入力した際に更新される
+  //現在のパスワード
+  const currentPasswordValue = useCallback(
+    (e) => {
+      setCurrentPassword(e.target.value);
+    },
+    [setCurrentPassword],
+  );
+
+  //新しいパスワード
+  const newPasswordValue = useCallback(
+    (e) => {
+      setNewPassword(e.target.value);
+    },
+    [setNewPassword],
+  );
+
+  //確認用パスワード
+  const passwordConfValue = useCallback(
+    (e) => {
+      setPasswordConf(e.target.value);
+    },
+    [setPasswordConf],
+  );
 
   //ルーターリンク
   const router = useRouter();
+  //ログインID
+  const loginId = useContext(loginIdContext);
   /**
    * 登録ボタンを押した時に呼ばれる
-   * @param data - 入力したデータ
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = (data: any) => {
-    console.log(data);
-    //更新完了でユーザ画面に戻る
-    router.push("/user/1");
-  };
+  const onSubmit = useCallback(async () => {
+    //エラーの初期化
+    setCurrentPasswordError("");
+    setNewPasswordErrorMessage("");
+    setPasswordConfErrorMessage("");
+    //エラーチェック
+    if (newPassword === a4mnjkm5vf2c) {
+      setNewPasswordErrorMessage("現在のパスワードと同じです");
+    }
+    if (currentPassword != a4mnjkm5vf2c) {
+      setCurrentPasswordError(
+        "現在のパスワードが登録しているものと一致しません",
+      );
+    }
+    if (passwordConf != newPassword) {
+      setPasswordConfErrorMessage("新しいパスワードと一致しません");
+    }
+    if (
+      !(
+        /[A-Z]+/.test(newPassword) &&
+        /[a-z]+/.test(newPassword) &&
+        /[0-9]+/.test(newPassword)
+      )
+    ) {
+      setNewPasswordErrorMessage(
+        "パスワードは大文字/小文字/数字を組み合わせて下さい。",
+      );
+    }
+    if (newPassword.length < 8 || newPassword.length > 16) {
+      setNewPasswordErrorMessage(
+        "パスワードは８文字以上１６文字以内で設定してください",
+      );
+    }
+    if (newPassword === "") {
+      setNewPasswordErrorMessage("新しいパスワードを入力して下さい");
+    }
+
+    //エラーがあればリターン
+    if (
+      currentPasswordErrorMessage != "" &&
+      newPasswordErrorMessage != "" &&
+      passwordConfErrorMessage != ""
+    ) {
+      return;
+    }
+
+    //API送信データ
+    const postData = {
+      password: newPassword,
+    };
+
+    //APIURL
+    const url = "http://localhost:8080";
+
+    // try {
+    //   const res = await axios.post(url, postData);
+    //   if (res.data.status === "success") {
+    //     console.log(res.data.status);
+    //     alert("更新しました");
+    //     //更新完了でユーザ画面に戻る
+    //     router.push(`/user/${loginId}`);
+    //   } else {
+    //     alert(res.data.message);
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
+
+    //[]内入れないと変更が反映されないため、入力
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    currentPassword,
+    currentPasswordErrorMessage,
+    loginId,
+    newPassword,
+    newPasswordErrorMessage,
+    a4mnjkm5vf2c,
+    passwordConf,
+    passwordConfErrorMessage,
+    router,
+  ]);
 
   /**
    * キャンセルボタンを押した時に呼ばれる
    */
   const cancel = () => {
-    router.push("/user/1");
+    router.push(`/user/${loginId}`);
   };
 
   return (
@@ -134,7 +202,7 @@ export const PasswordModal: FC<Props> = memo((props) => {
                 <form>
                   <div className="mt-2">
                     <div className="text-red-500">
-                      {errors.currentPassword?.message}
+                      {currentPasswordErrorMessage}
                     </div>
                     <TextInput
                       label="現在のパスワード(半角英数字)"
@@ -142,12 +210,13 @@ export const PasswordModal: FC<Props> = memo((props) => {
                       fullWidth={true}
                       required
                       placeholder="8文字以上16文字以内(大文字小文字数字含む)"
-                      registers={register("currentPassword")}
+                      onChange={currentPasswordValue}
+                      value={currentPassword}
                     />
                   </div>
                   <div className="mt-2">
                     <div className="text-red-500">
-                      {errors.newPassword?.message}
+                      {newPasswordErrorMessage}
                     </div>
                     <TextInput
                       label="新しいパスワード(半角英数字)"
@@ -155,12 +224,13 @@ export const PasswordModal: FC<Props> = memo((props) => {
                       fullWidth={true}
                       required
                       placeholder="8文字以上16文字以内(大文字小文字数字含む)"
-                      registers={register("newPassword")}
+                      onChange={newPasswordValue}
+                      value={newPassword}
                     />
                   </div>
                   <div className="mt-2">
                     <div className="text-red-500">
-                      {errors.passwordConf?.message}
+                      {passwordConfErrorMessage}
                     </div>
                     <TextInput
                       label="確認用パスワード(半角英数字)"
@@ -168,7 +238,8 @@ export const PasswordModal: FC<Props> = memo((props) => {
                       fullWidth={true}
                       required
                       placeholder="8文字以上16文字以内(大文字小文字数字含む)"
-                      registers={register("passwordConf")}
+                      onChange={passwordConfValue}
+                      value={passwordConf}
                     />
                   </div>
                   {/* ボタン */}
@@ -178,7 +249,8 @@ export const PasswordModal: FC<Props> = memo((props) => {
                       backgroundColor="#f28728"
                       color="white"
                       size="md"
-                      onClick={handleSubmit(onSubmit)}
+                      onClick={onSubmit}
+                      type="button"
                     />
                     <Button
                       label="キャンセル"

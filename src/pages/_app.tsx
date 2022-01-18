@@ -3,6 +3,8 @@ import "../styles/globals.css";
 import "tailwindcss/tailwind.css";
 import { Layout } from "../components/Layout/Layout";
 import Head from "next/head";
+import { SWRConfig } from "swr";
+import { fetcher } from "../utils/fetcher";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -17,7 +19,10 @@ function MyApp({ Component, pageProps }: AppProps) {
         ></link>
       </Head>
       <Layout>
-        <Component {...pageProps} />
+        {/* useSWRのグローバル設定 fetcher関数を共通化 */}
+        <SWRConfig value={{ fetcher }}>
+          <Component {...pageProps} />
+        </SWRConfig>
       </Layout>
     </>
   );

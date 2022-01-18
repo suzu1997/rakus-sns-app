@@ -1,19 +1,27 @@
-import { MouseEvent } from "react";
+import { FC, memo, MouseEvent } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
+
+type Props = {
+  restaurantId: number;
+  restaurantName: string;
+  restaurantImg: string;
+};
 
 /**
  * レビューから対象の店詳細ページへのリンクカード.
  */
-export const LinkToRestaurant = () => {
+export const LinkToRestaurant: FC<Props> = memo((props) => {
+  const { restaurantId, restaurantName, restaurantImg } = props;
+
   const router = useRouter();
 
   // ダミーのレストランデータ
-  const restaurantInfo = {
-    id: "J001041443",
-    name: "らーめん 氣華ああああああああああああああ",
-    img: "https://imgfp.hotp.jp/IMGH/76/15/P018367615/P018367615_238.jpg",
-  };
+  // const restaurantInfo = {
+  //   id: "J001041443",
+  //   name: "らーめん 氣華ああああああああああああああ",
+  //   img: "https://imgfp.hotp.jp/IMGH/76/15/P018367615/P018367615_238.jpg",
+  // };
 
   /**
    * 個別の店情報ページへ遷移するメソッド.
@@ -23,7 +31,7 @@ export const LinkToRestaurant = () => {
   const goRestaurantDetail = (e: MouseEvent<HTMLInputElement>) => {
     // 親要素へのイベントの伝搬を止める
     e.stopPropagation();
-    router.push(`/lunch/restaurant/${restaurantInfo.id}`);
+    router.push(`/lunch/restaurant/${restaurantId}`);
   };
 
   return (
@@ -32,12 +40,14 @@ export const LinkToRestaurant = () => {
       onClick={goRestaurantDetail}
     >
       <Image
-        src={restaurantInfo.img}
+        src={restaurantImg}
         width={100}
         height={80}
         alt="restaurant photo"
       />
-      <div className="font-bold text-sm sm:text-md lg:text-lg pr-1">{restaurantInfo.name}</div>
+      <div className="font-bold text-sm sm:text-md lg:text-lg pr-1">
+        {restaurantName}
+      </div>
     </div>
   );
-};
+});
