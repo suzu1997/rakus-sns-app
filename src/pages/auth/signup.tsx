@@ -72,12 +72,16 @@ const SignUp: NextPage = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
     console.log(data);
+    //保持された入社月データをDate型に変換
+    const date = new Date(data.hireDate);
+    //日付のフォーマットに変換
+    const hireDate = parseISO(format(date, "yyyy-MM-dd"));
     try {
       const res = await axios.post("http://localhost:8080/signup", {
         name: testData.name,
         accountName: data.accountName,
         email: testData.email,
-        hireDate: data.hireDate,
+        hireDate: hireDate,
         birthDay: data.birthDay,
         serviceFk: data.serviceFk,
         password: data.password,
@@ -120,8 +124,8 @@ const SignUp: NextPage = () => {
           <div className="w-3/4 mt-3">
             {/* 入社年のテキストフォーム*/}
             <TextInput
-              label="入社日"
-              type="date"
+              label="入社月"
+              type="month"
               fullWidth={true}
               required
               errorMessage={errors.hireDate?.message}
