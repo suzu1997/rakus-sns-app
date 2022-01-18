@@ -53,7 +53,7 @@ const RestaurantDetail: NextPage = () => {
   return (
     <div className="flex">
       <div className="flex-1">
-        <SubHeader title={"レビュー詳細"} />
+        <SubHeader title="ランチ店詳細" />
         <div className="flex flex-col lg:flex-row">
           <div className="flex-col mx-5 xl:mx-24 lg:w-2/3">
             <div
