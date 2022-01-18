@@ -16,6 +16,7 @@ import Image from "next/image";
 const TweetDetail: NextPage = () => {
   //テストデータ
   const [data] = useState({
+    postId: 1,
     userId: 1,
     name: "山田太郎",
     tweet:
@@ -23,8 +24,15 @@ const TweetDetail: NextPage = () => {
     img: "/usakus.jpg",
     time: "00:00・0000/00/00",
     comment: [
-      { userId: 2, name: "佐藤花子", tweet: "まじうける", img: "/usakus.jpg" },
       {
+        postId: 2,
+        userId: 2,
+        name: "佐藤花子",
+        tweet: "まじうける",
+        img: "/usakus.jpg",
+      },
+      {
+        postId: 3,
         userId: 3,
         name: "次郎@駆け出しエンジニア",
         tweet: "分かります",
@@ -52,14 +60,6 @@ const TweetDetail: NextPage = () => {
    */
   const goUserPage = (userId: number) => {
     router.push(`/user/${userId}`);
-  };
-
-  /**
-   * 投稿クリックで投稿詳細ページに飛ぶ.
-   * @param postId - 投稿ID
-   */
-  const goDetailPage = (postId: number) => {
-    router.push(`/timeline/${postId}`);
   };
 
   return (
@@ -97,7 +97,7 @@ const TweetDetail: NextPage = () => {
             <div>
               <CommentIcon commentCount={300} />
               <FavoBtn />
-              <TrashBtn />
+              <TrashBtn postId={data.postId} />
             </div>
           </div>
         </div>
@@ -121,7 +121,7 @@ const TweetDetail: NextPage = () => {
             <div className="pt-5 pb-5 pl-5 w-8/12">{value.tweet}</div>
             <div className="w-full text-right pt-3 pb-3">
               <FavoBtn />
-              <TrashBtn />
+              <TrashBtn postId={value.postId} />
             </div>
           </div>
         </div>
