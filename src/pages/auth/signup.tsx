@@ -110,12 +110,43 @@ const SignUp: NextPage = () => {
           {/* 職種のラジオボタン */}
           <div className="mt-3">職種を選択してください</div>
           <div className="flex gap-5">
-            <Radio id="FR" value="1" name="jobType" defaultChecked />
-            <Radio id="Java" value="2" name="jobType" />
-            <Radio id="CL" value="3" name="jobType" />
-            <Radio id="QA" value="4" name="jobType" />
-            <Radio id="ML" value="5" name="jobType" />
-            <Radio id="内勤" value="6" name="jobType" />
+            <Radio
+              id="FR"
+              value="1"
+              name="serviceFk"
+              registers={register("serviceFk")}
+              defaultChecked
+            />
+            <Radio
+              id="Java"
+              value="2"
+              name="serviceFk"
+              registers={register("serviceFk")}
+            />
+            <Radio
+              id="CL"
+              value="3"
+              name="serviceFk"
+              registers={register("serviceFk")}
+            />
+            <Radio
+              id="QA"
+              value="4"
+              name="serviceFk"
+              registers={register("serviceFk")}
+            />
+            <Radio
+              id="ML"
+              value="5"
+              name="serviceFk"
+              registers={register("serviceFk")}
+            />
+            <Radio
+              id="内勤"
+              value="6"
+              name="serviceFk"
+              registers={register("serviceFk")}
+            />
           </div>
           <div className="w-3/4 mt-3">
             {/* 誕生日のテキストフォーム */}
