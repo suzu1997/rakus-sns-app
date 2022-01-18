@@ -1,30 +1,31 @@
-import { FC, memo } from "react";
+import { FC, memo, useCallback, useState } from "react";
+import { DeletePostModal } from "../Modal/DeletePostModal";
 
 /**
  * つぶやきを削除するボタン.
  */
-export const TrashBtn: FC = memo((props) => {
-  //APIによってURLを変えたいため、propsでURLを受け取る
-  // const { url = "" } = props;
+export const TrashBtn: FC = memo(() => {
+  // レビュー投稿のモーダルのオープン状態
+  const [isPostOpen, setPostIsOpen] = useState(false);
 
   /**
-   * APIで投稿削除を行う.
-   * @remarks APIによってURLを変えたいため、propsでURLを受け取る
+   * モーダルを開けるメソッド.
    */
-  // const trash = () => {
-  //   console.log("URL" + url);
-  // };
+  const openDeleteModal = useCallback(() => {
+    setPostIsOpen(true);
+  }, []);
 
   /**
-   * 仮のメソッド.(API完成したら削除)
+   * モーダルを閉じるメソッド.
    */
-  const trash = () => {
-    console.log("つぶやき削除");
-  };
+  const closeDeleteModal = useCallback(() => {
+    setPostIsOpen(false);
+  }, []);
 
   return (
     <>
-      <button type="button" className="pr-10" onClick={trash}>
+      <DeletePostModal closeModal={closeDeleteModal} isOpen={isPostOpen} />
+      <button type="button" className="pr-10" onClick={openDeleteModal}>
         <i className="fas fa-trash-alt text-gray-500 hover:text-blue-500"></i>
       </button>
     </>

@@ -1,34 +1,26 @@
-import { useCallback, useState, Fragment, FC } from "react";
+import { useCallback, Fragment, FC, memo } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Button } from "../Button/Button";
-import { useRouter } from "next/router";
+
+type Props = {
+  isOpen: boolean; // モーダルが開いているかどうか
+  closeModal: () => void; // モーダルを閉じるメソッド
+};
 
 /**
  * 投稿削除をするためのモーダル.
  * @returns 投稿削除をするためのモーダル
  */
-export const DeletePostModal: FC = () => {
-  //ルーターリンク
-  const router = useRouter();
-  //モーダル開け閉めフラグ
-  const [isOpen, setIsOpen] = useState(true);
-
-  /**
-   * キャンセルボタン押下で発動.
-   */
-  const closeModal = useCallback(() => {
-    //モーダルを閉じる
-    setIsOpen(false);
-    //タイムラインページに戻る
-    router.push("/timeline");
-  }, []);
+export const DeletePostModal: FC<Props> = memo((props) => {
+  const { isOpen, closeModal } = props;
 
   /**
    * はいボタン押下で発動.
    */
   const deletePost = useCallback(() => {
+    alert("削除しました");
     //タイムラインページに戻る
-    router.push("/timeline");
+    closeModal();
   }, []);
 
   return (
@@ -96,4 +88,4 @@ export const DeletePostModal: FC = () => {
       </Transition>
     </>
   );
-};
+});
