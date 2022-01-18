@@ -83,23 +83,17 @@ export const PasswordModal: FC<Props> = memo((props) => {
   /**
    * 登録ボタンを押した時に呼ばれる
    */
-  const onSubmit = () => {
+  const onSubmit = useCallback(() => {
+    //エラーの初期化
     setCurrentPasswordError("");
     setNewPasswordErrorMessage("");
     setPasswordConfErrorMessage("");
-    if (newPassword === null) {
-      setNewPasswordErrorMessage("新しいパスワードを入力して下さい");
-    }
+    //エラーチェック
     if (currentPassword != password) {
       setCurrentPasswordError("現在のパスワードが一致しません");
     }
     if (passwordConf != newPassword) {
       setPasswordConfErrorMessage("新しいパスワードと一致しません");
-    }
-    if (newPassword.length < 8 || newPassword.length > 16) {
-      setNewPasswordErrorMessage(
-        "パスワードは８文字以上１６文字以内で設定してください",
-      );
     }
     if (
       !(
@@ -112,17 +106,19 @@ export const PasswordModal: FC<Props> = memo((props) => {
         "パスワードは大文字/小文字/数字を組み合わせて下さい。",
       );
     }
-    console.log(
-      "現在のPW" +
-        currentPassword +
-        "新しいPW" +
-        newPassword +
-        "確認" +
-        passwordConf,
-    );
+    if (newPassword.length < 8 || newPassword.length > 16) {
+      setNewPasswordErrorMessage(
+        "パスワードは８文字以上１６文字以内で設定してください",
+      );
+    }
+    if (newPassword === "") {
+      setNewPasswordErrorMessage("新しいパスワードを入力して下さい");
+    }
+
     //更新完了でユーザ画面に戻る
     // router.push(`/user/${loginId}`);
-  };
+    //[]内入れないと変更が反映されないため、入力
+  }, [currentPassword, newPassword, password, passwordConf]);
 
   /**
    * キャンセルボタンを押した時に呼ばれる
