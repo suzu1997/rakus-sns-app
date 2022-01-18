@@ -49,9 +49,9 @@ const schema = yup.object().shape({
  */
 const SignUp: NextPage = () => {
   //テストデータ
-  const [data] = useState({
+  const [testData] = useState({
     name: "ランチックス",
-    email: "xxx@yyy",
+    email: "xxx5@rakus-partners.co.jp",
   });
 
   // バリデーション機能を呼び出し
@@ -83,8 +83,8 @@ const SignUp: NextPage = () => {
         </div>
 
         <div className="flex flex-col items-center mt-10 mr-3 ml-3">
-          <div className="text-xl mt-3">名前:{data.name}</div>
-          <div className="mt-3">メールアドレス:{data.email}</div>
+          <div className="text-xl mt-3">名前:{testData.name}</div>
+          <div className="mt-3">メールアドレス:{testData.email}</div>
           <div className="w-3/4 mt-3">
             {/* アカウント名のテキストフォーム */}
             <TextInput
