@@ -12,6 +12,4 @@ export type LunchReview = {
   restaurantName: string;
   restaurantImg: string;
   time?: Date;
-  type?: string; // 一覧か詳細か
-  hasRestaurantInfo?: boolean; // 店詳細ページへのリンクを表示するかどうか
 }
