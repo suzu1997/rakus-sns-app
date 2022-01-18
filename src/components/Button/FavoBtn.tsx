@@ -1,26 +1,35 @@
-import { FC, memo } from "react";
+import { FC, memo, useCallback } from "react";
+
+type Props = {
+  postId?: number;
+};
 
 /**
  * つぶやきをお気に入りに登録するボタン.
  */
-export const FavoBtn: FC = memo((props) => {
-  //APIによってURLを変えたいため、propsでURLを受け取る
-  // const { url = "" } = props;
+export const FavoBtn: FC<Props> = memo((props) => {
+  //お気に入り(いいね)対象の投稿番号
+  const { postId = 0 } = props;
 
   /**
-   * APIでお気に入り登録を行う.
-   * @remarks APIによってURLを変えたいため、propsでURLを受け取る
+   * はいボタン押下で発動.
    */
-  // const favo = () => {
-  //   console.log("URL" + url);
-  // };
-
-  /**
-   * 仮のメソッド.(API完成したら削除)
-   */
-  const favo = () => {
-    console.log("お気に入り登録");
-  };
+  const favo = useCallback(async () => {
+    alert("投稿ID" + postId + "をいいねしました");
+    // try {
+    //   const res = await axios.post("http://localhost:8080/signup");
+    //   console.log(JSON.stringify(res.data));
+    //   if (res.data.status === "success") {
+    //     console.log(res.data.status);
+    //     //成功→タイムラインページに戻る
+    //     closeModal();
+    //   } else {
+    //     alert(res.data.message);
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
+  }, []);
 
   return (
     <>

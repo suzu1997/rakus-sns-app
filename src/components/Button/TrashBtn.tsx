@@ -9,6 +9,7 @@ type Props = {
  * つぶやきを削除するボタン.
  */
 export const TrashBtn: FC<Props> = memo((props) => {
+  //削除対象の投稿番号
   const { postId = 0 } = props;
 
   // レビュー投稿のモーダルのオープン状態
