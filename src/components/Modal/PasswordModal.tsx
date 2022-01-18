@@ -98,11 +98,29 @@ export const PasswordModal: FC<Props> = memo((props) => {
       setNewPasswordErrorMessage("新しいパスワードを入力して下さい");
     }
 
+    //エラーがあればリターン
+    if (
+      currentPasswordErrorMessage != "" &&
+      newPasswordErrorMessage != "" &&
+      passwordConfErrorMessage != ""
+    ) {
+      return;
+    }
+
     //更新完了でユーザ画面に戻る
     router.push(`/user/${loginId}`);
     //[]内入れないと変更が反映されないため、入力
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPassword, newPassword, password, passwordConf]);
+  }, [
+    currentPassword,
+    currentPasswordErrorMessage,
+    loginId,
+    newPassword,
+    newPasswordErrorMessage,
+    password,
+    passwordConf,
+    passwordConfErrorMessage,
+    router,
+  ]);
 
   /**
    * キャンセルボタンを押した時に呼ばれる

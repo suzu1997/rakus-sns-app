@@ -188,9 +188,9 @@ const Edit: NextPage = () => {
                 </div>
               </div>
               <div className="w-96 mt-3">
-                {/* 入社年のテキストフォーム*/}
+                {/* 入社月のテキストフォーム*/}
                 <TextInput
-                  label="入社年"
+                  label="入社月"
                   type="month"
                   fullWidth={true}
                   required
