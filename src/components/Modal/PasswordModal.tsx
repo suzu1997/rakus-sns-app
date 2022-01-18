@@ -5,6 +5,7 @@ import { Button } from "../Button/Button";
 import { TextInput } from "../Form/TextInput";
 import { useRouter } from "next/router";
 import { loginIdContext } from "../../providers/LoginIdProvider";
+import axios from "axios";
 
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
@@ -61,7 +62,7 @@ export const PasswordModal: FC<Props> = memo((props) => {
   /**
    * 登録ボタンを押した時に呼ばれる
    */
-  const onSubmit = useCallback(() => {
+  const onSubmit = useCallback(async () => {
     //エラーの初期化
     setCurrentPasswordError("");
     setNewPasswordErrorMessage("");
@@ -107,9 +108,30 @@ export const PasswordModal: FC<Props> = memo((props) => {
       return;
     }
 
-    //更新完了でユーザ画面に戻る
-    router.push(`/user/${loginId}`);
+    //API送信データ
+    const postData = {
+      password: newPassword,
+    };
+
+    //APIURL
+    const url = "http://localhost:8080";
+
+    // try {
+    //   const res = await axios.post(url, postData);
+    //   if (res.data.status === "success") {
+    //     console.log(res.data.status);
+    //     alert("更新しました");
+    //     //更新完了でユーザ画面に戻る
+    //     router.push(`/user/${loginId}`);
+    //   } else {
+    //     alert(res.data.message);
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
+
     //[]内入れないと変更が反映されないため、入力
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     currentPassword,
     currentPasswordErrorMessage,

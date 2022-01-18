@@ -98,8 +98,11 @@ const Edit: NextPage = () => {
 
     console.dir("送るデータ" + JSON.stringify(postData));
 
+    //APIURL
+    const url = "http://localhost:8080";
+
     // try {
-    //   const res = await axios.post("http://localhost:8080/signup", postData);
+    //   const res = await axios.post(url, postData);
     //   if (res.data.status === "success") {
     //     console.log(res.data.status);
     //     alert("更新しました");
