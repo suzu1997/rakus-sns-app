@@ -8,13 +8,13 @@ export const RestaurantList: FC = memo(() => {
   const { data: restaurantList, error } = useSWR<Array<Restaurant>>(
     `${JAVA_API_URL}/restaurants`,
   );
-
+  
   if (!error && !restaurantList) {
-    return <div>Loading...</div>;
+    return <div className="w-full">Loading...</div>;
   }
-
+  
   if (error) {
-    return <div>データが取得できませんでした</div>;
+    return <div className="w-full">データが取得できませんでした</div>;
   }
 
   return (
