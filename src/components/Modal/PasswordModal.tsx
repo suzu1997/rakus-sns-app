@@ -38,13 +38,18 @@ type Props = {
 export const PasswordModal: FC<Props> = memo((props) => {
   const { isOpen } = props;
 
-  const currentPasswordErrorMessage = "";
-  const newPasswordErrorMessage = "";
-  const passwordConfErrorMessage = "";
+  //エラーメッセージ
+  const [currentPasswordErrorMessage, setCurrentPasswordError] = useState("");
+  const [newPasswordErrorMessage, setNewPasswordErrorMessage] = useState("");
+  const [passwordConfErrorMessage, setPasswordConfErrorMessage] = useState("");
 
+  //入力値
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [passwordConf, setPasswordConf] = useState("");
+
+  //本来APIから取得するログインユーザのパスワード
+  const [password] = useState("aaaAAA1234567890");
 
   //各入力フォームに入力した際に更新される
   //現在のパスワード
@@ -79,6 +84,18 @@ export const PasswordModal: FC<Props> = memo((props) => {
    * 登録ボタンを押した時に呼ばれる
    */
   const onSubmit = () => {
+    setCurrentPasswordError("");
+    setNewPasswordErrorMessage("");
+    setPasswordConfErrorMessage("");
+    if (newPassword === null) {
+      setNewPasswordErrorMessage("新しいパスワードを入力して下さい");
+    }
+    if (currentPassword != password) {
+      setCurrentPasswordError("現在のパスワードが一致しません");
+    }
+    if (passwordConf != newPassword) {
+      setPasswordConfErrorMessage("新しいパスワードと一致しません");
+    }
     console.log(
       "現在のPW" +
         currentPassword +
