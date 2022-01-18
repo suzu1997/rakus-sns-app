@@ -60,7 +60,7 @@ const Edit: NextPage = () => {
       lastName: "ちゃん",
       accountName: "やまちゃん",
       hireDate: "2022-10",
-      birthDate: "2022-01-01",
+      birthDay: "2022-01-01",
       service: "FR",
       profile: "とても元気",
     },
@@ -181,9 +181,9 @@ const Edit: NextPage = () => {
                   type="date"
                   fullWidth={true}
                   required
-                  registers={register("birthDate")}
+                  registers={register("birthDay")}
                 />
-                <div className="text-red-500">{errors.birthDate?.message}</div>
+                <div className="text-red-500">{errors.birthDay?.message}</div>
               </div>
               {/* 自己紹介のテキストフォーム */}
               <div className="my-5">
