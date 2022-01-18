@@ -9,11 +9,15 @@ import { ReviewCard } from "../../../components/Lunch/ReviewCard";
 import { JAVA_API_URL } from "../../../utils/const";
 import { LunchReview } from "../../../types/type";
 
+type ReviewWithComment = LunchReview & {
+  comment?: { value: string; count: number }[];
+};
+
 const ReviewDetail: NextPage = () => {
   const router = useRouter();
   const reviewId = Number(router.query.id);
 
-  const { data: review, error } = useSWR<LunchReview>(
+  const { data: review, error } = useSWR<ReviewWithComment>(
     `${JAVA_API_URL}/reviews/${reviewId}`,
   );
 
@@ -37,26 +41,35 @@ const ReviewDetail: NextPage = () => {
         >
           ←戻る
         </div>
-        <ReviewCard {...review} type="詳細" hasRestaurantInfo={true} />
-        {/* コメント部分 */}
-        {review?.comment.map((value: any, index: number) => (
-          <div key={index} className="flex border border-b border-gray-200">
-            <div className="w-1/5 text-center pt-5">
-              <Image src="/usakus.jpg" width={100} height={100} alt="icon" />
-            </div>
+        {review && (
+          <>
+            <ReviewCard {...review} type="詳細" hasRestaurantInfo={true} />
+            {/* コメント部分 */}
+            {review.comment?.map((value: any, index: number) => (
+              <div key={index} className="flex border border-b border-gray-200">
+                <div className="w-1/5 text-center pt-5">
+                  <Image
+                    src="/usakus.jpg"
+                    width={100}
+                    height={100}
+                    alt="icon"
+                  />
+                </div>
 
-            <div className="w-4/5">
-              <div className="text-xl font-extrabold pt-3 pb-3">
-                {value.name}
+                <div className="w-4/5">
+                  <div className="text-xl font-extrabold pt-3 pb-3">
+                    {value.name}
+                  </div>
+                  <div className="pt-5 pb-5 pl-5">{value.content}</div>
+                  <div className="w-full text-right pt-3 pb-3">
+                    <FavoBtn />
+                    <TrashBtn />
+                  </div>
+                </div>
               </div>
-              <div className="pt-5 pb-5 pl-5">{value.content}</div>
-              <div className="w-full text-right pt-3 pb-3">
-                <FavoBtn />
-                <TrashBtn />
-              </div>
-            </div>
-          </div>
-        ))}
+            ))}
+          </>
+        )}
       </div>
     </div>
   );
