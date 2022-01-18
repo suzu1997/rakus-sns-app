@@ -4,6 +4,7 @@ import { useCallback, useState } from "react";
 import { SelectBox } from "../../components/Form/SelectBox";
 import { TextInput } from "../../components/Form/TextInput";
 import Cookie from "universal-cookie";
+import axios from "axios";
 
 const Test: NextPage = () => {
   const options = [
@@ -27,8 +28,11 @@ const Test: NextPage = () => {
 
   const cookie = new Cookie();
 
-  const loginTest = () => {
-    cookie.set("name", "ログイン花子", { path: "/" });
+  const loginTest = async () => {
+    //ログインテスト
+    const res = await axios.get(`http://localhost:8080/user/1`);
+    console.log(res.data);
+    cookie.set("name", res.data.name, { path: "/" });
     console.log("ログ印しました：" + cookie.get("name"));
   };
 
