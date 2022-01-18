@@ -88,6 +88,11 @@ const Login: NextPage = () => {
           onClick={handleSubmit(onSubmit)}
         />
       </div>
+      <Link href="/auth/presignup">
+        <a className="underline hover:text-blue-800 mt-3">
+          会員登録はコチラから
+        </a>
+      </Link>
       <Link href="/auth/forgetpass">
         <a className="underline hover:text-blue-800 mt-3">
           パスワードを忘れた方はコチラ
