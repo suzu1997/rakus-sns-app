@@ -99,8 +99,8 @@ const SignUp: NextPage = () => {
           <div className="w-3/4 mt-3">
             {/* 入社年のテキストフォーム*/}
             <TextInput
-              label="入社年"
-              type="month"
+              label="入社日"
+              type="date"
               fullWidth={true}
               required
               errorMessage={errors.hireDate?.message}
