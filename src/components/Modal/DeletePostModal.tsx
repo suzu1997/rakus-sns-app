@@ -6,7 +6,7 @@ import axios from "axios";
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
   closeModal: () => void; // モーダルを閉じるメソッド
-  postId: number;
+  postId: number; //投稿ID
 };
 
 /**
