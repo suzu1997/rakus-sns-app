@@ -28,10 +28,9 @@ export const ReviewList: FC = memo(() => {
   }, [router.pathname]);
 
   // ローディング処理
-  if (!reviewList) {
+  if (!error && !reviewList) {
     return <div>Loading...</div>;
   }
-
   // エラー処理
   if (error) {
     return <div>データを取得できませんでした</div>;
