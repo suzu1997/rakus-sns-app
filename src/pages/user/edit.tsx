@@ -32,7 +32,7 @@ const schema = yup.object().shape({
   //入社年のバリデーション
   hireDate: yup.date().max(new Date(), "入社日は現在よりも前に設定して下さい"),
   //誕生日のバリデーション
-  birthDate: yup.date().max(new Date(), "誕生日は現在よりも前に設定して下さい"),
+  birthDay: yup.date().max(new Date(), "誕生日は現在よりも前に設定して下さい"),
   //職種のバリデーション
   service: yup.string(),
   //プロフィールのバリデーション
