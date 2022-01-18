@@ -96,6 +96,22 @@ export const PasswordModal: FC<Props> = memo((props) => {
     if (passwordConf != newPassword) {
       setPasswordConfErrorMessage("新しいパスワードと一致しません");
     }
+    if (newPassword.length < 8 || newPassword.length > 16) {
+      setNewPasswordErrorMessage(
+        "パスワードは８文字以上１６文字以内で設定してください",
+      );
+    }
+    if (
+      !(
+        /[A-Z]+/.test(newPassword) &&
+        /[a-z]+/.test(newPassword) &&
+        /[0-9]+/.test(newPassword)
+      )
+    ) {
+      setNewPasswordErrorMessage(
+        "パスワードは大文字/小文字/数字を組み合わせて下さい。",
+      );
+    }
     console.log(
       "現在のPW" +
         currentPassword +
