@@ -7,6 +7,7 @@ import { SubHeader } from "../../../components/Layout/SubHeader";
 import { TrashBtn } from "../../../components/Button/TrashBtn";
 import { ReviewCard } from "../../../components/Lunch/ReviewCard";
 import { JAVA_API_URL } from "../../../utils/const";
+import { LunchReview } from "../../../types/type";
 
 const ReviewDetail: NextPage = () => {
   const router = useRouter();
