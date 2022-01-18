@@ -40,7 +40,7 @@ export const Header: FC<Props> = memo((props) => {
                 height={50}
                 alt="ロゴ"
               />
-              <span className="text-2xl text-gray-500 m-3">ラクラクSNS</span>
+              <span className="text-3xl text-gray-500 m-3">lunchkus</span>
             </a>
           </Link>
         </span>
