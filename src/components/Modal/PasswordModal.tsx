@@ -27,8 +27,9 @@ export const PasswordModal: FC<Props> = memo((props) => {
   const [newPassword, setNewPassword] = useState("");
   const [passwordConf, setPasswordConf] = useState("");
 
-  //本来APIから取得するログインユーザのパスワード
-  const [password] = useState("aaaAAA1234567890");
+  //APIから取得するログインユーザのパスワード
+  //consoleで表示させないため、意味のない言葉に変更
+  const [a4mnjkm5vf2c] = useState("aaaAAA1234567890");
 
   //各入力フォームに入力した際に更新される
   //現在のパスワード
@@ -68,10 +69,10 @@ export const PasswordModal: FC<Props> = memo((props) => {
     setNewPasswordErrorMessage("");
     setPasswordConfErrorMessage("");
     //エラーチェック
-    if (newPassword === password) {
+    if (newPassword === a4mnjkm5vf2c) {
       setNewPasswordErrorMessage("現在のパスワードと同じです");
     }
-    if (currentPassword != password) {
+    if (currentPassword != a4mnjkm5vf2c) {
       setCurrentPasswordError(
         "現在のパスワードが登録しているものと一致しません",
       );
@@ -138,7 +139,7 @@ export const PasswordModal: FC<Props> = memo((props) => {
     loginId,
     newPassword,
     newPasswordErrorMessage,
-    password,
+    a4mnjkm5vf2c,
     passwordConf,
     passwordConfErrorMessage,
     router,
