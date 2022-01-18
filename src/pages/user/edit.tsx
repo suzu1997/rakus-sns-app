@@ -30,9 +30,9 @@ const schema = yup.object().shape({
     .required("アカウント名を入力してください")
     .max(30, "アカウント名は30文字以内で入力してください"),
   //入社年のバリデーション
-  hireDate: yup.string(),
+  hireDate: yup.date().max(new Date(), "入社日は現在よりも前に設定して下さい"),
   //誕生日のバリデーション
-  birthDate: yup.string(),
+  birthDate: yup.date().max(new Date(), "誕生日は現在よりも前に設定して下さい"),
   //職種のバリデーション
   service: yup.string(),
   //プロフィールのバリデーション
