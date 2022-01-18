@@ -10,28 +10,6 @@ type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
 };
 
-//バリデーションチェック
-// const schema = yup.object().shape({
-//   //現在のパスワードのバリデーション
-//   currentPassword: yup.string().required("現在のパスワードを入力してください"),
-//   //新しいのパスワードのバリデーション
-//   newPassword: yup
-//     .string()
-//     .required("新しいパスワードを入力してください")
-//     .matches(
-//       /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]+$/,
-//       "アルファベット（大文字小文字混在）と数字とを組み合わせて入力してください",
-//     )
-//     .max(16, "16文字以内で入力してください")
-//     .min(8, "8文字以上で入力してください"),
-//   //確認用パスワードのバリデーション
-//   passwordConf: yup
-//     .string()
-//     .oneOf(
-//       [yup.ref("newPassword"), null],
-//       "確認用パスワードが一致していません",
-//     ),
-// });
 /**
  * パスワード変更のためのモーダルのコンポーネント.
  */
@@ -89,8 +67,13 @@ export const PasswordModal: FC<Props> = memo((props) => {
     setNewPasswordErrorMessage("");
     setPasswordConfErrorMessage("");
     //エラーチェック
+    if (newPassword === password) {
+      setNewPasswordErrorMessage("現在のパスワードと同じです");
+    }
     if (currentPassword != password) {
-      setCurrentPasswordError("現在のパスワードが一致しません");
+      setCurrentPasswordError(
+        "現在のパスワードが登録しているものと一致しません",
+      );
     }
     if (passwordConf != newPassword) {
       setPasswordConfErrorMessage("新しいパスワードと一致しません");
@@ -116,8 +99,9 @@ export const PasswordModal: FC<Props> = memo((props) => {
     }
 
     //更新完了でユーザ画面に戻る
-    // router.push(`/user/${loginId}`);
+    router.push(`/user/${loginId}`);
     //[]内入れないと変更が反映されないため、入力
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPassword, newPassword, password, passwordConf]);
 
   /**
