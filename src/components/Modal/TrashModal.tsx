@@ -2,7 +2,6 @@ import { useCallback, useState, Fragment, FC } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Button } from "../../components/Button/Button";
 import { useRouter } from "next/router";
-import Cookie from "universal-cookie";
 
 /**
  * 投稿削除をするためのモーダル.
@@ -11,9 +10,6 @@ import Cookie from "universal-cookie";
 export const TrashModal: FC = () => {
   //ルーターリンク
   const router = useRouter();
-  //cookieを使用する
-  const cookie = new Cookie();
-
   //モーダル開け閉めフラグ
   const [isOpen, setIsOpen] = useState(true);
 
@@ -23,18 +19,16 @@ export const TrashModal: FC = () => {
   const closeModal = useCallback(() => {
     //モーダルを閉じる
     setIsOpen(false);
-    //元のページに戻る
-    router.back();
+    //タイムラインページに戻る
+    router.push("/timeline");
   }, []);
 
   /**
-   * ログアウトボタン押下で発動.
+   * はいボタン押下で発動.
    */
-  const logout = useCallback(() => {
-    //cookieからログインID削除
-    cookie.remove("id");
-    //ログインページに戻る
-    router.push("/auth/login");
+  const deletePost = useCallback(() => {
+    //タイムラインページに戻る
+    router.push("/timeline");
   }, []);
 
   return (
@@ -85,7 +79,7 @@ export const TrashModal: FC = () => {
                   投稿を削除しますか？
                 </Dialog.Title>
                 <div className="text-center mt-5 mr-3">
-                  <Button color="#622d18" label={"はい"} onClick={logout} />
+                  <Button color="#622d18" label={"はい"} onClick={deletePost} />
                   <span className="ml-5">
                     <Button
                       backgroundColor="#f6f0ea"
