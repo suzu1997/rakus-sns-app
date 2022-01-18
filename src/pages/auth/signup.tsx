@@ -19,7 +19,7 @@ const schema = yup.object().shape({
   //入社年のバリデーション
   hireDate: yup.string().required("入社年を入力してください"),
   //誕生日のバリデーション
-  birthDate: yup.string().required("誕生日を入力してください"),
+  birthDay: yup.string().required("誕生日を入力してください"),
   //パスワードのバリデーション
   password: yup
     .string()
@@ -156,8 +156,8 @@ const SignUp: NextPage = () => {
               type="date"
               fullWidth={true}
               required
-              errorMessage={errors.birthDate?.message}
-              registers={register("birthDate")}
+              errorMessage={errors.birthDay?.message}
+              registers={register("birthDay")}
             />
           </div>
           <div className="w-3/4 mt-3">
