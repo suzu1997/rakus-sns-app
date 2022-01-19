@@ -42,8 +42,7 @@ const Login: NextPage = () => {
 
   //ルーターリンク
   const router = useRouter();
-
-  //クッキーに登録
+  //クッキー
   const cookie = new Cookie();
 
   //ログインボタンを押した時のメソッド
@@ -58,11 +57,28 @@ const Login: NextPage = () => {
       // console.log(JSON.stringify(res.data));
       //ログインに成功した場合
       if (res.data.status === "success") {
+        //ログインに成功したらクッキーに連想配列でログイン情報をセット
+        const userInfo = {
+          //一旦あるものだけ
+          id: res.data.user.id,
+          name: res.data.user.name,
+          accountName: res.data.user.accountName,
+          hireDate: res.data.user.hireDate,
+          serviceFk: res.data.user.serviceFk,
+          birthDay: res.data.user.birthDay,
+          profile: res.data.user.profile,
+        };
+        cookie.set("id", userInfo, { path: "/" });
+        // cookie.set("id", res.data.user.id, { path: "/" });
+
+        //コンソールテスト
+        const userData = cookie.get("id");
+        console.log("ログイン成功" + userData.name);
 
         //ログインと同時に入力内容をクリア
         reset();
         //タイムライン画面に遷移する;
-    router.push("/timeline");
+        router.push("/timeline");
       } else {
         //ログインに失敗した場合、エラーメッセージアラートを表示
         alert(res.data.message);
