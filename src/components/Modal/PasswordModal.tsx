@@ -117,22 +117,24 @@ export const PasswordModal: FC<Props> = memo((props) => {
       password: newPassword, //新しいパスワード
     };
 
-    try {
-      const res = await axios.post(
-        `${JAVA_API_URL}/user/${loginId}/password`,
-        postData,
-      );
-      if (res.data.status === "success") {
-        console.log(res.data.status);
-        alert("パスワードの変更が完了しました");
-        //更新完了でユーザ情報画面に戻る
-        router.push(`/user/${loginId}`);
-      } else {
-        alert(res.data.message);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    console.dir("送るデータ" + JSON.stringify(postData));
+
+    // try {
+    //   const res = await axios.post(
+    //     `${JAVA_API_URL}/user/${loginId}/password`,
+    //     postData,
+    //   );
+    //   if (res.data.status === "success") {
+    //     console.log(res.data.status);
+    //     alert("パスワードの変更が完了しました");
+    //     //更新完了でユーザ情報画面に戻る
+    //     router.push(`/user/${loginId}`);
+    //   } else {
+    //     alert(res.data.message);
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
 
     //[]内入れないと変更が反映されないため、入力
     // eslint-disable-next-line react-hooks/exhaustive-deps
