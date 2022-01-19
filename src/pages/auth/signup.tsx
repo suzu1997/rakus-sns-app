@@ -8,7 +8,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { TextInput } from "../../components/Form/TextInput";
 import axios from "axios";
-import { format, parseISO } from "date-fns";
+import { format } from "date-fns";
+import { JAVA_API_URL } from "../../utils/const";
 
 const nowDate = new Date();
 //バリデーションチェック
@@ -59,7 +60,7 @@ const SignUp: NextPage = () => {
   //テストデータ
   const [testData] = useState({
     name: "ランチックス",
-    email: "xxx7@rakus-partners.co.jp",
+    email: "xxx10@rakus-partners.co.jp",
   });
 
   // バリデーション機能を呼び出し
@@ -84,7 +85,7 @@ const SignUp: NextPage = () => {
     const birthDay = String(format(data.birthDay, "yyyy-MM-dd"));
 
     try {
-      const res = await axios.post("http://localhost:8080/signup", {
+      const res = await axios.post(`${JAVA_API_URL}/signup`, {
         name: testData.name,
         accountName: data.accountName,
         email: testData.email,
