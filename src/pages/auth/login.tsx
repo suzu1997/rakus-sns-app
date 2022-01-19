@@ -7,6 +7,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import Cookie from "universal-cookie";
 import Link from "next/link";
+import axios from "axios";
+import { JAVA_API_URL } from "../../utils/const";
 
 //バリデーションチェック
 const schema = yup.object().shape({
@@ -44,15 +46,30 @@ const Login: NextPage = () => {
   //クッキーに登録
   const cookie = new Cookie();
 
-  //ログインボタンを押した時に呼ばれる
+  //ログインボタンを押した時のメソッド
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = (data: any) => {
-    console.log(data);
-    //ログインに成功したらクッキーにログイン情報をセットし、タイムラインページに画面遷移
-    cookie.set("user", data.email, { path: "/" });
-    console.log("ログイン成功" + cookie.get("user"));
-    reset;
+  const onSubmit = async (data: any) => {
+    // console.log(data);
+    try {
+      const res = await axios.post(`${JAVA_API_URL}/login`, {
+        email: data.email,
+        password: data.password,
+      });
+      // console.log(JSON.stringify(res.data));
+      //ログインに成功した場合
+      if (res.data.status === "success") {
+
+        //ログインと同時に入力内容をクリア
+        reset();
+        //タイムライン画面に遷移する;
     router.push("/timeline");
+      } else {
+        //ログインに失敗した場合、エラーメッセージアラートを表示
+        alert(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
