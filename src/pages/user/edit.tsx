@@ -77,21 +77,22 @@ const Edit: NextPage = () => {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
+    //名前：姓＋名
     const name = data.firstName + data.lastName;
+    //入社月のフォーマット変更
     const hireDate = String(format(data.hireDate, "yyyy-MM-dd"));
+    //誕生日のフォーマット変更
     const birthDay = String(format(data.birthDay, "yyyy-MM-dd"));
 
+    //APIに送るデータ
     const postData = {
-      name: name,
-      accountName: data.accountName,
-      //本来はログインユーザのメールアドレス
-      email: "useredit-test@rakus-partners.co.jp",
-      hireDate: hireDate,
-      birthDay: birthDay,
-      serviceFk: data.serviceFk,
-      //本来はログインユーザのPW
-      password: "aaaAAA1234567890",
-      introduction: data.profile,
+      id: loginId, //ログインユーザID
+      accountName: data.accountName, //アカウント名
+      name: name, //名前
+      hireDate: hireDate, //入社月
+      serviceFk: data.serviceFk, //職種
+      birthDay: birthDay, //誕生日
+      introduction: data.profile, //自己紹介
     };
 
     console.dir("送るデータ" + JSON.stringify(postData));
@@ -104,7 +105,7 @@ const Edit: NextPage = () => {
       if (res.data.status === "success") {
         console.log(res.data.status);
         alert("更新しました");
-        //更新完了でユーザ画面に戻る
+        //更新完了でユーザ情報画面に戻る
         router.push(`/user/${loginId}`);
       } else {
         alert(res.data.message);
@@ -114,7 +115,12 @@ const Edit: NextPage = () => {
     }
   };
 
+  //パスワード用モーダル開閉
   const [openModal, serOpenModal] = useState(false);
+
+  /**
+   * パスワード変更モーダルを開けるメソッド.
+   */
   const openPasswordModal = () => {
     serOpenModal(true);
   };
