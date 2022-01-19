@@ -98,6 +98,10 @@ const SignUp: NextPage = () => {
       console.log(error);
     }
   };
+  //クリアボタン
+  const clear = () => {
+    reset();
+  };
 
   return (
     <div>
@@ -221,7 +225,7 @@ const SignUp: NextPage = () => {
               backgroundColor="#f6f0ea"
               color="#f28728"
               size="md"
-              onClick={reset}
+              onClick={clear}
             />
           </div>{" "}
         </div>
