@@ -10,6 +10,7 @@ import { TextInput } from "../../components/Form/TextInput";
 import axios from "axios";
 import { format, parseISO } from "date-fns";
 
+const nowDate = new Date();
 //バリデーションチェック
 const schema = yup.object().shape({
   //アカウント名のバリデーション
@@ -18,9 +19,15 @@ const schema = yup.object().shape({
     .required("アカウント名を入力してください")
     .max(30, "アカウント名は30文字以内で入力してください"),
   //入社年のバリデーション
-  hireDate: yup.string().required("入社年を入力してください"),
+  hireDate: yup
+    .date()
+    .typeError("入社年を入力してください")
+    .max(nowDate, "入社日は現在よりも前に設定して下さい"),
   //誕生日のバリデーション
-  birthDay: yup.string().required("誕生日を入力してください"),
+  birthDay: yup
+    .date()
+    .typeError("誕生日を入力してください")
+    .max(nowDate, "誕生日は現在よりも前に設定して下さい"),
   //パスワードのバリデーション
   password: yup
     .string()
@@ -72,17 +79,17 @@ const SignUp: NextPage = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
     console.log(data);
-    //保持された入社月データをDate型に変換
-    const date = new Date(data.hireDate);
-    //日付のフォーマットに変換
-    const hireDate = parseISO(format(date, "yyyy-MM-dd"));
+    //フォーマットを変換
+    const hireDate = String(format(data.hireDate, "yyyy-MM-dd"));
+    const birthDay = String(format(data.birthDay, "yyyy-MM-dd"));
+
     try {
       const res = await axios.post("http://localhost:8080/signup", {
         name: testData.name,
         accountName: data.accountName,
         email: testData.email,
         hireDate: hireDate,
-        birthDay: data.birthDay,
+        birthDay: birthDay,
         serviceFk: data.serviceFk,
         password: data.password,
       });
