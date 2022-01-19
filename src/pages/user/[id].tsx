@@ -16,12 +16,12 @@ function classNames(...classes: unknown[]) {
  * @returns ユーザー情報を表示するページ
  */
 const User: NextPage = () => {
-  //テストデータ
-  const [data] = useState({
-    name: "ランチックス",
-    hireDate: "2021年10月",
+  // テストデータ
+  const [datas] = useState({
+    // name: "ランチックス",
+    // hireDate: "2021年10月",
     img: "/usakus.jpg",
-    jobtype: "FR",
+    // jobtype: "FR",
   });
 
   //ルーターリンク
@@ -95,6 +95,7 @@ const User: NextPage = () => {
     } else {
       router.push(`/lunch/review/${postId}`);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -108,7 +109,7 @@ const User: NextPage = () => {
               <div className="mt-3 text-xl font-bold">名前:{data.name}</div>
               <div className="w-12/12">
                 <Image
-                  src={data.img}
+                  src={datas.img}
                   width={100}
                   height={100}
                   alt="icon"
