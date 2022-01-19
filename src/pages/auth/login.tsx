@@ -7,6 +7,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import Cookie from "universal-cookie";
 import Link from "next/link";
+import axios from "axios";
+import { JAVA_API_URL } from "../../utils/const";
 
 //バリデーションチェック
 const schema = yup.object().shape({
@@ -40,19 +42,50 @@ const Login: NextPage = () => {
 
   //ルーターリンク
   const router = useRouter();
-
-  //クッキーに登録
+  //クッキー
   const cookie = new Cookie();
 
-  //ログインボタンを押した時に呼ばれる
+  //ログインボタンを押した時のメソッド
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = (data: any) => {
-    console.log(data);
-    //ログインに成功したらクッキーにログイン情報をセットし、タイムラインページに画面遷移
-    cookie.set("user", data.email, { path: "/" });
-    console.log("ログイン成功" + cookie.get("user"));
-    reset;
-    router.push("/timeline");
+  const onSubmit = async (data: any) => {
+    // console.log(data);
+    try {
+      const res = await axios.post(`${JAVA_API_URL}/login`, {
+        email: data.email,
+        password: data.password,
+      });
+      // console.log(JSON.stringify(res.data));
+      //ログインに成功した場合
+      if (res.data.status === "success") {
+        //ログインに成功したらクッキーに連想配列でログイン情報をセット
+        const userInfo = {
+          //一旦あるものだけ
+          id: res.data.user.id,
+          name: res.data.user.name,
+          accountName: res.data.user.accountName,
+          hireDate: res.data.user.hireDate,
+          serviceFk: res.data.user.serviceFk,
+          birthDay: res.data.user.birthDay,
+          profile: res.data.user.profile,
+        };
+        cookie.set("id", userInfo, { path: "/" });
+        // cookie.set("id", res.data.user.id, { path: "/" });
+
+        //コンソールテスト
+        const userData = cookie.get("id");
+        console.log("ログイン成功" + userData.name);
+
+        //ログインと同時に入力内容をクリア
+        reset();
+        //タイムライン画面に遷移する;
+        router.push("/timeline");
+      } else {
+        //ログインに失敗した場合、エラーメッセージアラートを表示
+        alert(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -88,6 +121,11 @@ const Login: NextPage = () => {
           onClick={handleSubmit(onSubmit)}
         />
       </div>
+      <Link href="/auth/presignup">
+        <a className="underline hover:text-blue-800 mt-3">
+          会員登録はコチラから
+        </a>
+      </Link>
       <Link href="/auth/forgetpass">
         <a className="underline hover:text-blue-800 mt-3">
           パスワードを忘れた方はコチラ

@@ -5,6 +5,7 @@ import { SubHeader } from "../../components/Layout/SubHeader";
 import { Tab } from "@headlessui/react";
 import { Button } from "../../components/Button/Button";
 import { useRouter } from "next/router";
+import Cookie from "universal-cookie";
 
 //タブテスト
 function classNames(...classes: unknown[]) {
@@ -16,16 +17,21 @@ function classNames(...classes: unknown[]) {
  * @returns ユーザー情報を表示するページ
  */
 const User: NextPage = () => {
-  //テストデータ
-  const [data] = useState({
-    name: "ランチックス",
-    hireDate: "2021年10月",
+  // テストデータ
+  const [datas] = useState({
+    // name: "ランチックス",
+    // hireDate: "2021年10月",
     img: "/usakus.jpg",
-    jobtype: "FR",
+    // jobtype: "FR",
   });
 
   //ルーターリンク
   const router = useRouter();
+
+  //クッキー
+  const cookie = new Cookie();
+  //クッキー内の情報呼び出し
+  const userData = cookie.get("id");
 
   //編集ボタンを押した時に呼ばれる
   const editInfo = () => {
@@ -95,6 +101,7 @@ const User: NextPage = () => {
     } else {
       router.push(`/lunch/review/${postId}`);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -105,21 +112,21 @@ const User: NextPage = () => {
           <SubHeader title="ユーザー情報" />
           <div className="border-solid  border-2 border-bgc-200 m-5 shadow-lg rounded-md">
             <div className=" text-center">
-              <div className="mt-3 text-xl font-bold">名前:{data.name}</div>
+              <div className="mt-3 text-xl font-bold">名前:{userData.name}</div>
               <div className="w-12/12">
                 <Image
-                  src={data.img}
+                  src={datas.img}
                   width={100}
                   height={100}
                   alt="icon"
                 ></Image>
               </div>
               <div>
-                <div>入社日:{data.hireDate}</div>
-                <div>職種:{data.jobtype}</div>
-                <div>アカウント名:</div>
-                <div>誕生日:</div>
-                <div>自己紹介:</div>
+                <div>入社日:{userData.hireDate}</div>
+                <div>職種:{userData.serviceFk}</div>
+                <div>アカウント名:{userData.accountName}</div>
+                <div>誕生日:{userData.birthDay}</div>
+                <div>自己紹介:{userData.profile}</div>
               </div>
             </div>
             <div className="text-right mr-10 mb-5">
