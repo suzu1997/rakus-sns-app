@@ -1,26 +1,25 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { FC, memo } from "react";
+import { Restaurant } from "../../types/type";
 import { Star } from "./Star";
 
-type Props = {
-  id: number;
-  name: string;
-  genre: string;
-  type: string;
-  star: number;
-  img: string;
-};
-
-export const RestaurantCard: FC<Props> = memo((props) => {
-  const { id, name, genre, type, star, img } = props;
+export const RestaurantCard: FC<Restaurant> = memo((props) => {
+  const {
+    restaurantId,
+    restaurantName,
+    restaurantGenre,
+    restaurantStar,
+    restaurantType,
+    restaurantImg,
+  } = props;
   const router = useRouter();
 
   /**
    * 個別の店情報ページへ遷移するメソッド.
    */
   const goRestaurantDetail = () => {
-    router.push(`/lunch/restaurant/${id}`);
+    router.push(`/lunch/restaurant/${restaurantId}`);
   };
 
   return (
@@ -30,16 +29,16 @@ export const RestaurantCard: FC<Props> = memo((props) => {
     >
       <div className="relative">
         <p className="text-xl font-extrabold border-l-8 border-basic mb-5 lg:mb-10 hover:underline">
-          {name}
+          {restaurantName}
         </p>
-        <div className="xl:ml-10">ジャンル: {genre}</div>
-        <div className="xl:ml-10">タイプ: {type}</div>
+        <div className="xl:ml-10">ジャンル: {restaurantGenre}</div>
+        <div className="xl:ml-10">タイプ: {restaurantType}</div>
         <div className="xl:ml-10">
-          評価(平均): <Star starCount={star} />
+          評価(平均): <Star starCount={restaurantStar} />
         </div>
       </div>
       <div className="mx-6 mt-3">
-        <Image src={img} width={300} height={200} alt="icon" />
+        <Image src={restaurantImg} width={300} height={200} alt="icon" />
       </div>
     </div>
   );
