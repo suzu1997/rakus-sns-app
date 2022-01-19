@@ -6,6 +6,7 @@ import { TextInput } from "../Form/TextInput";
 import { useRouter } from "next/router";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import axios from "axios";
+import { JAVA_API_URL } from "../../utils/const";
 
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
@@ -60,6 +61,7 @@ export const PasswordModal: FC<Props> = memo((props) => {
   const router = useRouter();
   //ログインID
   const loginId = useContext(loginIdContext);
+
   /**
    * 登録ボタンを押した時に呼ばれる
    */
@@ -111,25 +113,26 @@ export const PasswordModal: FC<Props> = memo((props) => {
 
     //API送信データ
     const postData = {
-      password: newPassword,
+      id: loginId, //ログインしているユーザのID
+      password: newPassword, //新しいパスワード
     };
 
-    //APIURL
-    const url = "http://localhost:8080";
-
-    // try {
-    //   const res = await axios.post(url, postData);
-    //   if (res.data.status === "success") {
-    //     console.log(res.data.status);
-    //     alert("更新しました");
-    //     //更新完了でユーザ画面に戻る
-    //     router.push(`/user/${loginId}`);
-    //   } else {
-    //     alert(res.data.message);
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      const res = await axios.post(
+        `${JAVA_API_URL}/user/${loginId}/password`,
+        postData,
+      );
+      if (res.data.status === "success") {
+        console.log(res.data.status);
+        alert("パスワードの変更が完了しました");
+        //更新完了でユーザ情報画面に戻る
+        router.push(`/user/${loginId}`);
+      } else {
+        alert(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
 
     //[]内入れないと変更が反映されないため、入力
     // eslint-disable-next-line react-hooks/exhaustive-deps
