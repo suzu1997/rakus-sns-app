@@ -36,7 +36,7 @@ const schema = yup.object().shape({
   //誕生日のバリデーション
   birthDay: yup.date().max(new Date(), "誕生日は現在よりも前に設定して下さい"),
   //職種のバリデーション
-  service: yup.string(),
+  serviceFk: yup.string(),
   //プロフィールのバリデーション
   profile: yup.string().max(140, "自己紹介は140文字以内で入力してください"),
 });
@@ -63,7 +63,7 @@ const Edit: NextPage = () => {
       accountName: "やまちゃん",
       hireDate: "2021-10",
       birthDay: "2000-01-01",
-      service: "3",
+      serviceFk: "",
       profile: "とても元気",
     },
   });
@@ -76,8 +76,6 @@ const Edit: NextPage = () => {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
-    console.log("日付：" + data.hireDate);
-
     const name = data.firstName + data.lastName;
     const hireDate = String(format(data.hireDate, "yyyy-MM-dd"));
     const birthDay = String(format(data.birthDay, "yyyy-MM-dd"));
@@ -89,8 +87,7 @@ const Edit: NextPage = () => {
       email: "useredit-test@rakus-partners.co.jp",
       hireDate: hireDate,
       birthDay: birthDay,
-      // serviceFk: data.serviceFk,
-      serviceFk: data.service,
+      serviceFk: data.serviceFk,
       //本来はログインユーザのPW
       password: "aaaAAA1234567890",
       introduction: data.profile,
@@ -204,12 +201,43 @@ const Edit: NextPage = () => {
               {/* 職種のラジオボタン */}
               <div className="mt-3">職種を選択してください</div>
               <div className="flex gap-5">
-                <Radio id="FR" value="1" name="jobType" defaultChecked />
-                <Radio id="Java" value="2" name="jobType" />
-                <Radio id="CL" value="3" name="jobType" />
-                <Radio id="QA" value="4" name="jobType" />
-                <Radio id="ML" value="5" name="jobType" />
-                <Radio id="内勤" value="6" name="jobType" />
+                <Radio
+                  id="FR"
+                  value="1"
+                  name="serviceFk"
+                  registers={register("serviceFk")}
+                  defaultChecked
+                />
+                <Radio
+                  id="Java"
+                  value="2"
+                  name="serviceFk"
+                  registers={register("serviceFk")}
+                />
+                <Radio
+                  id="CL"
+                  value="3"
+                  name="serviceFk"
+                  registers={register("serviceFk")}
+                />
+                <Radio
+                  id="QA"
+                  value="4"
+                  name="serviceFk"
+                  registers={register("serviceFk")}
+                />
+                <Radio
+                  id="ML"
+                  value="5"
+                  name="serviceFk"
+                  registers={register("serviceFk")}
+                />
+                <Radio
+                  id="内勤"
+                  value="6"
+                  name="serviceFk"
+                  registers={register("serviceFk")}
+                />
               </div>
               <div className="w-96 mt-3">
                 {/* 誕生日のテキストフォーム */}
