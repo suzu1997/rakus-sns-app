@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { FC, memo, useEffect, useState } from "react";
-import useSWR from "swr";
+// import useSWR from "swr";
+import useSWRInfinite, { SWRInfiniteKeyLoader } from "swr/infinite";
 import { LunchReview } from "../../types/type";
 import { JAVA_API_URL } from "../../utils/const";
 import { ReviewCard } from "./ReviewCard";
@@ -10,11 +11,51 @@ export const ReviewList: FC = memo(() => {
   const [hasRestaurantInfo, setHasRestaurantInfo] = useState<boolean>(true);
   const router = useRouter();
 
-  // const { data: reviewList, error } = useSWR(
-  //   "https://jsonplaceholder.typicode.com/comments/?_limit=10",
-  // );
   // useSWRでクライアントフェッチ
-  const { data: reviewList, error } = useSWR(`${JAVA_API_URL}/reviews`);
+  // const { data: reviewList, error } = useSWR<Array<LunchReview>>(
+  //   `${JAVA_API_URL}/reviews`,
+  // );
+
+  /**
+   * 各ページのSWRのキーを取得する関数.
+   *
+   * @remarks
+   * useSWRInfiniteからデータをフェッチする際に呼び出される。
+   * @param pageIndex - ページインデックス
+   * @param previousPageData - 
+   * @returns ページのキー
+   */
+  const getKey: SWRInfiniteKeyLoader = (pageIndex, previousPageData) => {
+    // 最後まで読み込んだらnullを返す
+    if (previousPageData && !previousPageData.data) return null;
+
+    // 一番最初のフェッチ
+    if (pageIndex === 0) return `${JAVA_API_URL}/reviews`;
+
+    // 一番古いレビューのIDを取得
+    // これで一番古いレビューのIDが取れるのか？？やってみないとわからんです。
+    const id = previousPageData.data[previousPageData.data.length - 1].reviewId;
+
+    // 「過去のレビューを見る」ボタンを押したとき
+    // 一番下の投稿IDをAPIに渡す
+    return `${JAVA_API_URL}/reviews/old/${id}`;
+  };
+
+  // data: データの配列の配列(※ページごとの二重配列)
+  // error: エラーの場合、エラー情報が入る
+  // size:  ページサイズ(ページが何ページあるのか※最初は1ページ)
+  // setSize:  ページサイズ変更する際に使用する(ページ数を増やすと自動的にフェッチ処理が走る)
+  const { data, error, size, setSize } = useSWRInfinite(getKey);
+
+  /**
+   * レビューを追加読み込みする.
+   *
+   * @remarks
+   * ページサイズを増やすことで、次のフェッチ処理を走らせる。
+   */
+  const loadMoreReviews = () => {
+    setSize(size + 1);
+  };
 
   // pathにrestaurantが含まれている(店詳細ページにいる)場合はfalseにする
   // レビューページにいるときだけ店詳細ページへのリンクを付けたい
@@ -28,7 +69,7 @@ export const ReviewList: FC = memo(() => {
   }, [router.pathname]);
 
   // ローディング処理
-  if (!error && !reviewList) {
+  if (!error && !data) {
     return <div>Loading...</div>;
   }
   // エラー処理
@@ -38,7 +79,7 @@ export const ReviewList: FC = memo(() => {
 
   return (
     <div className="w-full">
-      {reviewList.map((review: LunchReview) => (
+      {/* {reviewList?.map((review: LunchReview) => (
         <div key={review.reviewId}>
           <ReviewCard
             {...review}
@@ -46,7 +87,25 @@ export const ReviewList: FC = memo(() => {
             hasRestaurantInfo={hasRestaurantInfo}
           />
         </div>
-      ))}
+      ))} */}
+      {data?.map((reviewList: Array<LunchReview>) => {
+        // dataはreviewList(配列)の配列
+        return reviewList.map((review: LunchReview) => (
+          <div key={review.reviewId}>
+            <ReviewCard
+              {...review}
+              type="一覧"
+              hasRestaurantInfo={hasRestaurantInfo}
+            />
+          </div>
+        ));
+      })}
+      <div
+        className="text-text-brown text-center my-5 cursor-pointer hover:text-basic"
+        onClick={loadMoreReviews}
+      >
+        過去のレビューを見る…
+      </div>
     </div>
   );
 });
