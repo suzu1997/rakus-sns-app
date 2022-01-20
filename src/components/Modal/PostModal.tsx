@@ -183,7 +183,7 @@ export const PostModal: FC<Props> = memo((props) => {
                 <div className="mt-2">
                   <div className="mt-10">
                     {title === "レビュー" && (
-                      <div className="w-60 flex gap-3 items-center mb-3">
+                      <div className="flex gap-3 items-center mb-3">
                         評価: 星
                         <SelectBox
                           value={star}
