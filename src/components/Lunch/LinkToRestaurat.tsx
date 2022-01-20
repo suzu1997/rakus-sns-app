@@ -16,13 +16,6 @@ export const LinkToRestaurant: FC<Props> = memo((props) => {
 
   const router = useRouter();
 
-  // ダミーのレストランデータ
-  // const restaurantInfo = {
-  //   id: "J001041443",
-  //   name: "らーめん 氣華ああああああああああああああ",
-  //   img: "https://imgfp.hotp.jp/IMGH/76/15/P018367615/P018367615_238.jpg",
-  // };
-
   /**
    * 個別の店情報ページへ遷移するメソッド.
    *
