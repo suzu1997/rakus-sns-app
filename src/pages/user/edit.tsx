@@ -57,13 +57,19 @@ const Edit: NextPage = () => {
   /**
    * APIで初期表示用データ取得.
    */
-  const { data: userData, error } = useSWR<UserInfo>(
+  const { data: userData } = useSWR<UserInfo>(
     `${JAVA_API_URL}/user/${loginId}`,
   );
 
   // 年月だけ取得したい初期値は、日付を削る必要があるため
   const defaultHireDate = userData?.hireDate;
   const formatHireDate = defaultHireDate?.slice(0, 7);
+
+  //名前を姓名に分ける
+  const fullName = userData?.name;
+  const nameArray = fullName?.split(" ");
+  const formatFirstName = nameArray?.[0];
+  const formatLastName = nameArray?.[1];
 
   // バリデーション機能を呼び出し
   const {
@@ -74,8 +80,8 @@ const Edit: NextPage = () => {
     resolver: yupResolver(schema),
     //初期値はログインしている人のデータを入れる
     defaultValues: {
-      firstName: userData?.name,
-      lastName: userData?.name,
+      firstName: formatFirstName,
+      lastName: formatLastName,
       accountName: userData?.accountName,
       hireDate: formatHireDate,
       birthDay: userData?.birthDay,
@@ -146,14 +152,6 @@ const Edit: NextPage = () => {
   const cancel = () => {
     router.push(`/user/${loginId}`);
   };
-
-  // if (!error && !userData) {
-  //   return <div>Loading...</div>;
-  // }
-
-  // if (error) {
-  //   return <div>データを取得できませんでした</div>;
-  // }
 
   return (
     <div>
