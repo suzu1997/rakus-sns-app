@@ -5,6 +5,9 @@ import { useForm } from "react-hook-form";
 import { TextInput } from "../../../components/Form/TextInput";
 import { Button } from "../../../components/Button/Button";
 import { useRouter } from "next/router";
+import { JAVA_API_URL } from "../../../utils/const";
+import useSWR from "swr";
+import { UpdatePassInfo } from "../../../types/type";
 
 //バリデーションチェック
 const schema = yup.object().shape({
@@ -44,6 +47,9 @@ const schema = yup.object().shape({
 const UpdatePass: NextPage = () => {
   //ルーターリンク
   const router = useRouter();
+  //URLの後ろからtoken取得
+  const passToken = Number(router.query.token);
+
   //バリデーション機能を呼び出し
   const {
     register,
@@ -53,6 +59,19 @@ const UpdatePass: NextPage = () => {
     resolver: yupResolver(schema),
   });
 
+  /**
+   * APIで初期表示用データ取得.
+   */
+  const { data: updatePassData, error } = useSWR<UpdatePassInfo>(
+    `${JAVA_API_URL}/password/${passToken}`,
+  );
+
+  if (!error && !updatePassData) {
+    return <div>Loading...</div>;
+  }
+  if (error) {
+    return <div>データを取得できませんでした</div>;
+  }
   return (
     <>
       <div className="border-solid  border-2 border-bgc-200 m-10  shadow-lg rounded-xl text-center">
@@ -60,6 +79,7 @@ const UpdatePass: NextPage = () => {
           以下のフォームよりパスワードの更新をお願いします
         </div>
         <div className="flex flex-col items-center mt-5">
+          <div className="mt-3">メールアドレス:{updatePassData?.email}</div>
           <div className="w-3/4 sm:w-2/4 mt-3">
             {/* パスワードのテキストフォーム */}
             <TextInput
