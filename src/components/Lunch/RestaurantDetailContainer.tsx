@@ -68,24 +68,30 @@ export const RestaurantDetailContainer: FC = memo(() => {
             alt="restaurant photo"
           />
         </div>
-        <div className="mt-10">{restaurant.description}</div>
+        {restaurant.description && (
+          <div className="mt-10">{restaurant.description}</div>
+        )}
       </div>
       <p className="mt-10">住所: {restaurant.address}</p>
-      <p className="mt-10">アクセス: {restaurant.access}</p>
+      {restaurant.access && (
+        <p className="mt-10">アクセス: {restaurant.access}</p>
+      )}
       {/* 緯度と軽度から、googleマップを表示 */}
-      <div className="w-5/6 mx-auto">
-        <p className="mt-10">Map</p>
-        <GoogleMap
-          latitude={restaurant.latitude}
-          longitude={restaurant.longitude}
-        />
-      </div>
-      <p className="my-10 break-all">
-        ホットペッパーURL:
-        <div>
-          <a href={restaurant.url}>{restaurant.url}</a>
+      {restaurant.latitude && (
+        <div className="w-5/6 mx-auto">
+          <p className="mt-10">Map</p>
+          <GoogleMap
+            latitude={restaurant.latitude}
+            longitude={restaurant.longitude}
+          />
         </div>
-      </p>
+      )}
+      {restaurant.url && (
+        <p className="my-10 break-all">
+          参考URL:
+          <a href={restaurant.url}>{restaurant.url}</a>
+        </p>
+      )}
     </div>
   );
 });
