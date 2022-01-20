@@ -121,7 +121,11 @@ const TweetDetail: NextPage = () => {
             <div className="flex flex-col items-end gap-3 sm:flex-row justify-end mr-5 mt-5">
               <div className="mr-5">投稿日時：{data.time}</div>
               <div>
-                <CommentIcon commentCount={300} />
+                <CommentIcon
+                  commentCount={300}
+                  postId={data.postId}
+                  target="timeline"
+                />
                 <FavoBtn postId={data.postId} favoCount={30} />
                 {loginUserId == data.userId && (
                   <TrashBtn postId={data.postId} />

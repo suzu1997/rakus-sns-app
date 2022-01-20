@@ -149,7 +149,11 @@ const Timeline: NextPage = () => {
             </div>
 
             <div className="w-full text-right py-3">
-              <CommentIcon commentCount={300} />
+              <CommentIcon
+                commentCount={300}
+                postId={value.postId}
+                target="timeline"
+              />
               <FavoBtn postId={value.postId} favoCount={30} />
               {loginId == value.userId && <TrashBtn postId={value.postId} />}
             </div>
