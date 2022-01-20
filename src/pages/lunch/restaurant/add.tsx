@@ -7,8 +7,13 @@ import { Button } from "../../../components/Button/Button";
 import { MenuBar } from "../../../components/Layout/MenuBar";
 import { TextInput } from "../../../components/Form/TextInput";
 import { useRouter } from "next/router";
-import { HOTPEPPER_URL } from "../../../utils/const";
+import { HOTPEPPER_URL, JAVA_API_URL } from "../../../utils/const";
 import { SelectBox } from "../../../components/Form/SelectBox";
+
+type Options = {
+  id: string;
+  name: string;
+};
 
 const RestaurantAdd: FC = () => {
   const router = useRouter();
@@ -40,7 +45,7 @@ const RestaurantAdd: FC = () => {
   ];
 
   // 登録する店舗のタイプ
-  const [type, setType] = useState<string>(typeOptions[0].name);
+  const [type, setType] = useState<Options>(typeOptions[0]);
 
   /**
    * ラーセンから1km以内かつ、店名で検索.
@@ -103,12 +108,26 @@ const RestaurantAdd: FC = () => {
    * 店舗を登録する.
    */
   const register = useCallback(
-    (id) => {
+    async (restaurant) => {
       // 店の情報と入力させたタイプをAPIに渡して登録
-      router.push(`/lunch/restaurant/${id}`);
+      const res = await axios.post(`${JAVA_API_URL}/restaurant`, {
+        name: restaurant.name,
+        address: restaurant.address,
+        genreFk: restaurant.genre.code,
+        photoPath: restaurant.photo.pc.l,
+        restaurantType: type.id,
+        hotpepperId: restaurant.id,
+        description: restaurant.catch,
+        access: restaurant.access,
+        latitude: restaurant.lat,
+        longitude: restaurant.lng,
+        url: restaurant.urls.pc,
+        smoking: restaurant.non_smoking,
+      });
+      router.push(`/lunch/restaurant/${res.data.restaurant.id}`);
       alert("登録しました");
     },
-    [router],
+    [router, type.id],
   );
 
   const clear = useCallback(() => {
@@ -185,16 +204,13 @@ const RestaurantAdd: FC = () => {
             <div className="w-1/3 ml-10 mt-5">
               <SelectBox
                 label="タイプ(店内・お弁当・両方)"
-                value={type}
+                value={type.name}
                 select={setType}
                 options={typeOptions}
               ></SelectBox>
             </div>
             <div className="ml-10 mt-5 flex justify-center gap-3">
-              <Button
-                label="新規登録"
-                onClick={() => register(restaurant.id)}
-              />
+              <Button label="新規登録" onClick={() => register(restaurant)} />
               <Button
                 label="クリア"
                 onClick={clear}
