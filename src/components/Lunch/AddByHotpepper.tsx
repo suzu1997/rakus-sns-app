@@ -12,7 +12,7 @@ type Props = {
   clear: () => void;
 };
 
-type Options = {
+export type Options = {
   id: string;
   name: string;
 };
@@ -38,15 +38,15 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
   /**
    * 店舗を登録する.
    */
-  const register = useCallback(
-    async (restaurant) => {
-      // 店の情報と入力させたタイプをAPIに渡して登録
-      const res = await axios.post(`${JAVA_API_URL}/restaurant`, {
+  const register = useCallback(async () => {
+    
+    try {
+      const res = await axios.post(`${JAVA_API_URL}/restaurant/hp`, {
         name: restaurant.name,
         address: restaurant.address,
         genreFk: restaurant.genre.code,
         photoPath: restaurant.photo.pc.l,
-        restaurantType: type.id,
+        type: type.id,
         hotpepperId: restaurant.id,
         description: restaurant.catch,
         access: restaurant.access,
@@ -55,11 +55,13 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
         url: restaurant.urls.pc,
         smoking: restaurant.non_smoking,
       });
+      // 店の情報と入力させたタイプをAPIに渡して登録
       router.push(`/lunch/restaurant/${res.data.restaurant.id}`);
       alert("登録しました");
-    },
-    [router, type.id],
-  );
+    } catch (error) {
+      alert(error);
+    }
+  }, [router, type.id, restaurant]);
 
   return (
     <div>
@@ -74,15 +76,12 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
           height={200}
         />
       </div>
-      <p className="ml-10">-ID: {restaurant.id}</p>
-      <p className="ml-10">
-        -ジャンル: {restaurant.genre.name}({restaurant.genre.code})
-      </p>
-      <p className="ml-10">-お店キャッチ: {restaurant.catch}</p>
-      <p className="ml-10">-住所: {restaurant.address}</p>
-      <p className="ml-10">-交通アクセス: {restaurant.access}</p>
-      <p className="ml-10">
-        -店舗URL:{" "}
+      <p className="ml-10">▶︎ジャンル: {restaurant.genre.name}</p>
+      <p className="ml-10 mt-2">▶︎お店キャッチ: {restaurant.catch}</p>
+      <p className="ml-10 mt-2">▶︎住所: {restaurant.address}</p>
+      <p className="ml-10 mt-2">▶︎交通アクセス: {restaurant.access}</p>
+      <p className="ml-10 mt-2">
+        ▶︎店舗URL:{" "}
         <a href={restaurant.urls.pc} className="hover:text-blue-700">
           {restaurant.urls.pc}
         </a>
@@ -96,9 +95,9 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
         ></SelectBox>
       </div>
       <div className="ml-10 mt-5 flex justify-center gap-3">
-        <Button label="新規登録" onClick={() => register(restaurant)} />
+        <Button label="新規登録" onClick={register} />
         <Button
-          label="クリア"
+          label="キャンセル"
           onClick={clear}
           backgroundColor="#f6f0ea"
           color="#622d18"
