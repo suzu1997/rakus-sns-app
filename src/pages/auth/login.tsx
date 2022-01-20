@@ -58,22 +58,22 @@ const Login: NextPage = () => {
       //ログインに成功した場合
       if (res.data.status === "success") {
         //ログインに成功したらクッキーに連想配列でログイン情報をセット
-        const userInfo = {
-          //一旦あるものだけ
-          id: res.data.user.id,
-          name: res.data.user.name,
-          accountName: res.data.user.accountName,
-          hireDate: res.data.user.hireDate,
-          serviceFk: res.data.user.serviceFk,
-          birthDay: res.data.user.birthDay,
-          profile: res.data.user.profile,
-        };
-        cookie.set("id", userInfo, { path: "/" });
+        // const userInfo = {
+        //   //一旦あるものだけ
+        //   id: res.data.user.id,
+        //   name: res.data.user.name,
+        //   accountName: res.data.user.accountName,
+        //   hireDate: res.data.user.hireDate,
+        //   serviceFk: res.data.user.serviceFk,
+        //   birthDay: res.data.user.birthDay,
+        //   profile: res.data.user.profile,
+        // };
+        cookie.set("id", res.data.user.id, { path: "/" });
         // cookie.set("id", res.data.user.id, { path: "/" });
 
         //コンソールテスト
         const userData = cookie.get("id");
-        console.log("ログイン成功" + userData.name);
+        console.log("ログイン成功" + userData);
 
         //ログインと同時に入力内容をクリア
         reset();
