@@ -4,6 +4,8 @@ import { PostModal } from "../Modal/PostModal";
 //コメント数・対象の投稿IDを受け取る
 export type Props = {
   commentCount: number;
+  postId?: number; // 対象の投稿ID
+  target: "timeline" | "reviews"; // 対象の投稿がタイムラインかレビューか
 };
 
 /**
@@ -11,7 +13,7 @@ export type Props = {
  * @remarks コメント数を渡してあげる
  */
 export const CommentIcon: FC<Props> = memo((props) => {
-  const { commentCount } = props;
+  const { commentCount, postId = 1, target } = props;
   // コメント投稿のモーダルのオープン状態
   const [isCommentOpen, setCommentIsOpen] = useState(false);
 
@@ -38,6 +40,8 @@ export const CommentIcon: FC<Props> = memo((props) => {
         isOpen={isCommentOpen}
         closeModal={closeCommentModal}
         title={"コメント"}
+        postId={postId}
+        target={target}
       />
       <button type="button" className="pr-10" onClick={openCommentModal}>
         <i className="fas fa-comment text-gray-500 hover:text-yellow-600"></i>
