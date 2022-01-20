@@ -13,6 +13,7 @@ import { useContext, useState } from "react";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import axios from "axios";
 import { format } from "date-fns";
+import { JAVA_API_URL } from "../../utils/const";
 
 //バリデーションチェック
 const schema = yup.object().shape({
@@ -36,7 +37,7 @@ const schema = yup.object().shape({
   //誕生日のバリデーション
   birthDay: yup.date().max(new Date(), "誕生日は現在よりも前に設定して下さい"),
   //職種のバリデーション
-  service: yup.string(),
+  serviceFk: yup.string(),
   //プロフィールのバリデーション
   profile: yup.string().max(140, "自己紹介は140文字以内で入力してください"),
 });
@@ -63,7 +64,7 @@ const Edit: NextPage = () => {
       accountName: "やまちゃん",
       hireDate: "2021-10",
       birthDay: "2000-01-01",
-      service: "3",
+      serviceFk: "",
       profile: "とても元気",
     },
   });
@@ -76,37 +77,35 @@ const Edit: NextPage = () => {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
-    console.log("日付：" + data.hireDate);
-
+    //名前：姓＋名
     const name = data.firstName + data.lastName;
+    //入社月のフォーマット変更
     const hireDate = String(format(data.hireDate, "yyyy-MM-dd"));
+    //誕生日のフォーマット変更
     const birthDay = String(format(data.birthDay, "yyyy-MM-dd"));
 
+    //APIに送るデータ
     const postData = {
-      name: name,
-      accountName: data.accountName,
-      //本来はログインユーザのメールアドレス
-      email: "useredit-test@rakus-partners.co.jp",
-      hireDate: hireDate,
-      birthDay: birthDay,
-      // serviceFk: data.serviceFk,
-      serviceFk: data.service,
-      //本来はログインユーザのPW
-      password: "aaaAAA1234567890",
-      introduction: data.profile,
+      id: loginId, //ログインユーザID
+      accountName: data.accountName, //アカウント名
+      name: name, //名前
+      hireDate: hireDate, //入社月
+      serviceFk: data.serviceFk, //職種
+      birthDay: birthDay, //誕生日
+      introduction: data.profile, //自己紹介
     };
 
     console.dir("送るデータ" + JSON.stringify(postData));
 
-    //APIURL
-    const url = "http://localhost:8080";
-
     // try {
-    //   const res = await axios.post(url, postData);
+    //   const res = await axios.post(
+    //     `${JAVA_API_URL}/user/edit/${loginId}`,
+    //     postData,
+    //   );
     //   if (res.data.status === "success") {
     //     console.log(res.data.status);
     //     alert("更新しました");
-    //     //更新完了でユーザ画面に戻る
+    //     //更新完了でユーザ情報画面に戻る
     //     router.push(`/user/${loginId}`);
     //   } else {
     //     alert(res.data.message);
@@ -116,7 +115,12 @@ const Edit: NextPage = () => {
     // }
   };
 
+  //パスワード用モーダル開閉
   const [openModal, serOpenModal] = useState(false);
+
+  /**
+   * パスワード変更モーダルを開けるメソッド.
+   */
   const openPasswordModal = () => {
     serOpenModal(true);
   };
@@ -204,12 +208,43 @@ const Edit: NextPage = () => {
               {/* 職種のラジオボタン */}
               <div className="mt-3">職種を選択してください</div>
               <div className="flex gap-5">
-                <Radio id="FR" value="1" name="jobType" defaultChecked />
-                <Radio id="Java" value="2" name="jobType" />
-                <Radio id="CL" value="3" name="jobType" />
-                <Radio id="QA" value="4" name="jobType" />
-                <Radio id="ML" value="5" name="jobType" />
-                <Radio id="内勤" value="6" name="jobType" />
+                <Radio
+                  id="FR"
+                  value="1"
+                  name="serviceFk"
+                  registers={register("serviceFk")}
+                  defaultChecked
+                />
+                <Radio
+                  id="Java"
+                  value="2"
+                  name="serviceFk"
+                  registers={register("serviceFk")}
+                />
+                <Radio
+                  id="CL"
+                  value="3"
+                  name="serviceFk"
+                  registers={register("serviceFk")}
+                />
+                <Radio
+                  id="QA"
+                  value="4"
+                  name="serviceFk"
+                  registers={register("serviceFk")}
+                />
+                <Radio
+                  id="ML"
+                  value="5"
+                  name="serviceFk"
+                  registers={register("serviceFk")}
+                />
+                <Radio
+                  id="内勤"
+                  value="6"
+                  name="serviceFk"
+                  registers={register("serviceFk")}
+                />
               </div>
               <div className="w-96 mt-3">
                 {/* 誕生日のテキストフォーム */}

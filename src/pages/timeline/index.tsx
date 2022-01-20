@@ -88,7 +88,7 @@ const Timeline: NextPage = () => {
   return (
     <>
       {/* サブヘッダー */}
-      <SubHeader title="つぶやき" />
+      <SubHeader title="タイムライン" />
 
       {/* タイムラインゾーン */}
       <div className="text-center my-10 animate-bounce">
