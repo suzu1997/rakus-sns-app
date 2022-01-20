@@ -14,7 +14,6 @@ import { loginIdContext } from "../../providers/LoginIdProvider";
 import axios from "axios";
 import { format } from "date-fns";
 import { JAVA_API_URL } from "../../utils/const";
-import { UserInfo } from "../../types/type";
 import useSWR from "swr";
 
 //バリデーションチェック

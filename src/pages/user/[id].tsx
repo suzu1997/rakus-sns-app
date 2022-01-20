@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import Image from "next/image";
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { Tab } from "@headlessui/react";
@@ -7,7 +7,7 @@ import { Button } from "../../components/Button/Button";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import { JAVA_API_URL } from "../../utils/const";
-import { UserInfo } from "../../types/type";
+import { loginIdContext } from "../../providers/LoginIdProvider";
 
 //タブテスト
 function classNames(...classes: unknown[]) {
@@ -32,6 +32,9 @@ const User: NextPage = () => {
 
   //URLの後ろからid取得
   const userId = Number(router.query.id);
+
+  //ログインID
+  const loginId = useContext(loginIdContext);
 
   //編集ボタンを押した時に呼ばれる
   const editInfo = () => {
@@ -149,15 +152,17 @@ const User: NextPage = () => {
                 </div>
               </div>
             )}
-            <div className="text-right mr-10 mb-5">
-              <Button
-                label="プロフィール編集"
-                backgroundColor="#f28728"
-                color="white"
-                size="md"
-                onClick={editInfo}
-              />
-            </div>
+            {userId == loginId && (
+              <div className="text-right mr-10 mb-5">
+                <Button
+                  label="プロフィール編集"
+                  backgroundColor="#f28728"
+                  color="white"
+                  size="md"
+                  onClick={editInfo}
+                />
+              </div>
+            )}
           </div>
 
           <div className="w-full text-center mb-2">
