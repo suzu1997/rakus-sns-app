@@ -9,6 +9,7 @@ import { TextInput } from "../Form/TextInput";
 import axios from "axios";
 import { JAVA_API_URL } from "../../utils/const";
 import { useRouter } from "next/router";
+import { genreOptions, typeOptions } from "../../utils/options";
 
 //バリデーションチェック
 const schema = yup.object().shape({
@@ -39,13 +40,9 @@ export const AddManuallyForm: FC = () => {
     resolver: yupResolver(schema),
   });
 
-  const genreOptions = [
-    { id: "1", name: "和食" },
-    { id: "2", name: "洋食" },
-    { id: "3", name: "ラーメン" },
-  ];
-
   const [genre, setGenre] = useState(genreOptions[0].name);
+
+  const [type, setType] = useState(typeOptions[0].name);
 
   //登録ボタンを押した時のメソッド
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -107,9 +104,9 @@ export const AddManuallyForm: FC = () => {
           {/* タイプのセレクトボックス */}
           <SelectBox
             label="タイプ"
-            value={genre}
-            select={setGenre}
-            options={genreOptions}
+            value={type}
+            select={setType}
+            options={typeOptions}
           />
         </div>
         {/* 住所のテキストフォーム */}

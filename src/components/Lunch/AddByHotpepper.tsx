@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { FC, memo, useCallback, useState } from "react";
 import { JAVA_API_URL } from "../../utils/const";
+import { typeOptions } from "../../utils/options";
 import { Button } from "../Button/Button";
 import { SelectBox } from "../Form/SelectBox";
 
@@ -25,13 +26,6 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
 
   const { restaurant, clear } = props;
 
-  // 店舗のタイプの選択肢
-  const typeOptions = [
-    { id: "1", name: "店内" },
-    { id: "2", name: "お弁当" },
-    { id: "3", name: "両方" },
-  ];
-
   // 登録する店舗のタイプ
   const [type, setType] = useState<Options>(typeOptions[0]);
 
@@ -39,7 +33,6 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
    * 店舗を登録する.
    */
   const register = useCallback(async () => {
-    
     try {
       const res = await axios.post(`${JAVA_API_URL}/restaurant/hp`, {
         name: restaurant.name,
