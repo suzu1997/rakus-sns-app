@@ -95,7 +95,7 @@ const TweetDetail: NextPage = () => {
       </div>
 
       {/* つぶやき詳細 */}
-      <div className="mx-5">
+      <div className="mx-5 mt-10">
         <div>
           <div className="px-3 flex">
             <div className="w-3/12 cursor-pointer hover:opacity-50">
