@@ -32,6 +32,7 @@ export const PostModal: FC<Props> = memo((props) => {
     target,
   } = props;
 
+  // ログイン中のユーザーidを取得
   const userId = useContext(loginIdContext);
 
   //入力テキストの内容を格納するstate
@@ -61,6 +62,7 @@ export const PostModal: FC<Props> = memo((props) => {
   /**
    * 入力内容を投稿するメソッド.
    * @remarks API完成したらこのメソッド内で送信.
+   * titleによって投稿するAPIを変える。
    */
   const sendPost = async () => {
     if (post === "") {

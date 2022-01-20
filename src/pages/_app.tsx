@@ -23,6 +23,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         {/* useSWRのグローバル設定 fetcher関数を共通化 */}
         <SWRConfig value={{ fetcher }}>
           <Component {...pageProps} />
+          {/* 通知バーコンポーネント */}
           <Toaster
             position="top-center"
             toastOptions={{
