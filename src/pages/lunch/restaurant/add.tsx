@@ -108,6 +108,7 @@ const RestaurantAdd: FC = () => {
     setHotpeppers([]);
     setRestaurant(null);
     setHasClickedSearch(false);
+    setManually(false);
   }, []);
 
   return (
@@ -193,7 +194,7 @@ const RestaurantAdd: FC = () => {
         {/* ホットペッパーにある店を登録する画面 */}
         {restaurant && <AddByHotpepper restaurant={restaurant} clear={clear} />}
         {/* 手入力で店を登録する画面 */}
-        {manually && <AddManuallyForm />}
+        {manually && <AddManuallyForm clear={clear}/>}
       </div>
     </div>
   );

@@ -11,6 +11,10 @@ import { JAVA_API_URL } from "../../utils/const";
 import { useRouter } from "next/router";
 import { genreOptions, typeOptions } from "../../utils/options";
 
+type Props = {
+  clear: () => void;
+};
+
 //バリデーションチェック
 const schema = yup.object().shape({
   // 店名のバリデーション
@@ -27,8 +31,10 @@ const schema = yup.object().shape({
 /**
  * 手入力で店を追加するフォーム.
  */
-export const AddManuallyForm: FC = () => {
+export const AddManuallyForm: FC<Props> = (props) => {
   const router = useRouter();
+
+  const { clear } = props;
 
   // バリデーション機能を呼び出し
   const {
@@ -71,10 +77,6 @@ export const AddManuallyForm: FC = () => {
       console.log(error);
     }
   };
-
-  const clear = useCallback(() => {
-    reset();
-  }, [reset]);
 
   return (
     <>
