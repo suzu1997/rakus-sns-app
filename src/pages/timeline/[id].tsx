@@ -114,7 +114,7 @@ const TweetDetail: NextPage = () => {
               <div className="text-xl font-extrabold py-3 ml-3">
                 {data.name}
               </div>
-              <div className="w-8/12 ml-3">{data.tweet}</div>
+              <div className="w-8/12 ml-5">{data.tweet}</div>
             </div>
           </div>
 

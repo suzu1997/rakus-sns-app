@@ -21,7 +21,7 @@ const Notion: NextPage = () => {
       id: 1,
       name: "佐藤花子",
       action: "お気に入り",
-      img: "/usakus.jpg",
+      img: "/image/userIcon/user6.jpeg",
       postId: 500,
       post: "あああ",
     },
@@ -29,7 +29,7 @@ const Notion: NextPage = () => {
       id: 1,
       name: "佐藤花子",
       action: "コメント",
-      img: "/usakus.jpg",
+      img: "/image/userIcon/user5.jpeg",
       postId: 400,
       post: "いいい",
     },
@@ -37,7 +37,7 @@ const Notion: NextPage = () => {
       id: 2,
       name: "三角次郎",
       action: "お気に入り",
-      img: "/usakus.jpg",
+      img: "/image/userIcon/user4.jpeg",
       postId: 300,
       post: "あああ",
     },
@@ -45,7 +45,7 @@ const Notion: NextPage = () => {
       id: 3,
       name: "山田太郎",
       action: "コメント",
-      img: "/usakus.jpg",
+      img: "/image/userIcon/user2.jpeg",
       postId: 200,
       post: "うおお",
     },
@@ -53,7 +53,7 @@ const Notion: NextPage = () => {
       id: 1,
       name: "佐藤花子",
       action: "お気に入り",
-      img: "/usakus.jpg",
+      img: "/image/userIcon/user1.jpeg",
       postId: 100,
       post: "良い気持ち",
     },
@@ -140,7 +140,13 @@ const Notion: NextPage = () => {
                   goUserPage(value.id);
                 }}
               >
-                <Image src={value.img} width={100} height={100} alt="icon" />
+                <Image
+                  src={value.img}
+                  width={100}
+                  height={100}
+                  alt="icon"
+                  className="rounded-full"
+                />
               </span>
             </div>
             <div className=" cursor-pointer hover:opacity-50">
