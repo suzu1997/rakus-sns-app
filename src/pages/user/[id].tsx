@@ -103,7 +103,7 @@ const User: NextPage = () => {
 
   //URLの後ろからid取得
   const userId = Number(router.query.id);
-
+  
   /**
    * APIで初期表示用データ取得.
    */
