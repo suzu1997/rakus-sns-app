@@ -4,6 +4,7 @@ import "tailwindcss/tailwind.css";
 import { Layout } from "../components/Layout/Layout";
 import Head from "next/head";
 import { SWRConfig } from "swr";
+import { Toaster } from "react-hot-toast";
 import { fetcher } from "../utils/fetcher";
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -22,6 +23,24 @@ function MyApp({ Component, pageProps }: AppProps) {
         {/* useSWRのグローバル設定 fetcher関数を共通化 */}
         <SWRConfig value={{ fetcher }}>
           <Component {...pageProps} />
+          <Toaster
+            position="top-center"
+            toastOptions={{
+              duration: 3000,
+              success: {
+                style: {
+                  background: "#f6f0ea",
+                  color: "#622d18",
+                },
+              },
+              error: {
+                style: {
+                  background: "#F9C1CF",
+                  color: "#622d18",
+                },
+              },
+            }}
+          />
         </SWRConfig>
       </Layout>
     </>
