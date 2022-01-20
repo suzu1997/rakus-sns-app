@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { Button } from "../../components/Button/Button";
 import useSWR from "swr";
 import { JAVA_API_URL } from "../../utils/const";
+import { Notion } from "../../types/type";
 
 /**
  * 通知ページ.
@@ -85,9 +86,9 @@ const Notion: NextPage = () => {
     }
   }, []);
 
-  // const userId = Number(router.query.id);
+  // const loginUserId = Number(router.query.id);
   // const { data: notionData, error } = useSWR<Notion>(
-  //   `${JAVA_API_URL}/notion/${userId}`,
+  //   `${JAVA_API_URL}/notion/${loginUserId}`,
   // );
 
   // if (!error && !notionData) {

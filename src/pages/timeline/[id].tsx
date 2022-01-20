@@ -8,6 +8,9 @@ import { PostBtn } from "../../components/Button/PostBtn";
 import { TrashBtn } from "../../components/Button/TrashBtn";
 import { SubHeader } from "../../components/Layout/SubHeader";
 import Image from "next/image";
+import useSWR from "swr";
+import { JAVA_API_URL } from "../../utils/const";
+import { TimelineDetail } from "../../types/type";
 
 /**
  * つぶやき詳細画面.
@@ -61,6 +64,19 @@ const TweetDetail: NextPage = () => {
   const goUserPage = (userId: number) => {
     router.push(`/user/${userId}`);
   };
+
+  // const loginUserId = Number(router.query.id);
+  // const { data: timelineData, error } = useSWR<TimelineDetail>(
+  //   `${JAVA_API_URL}/timeline/${loginUserId}`,
+  // );
+
+  // if (!error && !timelineData) {
+  //   return <div>Loading...</div>;
+  // }
+
+  // if (error) {
+  //   return <div>データを取得できませんでした</div>;
+  // }
 
   return (
     <>

@@ -35,3 +35,23 @@ export type Notion = {
   postId: number;
   post: string;
 };
+
+//タイムライン(後で変更)
+export type Timeline = {
+  id: number;
+  name: string;
+  action: string;
+  img: string;
+  postId: number;
+  post: string;
+};
+
+//タイムライン詳細(後で変更)
+export type TimelineDetail = {
+  id: number;
+  name: string;
+  action: string;
+  img: string;
+  postId: number;
+  post: string;
+};
