@@ -4,6 +4,7 @@ import { Fragment } from "react";
 import axios from "axios";
 import { Button } from "../Button/Button";
 import Image from "next/image";
+import toast from "react-hot-toast";
 import { TextArea } from "../Form/TextArea";
 import { SelectBox } from "../Form/SelectBox";
 import { JAVA_API_URL } from "../../utils/const";
@@ -72,41 +73,51 @@ export const PostModal: FC<Props> = memo((props) => {
     }
 
     if (title === "レビュー") {
-      //レビュー投稿
-      // const res = await axios.post(`${JAVA_API_URL}/reviews`, {
-      //   userId,
-      //   post,
-      //   star,
-      // });
+      try {
+        //レビュー投稿
+        // await axios.post(`${JAVA_API_URL}/reviews`, {
+        //   userId,
+        //   post,
+        //   star,
+        // });
+        toast.success(
+          `id${restaurantId}のお店に${title}を投稿しました\n${title}内容: ${post}, 星の数: ${star}`,
+        );
+      } catch (e) {
+        toast.error(`${title}の投稿に失敗しました`);
+      }
 
       closeModal();
-      alert(
-        `id${restaurantId}のお店に${title}を投稿しました\n${title}内容: ${post}, 星の数: ${star}`,
-      );
       setPost("");
     }
     if (title === "つぶやき") {
-      //つぶやき投稿
-      // const res = await axios.post(`${JAVA_API_URL}/timeline`, {
-      //   userId,
-      //   post,
-      // });
-
+      try {
+        //つぶやき投稿
+        // await axios.post(`${JAVA_API_URL}/timeline`, {
+        //   userId,
+        //   post,
+        // });
+        toast.success(`${title}を投稿しました\n${title}内容: ${post}`);
+      } catch (e) {
+        toast.error(`${title}の投稿に失敗しました`);
+      }
       closeModal();
-      alert(`${title}を投稿しました\n${title}内容: ${post}`);
       setPost("");
     }
     if (title === "コメント") {
-      //コメント投稿
-      // const res = await axios.post(`${JAVA_API_URL}/${target}/comment`, {
-      //   userId,
-      //   post, // コメント内容
-      //   postId, // コメント対象の投稿のID
-      // });
-      
-      alert(
-        `id${postId}の${target}に${title}を投稿しました\n${title}内容: ${post}`,
-      );
+      try {
+        //コメント投稿
+        // await axios.post(`${JAVA_API_URL}/${target}/comment`, {
+        //   userId,
+        //   post, // コメント内容
+        //   postId, // コメント対象の投稿のID
+        // });
+        toast.success(
+          `id${postId}の${target}に${title}を投稿しました\n${title}内容: ${post}`,
+        );
+      } catch {
+        toast.error(`${title}の投稿に失敗しました`);
+      }
       closeModal();
       setPost("");
     }
