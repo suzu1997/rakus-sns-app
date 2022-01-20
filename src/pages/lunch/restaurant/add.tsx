@@ -1,19 +1,13 @@
 import axios from "axios";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const axiosJsonpAdapter = require("axios-jsonp");
 import { FC, useCallback, useState } from "react";
 import Image from "next/image";
 import { Button } from "../../../components/Button/Button";
-import { MenuBar } from "../../../components/Layout/MenuBar";
 import { TextInput } from "../../../components/Form/TextInput";
 import { useRouter } from "next/router";
-import { HOTPEPPER_URL, JAVA_API_URL } from "../../../utils/const";
+import { JAVA_API_URL } from "../../../utils/const";
 import { SelectBox } from "../../../components/Form/SelectBox";
-
-type Options = {
-  id: string;
-  name: string;
-};
+import { AddByHotpepper } from "../../../components/Lunch/AddByHotpepper";
 
 const RestaurantAdd: FC = () => {
   const router = useRouter();
@@ -37,45 +31,15 @@ const RestaurantAdd: FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [restaurant, setRestaurant] = useState<any | null>();
 
-  // 店舗のタイプの選択肢
-  const typeOptions = [
-    { id: "1", name: "店内" },
-    { id: "2", name: "お弁当" },
-    { id: "3", name: "両方" },
-  ];
-
-  // 登録する店舗のタイプ
-  const [type, setType] = useState<Options>(typeOptions[0]);
-
   /**
    * ラーセンから1km以内かつ、店名で検索.
    * @remarks
    * &name_anyとすることで漢字でもかなでも検索できる
    */
   const searchByNameIn2km = async () => {
-    // ----------クライアント側から直接API叩く-----------
-    // APIキーが見えてしまう。
-
-    // ホットペッパーAPIは、サーバー側でのみデータフェッチ可
-    // （クライアント側（JavaScriptによるブラウザ側）では不可のため、CORSによりブロックされてしまう。）
-    // そのためJSONPでCORSエラー回避する
-
-    // jsonpのためaxiosにてデータフェッチ
-    // const res = await axios.get(
-    //   `${HOTPEPPER_URL}&name_any=${searchName}&lat=35.689445&lng=139.70735&range=3&count=50`,
-    //   {
-    //     adapter: axiosJsonpAdapter,
-    //   },
-    // );
-    // setResult(res.data.results.shop);
-
-    // -------------------------------------------------
-
-    // ---------作成したWebAPIエンドポイントを利用する------------
+    // 作成したWebAPIエンドポイントを利用する
     // API Routeを使用することで、APIキーを隠せる
     const res = await axios.get(`/api/hotpepper?name_any=${searchName}`);
-    console.log(res);
-    console.log(res.data.shops);
 
     setResult(res.data.shops);
   };
@@ -104,32 +68,6 @@ const RestaurantAdd: FC = () => {
     [setRestaurant],
   );
 
-  /**
-   * 店舗を登録する.
-   */
-  const register = useCallback(
-    async (restaurant) => {
-      // 店の情報と入力させたタイプをAPIに渡して登録
-      const res = await axios.post(`${JAVA_API_URL}/restaurant`, {
-        name: restaurant.name,
-        address: restaurant.address,
-        genreFk: restaurant.genre.code,
-        photoPath: restaurant.photo.pc.l,
-        restaurantType: type.id,
-        hotpepperId: restaurant.id,
-        description: restaurant.catch,
-        access: restaurant.access,
-        latitude: restaurant.lat,
-        longitude: restaurant.lng,
-        url: restaurant.urls.pc,
-        smoking: restaurant.non_smoking,
-      });
-      router.push(`/lunch/restaurant/${res.data.restaurant.id}`);
-      alert("登録しました");
-    },
-    [router, type.id],
-  );
-
   const clear = useCallback(() => {
     setSearchName("");
     setResult([]);
@@ -151,11 +89,11 @@ const RestaurantAdd: FC = () => {
           />
           <Button label="店名で検索(1km以内)" onClick={searchByNameIn2km} />
         </div>
-        <div>
+        {/* <div>
           <p>もしかしてこのお店？</p>
           <div>データベースに登録済みの店表示</div>
           <div>{searchName}</div>
-        </div>
+        </div> */}
         {/* 検索結果表示 */}
         {result.length > 0 && (
           <ul>
@@ -175,51 +113,7 @@ const RestaurantAdd: FC = () => {
             })}
           </ul>
         )}
-        {restaurant && (
-          <div>
-            <li className="list-disc">
-              {restaurant.name}({restaurant.name_kana})
-            </li>
-            <div className="ml-10 mt-5">
-              <Image
-                src={restaurant.photo.pc.l}
-                alt="image"
-                width={300}
-                height={200}
-              />
-            </div>
-            <p className="ml-10">-ID: {restaurant.id}</p>
-            <p className="ml-10">
-              -ジャンル: {restaurant.genre.name}({restaurant.genre.code})
-            </p>
-            <p className="ml-10">-お店キャッチ: {restaurant.catch}</p>
-            <p className="ml-10">-住所: {restaurant.address}</p>
-            <p className="ml-10">-交通アクセス: {restaurant.access}</p>
-            <p className="ml-10">
-              -店舗URL:{" "}
-              <a href={restaurant.urls.pc} className="hover:text-blue-700">
-                {restaurant.urls.pc}
-              </a>
-            </p>
-            <div className="w-1/3 ml-10 mt-5">
-              <SelectBox
-                label="タイプ(店内・お弁当・両方)"
-                value={type.name}
-                select={setType}
-                options={typeOptions}
-              ></SelectBox>
-            </div>
-            <div className="ml-10 mt-5 flex justify-center gap-3">
-              <Button label="新規登録" onClick={() => register(restaurant)} />
-              <Button
-                label="クリア"
-                onClick={clear}
-                backgroundColor="#f6f0ea"
-                color="#622d18"
-              />
-            </div>
-          </div>
-        )}
+        {restaurant && <AddByHotpepper restaurant={restaurant} clear={clear} />}
       </div>
     </div>
   );
