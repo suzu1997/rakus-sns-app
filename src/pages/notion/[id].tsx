@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { useCallback, useState } from "react";
 import { NextPage } from "next";
-import { SubHeader } from "../components/Layout/SubHeader";
+import { SubHeader } from "../../components/Layout/SubHeader";
 import { useRouter } from "next/router";
-import { Button } from "../components/Button/Button";
+import { Button } from "../../components/Button/Button";
 
 /**
  * 通知ページ.
