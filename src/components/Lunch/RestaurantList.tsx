@@ -6,7 +6,6 @@ import { RestaurantCard } from "./RestaurantCard";
 
 export const RestaurantList: FC = memo(() => {
   const { data: restaurantList, error } = useSWR(`${JAVA_API_URL}/restaurant`);
-  console.log(restaurantList);
 
   if (!error && !restaurantList) {
     return (
@@ -33,8 +32,8 @@ export const RestaurantList: FC = memo(() => {
   }
   return (
     <div className="w-full">
-      {restaurantList?.map((restaurant: Restaurant) => (
-        <div key={restaurant.restaurantId}>
+      {restaurantList?.restaurant.map((restaurant: Restaurant) => (
+        <div key={restaurant.id}>
           <RestaurantCard {...restaurant} />
         </div>
       ))}
