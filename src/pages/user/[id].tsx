@@ -145,7 +145,7 @@ const User: NextPage = () => {
                   <div>職種:{userData.serviceFk}</div>
                   <div>アカウント名:{userData.accountName}</div>
                   <div>誕生日:{userData.birthDay}</div>
-                  <div>自己紹介:{userData.profile}</div>
+                  <div>自己紹介:{userData.introduction}</div>
                 </div>
               </div>
             )}
