@@ -78,9 +78,9 @@ export const ReviewCard: FC<Props> = memo((props) => {
         <div className="flex flex-col items-end gap-3 sm:flex-row justify-end">
           {type === "詳細" && <span className="mr-7">投稿日時：{time}</span>}
           <div>
-            <CommentIcon commentCount={commentCount} />
-            <FavoBtn />
-            <TrashBtn />
+            <CommentIcon commentCount={commentCount} postId={reviewId} target="reviews"  />
+            <FavoBtn postId={reviewId} />
+            <TrashBtn postId={reviewId} />
           </div>
         </div>
       </div>
