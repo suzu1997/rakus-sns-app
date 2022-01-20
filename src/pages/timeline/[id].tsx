@@ -10,7 +10,6 @@ import { SubHeader } from "../../components/Layout/SubHeader";
 import Image from "next/image";
 import useSWR from "swr";
 import { JAVA_API_URL } from "../../utils/const";
-import { TimelineDetail } from "../../types/type";
 
 /**
  * つぶやき詳細画面.
