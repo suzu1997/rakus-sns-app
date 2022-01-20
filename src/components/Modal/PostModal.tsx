@@ -1,4 +1,4 @@
-import { FC, memo, useCallback, useEffect, useState } from "react";
+import { FC, memo, useCallback, useEffect, useState, useContext } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import axios from "axios";
@@ -7,6 +7,7 @@ import Image from "next/image";
 import { TextArea } from "../Form/TextArea";
 import { SelectBox } from "../Form/SelectBox";
 import { JAVA_API_URL } from "../../utils/const";
+import { loginIdContext } from "../../providers/LoginIdProvider";
 
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
@@ -20,7 +21,7 @@ type Props = {
  * つぶやきもしくはレビューもしくはコメントを投稿するためのモーダルのコンポーネント.
  */
 export const PostModal: FC<Props> = memo((props) => {
-  const { isOpen, closeModal, title, restaurantId, postId } = props;
+  const userId = useContext(loginIdContext);
 
   //入力テキストの内容を格納するstate
   const [post, setPost] = useState<string>("");
