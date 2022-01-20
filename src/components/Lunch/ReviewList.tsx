@@ -70,11 +70,11 @@ export const ReviewList: FC = memo(() => {
 
   // ローディング処理
   if (!error && !data) {
-    return <div>Loading...</div>;
+    return <div className="w-full p-10 text-center">Loading...</div>;
   }
   // エラー処理
   if (error) {
-    return <div>データを取得できませんでした</div>;
+    return <div className="w-full p-10 text-center">データを取得できませんでした</div>;
   }
 
   return (
