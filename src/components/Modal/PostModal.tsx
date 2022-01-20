@@ -1,23 +1,26 @@
 import { FC, memo, useCallback, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
+import axios from "axios";
 import { Button } from "../Button/Button";
 import Image from "next/image";
 import { TextArea } from "../Form/TextArea";
 import { SelectBox } from "../Form/SelectBox";
+import { JAVA_API_URL } from "../../utils/const";
 
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
   closeModal: () => void; // モーダルを閉じるメソッド
-  title: string; // レビューとかつぶやきとか
+  title: "レビュー" | "つぶやき" | "コメント"; // レビュー/つぶやき/コメント
   restaurantId?: string; // 店のID(レビュー投稿なら渡ってくる)。投稿の際にAPIに渡す。
+  postId?: number; // タイムラインもしくはレビューのID(つぶやきへのコメント投稿なら渡ってくる)。投稿の際にAPIに渡す
 };
 
 /**
- * つぶやきもしくはレビューを投稿するためのモーダルのコンポーネント.
+ * つぶやきもしくはレビューもしくはコメントを投稿するためのモーダルのコンポーネント.
  */
 export const PostModal: FC<Props> = memo((props) => {
-  const { isOpen, closeModal, title } = props;
+  const { isOpen, closeModal, title, restaurantId, postId } = props;
 
   //入力テキストの内容を格納するstate
   const [post, setPost] = useState<string>("");
@@ -47,12 +50,24 @@ export const PostModal: FC<Props> = memo((props) => {
    * 入力内容を投稿するメソッド.
    * @remarks API完成したらこのメソッド内で送信.
    */
-  const postReview = () => {
+  const sendPost = async () => {
     if (post === "") {
       alert("入力して下さい");
-    } else if (post.length > 140) {
+      return;
+    }
+    if (post.length > 140) {
       alert(`${title}は140文字以内にして下さい`);
-    } else {
+      return;
+    }
+
+    if (title === "レビュー") {
+      //レビュー投稿
+      // const res = await axios.post(`${JAVA_API_URL}/reviews`, {
+      //   userId,
+      //   post,
+      //   star,
+      // });
+
       closeModal();
       alert(`${title}を投稿しました\n${title}内容: ${post}`);
       setPost("");
@@ -156,7 +171,7 @@ export const PostModal: FC<Props> = memo((props) => {
                 </div>
                 {/* 投稿/キャンセルのボタン */}
                 <div className="mt-4 flex gap-5 justify-center">
-                  <Button label={"投稿"} onClick={postReview} />
+                  <Button label={"投稿"} onClick={sendPost} />
                   <Button
                     backgroundColor="#f6f0ea"
                     color="#622d18"
