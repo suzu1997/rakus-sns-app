@@ -52,13 +52,19 @@ const schema = yup.object().shape({
  */
 const Edit: NextPage = () => {
   //ログインID
-  const loginId = useContext(loginIdContext);
+  // const loginId = useContext(loginIdContext);
+
+  //ルーターリンク
+  const router = useRouter();
+
+  //URLの後ろからid取得
+  const loginId = Number(router.query.id);
 
   /**
    * APIで初期表示用データ取得.
    */
   const { data: payload, error } = useSWR(`${JAVA_API_URL}/user/${loginId}`);
-  const userData = payload?.user;
+  const [userData] = useState(payload?.user);
 
   // 年月だけ取得したい初期値は、日付を削る必要があるため
   const defaultHireDate = userData?.hireDate;
@@ -89,8 +95,6 @@ const Edit: NextPage = () => {
     },
   });
 
-  //ルーターリンク
-  const router = useRouter();
   /**
    * 登録ボタンを押した時に呼ばれる
    * @param data - 入力したデータ
@@ -152,178 +156,177 @@ const Edit: NextPage = () => {
     router.push(`/user/${loginId}`);
   };
 
+  if (!error && !userData) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>データを取得できませんでした</div>;
+  }
+
   return (
     <>
-      {loginId && (
-        <div>
-          <PasswordModal isOpen={openModal} />
-          <div className="text-center bg-bgc border-solid  border-2 border-bgc-200 m-10 shadow-lg rounded-md">
-            <div className="flex flex-col items-center">
-              <div className="mt-3 text-3xl font-extrabold">
-                ユーザー情報編集
-              </div>
-              <div>
-                <Image
-                  src="/usakus.jpg"
-                  width={200}
-                  height={200}
-                  alt="icon"
-                ></Image>
-              </div>
-              <div
-                onClick={openPasswordModal}
-                className="text-text-brown my-5 cursor-pointer hover:text-basic"
-              >
-                パスワード変更はこちら
-              </div>
-              <form name="SignupForm" noValidate>
-                <div className="flex flex-col items-center mt-10">
-                  <div className="flex w-96 gap-3 mt-3">
-                    {/* 姓のテキストフォーム */}
-                    <TextInput
-                      label="姓"
-                      type="text"
-                      fullWidth={false}
-                      required
-                      placeholder="姓"
-                      registers={register("firstName")}
-                    />
-                    {/* registers={register} でバリデーション機能に登録される */}
-                    {/* errors はバリデーションエラー内容を持つ構造体で自動で更新される */}
+      <div>
+        <PasswordModal isOpen={openModal} />
+        <div className="text-center bg-bgc border-solid  border-2 border-bgc-200 m-10 shadow-lg rounded-md">
+          <div className="flex flex-col items-center">
+            <div className="mt-3 text-3xl font-extrabold">ユーザー情報編集</div>
+            <div>
+              <Image
+                src="/usakus.jpg"
+                width={200}
+                height={200}
+                alt="icon"
+              ></Image>
+            </div>
+            <div
+              onClick={openPasswordModal}
+              className="text-text-brown my-5 cursor-pointer hover:text-basic"
+            >
+              パスワード変更はこちら
+            </div>
+            <form name="SignupForm" noValidate>
+              <div className="flex flex-col items-center mt-10">
+                <div className="flex w-96 gap-3 mt-3">
+                  {/* 姓のテキストフォーム */}
+                  <TextInput
+                    label="姓"
+                    type="text"
+                    fullWidth={false}
+                    required
+                    placeholder="姓"
+                    registers={register("firstName")}
+                  />
+                  {/* registers={register} でバリデーション機能に登録される */}
+                  {/* errors はバリデーションエラー内容を持つ構造体で自動で更新される */}
 
-                    {/* 名のテキストフォーム */}
-                    <TextInput
-                      label="名"
-                      type="text"
-                      fullWidth={false}
-                      required
-                      placeholder="名"
-                      registers={register("lastName")}
-                    />
-                  </div>
+                  {/* 名のテキストフォーム */}
+                  <TextInput
+                    label="名"
+                    type="text"
+                    fullWidth={false}
+                    required
+                    placeholder="名"
+                    registers={register("lastName")}
+                  />
+                </div>
+                <div className="text-red-500">{errors.firstName?.message}</div>
+                <div className="text-red-500">{errors.lastName?.message}</div>
+
+                <div className="w-96 mt-3">
+                  {/* アカウント名のテキストフォーム */}
+                  <TextInput
+                    label="アカウント名"
+                    type="text"
+                    fullWidth={true}
+                    required
+                    placeholder="アカウント名"
+                    registers={register("accountName")}
+                  />
                   <div className="text-red-500">
-                    {errors.firstName?.message}
-                  </div>
-                  <div className="text-red-500">{errors.lastName?.message}</div>
-
-                  <div className="w-96 mt-3">
-                    {/* アカウント名のテキストフォーム */}
-                    <TextInput
-                      label="アカウント名"
-                      type="text"
-                      fullWidth={true}
-                      required
-                      placeholder="アカウント名"
-                      registers={register("accountName")}
-                    />
-                    <div className="text-red-500">
-                      {errors.accountName?.message}
-                    </div>
-                  </div>
-                  <div className="w-96 mt-3">
-                    {/* 入社月のテキストフォーム*/}
-                    <TextInput
-                      label="入社月"
-                      type="month"
-                      fullWidth={true}
-                      required
-                      registers={register("hireDate")}
-                    />
-                    <div className="text-red-500">
-                      {errors.hireDate?.message}
-                    </div>
-                  </div>
-                  {/* 職種のラジオボタン */}
-                  <div className="mt-3">職種を選択してください</div>
-                  <div className="flex gap-5">
-                    <Radio
-                      id="FR"
-                      value="1"
-                      name="serviceFk"
-                      registers={register("serviceFk")}
-                      defaultChecked
-                    />
-                    <Radio
-                      id="Java"
-                      value="2"
-                      name="serviceFk"
-                      registers={register("serviceFk")}
-                    />
-                    <Radio
-                      id="CL"
-                      value="3"
-                      name="serviceFk"
-                      registers={register("serviceFk")}
-                    />
-                    <Radio
-                      id="QA"
-                      value="4"
-                      name="serviceFk"
-                      registers={register("serviceFk")}
-                    />
-                    <Radio
-                      id="ML"
-                      value="5"
-                      name="serviceFk"
-                      registers={register("serviceFk")}
-                    />
-                    <Radio
-                      id="内勤"
-                      value="6"
-                      name="serviceFk"
-                      registers={register("serviceFk")}
-                    />
-                  </div>
-                  <div className="w-96 mt-3">
-                    {/* 誕生日のテキストフォーム */}
-                    <TextInput
-                      label="誕生日"
-                      type="date"
-                      fullWidth={true}
-                      required
-                      registers={register("birthDay")}
-                    />
-                    <div className="text-red-500">
-                      {errors.birthDay?.message}
-                    </div>
-                  </div>
-                  {/* 自己紹介のテキストフォーム */}
-                  <div className="my-5">
-                    <TextArea
-                      label="プロフィール"
-                      rows={6}
-                      cols={30}
-                      registers={register("introduction")}
-                    />
-                    <div className="text-red-500">
-                      {errors.introduction?.message}
-                    </div>
-                  </div>
-                  <div className="flex gap-3 mt-10 mb-10">
-                    <Button
-                      label="更新"
-                      backgroundColor="#f28728"
-                      color="white"
-                      size="md"
-                      onClick={handleSubmit(onSubmit)}
-                      type="button"
-                    />
-
-                    <Button
-                      label="キャンセル"
-                      backgroundColor="#f6f0ea"
-                      color="#f28728"
-                      size="md"
-                      onClick={cancel}
-                      type="button"
-                    />
+                    {errors.accountName?.message}
                   </div>
                 </div>
-              </form>
-            </div>
+                <div className="w-96 mt-3">
+                  {/* 入社月のテキストフォーム*/}
+                  <TextInput
+                    label="入社月"
+                    type="month"
+                    fullWidth={true}
+                    required
+                    registers={register("hireDate")}
+                  />
+                  <div className="text-red-500">{errors.hireDate?.message}</div>
+                </div>
+                {/* 職種のラジオボタン */}
+                <div className="mt-3">職種を選択してください</div>
+                <div className="flex gap-5">
+                  <Radio
+                    id="FR"
+                    value="1"
+                    name="serviceFk"
+                    registers={register("serviceFk")}
+                    defaultChecked
+                  />
+                  <Radio
+                    id="Java"
+                    value="2"
+                    name="serviceFk"
+                    registers={register("serviceFk")}
+                  />
+                  <Radio
+                    id="CL"
+                    value="3"
+                    name="serviceFk"
+                    registers={register("serviceFk")}
+                  />
+                  <Radio
+                    id="QA"
+                    value="4"
+                    name="serviceFk"
+                    registers={register("serviceFk")}
+                  />
+                  <Radio
+                    id="ML"
+                    value="5"
+                    name="serviceFk"
+                    registers={register("serviceFk")}
+                  />
+                  <Radio
+                    id="内勤"
+                    value="6"
+                    name="serviceFk"
+                    registers={register("serviceFk")}
+                  />
+                </div>
+                <div className="w-96 mt-3">
+                  {/* 誕生日のテキストフォーム */}
+                  <TextInput
+                    label="誕生日"
+                    type="date"
+                    fullWidth={true}
+                    required
+                    registers={register("birthDay")}
+                  />
+                  <div className="text-red-500">{errors.birthDay?.message}</div>
+                </div>
+                {/* 自己紹介のテキストフォーム */}
+                <div className="my-5">
+                  <TextArea
+                    label="プロフィール"
+                    rows={6}
+                    cols={30}
+                    registers={register("introduction")}
+                  />
+                  <div className="text-red-500">
+                    {errors.introduction?.message}
+                  </div>
+                </div>
+                <div className="flex gap-3 mt-10 mb-10">
+                  <Button
+                    label="更新"
+                    backgroundColor="#f28728"
+                    color="white"
+                    size="md"
+                    onClick={handleSubmit(onSubmit)}
+                    type="button"
+                  />
+
+                  <Button
+                    label="キャンセル"
+                    backgroundColor="#f6f0ea"
+                    color="#f28728"
+                    size="md"
+                    onClick={cancel}
+                    type="button"
+                  />
+                </div>
+              </div>
+            </form>
           </div>
         </div>
-      )}
+      </div>
+      )
     </>
   );
 };

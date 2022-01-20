@@ -30,9 +30,13 @@ const User: NextPage = () => {
   //ルーターリンク
   const router = useRouter();
 
+  //URLの後ろからid取得
+  const userId = Number(router.query.id);
+
   //編集ボタンを押した時に呼ばれる
   const editInfo = () => {
-    router.push("/user/edit");
+    router.push(`/user/edit?id=${userId}`);
+    // router.push("/user/edit");
   };
 
   //タブテストデータ
@@ -100,9 +104,6 @@ const User: NextPage = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  //URLの後ろからid取得
-  const userId = Number(router.query.id);
 
   /**
    * APIで初期表示用データ取得.
