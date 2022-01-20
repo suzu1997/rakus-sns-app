@@ -14,14 +14,10 @@ const RestaurantAdd: FC = () => {
   // 店名で検索するキーワード
   const [searchName, setSearchName] = useState<string>("");
 
-  /**
-   * 検索窓のonChangeイベント発動時に実行するメソッド.
-   */
-  const inputRestaurantName = useCallback((e) => {
-    setSearchName(e.target.value);
-    // ここでオートコンプリート検索を行うAPIを叩く？？
-    // APIできたら結果を格納するstateを作成して表示する
-  }, []);
+  // データベースに登録済みの店一覧
+  const [restautrantsInDB, setRestaurantsInDB] = useState<Array<Restaurant>>(
+    [],
+  );
 
   // 検索結果
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -30,6 +26,23 @@ const RestaurantAdd: FC = () => {
   // 登録するお店
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [restaurant, setRestaurant] = useState<any | null>();
+
+  /**
+   * 検索窓のonChangeイベント発動時に実行するメソッド.
+   *
+   * @remarks
+   * setStateを使って検索文字列のstateを更新すると同時に、オートコンプリート検索を行うAPIを叩く
+   */
+  const inputRestaurantName = useCallback(
+    async (e) => {
+      setSearchName(e.target.value);
+
+      // const res = await axios.get(`${JAVA_API_URL}/restaurant/search?name=${searchName}`);
+
+      // setRestaurantsInDB(res.data.restaurants);
+    },
+    [searchName],
+  );
 
   /**
    * ラーセンから1km以内かつ、店名で検索.
@@ -89,29 +102,28 @@ const RestaurantAdd: FC = () => {
           />
           <Button label="店名で検索(1km以内)" onClick={searchByNameIn2km} />
         </div>
-        {/* <div>
-          <p>もしかしてこのお店？</p>
-          <div>データベースに登録済みの店表示</div>
-          <div>{searchName}</div>
-        </div> */}
-        {/* 検索結果表示 */}
-        {result.length > 0 && (
-          <ul>
-            {result.map((shop) => {
-              return (
-                <div key={shop.id} className="mb-3">
-                  <li className="list-disc">
-                    {shop.name}({shop.name_kana})
-                    <Button
-                      label="選択"
-                      onClick={() => selectRestaurant(shop)}
-                      size="xs"
-                    />
-                  </li>
-                </div>
-              );
-            })}
-          </ul>
+        {/* データベースに登録済みの店をオートコンプリートに表示する部分 */}
+        {restautrantsInDB.length > 0 && (
+          <>
+            <p>もしかしてこのお店？</p>
+            <div>データベースに登録済みの店表示</div>
+            <ul>
+              {restautrantsInDB.map((restautrant) => {
+                return (
+                  <div key={restautrant.id} className="mb-3">
+                    <li className="list-disc">
+                      {restautrant.name}
+                      <Button
+                        label="選択"
+                        onClick={() => selectRestaurant(restautrant)}
+                        size="xs"
+                      />
+                    </li>
+                  </div>
+                );
+              })}
+            </ul>
+          </>
         )}
         {restaurant && <AddByHotpepper restaurant={restaurant} clear={clear} />}
       </div>
