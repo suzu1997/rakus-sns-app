@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { JAVA_API_URL } from "../../../utils/const";
 import useSWR from "swr";
 import { UpdatePassInfo } from "../../../types/type";
+import axios from "axios";
 
 //バリデーションチェック
 const schema = yup.object().shape({
@@ -72,6 +73,38 @@ const UpdatePass: NextPage = () => {
   if (error) {
     return <div>データを取得できませんでした</div>;
   }
+
+  //送信ボタンを押したときに呼ばれる
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onSubmit = async (data: any) => {
+    console.log(data);
+
+    const preEmail = updatePassData?.email;
+
+    //APIに送るデータ
+    const postDate = {
+      email: preEmail,
+      password: data.password,
+    };
+
+    try {
+      //APIに変更するユーザーのアドレスと新しいパスを送信する
+      const res = await axios.post(
+        `${JAVA_API_URL}/password/${passToken}`,
+        postDate,
+      );
+      //パス変更に成功した場合
+      if (res.data.status === "success") {
+        //パスワード変更完了したら画面遷移
+        router.push("/auth/compupdatepass");
+      } else {
+        alert(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <div className="border-solid  border-2 border-bgc-200 m-10  shadow-lg rounded-xl text-center">
