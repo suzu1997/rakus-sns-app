@@ -80,7 +80,34 @@ export const PostModal: FC<Props> = memo((props) => {
       // });
 
       closeModal();
+      alert(
+        `id${restaurantId}のお店に${title}を投稿しました\n${title}内容: ${post}, 星の数: ${star}`,
+      );
+      setPost("");
+    }
+    if (title === "つぶやき") {
+      //つぶやき投稿
+      // const res = await axios.post(`${JAVA_API_URL}/timeline`, {
+      //   userId,
+      //   post,
+      // });
+
+      closeModal();
       alert(`${title}を投稿しました\n${title}内容: ${post}`);
+      setPost("");
+    }
+    if (title === "コメント") {
+      //コメント投稿
+      // const res = await axios.post(`${JAVA_API_URL}/${target}/comment`, {
+      //   userId,
+      //   post, // コメント内容
+      //   postId, // コメント対象の投稿のID
+      // });
+      
+      alert(
+        `id${postId}の${target}に${title}を投稿しました\n${title}内容: ${post}`,
+      );
+      closeModal();
       setPost("");
     }
   };
