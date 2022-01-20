@@ -8,6 +8,9 @@ import { useRouter } from "next/router";
 import { JAVA_API_URL } from "../../../utils/const";
 import { SelectBox } from "../../../components/Form/SelectBox";
 import { AddByHotpepper } from "../../../components/Lunch/AddByHotpepper";
+import toast from "react-hot-toast";
+import { Restaurant } from "../../../types/type";
+import { AddManuallyForm } from "../../../components/Lunch/AddManuallyForm";
 
 const RestaurantAdd: FC = () => {
   const router = useRouter();
@@ -29,6 +32,8 @@ const RestaurantAdd: FC = () => {
   // 登録するお店
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [restaurant, setRestaurant] = useState<any | null>();
+
+  const [manually, setManually] = useState<boolean>(false);
 
   /**
    * 検索窓のonChangeイベント発動時に実行するメソッド.
@@ -120,6 +125,8 @@ const RestaurantAdd: FC = () => {
           />
           <Button label="店名で検索(1km以内)" onClick={searchByNameIn2km} />
         </div>
+        {/* 表示確認用の仮置き */}
+        <AddManuallyForm />
         {/* データベースに登録済みの店をオートコンプリートに表示する部分 */}
         {restautrantsInDB.length > 0 && (
           <>
@@ -185,6 +192,8 @@ const RestaurantAdd: FC = () => {
 
         {/* ホットペッパーにある店を登録する画面 */}
         {restaurant && <AddByHotpepper restaurant={restaurant} clear={clear} />}
+        {/* 手入力で店を登録する画面 */}
+        {manually && <AddManuallyForm />}
       </div>
     </div>
   );
