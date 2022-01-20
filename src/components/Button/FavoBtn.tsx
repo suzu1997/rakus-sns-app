@@ -2,6 +2,7 @@ import { FC, memo, useCallback, useState } from "react";
 
 type Props = {
   postId?: number; //投稿ID
+  favoCount?: number; //お気に入り数
 };
 
 /**
@@ -9,7 +10,7 @@ type Props = {
  */
 export const FavoBtn: FC<Props> = memo((props) => {
   //お気に入り(いいね)対象の投稿番号
-  const { postId = 0 } = props;
+  const { postId = 0, favoCount } = props;
 
   //いいねしてるか、いないか
   const [isFavo, setIsFavo] = useState(false);
@@ -55,9 +56,15 @@ export const FavoBtn: FC<Props> = memo((props) => {
     <>
       <button type="button" className="pr-10" onClick={favo}>
         {isFavo ? (
-          <i className="fas fa-heart text-red-500"></i>
+          <>
+            <i className="fas fa-heart text-red-500"></i>
+            <span className="pl-1">{favoCount}</span>
+          </>
         ) : (
-          <i className="fas fa-heart text-gray-500 hover:text-red-500"></i>
+          <>
+            <i className="fas fa-heart text-gray-500 hover:text-red-500"></i>
+            <span className="pl-1">{favoCount}</span>
+          </>
         )}
       </button>
     </>

@@ -123,7 +123,7 @@ const TweetDetail: NextPage = () => {
               <div className="mr-5">投稿日時：{data.time}</div>
               <div>
                 <CommentIcon commentCount={300} />
-                <FavoBtn postId={data.postId} />
+                <FavoBtn postId={data.postId} favoCount={30} />
                 {loginUserId == data.userId && (
                   <TrashBtn postId={data.postId} />
                 )}
@@ -152,7 +152,7 @@ const TweetDetail: NextPage = () => {
               </div>
               <div className="pt-5 pb-5 pl-5 w-8/12">{value.tweet}</div>
               <div className="w-full text-right py-3 pr-5">
-                <FavoBtn postId={value.postId} />
+                <FavoBtn postId={value.postId} favoCount={30} />
                 {loginUserId == value.userId && (
                   <TrashBtn postId={value.postId} />
                 )}
