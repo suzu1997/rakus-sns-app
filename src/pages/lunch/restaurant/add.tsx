@@ -19,9 +19,12 @@ const RestaurantAdd: FC = () => {
     [],
   );
 
-  // 検索結果
+  // ホットペッパーからの検索結果
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [result, setResult] = useState<Array<any>>([]);
+  const [hotpeppers, setHotpeppers] = useState<Array<any>>([]);
+
+  // 検索ボタンが押されたかどうか
+  const [hasClickedSearch, setHasClickedSearch] = useState<boolean>(false);
 
   // 登録するお店
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -50,11 +53,18 @@ const RestaurantAdd: FC = () => {
    * &name_anyとすることで漢字でもかなでも検索できる
    */
   const searchByNameIn2km = async () => {
+    if (searchName === "") {
+      alert("検索文字列を入力してください");
+      return;
+    }
+
     // 作成したWebAPIエンドポイントを利用する
     // API Routeを使用することで、APIキーを隠せる
     const res = await axios.get(`/api/hotpepper?name_any=${searchName}`);
+    console.log(res.data);
 
-    setResult(res.data.shops);
+    setHotpeppers(res.data.shops);
+    setHasClickedSearch(true);
   };
 
   /**
@@ -125,6 +135,47 @@ const RestaurantAdd: FC = () => {
             </ul>
           </>
         )}
+
+        {/* ホットペッパー検索結果表示 */}
+        {hasClickedSearch &&
+          (hotpeppers.length > 0 ? (
+            <ul>
+              {hotpeppers.map((hotpepper) => {
+                return (
+                  <div key={hotpepper.id} className="mb-3">
+                    <li className="list-disc">
+                      {hotpepper.name}({hotpepper.name_kana})
+                      <Button
+                        label="選択"
+                        onClick={() => selectRestaurant(hotpepper)}
+                        size="xs"
+                      />
+                    </li>
+                  </div>
+                );
+              })}
+            </ul>
+          ) : (
+            <>
+              <div className="mb-3">
+                検索結果が見つかりませんでした。手入力でお店を登録しますか？
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  label="手入力で登録"
+                  onClick={() => setManually(true)}
+                />
+                {/* <Button
+                backgroundColor="#f6f0ea"
+                color="#622d18"
+                label="再検索"
+                onClick={() => alert("クリア")}
+              /> */}
+              </div>
+            </>
+          ))}
+
+        {/* ホットペッパーにある店を登録する画面 */}
         {restaurant && <AddByHotpepper restaurant={restaurant} clear={clear} />}
       </div>
     </div>
