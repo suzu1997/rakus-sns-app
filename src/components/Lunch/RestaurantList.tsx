@@ -9,16 +9,26 @@ export const RestaurantList: FC = memo(() => {
   console.log(restaurantList);
 
   if (!error && !restaurantList) {
-    return <div className="w-full p-10 text-center">Loading...</div>;
+    return (
+      <div className="flex justify-center pt-10 w-full">
+        <div className="animate-spin h-8 w-8 bg-basic rounded-xl"></div>
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="w-full p-10 text-center">データが取得できませんでした</div>;
+    return (
+      <div className="w-full p-10 text-center">
+        データが取得できませんでした
+      </div>
+    );
   }
 
   if (restaurantList.message === "レストランが1件も登録されていません") {
     return (
-      <div className="w-full p-10 text-center">お店が1件も登録されていません🙇‍♀️</div>
+      <div className="w-full p-10 text-center">
+        お店が1件も登録されていません🙇‍♀️
+      </div>
     );
   }
   return (

@@ -22,7 +22,7 @@ export const ReviewList: FC = memo(() => {
    * @remarks
    * useSWRInfiniteからデータをフェッチする際に呼び出される。
    * @param pageIndex - ページインデックス
-   * @param previousPageData - 
+   * @param previousPageData -
    * @returns ページのキー
    */
   const getKey: SWRInfiniteKeyLoader = (pageIndex, previousPageData) => {
@@ -70,11 +70,19 @@ export const ReviewList: FC = memo(() => {
 
   // ローディング処理
   if (!error && !data) {
-    return <div className="w-full p-10 text-center">Loading...</div>;
+    return (
+      <div className="flex justify-center pt-10">
+        <div className="animate-spin h-8 w-8 bg-basic rounded-xl"></div>
+      </div>
+    );
   }
   // エラー処理
   if (error) {
-    return <div className="w-full p-10 text-center">データを取得できませんでした</div>;
+    return (
+      <div className="w-full p-10 text-center">
+        データを取得できませんでした
+      </div>
+    );
   }
 
   return (
