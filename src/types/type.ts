@@ -55,3 +55,13 @@ export type TimelineDetail = {
   postId: number;
   post: string;
 };
+
+//ユーザ情報画面
+export type UserInfo = {
+  name: string;
+  hireDate: string;
+  serviceFk: string;
+  accountName: string;
+  birthDay: string;
+  profile: string;
+};

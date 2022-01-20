@@ -5,7 +5,9 @@ import { SubHeader } from "../../components/Layout/SubHeader";
 import { Tab } from "@headlessui/react";
 import { Button } from "../../components/Button/Button";
 import { useRouter } from "next/router";
-import Cookie from "universal-cookie";
+import useSWR from "swr";
+import { JAVA_API_URL } from "../../utils/const";
+import { UserInfo } from "../../types/type";
 
 //タブテスト
 function classNames(...classes: unknown[]) {
@@ -27,11 +29,6 @@ const User: NextPage = () => {
 
   //ルーターリンク
   const router = useRouter();
-
-  //クッキー
-  const cookie = new Cookie();
-  //クッキー内の情報呼び出し
-  const userData = cookie.get("id");
 
   //編集ボタンを押した時に呼ばれる
   const editInfo = () => {
@@ -104,6 +101,24 @@ const User: NextPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  //URLの後ろからid取得
+  const userId = Number(router.query.id);
+
+  /**
+   * APIで初期表示用データ取得.
+   */
+  const { data: userData, error } = useSWR<UserInfo>(
+    `${JAVA_API_URL}/user/${userId}`,
+  );
+
+  if (!error && !userData) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>データを取得できませんでした</div>;
+  }
+
   return (
     <>
       <div className="flex mb-3">
@@ -111,24 +126,29 @@ const User: NextPage = () => {
         <div className="w-full">
           <SubHeader title="ユーザー情報" />
           <div className="border-solid  border-2 border-bgc-200 m-5 shadow-lg rounded-md">
-            <div className=" text-center">
-              <div className="mt-3 text-xl font-bold">名前:{userData.name}</div>
-              <div className="w-12/12">
-                <Image
-                  src={datas.img}
-                  width={100}
-                  height={100}
-                  alt="icon"
-                ></Image>
+            {userData && (
+              <div className=" text-center">
+                <div className="mt-3 text-xl font-bold">
+                  名前:{userData.name}
+                </div>
+                <div className="w-12/12">
+                  <Image
+                    src={datas.img}
+                    width={100}
+                    height={100}
+                    alt="icon"
+                  ></Image>
+                </div>
+
+                <div>
+                  <div>入社日:{userData.hireDate}</div>
+                  <div>職種:{userData.serviceFk}</div>
+                  <div>アカウント名:{userData.accountName}</div>
+                  <div>誕生日:{userData.birthDay}</div>
+                  <div>自己紹介:{userData.profile}</div>
+                </div>
               </div>
-              <div>
-                <div>入社日:{userData.hireDate}</div>
-                <div>職種:{userData.serviceFk}</div>
-                <div>アカウント名:{userData.accountName}</div>
-                <div>誕生日:{userData.birthDay}</div>
-                <div>自己紹介:{userData.profile}</div>
-              </div>
-            </div>
+            )}
             <div className="text-right mr-10 mb-5">
               <Button
                 label="プロフィール編集"
