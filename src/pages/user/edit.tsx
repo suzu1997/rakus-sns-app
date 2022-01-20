@@ -14,6 +14,8 @@ import { loginIdContext } from "../../providers/LoginIdProvider";
 import axios from "axios";
 import { format } from "date-fns";
 import { JAVA_API_URL } from "../../utils/const";
+import { UserInfo } from "../../types/type";
+import useSWR from "swr";
 
 //バリデーションチェック
 const schema = yup.object().shape({
@@ -39,7 +41,9 @@ const schema = yup.object().shape({
   //職種のバリデーション
   serviceFk: yup.string(),
   //プロフィールのバリデーション
-  profile: yup.string().max(140, "自己紹介は140文字以内で入力してください"),
+  introduction: yup
+    .string()
+    .max(140, "自己紹介は140文字以内で入力してください"),
 });
 
 /**
@@ -50,6 +54,17 @@ const Edit: NextPage = () => {
   //ログインID
   const loginId = useContext(loginIdContext);
 
+  /**
+   * APIで初期表示用データ取得.
+   */
+  const { data: userData, error } = useSWR<UserInfo>(
+    `${JAVA_API_URL}/user/${loginId}`,
+  );
+
+  // 年月だけ取得したい初期値は、日付を削る必要があるため
+  const defaultHireDate = userData?.hireDate;
+  const formatHireDate = defaultHireDate?.slice(0, 7);
+
   // バリデーション機能を呼び出し
   const {
     register,
@@ -59,13 +74,13 @@ const Edit: NextPage = () => {
     resolver: yupResolver(schema),
     //初期値はログインしている人のデータを入れる
     defaultValues: {
-      firstName: "山田",
-      lastName: "太郎",
-      accountName: "やまちゃん",
-      hireDate: "2021-10",
-      birthDay: "2000-01-01",
-      serviceFk: "",
-      profile: "とても元気",
+      firstName: userData?.name,
+      lastName: userData?.name,
+      accountName: userData?.accountName,
+      hireDate: formatHireDate,
+      birthDay: userData?.birthDay,
+      serviceFk: userData?.serviceFk,
+      introduction: userData?.introduction,
     },
   });
 
@@ -92,7 +107,7 @@ const Edit: NextPage = () => {
       hireDate: hireDate, //入社月
       serviceFk: data.serviceFk, //職種
       birthDay: birthDay, //誕生日
-      introduction: data.profile, //自己紹介
+      introduction: data.introduction, //自己紹介
     };
 
     console.dir("送るデータ" + JSON.stringify(postData));
@@ -131,6 +146,14 @@ const Edit: NextPage = () => {
   const cancel = () => {
     router.push(`/user/${loginId}`);
   };
+
+  // if (!error && !userData) {
+  //   return <div>Loading...</div>;
+  // }
+
+  // if (error) {
+  //   return <div>データを取得できませんでした</div>;
+  // }
 
   return (
     <div>
@@ -263,9 +286,11 @@ const Edit: NextPage = () => {
                   label="プロフィール"
                   rows={6}
                   cols={30}
-                  registers={register("profile")}
+                  registers={register("introduction")}
                 />
-                <div className="text-red-500">{errors.profile?.message}</div>
+                <div className="text-red-500">
+                  {errors.introduction?.message}
+                </div>
               </div>
               <div className="flex gap-3 mt-10 mb-10">
                 <Button

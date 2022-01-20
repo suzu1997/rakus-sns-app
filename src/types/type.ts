@@ -63,5 +63,5 @@ export type UserInfo = {
   serviceFk: string;
   accountName: string;
   birthDay: string;
-  profile: string;
+  introduction: string;
 };
