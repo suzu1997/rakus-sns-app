@@ -10,7 +10,7 @@ const Home: NextPage = () => {
    */
   const cookie = new Cookie();
   const checkTest = () => {
-    console.log("ログインしているのは：" + cookie.get("name"));
+    console.log("ログインしているのは：" + cookie.get("id"));
   };
 
   return (
