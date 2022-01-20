@@ -4,6 +4,8 @@ import { NextPage } from "next";
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { useRouter } from "next/router";
 import { Button } from "../../components/Button/Button";
+import useSWR from "swr";
+import { JAVA_API_URL } from "../../utils/const";
 
 /**
  * 通知ページ.
@@ -13,7 +15,7 @@ import { Button } from "../../components/Button/Button";
 const Notion: NextPage = () => {
   //テストデータ
   //反応した人の名前／アイコン／いいねかコメントか／対象の投稿(レビューに対してか／つぶやきに対してかも表示？)
-  const [data] = useState([
+  const [notionData] = useState([
     {
       id: 1,
       name: "佐藤花子",
@@ -83,6 +85,19 @@ const Notion: NextPage = () => {
     }
   }, []);
 
+  // const userId = Number(router.query.id);
+  // const { data: notionData, error } = useSWR<Notion>(
+  //   `${JAVA_API_URL}/notion/${userId}`,
+  // );
+
+  // if (!error && !notionData) {
+  //   return <div>Loading...</div>;
+  // }
+
+  // if (error) {
+  //   return <div>データを取得できませんでした</div>;
+  // }
+
   return (
     <>
       {/* サブヘッダー */}
@@ -99,7 +114,7 @@ const Notion: NextPage = () => {
       </div>
 
       {/* タイムラインゾーン */}
-      {data.map((value, key) => (
+      {notionData.map((value, key) => (
         <div style={style} key={key}>
           <div
             className="p-5 ml-10"

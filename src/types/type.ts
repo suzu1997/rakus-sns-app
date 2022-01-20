@@ -6,13 +6,13 @@ export type LunchReview = {
   likeCount: number;
   commentCount: number;
   userId: string;
-  accountName: string,
-  userImg: string
+  accountName: string;
+  userImg: string;
   restaurantId: number;
   restaurantName: string;
   restaurantImg: string;
   time?: Date;
-}
+};
 
 export type Restaurant = {
   restaurantId: number;
@@ -24,4 +24,14 @@ export type Restaurant = {
   restaurantImg: string;
   updatedTime: Date;
   postedTime: Date;
-}
+};
+
+//通知画面(後で変更)
+export type Notion = {
+  id: number;
+  name: string;
+  action: string;
+  img: string;
+  postId: number;
+  post: string;
+};
