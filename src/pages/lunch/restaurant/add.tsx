@@ -68,33 +68,41 @@ const RestaurantAdd: FC = () => {
   };
 
   /**
-   * 検索結果から店を選択する.
+   * ホットペッパーからの検索結果から店を選択する.
+   *
+   * @param hotpepper - 選択した店の情報
    */
   const selectRestaurant = useCallback(
-    (shop) => {
-      // idでrestaurantsテーブルを参照して、すでに登録されているか確認
-      //登録していれば店詳細ページに飛ぶ
-      //登録していなければ、登録ページに飛ぶ
-      // if (登録されている) {
-      //   router.push(`/lunch/restaurant/${id}`);
-      //   ’登録ずみでした’の表示
-      // } else {
-      //   //登録していなければ、選択肢した店の情報を表示
-      //   setRestaurant(shop);
-      //   setResult([]);
-      // },
+    async (hotpepper) => {
+      // すでに登録されているホットペッパーIDかを確認し、登録済みなら詳細ページへ遷移
+      // const res = await axios.get(
+      //   `${JAVA_API_URL}/restaurants/hp/${hotpepper.id}`,
+      // );
+      // if (true) {
+      //   // router.push(`/lunch/restaurant/${res.data.shop.id}`);
+      //   router.push("/lunch/restaurant/1");
+      //   toast("登録済みの為、詳細ページへ遷移しました", {
+      //     // Custom Icon
+      //     icon: "ℹ️",
+      //   });
+      //   return;
+      // }
 
       alert("選択");
-      setRestaurant(shop);
-      setResult([]);
+      setRestaurant(hotpepper);
+      setHotpeppers([]);
     },
     [setRestaurant],
   );
 
+  /**
+   * ページを初期状態に戻す.
+   */
   const clear = useCallback(() => {
     setSearchName("");
-    setResult([]);
+    setHotpeppers([]);
     setRestaurant(null);
+    setHasClickedSearch(false);
   }, []);
 
   return (
