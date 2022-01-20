@@ -15,13 +15,21 @@ export type LunchReview = {
 };
 
 export type Restaurant = {
-  restaurantId: number;
-  restaurantName: string;
-  restaurantAddress: string;
-  restaurantGenre: string;
-  restaurantStar: number;
-  restaurantType: number;
-  restaurantImg: string;
+  id: number;
+  name: string;
+  address: string;
+  genreFk: string;
+  genreValue: string;
+  star: number;
+  type: 1 | 2 | 3;
+  photoPath: string;
+  hotpepperId: string;
+  description: string;
+  access: string;
+  latitude: string;
+  longitude: string;
+  url: string;
+  smoking: string;
   updatedTime: Date;
   postedTime: Date;
 };
