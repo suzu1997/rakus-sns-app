@@ -107,9 +107,8 @@ const User: NextPage = () => {
   /**
    * APIで初期表示用データ取得.
    */
-  const { data: userData, error } = useSWR<UserInfo>(
-    `${JAVA_API_URL}/user/${userId}`,
-  );
+  const { data: payload, error } = useSWR(`${JAVA_API_URL}/user/${userId}`);
+  const userData = payload?.user;
 
   if (!error && !userData) {
     return <div>Loading...</div>;

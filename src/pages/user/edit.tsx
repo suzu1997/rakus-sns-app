@@ -57,9 +57,8 @@ const Edit: NextPage = () => {
   /**
    * APIで初期表示用データ取得.
    */
-  const { data: userData } = useSWR<UserInfo>(
-    `${JAVA_API_URL}/user/${loginId}`,
-  );
+  const { data: payload, error } = useSWR(`${JAVA_API_URL}/user/${loginId}`);
+  const userData = payload?.user;
 
   // 年月だけ取得したい初期値は、日付を削る必要があるため
   const defaultHireDate = userData?.hireDate;
