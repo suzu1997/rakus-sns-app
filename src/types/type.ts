@@ -6,13 +6,13 @@ export type LunchReview = {
   likeCount: number;
   commentCount: number;
   userId: string;
-  accountName: string,
-  userImg: string
+  accountName: string;
+  userImg: string;
   restaurantId: number;
   restaurantName: string;
   restaurantImg: string;
   time?: Date;
-}
+};
 
 export type Restaurant = {
   restaurantId: number;
@@ -24,4 +24,14 @@ export type Restaurant = {
   restaurantImg: string;
   updatedTime: Date;
   postedTime: Date;
-}
+};
+
+//ユーザ情報画面
+export type UserInfo = {
+  name: string;
+  hireDate: string;
+  serviceFk: string;
+  accountName: string;
+  birthDay: string;
+  profile: string;
+};
