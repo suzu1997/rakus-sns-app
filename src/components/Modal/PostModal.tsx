@@ -1,23 +1,39 @@
-import { FC, memo, useCallback, useEffect, useState } from "react";
+import { FC, memo, useCallback, useEffect, useState, useContext } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
+import axios from "axios";
 import { Button } from "../Button/Button";
 import Image from "next/image";
+import toast from "react-hot-toast";
 import { TextArea } from "../Form/TextArea";
 import { SelectBox } from "../Form/SelectBox";
+import { JAVA_API_URL } from "../../utils/const";
+import { loginIdContext } from "../../providers/LoginIdProvider";
 
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
   closeModal: () => void; // モーダルを閉じるメソッド
-  title: string; // レビューとかつぶやきとか
+  title: "レビュー" | "つぶやき" | "コメント"; // レビュー/つぶやき/コメント
   restaurantId?: number; // 店のID(レビュー投稿なら渡ってくる)。投稿の際にAPIに渡す。
+  postId?: number; // タイムラインもしくはレビューのID(コメント投稿なら渡ってくる)。投稿の際にAPIに渡す
+  target?: "timeline" | "reviews"; // 対象の投稿がタイムラインかレビューか(コメント投稿なら渡ってくる)
 };
 
 /**
- * つぶやきもしくはレビューを投稿するためのモーダルのコンポーネント.
+ * つぶやきもしくはレビューもしくはコメントを投稿するためのモーダルのコンポーネント.
  */
 export const PostModal: FC<Props> = memo((props) => {
-  const { isOpen, closeModal, title } = props;
+  const {
+    isOpen,
+    closeModal,
+    title,
+    restaurantId = 0,
+    postId = 0,
+    target,
+  } = props;
+
+  // ログイン中のユーザーidを取得
+  const userId = useContext(loginIdContext);
 
   //入力テキストの内容を格納するstate
   const [post, setPost] = useState<string>("");
@@ -46,15 +62,65 @@ export const PostModal: FC<Props> = memo((props) => {
   /**
    * 入力内容を投稿するメソッド.
    * @remarks API完成したらこのメソッド内で送信.
+   * titleによって投稿するAPIを変える。
    */
-  const postReview = () => {
+  const sendPost = async () => {
     if (post === "") {
       alert("入力して下さい");
-    } else if (post.length > 140) {
+      return;
+    }
+    if (post.length > 140) {
       alert(`${title}は140文字以内にして下さい`);
-    } else {
+      return;
+    }
+
+    if (title === "レビュー") {
+      try {
+        //レビュー投稿
+        // await axios.post(`${JAVA_API_URL}/reviews`, {
+        //   userId,
+        //   post,
+        //   star,
+        // });
+        toast.success(
+          `id${restaurantId}のお店に${title}を投稿しました\n${title}内容: ${post}, 星の数: ${star}`,
+        );
+      } catch (e) {
+        toast.error(`${title}の投稿に失敗しました`);
+      }
+
       closeModal();
-      alert(`${title}を投稿しました\n${title}内容: ${post}`);
+      setPost("");
+    }
+    if (title === "つぶやき") {
+      try {
+        //つぶやき投稿
+        // await axios.post(`${JAVA_API_URL}/timeline`, {
+        //   userId,
+        //   post,
+        // });
+        toast.success(`${title}を投稿しました\n${title}内容: ${post}`);
+      } catch (e) {
+        toast.error(`${title}の投稿に失敗しました`);
+      }
+      closeModal();
+      setPost("");
+    }
+    if (title === "コメント") {
+      try {
+        //コメント投稿
+        // await axios.post(`${JAVA_API_URL}/${target}/comment`, {
+        //   userId,
+        //   post, // コメント内容
+        //   postId, // コメント対象の投稿のID
+        // });
+        toast.success(
+          `id${postId}の${target}に${title}を投稿しました\n${title}内容: ${post}`,
+        );
+      } catch {
+        toast.error(`${title}の投稿に失敗しました`);
+      }
+      closeModal();
       setPost("");
     }
   };
@@ -117,7 +183,7 @@ export const PostModal: FC<Props> = memo((props) => {
                 <div className="mt-2">
                   <div className="mt-10">
                     {title === "レビュー" && (
-                      <div className="w-60 flex gap-3 items-center mb-3">
+                      <div className="flex gap-3 items-center mb-3">
                         評価: 星
                         <SelectBox
                           value={star}
@@ -156,7 +222,7 @@ export const PostModal: FC<Props> = memo((props) => {
                 </div>
                 {/* 投稿/キャンセルのボタン */}
                 <div className="mt-4 flex gap-5 justify-center">
-                  <Button label={"投稿"} onClick={postReview} />
+                  <Button label={"投稿"} onClick={sendPost} />
                   <Button
                     backgroundColor="#f6f0ea"
                     color="#622d18"
