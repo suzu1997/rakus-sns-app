@@ -7,21 +7,12 @@ import { Button } from "../../components/Button/Button";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import { JAVA_API_URL } from "../../utils/const";
+import { UserInfo } from "../../types/type";
 
 //タブテスト
 function classNames(...classes: unknown[]) {
   return classes.filter(Boolean).join(" ");
 }
-
-//API取得用型
-type UserInfo = {
-  name: string;
-  hireDate: string;
-  serviceFk: string;
-  accountName: string;
-  birthDay: string;
-  profile: string;
-};
 
 /**
  * ユーザー情報画面
