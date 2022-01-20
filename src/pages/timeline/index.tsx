@@ -9,6 +9,8 @@ import { FavoBtn } from "../../components/Button/FavoBtn";
 import { TrashBtn } from "../../components/Button/TrashBtn";
 import { useRouter } from "next/router";
 import { PostBtn } from "../../components/Button/PostBtn";
+import useSWR from "swr";
+import { JAVA_API_URL } from "../../utils/const";
 
 /**
  * タイムラインページ.
@@ -83,6 +85,18 @@ const Timeline: NextPage = () => {
   const goDetailPage = (postId: number) => {
     router.push(`/timeline/${postId}`);
   };
+
+  // const { data: timelineData, error } = useSWR<Timeline>(
+  //   `${JAVA_API_URL}/timeline`,
+  // );
+
+  // if (!error && !timelineData) {
+  //   return <div>Loading...</div>;
+  // }
+
+  // if (error) {
+  //   return <div>データを取得できませんでした</div>;
+  // }
 
   //HTMLコーナー
   return (
