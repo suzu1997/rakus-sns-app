@@ -35,3 +35,9 @@ export type UserInfo = {
   birthDay: string;
   profile: string;
 };
+
+//ユーザ本登録画面
+export type UserPreInfo = {
+  name: string;
+  email: string;
+};
