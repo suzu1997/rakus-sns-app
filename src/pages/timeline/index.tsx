@@ -50,7 +50,7 @@ const Timeline: NextPage = () => {
    */
   const { data, error } = useSWR(`${JAVA_API_URL}/timeline/${loginId}`);
   // タイムライン情報をdataから抽出
-  const timelineData: Timeline = data.TimelineList;
+  const timelineData: Timeline = data?.TimelineList;
 
   if (!error && !data) {
     return <div>Loading...</div>;
@@ -63,72 +63,74 @@ const Timeline: NextPage = () => {
   //HTMLコーナー
   return (
     <>
-      {/* サブヘッダー */}
-      <SubHeader title="タイムライン" />
-
-      {/* タイムラインゾーン */}
-      <div className="text-center my-10 animate-bounce">
-        <Button
-          label="新しいつぶやきを読み込む"
-          size="lg"
-          onClick={() => {
-            alert("新しいつぶやき読み込み");
-          }}
-        />
-      </div>
-
-      {timelineData.map((value, key) => (
-        <div style={style} key={key} className="flex">
-          <div
-            className="rounded-full w-1/5 text-center pt-5 cursor-pointer hover:opacity-50"
-            onClick={() => {
-              goUserPage(value.userId);
-            }}
-          >
-            <Image
-              src={`/image/userIcon/${value.userPhotoPath}`}
-              width={100}
-              height={100}
-              alt="icon"
-              className="rounded-full"
+      {data && (
+        <div>
+          {/* サブヘッダー */}
+          <SubHeader title="タイムライン" />
+          {/* タイムラインゾーン */}
+          <div className="text-center my-10 animate-bounce">
+            <Button
+              label="新しいつぶやきを読み込む"
+              size="lg"
+              onClick={() => {
+                alert("新しいつぶやき読み込み");
+              }}
             />
           </div>
-          <div className="w-4/5">
-            <div
-              className="cursor-pointer hover:opacity-50"
-              onClick={() => {
-                goDetailPage(value.id);
-              }}
-            >
-              <div className="text-xl font-extrabold pt-3 pb-3">
-                {value.accountName}
+          {timelineData.map((value, key) => (
+            <div style={style} key={key} className="flex">
+              <div
+                className="rounded-full w-1/5 text-center pt-5 cursor-pointer hover:opacity-50"
+                onClick={() => {
+                  goUserPage(value.userId);
+                }}
+              >
+                <Image
+                  src={`/image/userIcon/${value.userPhotoPath}`}
+                  width={100}
+                  height={100}
+                  alt="icon"
+                  className="rounded-full"
+                />
               </div>
-              <div className="pt-5 pb-5 pl-5 w-8/12">{value.sentence}</div>
-            </div>
+              <div className="w-4/5">
+                <div
+                  className="cursor-pointer hover:opacity-50"
+                  onClick={() => {
+                    goDetailPage(value.id);
+                  }}
+                >
+                  <div className="text-xl font-extrabold pt-3 pb-3">
+                    {value.accountName}
+                  </div>
+                  <div className="pt-5 pb-5 pl-5 w-8/12">{value.sentence}</div>
+                </div>
 
-            <div className="w-full text-right py-3">
-              <CommentIcon
-                commentCount={value.commentCount}
-                postId={value.id}
-                target="timeline"
-              />
-              <FavoBtn postId={value.id} favoCount={value.likeCount} />
-              {loginId == value.userId && <TrashBtn postId={value.id} />}
+                <div className="w-full text-right py-3">
+                  <CommentIcon
+                    commentCount={value.commentCount}
+                    postId={value.id}
+                    target="timeline"
+                  />
+                  <FavoBtn postId={value.id} favoCount={value.likeCount} />
+                  {loginId == value.userId && <TrashBtn postId={value.id} />}
+                </div>
+              </div>
             </div>
+          ))}
+          <div
+            className="text-text-brown text-center my-5 cursor-pointer hover:text-basic"
+            onClick={() => {
+              alert("過去のつぶやき読み込み");
+            }}
+          >
+            過去の投稿を見る…
+          </div>
+          <div>
+            <PostBtn />
           </div>
         </div>
-      ))}
-      <div
-        className="text-text-brown text-center my-5 cursor-pointer hover:text-basic"
-        onClick={() => {
-          alert("過去のつぶやき読み込み");
-        }}
-      >
-        過去の投稿を見る…
-      </div>
-      <div>
-        <PostBtn />
-      </div>
+      )}
     </>
   );
 };
