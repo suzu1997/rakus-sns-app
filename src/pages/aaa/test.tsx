@@ -7,6 +7,7 @@ import Cookie from "universal-cookie";
 import axios from "axios";
 import { Button } from "../../components/Button/Button";
 import { GoogleMap } from "../../components/Lunch/GoogleMap";
+import { GetAddress } from "../../components/Lunch/GetAddress";
 
 const Test: NextPage = () => {
   const [latitudeData, setLatitudeData] = useState("");
@@ -62,6 +63,8 @@ const Test: NextPage = () => {
       {latitudeData != "" && longitudeData != "" && (
         <GoogleMap latitude={latitudeData} longitude={longitudeData} />
       )}
+
+      <GetAddress />
 
       <p className="font-mono text-red-700">テスト</p>
       <Link href="/">

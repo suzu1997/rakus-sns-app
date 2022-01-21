@@ -1,8 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 
-export const useGetAddress = () => {
-  const [zipcode] = useState("");
+export const useGetAddress = (zipcode: string) => {
   const [address, setAddress] = useState("");
   const [errorOfAddress, setErrorOfAddress] = useState("");
   /**
@@ -37,5 +36,5 @@ export const useGetAddress = () => {
       setErrorOfAddress("住所が見つかりません");
     }
   };
-  return { address, errorOfAddress };
+  return { getAddress, address, errorOfAddress };
 };
