@@ -58,57 +58,60 @@ export const Layout: FC<Props> = memo((props) => {
   return (
     <div className="flex flex-col min-h-screen relative">
       <LoginIdProvider>
-        {/* <LoginChecker> */}
-        <Header openMenu={openMenu} />
-        <div className="flex flex-1 relative">
-          {/* デスクトップ用メニュー */}
-          {showMenu && (
-            <div className="lg:block md:block hidden">
-              <MenuBar />
-            </div>
-          )}
-          {/* スマホ用メニュー */}
-          {isOpen && (
-            <div
-              className="bg-black bg-opacity-70 w-full h-full absolute top-0 left-0 z-30 duration-300 md:hidden"
-              onClick={closeMenu}
-            ></div>
-          )}
-          <div className="z-40">
-            <div
-              className={`${
-                isOpen ? "right-0" : "-right-full"
-              } fixed top-0 h-full overflow-hidden duration-300 md:hidden`}
-            >
-              <div className="h-16 bg-white relative border-b-4 border-basic">
-                <button onClick={closeMenu} className="absolute top-5 right-5">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
+        <LoginChecker>
+          <Header openMenu={openMenu} />
+          <div className="flex flex-1 relative">
+            {/* デスクトップ用メニュー */}
+            {showMenu && (
+              <div className="lg:block md:block hidden">
+                <MenuBar />
               </div>
-              <MenuBar />
+            )}
+            {/* スマホ用メニュー */}
+            {isOpen && (
+              <div
+                className="bg-black bg-opacity-70 w-full h-full absolute top-0 left-0 z-30 duration-300 md:hidden"
+                onClick={closeMenu}
+              ></div>
+            )}
+            <div className="z-40">
+              <div
+                className={`${
+                  isOpen ? "right-0" : "-right-full"
+                } fixed top-0 h-full overflow-hidden duration-300 md:hidden`}
+              >
+                <div className="h-16 bg-white relative border-b-4 border-basic">
+                  <button
+                    onClick={closeMenu}
+                    className="absolute top-5 right-5"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <MenuBar />
+              </div>
             </div>
+
+            <main className="flex-1">{children}</main>
           </div>
 
-          <main className="flex-1">{children}</main>
-        </div>
-
-        <div className="relative bottom-0 left-0 w-full">
-          <Footer />
-        </div>
-        {/* </LoginChecker> */}
+          <div className="relative bottom-0 left-0 w-full">
+            <Footer />
+          </div>
+        </LoginChecker>
       </LoginIdProvider>
     </div>
   );

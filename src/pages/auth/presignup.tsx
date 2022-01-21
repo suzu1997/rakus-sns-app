@@ -10,7 +10,6 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { JAVA_API_URL } from "../../utils/const";
 
-
 //バリデーションチェック
 const schema = yup.object().shape({
   //姓のバリデーション
@@ -47,7 +46,7 @@ const PreSignUp: NextPage = () => {
 
   //メールアドレスのドメイン選択肢
   const options = [
-    { id: "1", name: "@rakus-patners.co.jp" },
+    { id: "1", name: "@rakus-partners.co.jp" },
     { id: "2", name: "@rakus.co.jp" },
   ];
 
@@ -62,13 +61,15 @@ const PreSignUp: NextPage = () => {
   const onSubmit = async (data: any) => {
     //APIに送るデータ
     const postDate = {
-      name: data.firstName + data.lastName,
-      email: data.email,
+      name: data.firstName + " " + data.lastName,
+      email: data.email + selectValue,
     };
     try {
       const res = await axios.post(`${JAVA_API_URL}/presignup`, postDate);
       //仮登録に成功した場合
       if (res.data.status === "success") {
+        console.log(postDate);
+        console.log(res.data.status);
         //入力内容をクリアした後、仮登録完了画面に遷移する
         reset;
         router.push("/auth/comppresignup");
