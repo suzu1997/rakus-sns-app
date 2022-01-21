@@ -49,3 +49,8 @@ export type UserPreInfo = {
   name: string;
   email: string;
 };
+
+//パスワード変更画面
+export type UpdatePassInfo = {
+  email: string;
+};
