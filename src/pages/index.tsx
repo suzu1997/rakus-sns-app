@@ -1,7 +1,6 @@
 import type { NextPage } from "next";
 import Link from "next/link";
 import { Button } from "../components/Button/Button";
-import { MenuBar } from "../components/Layout/MenuBar";
 import Cookie from "universal-cookie";
 
 const Home: NextPage = () => {
@@ -41,11 +40,6 @@ const Home: NextPage = () => {
         <Link href="/auth/presignup">
           <a className="underline hover:text-blue-800 mt-3">
             ユーザー仮登録画面
-          </a>
-        </Link>
-        <Link href="/auth/signup">
-          <a className="underline hover:text-blue-800 mt-3">
-            ユーザー本登録画面
           </a>
         </Link>
         <Link href="/timeline">

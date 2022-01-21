@@ -108,6 +108,9 @@ const User: NextPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  //URLの後ろからid取得
+  const userId = Number(router.query.id);
+  
   /**
    * APIで初期表示用データ取得.
    */
