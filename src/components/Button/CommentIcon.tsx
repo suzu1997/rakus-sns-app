@@ -45,7 +45,7 @@ export const CommentIcon: FC<Props> = memo((props) => {
       />
       <button type="button" className="pr-10" onClick={openCommentModal}>
         <i className="fas fa-comment text-gray-500 hover:text-yellow-600"></i>
-        {commentCount}
+        <span className="pl-1">{commentCount}</span>
       </button>
     </>
   );

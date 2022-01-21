@@ -25,13 +25,3 @@ export type Restaurant = {
   updatedTime: Date;
   postedTime: Date;
 };
-
-//ユーザ情報画面
-export type UserInfo = {
-  name: string;
-  hireDate: string;
-  serviceFk: string;
-  accountName: string;
-  birthDay: string;
-  profile: string;
-};

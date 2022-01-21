@@ -14,6 +14,7 @@ import { loginIdContext } from "../../providers/LoginIdProvider";
 import axios from "axios";
 import { format } from "date-fns";
 import { JAVA_API_URL } from "../../utils/const";
+import useSWR from "swr";
 
 //バリデーションチェック
 const schema = yup.object().shape({
@@ -39,7 +40,9 @@ const schema = yup.object().shape({
   //職種のバリデーション
   serviceFk: yup.string(),
   //プロフィールのバリデーション
-  profile: yup.string().max(140, "自己紹介は140文字以内で入力してください"),
+  introduction: yup
+    .string()
+    .max(140, "自己紹介は140文字以内で入力してください"),
 });
 
 /**
@@ -48,7 +51,29 @@ const schema = yup.object().shape({
  */
 const Edit: NextPage = () => {
   //ログインID
-  const loginId = useContext(loginIdContext);
+  // const loginId = useContext(loginIdContext);
+
+  //ルーターリンク
+  const router = useRouter();
+
+  //URLの後ろからid取得
+  const loginId = Number(router.query.id);
+
+  /**
+   * APIで初期表示用データ取得.
+   */
+  const { data: payload, error } = useSWR(`${JAVA_API_URL}/user/${loginId}`);
+  const [userData] = useState(payload?.user);
+
+  // 年月だけ取得したい初期値は、日付を削る必要があるため
+  const defaultHireDate = userData?.hireDate;
+  const formatHireDate = defaultHireDate?.slice(0, 7);
+
+  //名前を姓名に分ける
+  const fullName = userData?.name;
+  const nameArray = fullName?.split(" ");
+  const formatFirstName = nameArray?.[0];
+  const formatLastName = nameArray?.[1];
 
   // バリデーション機能を呼び出し
   const {
@@ -59,18 +84,16 @@ const Edit: NextPage = () => {
     resolver: yupResolver(schema),
     //初期値はログインしている人のデータを入れる
     defaultValues: {
-      firstName: "山田",
-      lastName: "太郎",
-      accountName: "やまちゃん",
-      hireDate: "2021-10",
-      birthDay: "2000-01-01",
-      serviceFk: "",
-      profile: "とても元気",
+      firstName: formatFirstName,
+      lastName: formatLastName,
+      accountName: userData?.accountName,
+      hireDate: formatHireDate,
+      birthDay: userData?.birthDay,
+      serviceFk: userData?.serviceFk,
+      introduction: userData?.introduction,
     },
   });
 
-  //ルーターリンク
-  const router = useRouter();
   /**
    * 登録ボタンを押した時に呼ばれる
    * @param data - 入力したデータ
@@ -78,7 +101,7 @@ const Edit: NextPage = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
     //名前：姓＋名
-    const name = data.firstName + data.lastName;
+    const name = data.firstName + " " + data.lastName;
     //入社月のフォーマット変更
     const hireDate = String(format(data.hireDate, "yyyy-MM-dd"));
     //誕生日のフォーマット変更
@@ -92,7 +115,7 @@ const Edit: NextPage = () => {
       hireDate: hireDate, //入社月
       serviceFk: data.serviceFk, //職種
       birthDay: birthDay, //誕生日
-      introduction: data.profile, //自己紹介
+      introduction: data.introduction, //自己紹介
     };
 
     console.dir("送るデータ" + JSON.stringify(postData));
@@ -132,27 +155,35 @@ const Edit: NextPage = () => {
     router.push(`/user/${loginId}`);
   };
 
+  if (!error && !userData) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>データを取得できませんでした</div>;
+  }
+
   return (
-    <div>
-      <PasswordModal isOpen={openModal} />
-      <div className="text-center bg-bgc border-solid  border-2 border-bgc-200 m-10 shadow-lg rounded-md">
-        <div className="flex flex-col items-center">
-          <div className="mt-3 text-3xl font-extrabold">ユーザー情報編集</div>
-          <div>
-            <Image
-              src="/usakus.jpg"
-              width={200}
-              height={200}
-              alt="icon"
-            ></Image>
-          </div>
-          <div
-            onClick={openPasswordModal}
-            className="text-text-brown my-5 cursor-pointer hover:text-basic"
-          >
-            パスワード変更はこちら
-          </div>
-          <form name="SignupForm" noValidate>
+    <>
+      <div>
+        <PasswordModal isOpen={openModal} />
+        <div className="text-center bg-bgc border-solid  border-2 border-bgc-200 m-10 shadow-lg rounded-md">
+          <div className="flex flex-col items-center">
+            <div className="mt-3 text-3xl font-extrabold">ユーザー情報編集</div>
+            <div>
+              <Image
+                src="/usakus.jpg"
+                width={200}
+                height={200}
+                alt="icon"
+              ></Image>
+            </div>
+            <div
+              onClick={openPasswordModal}
+              className="text-text-brown my-5 cursor-pointer hover:text-basic"
+            >
+              パスワード変更はこちら
+            </div>
             <div className="flex flex-col items-center mt-10">
               <div className="flex w-96 gap-3 mt-3">
                 {/* 姓のテキストフォーム */}
@@ -263,9 +294,11 @@ const Edit: NextPage = () => {
                   label="プロフィール"
                   rows={6}
                   cols={30}
-                  registers={register("profile")}
+                  registers={register("introduction")}
                 />
-                <div className="text-red-500">{errors.profile?.message}</div>
+                <div className="text-red-500">
+                  {errors.introduction?.message}
+                </div>
               </div>
               <div className="flex gap-3 mt-10 mb-10">
                 <Button
@@ -285,10 +318,11 @@ const Edit: NextPage = () => {
                 />
               </div>
             </div>
-          </form>
+          </div>
         </div>
       </div>
-    </div>
+      )
+    </>
   );
 };
 export default Edit;

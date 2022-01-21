@@ -1,9 +1,11 @@
 import Image from "next/image";
 import { useCallback, useState } from "react";
 import { NextPage } from "next";
-import { SubHeader } from "../components/Layout/SubHeader";
+import { SubHeader } from "../../components/Layout/SubHeader";
 import { useRouter } from "next/router";
-import { Button } from "../components/Button/Button";
+import { Button } from "../../components/Button/Button";
+import useSWR from "swr";
+import { JAVA_API_URL } from "../../utils/const";
 
 /**
  * 通知ページ.
@@ -13,12 +15,12 @@ import { Button } from "../components/Button/Button";
 const Notion: NextPage = () => {
   //テストデータ
   //反応した人の名前／アイコン／いいねかコメントか／対象の投稿(レビューに対してか／つぶやきに対してかも表示？)
-  const [data] = useState([
+  const [notionData] = useState([
     {
       id: 1,
       name: "佐藤花子",
       action: "お気に入り",
-      img: "/usakus.jpg",
+      img: "/image/userIcon/user6.jpeg",
       postId: 500,
       post: "あああ",
     },
@@ -26,7 +28,7 @@ const Notion: NextPage = () => {
       id: 1,
       name: "佐藤花子",
       action: "コメント",
-      img: "/usakus.jpg",
+      img: "/image/userIcon/user5.jpeg",
       postId: 400,
       post: "いいい",
     },
@@ -34,7 +36,7 @@ const Notion: NextPage = () => {
       id: 2,
       name: "三角次郎",
       action: "お気に入り",
-      img: "/usakus.jpg",
+      img: "/image/userIcon/user4.jpeg",
       postId: 300,
       post: "あああ",
     },
@@ -42,7 +44,7 @@ const Notion: NextPage = () => {
       id: 3,
       name: "山田太郎",
       action: "コメント",
-      img: "/usakus.jpg",
+      img: "/image/userIcon/user2.jpeg",
       postId: 200,
       post: "うおお",
     },
@@ -50,7 +52,7 @@ const Notion: NextPage = () => {
       id: 1,
       name: "佐藤花子",
       action: "お気に入り",
-      img: "/usakus.jpg",
+      img: "/image/userIcon/user1.jpeg",
       postId: 100,
       post: "良い気持ち",
     },
@@ -83,6 +85,19 @@ const Notion: NextPage = () => {
     }
   }, []);
 
+  // const loginUserId = Number(router.query.id);
+  // const { data: notionData, error } = useSWR<Notion>(
+  //   `${JAVA_API_URL}/notion/${loginUserId}`,
+  // );
+
+  // if (!error && !notionData) {
+  //   return <div>Loading...</div>;
+  // }
+
+  // if (error) {
+  //   return <div>データを取得できませんでした</div>;
+  // }
+
   return (
     <>
       {/* サブヘッダー */}
@@ -99,7 +114,7 @@ const Notion: NextPage = () => {
       </div>
 
       {/* タイムラインゾーン */}
-      {data.map((value, key) => (
+      {notionData.map((value, key) => (
         <div style={style} key={key}>
           <div
             className="p-5 ml-10"
@@ -124,7 +139,13 @@ const Notion: NextPage = () => {
                   goUserPage(value.id);
                 }}
               >
-                <Image src={value.img} width={100} height={100} alt="icon" />
+                <Image
+                  src={value.img}
+                  width={100}
+                  height={100}
+                  alt="icon"
+                  className="rounded-full"
+                />
               </span>
             </div>
             <div className=" cursor-pointer hover:opacity-50">

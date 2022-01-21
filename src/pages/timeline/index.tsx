@@ -1,6 +1,6 @@
 import Image from "next/image";
 import type { NextPage } from "next";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { Button } from "../../components/Button/Button";
 import { CommentIcon } from "../../components/Button/CommentIcon";
@@ -9,6 +9,9 @@ import { FavoBtn } from "../../components/Button/FavoBtn";
 import { TrashBtn } from "../../components/Button/TrashBtn";
 import { useRouter } from "next/router";
 import { PostBtn } from "../../components/Button/PostBtn";
+import useSWR from "swr";
+import { JAVA_API_URL } from "../../utils/const";
+import { loginIdContext } from "../../providers/LoginIdProvider";
 
 /**
  * タイムラインページ.
@@ -19,17 +22,17 @@ const Timeline: NextPage = () => {
   const [data] = useState([
     {
       postId: 1,
-      name: "佐藤花子",
-      userId: 100,
+      name: "ふるもっちゃん",
+      userId: 1,
       post: "あああ",
-      img: "/usakus.jpg",
+      img: "/image/userIcon/user3.jpeg",
     },
     {
       postId: 2,
       name: "山田太郎",
       userId: 200,
       post: "いいい",
-      img: "/usakus.jpg",
+      img: "/image/userIcon/user2.jpeg",
     },
     {
       postId: 3,
@@ -40,17 +43,17 @@ const Timeline: NextPage = () => {
     },
     {
       postId: 1,
-      name: "佐藤花子",
-      userId: 400,
+      name: "ふるもっちゃん",
+      userId: 1,
       post: "あああ",
-      img: "/usakus.jpg",
+      img: "/image/userIcon/user3.jpeg",
     },
     {
       postId: 2,
-      name: "山田太郎",
+      name: "佐藤花子",
       userId: 500,
       post: "あああああああああああいいいいいいいいううううううううううえええええええええええええおおおおおおおおおおおおおおおうひうひひょひょほほほほほほほほほほほほほ",
-      img: "/usakus.jpg",
+      img: "/image/userIcon/user1.jpeg",
     },
     {
       postId: 3,
@@ -60,6 +63,9 @@ const Timeline: NextPage = () => {
       img: "/usakus.jpg",
     },
   ]);
+
+  //ログインID
+  const loginId = useContext(loginIdContext);
 
   //1人1人のつぶやきの下に入る線
   const style = {
@@ -83,6 +89,18 @@ const Timeline: NextPage = () => {
   const goDetailPage = (postId: number) => {
     router.push(`/timeline/${postId}`);
   };
+
+  // const { data: timelineData, error } = useSWR<Timeline>(
+  //   `${JAVA_API_URL}/timeline`,
+  // );
+
+  // if (!error && !timelineData) {
+  //   return <div>Loading...</div>;
+  // }
+
+  // if (error) {
+  //   return <div>データを取得できませんでした</div>;
+  // }
 
   //HTMLコーナー
   return (
@@ -109,7 +127,13 @@ const Timeline: NextPage = () => {
               goUserPage(value.userId);
             }}
           >
-            <Image src={value.img} width={100} height={100} alt="icon" />
+            <Image
+              src={value.img}
+              width={100}
+              height={100}
+              alt="icon"
+              className="rounded-full"
+            />
           </div>
           <div className="w-4/5">
             <div
@@ -125,9 +149,13 @@ const Timeline: NextPage = () => {
             </div>
 
             <div className="w-full text-right py-3">
-              <CommentIcon commentCount={300} postId={value.postId} target="timeline" />
-              <FavoBtn postId={value.postId} />
-              <TrashBtn postId={value.postId} />
+              <CommentIcon
+                commentCount={300}
+                postId={value.postId}
+                target="timeline"
+              />
+              <FavoBtn postId={value.postId} favoCount={30} />
+              {loginId == value.userId && <TrashBtn postId={value.postId} />}
             </div>
           </div>
         </div>
