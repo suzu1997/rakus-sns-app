@@ -70,7 +70,7 @@ export const Layout: FC<Props> = memo((props) => {
           {/* スマホ用メニュー */}
           {isOpen && (
             <div
-              className="bg-black bg-opacity-70 w-full h-full absolute top-0 left-0 z-30 duration-300 sm:hidden"
+              className="bg-black bg-opacity-70 w-full h-full absolute top-0 left-0 z-30 duration-300 md:hidden"
               onClick={closeMenu}
             ></div>
           )}
@@ -78,7 +78,7 @@ export const Layout: FC<Props> = memo((props) => {
             <div
               className={`${
                 isOpen ? "right-0" : "-right-full"
-              } fixed top-0 h-full overflow-hidden duration-300 sm:hidden`}
+              } fixed top-0 h-full overflow-hidden duration-300 md:hidden`}
             >
               <div className="h-16 bg-white relative border-b-4 border-basic">
                 <button onClick={closeMenu} className="absolute top-5 right-5">
