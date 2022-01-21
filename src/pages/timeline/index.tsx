@@ -1,6 +1,6 @@
 import Image from "next/image";
 import type { NextPage } from "next";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { Button } from "../../components/Button/Button";
 import { CommentIcon } from "../../components/Button/CommentIcon";
@@ -19,52 +19,6 @@ import { Timeline } from "../../types/type";
  * @returns つぶやきの一覧が流れてくるページ
  */
 const Timeline: NextPage = () => {
-  //テストデータ
-  // const [data] = useState([
-  //   {
-  //     postId: 1,
-  //     name: "ふるもっちゃん",
-  //     userId: 1,
-  //     post: "あああ",
-  //     img: "/image/userIcon/user3.jpeg",
-  //   },
-  //   {
-  //     postId: 2,
-  //     name: "山田太郎",
-  //     userId: 200,
-  //     post: "いいい",
-  //     img: "/image/userIcon/user2.jpeg",
-  //   },
-  //   {
-  //     postId: 3,
-  //     name: "ランチックス",
-  //     userId: 300,
-  //     post: "ううう",
-  //     img: "/usakus.jpg",
-  //   },
-  //   {
-  //     postId: 1,
-  //     name: "ふるもっちゃん",
-  //     userId: 1,
-  //     post: "あああ",
-  //     img: "/image/userIcon/user3.jpeg",
-  //   },
-  //   {
-  //     postId: 2,
-  //     name: "佐藤花子",
-  //     userId: 500,
-  //     post: "あああああああああああいいいいいいいいううううううううううえええええええええええええおおおおおおおおおおおおおおおうひうひひょひょほほほほほほほほほほほほほ",
-  //     img: "/image/userIcon/user1.jpeg",
-  //   },
-  //   {
-  //     postId: 3,
-  //     name: "ランチックス",
-  //     userId: 600,
-  //     post: "ううう",
-  //     img: "/usakus.jpg",
-  //   },
-  // ]);
-
   //ログインID
   const loginId = useContext(loginIdContext);
 
@@ -91,6 +45,9 @@ const Timeline: NextPage = () => {
     router.push(`/timeline/${postId}`);
   };
 
+  /**
+   * APIを使用してタイムラインデータを取得.
+   */
   const { data, error } = useSWR(`${JAVA_API_URL}/timeline/${loginId}`);
   // タイムライン情報をdataから抽出
   const timelineData: Timeline = data.TimelineList;
