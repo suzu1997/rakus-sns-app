@@ -7,6 +7,9 @@ import { useRouter } from "next/router";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import { JAVA_API_URL } from "../../utils/const";
+
 
 //バリデーションチェック
 const schema = yup.object().shape({
@@ -28,7 +31,7 @@ const schema = yup.object().shape({
 });
 
 /**
- * ユーザー仮登録画面
+ * ユーザー仮登録画面.
  * @returns 仮登録するためのページ
  */
 const PreSignUp: NextPage = () => {
@@ -54,14 +57,27 @@ const PreSignUp: NextPage = () => {
   //ルーターリンク
   const router = useRouter();
 
-  //登録ボタンを押した時に呼ばれる
+  //登録ボタンを押した時のメソッド
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = (data: any) => {
-    console.log(data);
-    //本来はAPIにデータを送る
-    //仮登録が完了ならば、入力内容をクリアした後、仮登録完了画面に遷移する
-    reset;
-    router.push("/auth/comppresignup");
+  const onSubmit = async (data: any) => {
+    //APIに送るデータ
+    const postDate = {
+      name: data.firstName + data.lastName,
+      email: data.email,
+    };
+    try {
+      const res = await axios.post(`${JAVA_API_URL}/presignup`, postDate);
+      //仮登録に成功した場合
+      if (res.data.status === "success") {
+        //入力内容をクリアした後、仮登録完了画面に遷移する
+        reset;
+        router.push("/auth/comppresignup");
+      } else {
+        alert(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

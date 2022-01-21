@@ -28,16 +28,13 @@ function MyApp({ Component, pageProps }: AppProps) {
             position="top-center"
             toastOptions={{
               duration: 3000,
-              success: {
-                style: {
-                  background: "#f6f0ea",
-                  color: "#622d18",
-                },
+              style: {
+                background: "#f6f0ea",
+                color: "#622d18",
               },
               error: {
                 style: {
                   background: "#F9C1CF",
-                  color: "#622d18",
                 },
               },
             }}

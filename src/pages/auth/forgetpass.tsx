@@ -6,6 +6,8 @@ import { TextInput } from "../../components/Form/TextInput";
 import { Button } from "../../components/Button/Button";
 import { ConfModal } from "../../components//Modal/ConfModal";
 import { useState, useCallback } from "react";
+import { JAVA_API_URL } from "../../utils/const";
+import axios from "axios";
 
 //バリデーションチェック
 const schema = yup.object().shape({
@@ -37,10 +39,28 @@ const ForgetPass: NextPage = () => {
 
   //送信ボタンを押したときに呼ばれる
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = (data: any) => {
-    console.log(data);
-    //メール認証成功したらモーダルを開ける
-    setIsOpen(true);
+  const onSubmit = async (data: any) => {
+    //APIに送るデータ
+    const postDate = {
+      email: data.email,
+    };
+    try {
+      const res = await axios.post(
+        `${JAVA_API_URL}/password/sendMail`,
+        postDate,
+      );
+      //仮登録に成功した場合
+      if (res.data.status === "success") {
+        //入力内容をクリアした後、仮登録完了画面に遷移する
+        reset;
+        //メール認証成功したらモーダルを開ける
+        setIsOpen(true);
+      } else {
+        alert(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   //モーダルを閉じるメソッド.

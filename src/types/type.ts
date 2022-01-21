@@ -15,13 +15,21 @@ export type LunchReview = {
 };
 
 export type Restaurant = {
-  restaurantId: number;
-  restaurantName: string;
-  restaurantAddress: string;
-  restaurantGenre: string;
-  restaurantStar: number;
-  restaurantType: number;
-  restaurantImg: string;
+  id: number;
+  name: string;
+  address: string;
+  genreFk: string;
+  genreValue: string;
+  star: number;
+  type: 1 | 2 | 3;
+  photoPath: string;
+  hotpepperId: string;
+  description: string;
+  access: string;
+  latitude: string;
+  longitude: string;
+  url: string;
+  smoking: string;
   updatedTime: Date;
   postedTime: Date;
 };
@@ -34,4 +42,15 @@ export type UserInfo = {
   accountName: string;
   birthDay: string;
   profile: string;
+};
+
+//ユーザ本登録画面
+export type UserPreInfo = {
+  name: string;
+  email: string;
+};
+
+//パスワード変更画面
+export type UpdatePassInfo = {
+  email: string;
 };

@@ -6,7 +6,6 @@ export type Props = {
   color?: string;
   size?: "xs" | "sm" | "md" | "lg";
   onClick: MouseEventHandler<HTMLButtonElement>;
-  type?: any;
 };
 
 export const Button: FC<Props> = memo((props) => {
@@ -16,7 +15,6 @@ export const Button: FC<Props> = memo((props) => {
     color = "#fff",
     size,
     onClick,
-    type = "submit",
   } = props;
 
   let scale = 1;
@@ -36,7 +34,6 @@ export const Button: FC<Props> = memo((props) => {
       onClick={onClick}
       style={style}
       className="rounded-md shadow-md border-none font-bold hover:opacity-90"
-      type={type}
     >
       {label}
     </button>

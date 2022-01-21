@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import Image from "next/image";
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { Tab } from "@headlessui/react";
@@ -7,7 +7,7 @@ import { Button } from "../../components/Button/Button";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import { JAVA_API_URL } from "../../utils/const";
-import { UserInfo } from "../../types/type";
+import { loginIdContext } from "../../providers/LoginIdProvider";
 
 //タブテスト
 function classNames(...classes: unknown[]) {
@@ -30,9 +30,16 @@ const User: NextPage = () => {
   //ルーターリンク
   const router = useRouter();
 
+  //URLの後ろからid取得
+  const userId = Number(router.query.id);
+
+  //ログインID
+  const loginId = useContext(loginIdContext);
+
   //編集ボタンを押した時に呼ばれる
   const editInfo = () => {
-    router.push("/user/edit");
+    router.push(`/user/edit?id=${userId}`);
+    // router.push("/user/edit");
   };
 
   //タブテストデータ
@@ -100,16 +107,12 @@ const User: NextPage = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  //URLの後ろからid取得
-  const userId = Number(router.query.id);
-
+  
   /**
    * APIで初期表示用データ取得.
    */
-  const { data: userData, error } = useSWR<UserInfo>(
-    `${JAVA_API_URL}/user/${userId}`,
-  );
+  const { data: payload, error } = useSWR(`${JAVA_API_URL}/user/${userId}`);
+  const userData = payload?.user;
 
   if (!error && !userData) {
     return <div>Loading...</div>;
@@ -145,19 +148,21 @@ const User: NextPage = () => {
                   <div>職種:{userData.serviceFk}</div>
                   <div>アカウント名:{userData.accountName}</div>
                   <div>誕生日:{userData.birthDay}</div>
-                  <div>自己紹介:{userData.profile}</div>
+                  <div>自己紹介:{userData.introduction}</div>
                 </div>
               </div>
             )}
-            <div className="text-right mr-10 mb-5">
-              <Button
-                label="プロフィール編集"
-                backgroundColor="#f28728"
-                color="white"
-                size="md"
-                onClick={editInfo}
-              />
-            </div>
+            {userId == loginId && (
+              <div className="text-right mr-10 mb-5">
+                <Button
+                  label="プロフィール編集"
+                  backgroundColor="#f28728"
+                  color="white"
+                  size="md"
+                  onClick={editInfo}
+                />
+              </div>
+            )}
           </div>
 
           <div className="w-full text-center mb-2">
