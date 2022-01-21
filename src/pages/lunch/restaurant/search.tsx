@@ -5,7 +5,6 @@ import { Button } from "../../../components/Button/Button";
 import { TextInput } from "../../../components/Form/TextInput";
 import { useRouter } from "next/router";
 import { Restaurant } from "../../../types/type";
-import Link from "next/link";
 import { SubHeader } from "../../../components/Layout/SubHeader";
 
 const RestaurantSearch: FC = () => {
@@ -88,26 +87,17 @@ const RestaurantSearch: FC = () => {
     [router],
   );
 
-  /**
-   * ページを初期状態に戻す.
-   */
-  const clear = useCallback(() => {
-    setSearchName("");
-    setHotpeppers([]);
-    setHasClickedSearch(false);
-  }, []);
-
   return (
     <div className="flex">
       <div className="flex-1">
         <SubHeader title={"お店検索"} />
-        <div className="w-5/6 mx-auto py-5">
-          <div className="flex gap-5 mt-5 mb-5 items-center">
+        <div className="max-w-screen-sm w-5/6 mx-auto py-5">
+          <div className="flex flex-col gap-3 mb-5">
             <TextInput
               label={"店名"}
               value={searchName}
               type={"text"}
-              fullWidth={false}
+              fullWidth={true}
               required={true}
               onChange={inputRestaurantName}
             />
@@ -121,16 +111,28 @@ const RestaurantSearch: FC = () => {
               <ul>
                 {restautrantsInDB.map((restautrant) => {
                   return (
-                    <div key={restautrant.id} className="mb-3">
-                      <li className="list-disc">
-                        {restautrant.name}
-                        <Button
-                          label="選択"
-                          onClick={() => selectRestaurant(restautrant)}
-                          size="xs"
+                    <li key={restautrant.id} className="flex items-center mb-3">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-3 w-3 mr-3"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
                         />
-                      </li>
-                    </div>
+                      </svg>
+                      <span
+                        className="cursor-pointer hover:text-text-brown hover:underline"
+                        onClick={() => selectRestaurant(restautrant)}
+                      >
+                        {restautrant.name}
+                      </span>
+                    </li>
                   );
                 })}
               </ul>
@@ -143,16 +145,28 @@ const RestaurantSearch: FC = () => {
               <ul>
                 {hotpeppers.map((hotpepper) => {
                   return (
-                    <div key={hotpepper.id} className="mb-3">
-                      <li className="list-disc">
-                        {hotpepper.name}({hotpepper.name_kana})
-                        <Button
-                          label="選択"
-                          onClick={() => selectRestaurant(hotpepper)}
-                          size="xs"
+                    <li key={hotpepper.id} className="flex items-center mb-3">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-3 w-3 mr-3"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
                         />
-                      </li>
-                    </div>
+                      </svg>
+                      <span
+                        className="cursor-pointer hover:text-text-brown hover:underline"
+                        onClick={() => selectRestaurant(hotpepper)}
+                      >
+                        {hotpepper.name}
+                      </span>
+                    </li>
                   );
                 })}
               </ul>

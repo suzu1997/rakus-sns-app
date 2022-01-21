@@ -55,7 +55,6 @@ export const AddManuallyForm: FC<Props> = (props) => {
   //登録ボタンを押した時のメソッド
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
-    console.log(data);
     try {
       const res = await axios.post(`${JAVA_API_URL}/restaurant`, {
         name: data.name,
