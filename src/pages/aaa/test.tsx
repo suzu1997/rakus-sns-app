@@ -12,6 +12,8 @@ const Test: NextPage = () => {
   //緯度経度変数
   const [latitudeData, setLatitudeData] = useState("");
   const [longitudeData, setLongitudeData] = useState("");
+  //住所(下の郵便番号の変数と区別するためaddressじゃなくした)
+  const [place, setPlace] = useState("");
   /**
    * 緯度経度API
    */
@@ -19,22 +21,23 @@ const Test: NextPage = () => {
     const url = "https://msearch.gsi.go.jp/address-search/AddressSearch?q=";
 
     //この変数に住所が入るようにする(下記の表記方法全て取得可能でした)
-    // const address = "東京都中央区八重洲１丁目４丁目２２番地";//全角
-    // const address = "東京都中央区八重洲1-4-22";//半角+ハイフン
-    // const address = "東京都中央区八重洲１-４-２２";//全角+ハイフン
-    // const address = "東京都中央区八重洲1丁目4丁目22番地"; //全角+ハイフン
-    const address =
-      "東京都中央区八重洲1丁目4丁目22番地モリタニビルディング83 １Ｆ"; //ビル名とかも入れる
-
-    const res = await axios.get(`${url}${address}`);
+    // const place = "東京都中央区八重洲１丁目４丁目２２番地";//全角
+    // const place = "東京都中央区八重洲1-4-22";//半角+ハイフン
+    // const place = "東京都中央区八重洲１-４-２２";//全角+ハイフン
+    // const place = "東京都中央区八重洲1丁目4丁目22番地"; //全角+ハイフン
+    // const place =
+    //   "東京都中央区八重洲1丁目4丁目22番地モリタニビルディング83 １Ｆ"; //ビル名とかも入れる
+    const res = await axios.get(`${url}${place}`);
     //緯度
     const latitude = String(res.data[0].geometry.coordinates[1]);
-    console.dir("緯度" + latitude + "0");
     setLatitudeData(latitude + "0");
     //経度
     const longitude = String(res.data[0].geometry.coordinates[0]);
     setLongitudeData(longitude + "0");
-    console.dir("経度" + longitude + "0");
+  }, [place]);
+
+  const inputPlace = useCallback((e) => {
+    setPlace(e.target.value);
   }, []);
 
   /**
@@ -54,7 +57,16 @@ const Test: NextPage = () => {
 
   return (
     <>
+      {place}
       <p>緯度経度API</p>
+      <TextInput
+        value={place}
+        label="住所"
+        type="text"
+        fullWidth={false}
+        required={false}
+        onChange={inputPlace}
+      />
       <Button label="緯度経度" onClick={latitudeLongitude} />
       {latitudeData != "" && longitudeData != "" && (
         <GoogleMap latitude={latitudeData} longitude={longitudeData} />
