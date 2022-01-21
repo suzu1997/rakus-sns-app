@@ -1,112 +1,89 @@
 import type { NextPage } from "next";
-import Link from "next/link";
 import { useCallback, useState } from "react";
-import { SelectBox } from "../../components/Form/SelectBox";
-import { TextInput } from "../../components/Form/TextInput";
-import Cookie from "universal-cookie";
 import axios from "axios";
+import { Button } from "../../components/Button/Button";
+//緯度経度
+import { GoogleMap } from "../../components/Lunch/GoogleMap";
+//郵便番号検索
+import { TextInput } from "../../components/Form/TextInput";
+import { useGetAddress } from "../../hooks/getAddress";
 
 const Test: NextPage = () => {
-  const options = [
-    { id: "1", name: "Wade Cooper" },
-    { id: "2", name: "Arlene Mccoy" },
-    { id: "3", name: "Devon Webb" },
-    { id: "4", name: "Tom Cook" },
-    { id: "5", name: "Tanya Fox" },
-    { id: "6", name: "Hellen Schmidt" },
-  ];
+  //緯度経度変数
+  const [latitudeData, setLatitudeData] = useState("");
+  const [longitudeData, setLongitudeData] = useState("");
+  //住所(下の郵便番号の変数と区別するためaddressじゃなくした)
+  const [place, setPlace] = useState("");
+  /**
+   * 緯度経度API
+   */
+  const latitudeLongitude = useCallback(async () => {
+    const url = "https://msearch.gsi.go.jp/address-search/AddressSearch?q=";
 
-  const [value, setValue] = useState<string>("");
-  const [selectValue, setSelectValue] = useState<string>(options[0].name);
+    //この変数に住所が入るようにする(下記の表記方法全て取得可能でした)
+    // const place = "東京都中央区八重洲１丁目４丁目２２番地";//全角
+    // const place = "東京都中央区八重洲1-4-22";//半角+ハイフン
+    // const place = "東京都中央区八重洲１-４-２２";//全角+ハイフン
+    // const place = "東京都中央区八重洲1丁目4丁目22番地"; //全角+ハイフン
+    // const place =
+    //   "東京都中央区八重洲1丁目4丁目22番地モリタニビルディング83 １Ｆ"; //ビル名とかも入れる
+    const res = await axios.get(`${url}${place}`);
+    //緯度
+    const latitude = String(res.data[0].geometry.coordinates[1]);
+    setLatitudeData(latitude + "0");
+    //経度
+    const longitude = String(res.data[0].geometry.coordinates[0]);
+    setLongitudeData(longitude + "0");
+  }, [place]);
 
-  const inputValue = useCallback(
+  const inputPlace = useCallback((e) => {
+    setPlace(e.target.value);
+  }, []);
+
+  /**
+   * 郵便番号検索API.
+   * @remarks addressに住所が入っている
+   */
+  //郵便番号入力用
+  const [zipcode, setZipcode] = useState("");
+
+  const inputZipcode = useCallback(
     (e) => {
-      setValue(e.target.value);
+      setZipcode(e.target.value);
     },
-    [setValue],
+    [setZipcode],
   );
-
-  const cookie = new Cookie();
-
-  const loginTest = async () => {
-    //ログインテスト
-    const res = await axios.get(`http://localhost:8080/user/1`);
-    console.log(res.data);
-    cookie.set("name", res.data.name, { path: "/" });
-    console.log("ログ印しました：" + cookie.get("name"));
-  };
-
-  const checkTest = () => {
-    console.log("ログインしているのは：" + cookie.get("name"));
-  };
-
-  const logoutTest = () => {
-    cookie.set("name", "ログアウト太郎", { path: "/" });
-    console.log("ログアウトしました：" + cookie.get("name"));
-  };
+  const { getAddress, address, errorOfAddress } = useGetAddress(zipcode);
 
   return (
-    <div className="flex flex-col items-center mt-10">
-      <button type="button" onClick={loginTest}>
-        ログインテスト
-      </button>
-      <br />
-      <button type="button" onClick={checkTest}>
-        ログイン状況
-      </button>
-      <br />
-      <button type="button" onClick={logoutTest}>
-        ログアウト
-      </button>
-
-      <p className="font-mono text-red-700">テスト</p>
-      <Link href="/">
-        <a className="underline hover:text-blue-800 mt-3">トップへ戻る</a>
-      </Link>
-      {/* inputテスト */}
-      <div className="w-96 flex gap-3">
-        <TextInput
-          label={"テスト"}
-          value={value}
-          type="text"
-          fullWidth={false}
-          required
-          onChange={inputValue}
-        />
-        <TextInput
-          label={"テスト"}
-          value={value}
-          type="text"
-          fullWidth={false}
-          required
-          onChange={inputValue}
-        />
-      </div>
-      <div className="w-96">
-        <TextInput
-          label={"テスト"}
-          value={value}
-          type="text"
-          fullWidth={true}
-          required
-          onChange={inputValue}
-        />
-        <div className="w-60">
-          <SelectBox
-            label={"テスト"}
-            value={selectValue}
-            options={options}
-            select={setSelectValue}
-          />
-        </div>
-        <SelectBox
-          label={"テスト"}
-          value={selectValue}
-          options={options}
-          select={setSelectValue}
-        />
-      </div>
-    </div>
+    <>
+      {place}
+      <p>緯度経度API</p>
+      <TextInput
+        value={place}
+        label="住所"
+        type="text"
+        fullWidth={false}
+        required={false}
+        onChange={inputPlace}
+      />
+      <Button label="緯度経度" onClick={latitudeLongitude} />
+      {latitudeData != "" && longitudeData != "" && (
+        <GoogleMap latitude={latitudeData} longitude={longitudeData} />
+      )}
+      <p>郵便番号検索API</p>
+      <div className="text-red-500">{errorOfAddress}</div>
+      <TextInput
+        value={zipcode}
+        label="郵便番号"
+        type="text"
+        fullWidth={false}
+        required={false}
+        onChange={inputZipcode}
+      />
+      <Button label="郵便番号から住所を選択" onClick={getAddress} />
+      <div>{address}</div>
+    </>
   );
 };
 
