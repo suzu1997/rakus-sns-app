@@ -5,8 +5,28 @@ import { SelectBox } from "../../components/Form/SelectBox";
 import { TextInput } from "../../components/Form/TextInput";
 import Cookie from "universal-cookie";
 import axios from "axios";
+import { Button } from "../../components/Button/Button";
 
 const Test: NextPage = () => {
+  const [idoTest, setIdoTest] = useState();
+  const [keidoTest, setKeidoTest] = useState();
+
+  /**
+   * 緯度経度API
+   */
+  const latitudeLongitude = async () => {
+    const url = "https://msearch.gsi.go.jp/address-search/AddressSearch?q=";
+    //この変数に住所が入るようにする
+    const address = "北海道札幌市北区北６条西４丁目";
+    const res = await axios.get(`${url}${address}`);
+    //緯度
+    console.dir("緯度" + JSON.stringify(res.data[0].geometry.coordinates[0]));
+    setIdoTest(res.data[0].geometry.coordinates[0]);
+    //経度
+    console.dir("経度" + JSON.stringify(res.data[0].geometry.coordinates[1]));
+    setKeidoTest(res.data[0].geometry.coordinates[1]);
+  };
+
   const options = [
     { id: "1", name: "Wade Cooper" },
     { id: "2", name: "Arlene Mccoy" },
@@ -26,38 +46,9 @@ const Test: NextPage = () => {
     [setValue],
   );
 
-  const cookie = new Cookie();
-
-  const loginTest = async () => {
-    //ログインテスト
-    const res = await axios.get(`http://localhost:8080/user/1`);
-    console.log(res.data);
-    cookie.set("name", res.data.name, { path: "/" });
-    console.log("ログ印しました：" + cookie.get("name"));
-  };
-
-  const checkTest = () => {
-    console.log("ログインしているのは：" + cookie.get("name"));
-  };
-
-  const logoutTest = () => {
-    cookie.set("name", "ログアウト太郎", { path: "/" });
-    console.log("ログアウトしました：" + cookie.get("name"));
-  };
-
   return (
     <div className="flex flex-col items-center mt-10">
-      <button type="button" onClick={loginTest}>
-        ログインテスト
-      </button>
-      <br />
-      <button type="button" onClick={checkTest}>
-        ログイン状況
-      </button>
-      <br />
-      <button type="button" onClick={logoutTest}>
-        ログアウト
-      </button>
+      <Button label="緯度経度" onClick={latitudeLongitude} />
 
       <p className="font-mono text-red-700">テスト</p>
       <Link href="/">
