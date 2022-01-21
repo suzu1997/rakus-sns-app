@@ -13,7 +13,7 @@ import { Restaurant } from "../../../types/type";
 import { AddManuallyForm } from "../../../components/Lunch/AddManuallyForm";
 import Link from "next/link";
 
-const RestaurantAdd: FC = () => {
+const RestaurantSearch: FC = () => {
   const router = useRouter();
   // 店名で検索するキーワード
   const [searchName, setSearchName] = useState<string>("");
@@ -204,4 +204,4 @@ const RestaurantAdd: FC = () => {
   );
 };
 
-export default RestaurantAdd;
+export default RestaurantSearch;
