@@ -96,9 +96,9 @@ const RestaurantSearch: FC = () => {
 
       alert("選択");
       setRestaurant(hotpepper);
-      setHotpeppers([]);
+      router.push(`/lunch/restaurant/add?hotpepperId=${hotpepper.id}`);
     },
-    [setRestaurant],
+    [setRestaurant, router],
   );
 
   /**
@@ -194,11 +194,6 @@ const RestaurantSearch: FC = () => {
               </div>
             </>
           ))}
-
-        {/* ホットペッパーにある店を登録する画面 */}
-        {restaurant && <AddByHotpepper restaurant={restaurant} clear={clear} />}
-        {/* 手入力で店を登録する画面 */}
-        {manually && <AddManuallyForm clear={clear} />}
       </div>
     </div>
   );
