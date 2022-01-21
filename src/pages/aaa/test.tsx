@@ -1,18 +1,17 @@
 import type { NextPage } from "next";
-import Link from "next/link";
 import { useCallback, useState } from "react";
-import { SelectBox } from "../../components/Form/SelectBox";
-import { TextInput } from "../../components/Form/TextInput";
-import Cookie from "universal-cookie";
 import axios from "axios";
 import { Button } from "../../components/Button/Button";
+//緯度経度
 import { GoogleMap } from "../../components/Lunch/GoogleMap";
-import { GetAddress } from "../../components/Lunch/GetAddress";
+//郵便番号検索
+import { TextInput } from "../../components/Form/TextInput";
+import { useGetAddress } from "../../hooks/getAddress";
 
 const Test: NextPage = () => {
+  //緯度経度変数
   const [latitudeData, setLatitudeData] = useState("");
   const [longitudeData, setLongitudeData] = useState("");
-
   /**
    * 緯度経度API
    */
@@ -38,82 +37,40 @@ const Test: NextPage = () => {
     console.dir("経度" + longitude + "0");
   }, []);
 
-  const options = [
-    { id: "1", name: "Wade Cooper" },
-    { id: "2", name: "Arlene Mccoy" },
-    { id: "3", name: "Devon Webb" },
-    { id: "4", name: "Tom Cook" },
-    { id: "5", name: "Tanya Fox" },
-    { id: "6", name: "Hellen Schmidt" },
-  ];
+  /**
+   * 郵便番号検索API
+   */
+  //郵便番号入力用
+  const [zipcode, setZipcode] = useState("");
 
-  const [value, setValue] = useState<string>("");
-  const [selectValue, setSelectValue] = useState<string>(options[0].name);
-
-  const inputValue = useCallback(
+  const inputZipcode = useCallback(
     (e) => {
-      setValue(e.target.value);
+      setZipcode(e.target.value);
     },
-    [setValue],
+    [setZipcode],
   );
+  const { getAddress, address, errorOfAddress } = useGetAddress(zipcode);
 
   return (
-    <div className="flex flex-col items-center mt-10">
+    <>
+      <p>緯度経度API</p>
       <Button label="緯度経度" onClick={latitudeLongitude} />
       {latitudeData != "" && longitudeData != "" && (
         <GoogleMap latitude={latitudeData} longitude={longitudeData} />
       )}
-
-      <GetAddress />
-
-      <p className="font-mono text-red-700">テスト</p>
-      <Link href="/">
-        <a className="underline hover:text-blue-800 mt-3">トップへ戻る</a>
-      </Link>
-      {/* inputテスト */}
-      <div className="w-96 flex gap-3">
-        <TextInput
-          label={"テスト"}
-          value={value}
-          type="text"
-          fullWidth={false}
-          required
-          onChange={inputValue}
-        />
-        <TextInput
-          label={"テスト"}
-          value={value}
-          type="text"
-          fullWidth={false}
-          required
-          onChange={inputValue}
-        />
-      </div>
-      <div className="w-96">
-        <TextInput
-          label={"テスト"}
-          value={value}
-          type="text"
-          fullWidth={true}
-          required
-          onChange={inputValue}
-        />
-        <div className="w-60">
-          <SelectBox
-            label={"テスト"}
-            value={selectValue}
-            options={options}
-            select={setSelectValue}
-          />
-        </div>
-        <SelectBox
-          label={"テスト"}
-          value={selectValue}
-          options={options}
-          select={setSelectValue}
-        />
-      </div>
-    </div>
+      <p>郵便番号検索API</p>
+      {errorOfAddress}
+      <TextInput
+        value={zipcode}
+        label="郵便番号"
+        type="text"
+        fullWidth={false}
+        required={false}
+        onChange={inputZipcode}
+      />
+      <Button label="郵便番号から住所を選択" onClick={getAddress} />
+      <div>{address}</div>
+    </>
   );
 };
 

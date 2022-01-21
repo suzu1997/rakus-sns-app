@@ -255,7 +255,6 @@ export const PasswordModal: FC<Props> = memo((props) => {
                       color="white"
                       size="md"
                       onClick={onSubmit}
-                      type="button"
                     />
                     <Button
                       label="キャンセル"
