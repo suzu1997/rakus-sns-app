@@ -59,7 +59,7 @@ const Test: NextPage = () => {
         <GoogleMap latitude={latitudeData} longitude={longitudeData} />
       )}
       <p>郵便番号検索API</p>
-      {errorOfAddress}
+      <div className="text-red-500">{errorOfAddress}</div>
       <TextInput
         value={zipcode}
         label="郵便番号"
