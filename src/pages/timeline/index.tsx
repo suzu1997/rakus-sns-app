@@ -12,6 +12,7 @@ import { PostBtn } from "../../components/Button/PostBtn";
 import useSWR from "swr";
 import { JAVA_API_URL } from "../../utils/const";
 import { loginIdContext } from "../../providers/LoginIdProvider";
+import { Timeline } from "../../types/type";
 
 /**
  * タイムラインページ.
@@ -19,50 +20,50 @@ import { loginIdContext } from "../../providers/LoginIdProvider";
  */
 const Timeline: NextPage = () => {
   //テストデータ
-  const [data] = useState([
-    {
-      postId: 1,
-      name: "ふるもっちゃん",
-      userId: 1,
-      post: "あああ",
-      img: "/image/userIcon/user3.jpeg",
-    },
-    {
-      postId: 2,
-      name: "山田太郎",
-      userId: 200,
-      post: "いいい",
-      img: "/image/userIcon/user2.jpeg",
-    },
-    {
-      postId: 3,
-      name: "ランチックス",
-      userId: 300,
-      post: "ううう",
-      img: "/usakus.jpg",
-    },
-    {
-      postId: 1,
-      name: "ふるもっちゃん",
-      userId: 1,
-      post: "あああ",
-      img: "/image/userIcon/user3.jpeg",
-    },
-    {
-      postId: 2,
-      name: "佐藤花子",
-      userId: 500,
-      post: "あああああああああああいいいいいいいいううううううううううえええええええええええええおおおおおおおおおおおおおおおうひうひひょひょほほほほほほほほほほほほほ",
-      img: "/image/userIcon/user1.jpeg",
-    },
-    {
-      postId: 3,
-      name: "ランチックス",
-      userId: 600,
-      post: "ううう",
-      img: "/usakus.jpg",
-    },
-  ]);
+  // const [data] = useState([
+  //   {
+  //     postId: 1,
+  //     name: "ふるもっちゃん",
+  //     userId: 1,
+  //     post: "あああ",
+  //     img: "/image/userIcon/user3.jpeg",
+  //   },
+  //   {
+  //     postId: 2,
+  //     name: "山田太郎",
+  //     userId: 200,
+  //     post: "いいい",
+  //     img: "/image/userIcon/user2.jpeg",
+  //   },
+  //   {
+  //     postId: 3,
+  //     name: "ランチックス",
+  //     userId: 300,
+  //     post: "ううう",
+  //     img: "/usakus.jpg",
+  //   },
+  //   {
+  //     postId: 1,
+  //     name: "ふるもっちゃん",
+  //     userId: 1,
+  //     post: "あああ",
+  //     img: "/image/userIcon/user3.jpeg",
+  //   },
+  //   {
+  //     postId: 2,
+  //     name: "佐藤花子",
+  //     userId: 500,
+  //     post: "あああああああああああいいいいいいいいううううううううううえええええええええええええおおおおおおおおおおおおおおおうひうひひょひょほほほほほほほほほほほほほ",
+  //     img: "/image/userIcon/user1.jpeg",
+  //   },
+  //   {
+  //     postId: 3,
+  //     name: "ランチックス",
+  //     userId: 600,
+  //     post: "ううう",
+  //     img: "/usakus.jpg",
+  //   },
+  // ]);
 
   //ログインID
   const loginId = useContext(loginIdContext);
@@ -90,17 +91,17 @@ const Timeline: NextPage = () => {
     router.push(`/timeline/${postId}`);
   };
 
-  // const { data: timelineData, error } = useSWR<Timeline>(
-  //   `${JAVA_API_URL}/timeline`,
-  // );
+  const { data, error } = useSWR(`${JAVA_API_URL}/timeline/${loginId}`);
+  // タイムライン情報をdataから抽出
+  const timelineData: Timeline = data.TimelineList;
 
-  // if (!error && !timelineData) {
-  //   return <div>Loading...</div>;
-  // }
+  if (!error && !data) {
+    return <div>Loading...</div>;
+  }
 
-  // if (error) {
-  //   return <div>データを取得できませんでした</div>;
-  // }
+  if (error) {
+    return <div>データを取得できませんでした</div>;
+  }
 
   //HTMLコーナー
   return (
@@ -119,7 +120,7 @@ const Timeline: NextPage = () => {
         />
       </div>
 
-      {data.map((value, key) => (
+      {timelineData.map((value, key) => (
         <div style={style} key={key} className="flex">
           <div
             className="rounded-full w-1/5 text-center pt-5 cursor-pointer hover:opacity-50"
@@ -128,7 +129,7 @@ const Timeline: NextPage = () => {
             }}
           >
             <Image
-              src={value.img}
+              src={`/image/userIcon/${value.userPhotoPath}`}
               width={100}
               height={100}
               alt="icon"
@@ -139,23 +140,23 @@ const Timeline: NextPage = () => {
             <div
               className="cursor-pointer hover:opacity-50"
               onClick={() => {
-                goDetailPage(value.postId);
+                goDetailPage(value.id);
               }}
             >
               <div className="text-xl font-extrabold pt-3 pb-3">
-                {value.name}
+                {value.accountName}
               </div>
-              <div className="pt-5 pb-5 pl-5 w-8/12">{value.post}</div>
+              <div className="pt-5 pb-5 pl-5 w-8/12">{value.sentence}</div>
             </div>
 
             <div className="w-full text-right py-3">
               <CommentIcon
-                commentCount={300}
-                postId={value.postId}
+                commentCount={value.commentCount}
+                postId={value.id}
                 target="timeline"
               />
-              <FavoBtn postId={value.postId} favoCount={30} />
-              {loginId == value.userId && <TrashBtn postId={value.postId} />}
+              <FavoBtn postId={value.id} favoCount={value.likeCount} />
+              {loginId == value.userId && <TrashBtn postId={value.id} />}
             </div>
           </div>
         </div>

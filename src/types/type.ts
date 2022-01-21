@@ -54,3 +54,19 @@ export type UserPreInfo = {
 export type UpdatePassInfo = {
   email: string;
 };
+
+export type Timeline = [
+  {
+    id: number;
+    userId: number;
+    accountName: string;
+    userPhotoPath: string;
+    sentence: string;
+    likeCount: number;
+    commentCount: number;
+    updatedTime: string;
+    postedTime: string;
+    deleted: boolean;
+    myLike: boolean;
+  },
+];
