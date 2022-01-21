@@ -38,7 +38,8 @@ const Test: NextPage = () => {
   }, []);
 
   /**
-   * 郵便番号検索API
+   * 郵便番号検索API.
+   * @remarks addressに住所が入っている
    */
   //郵便番号入力用
   const [zipcode, setZipcode] = useState("");
