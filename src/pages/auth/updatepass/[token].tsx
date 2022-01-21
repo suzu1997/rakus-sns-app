@@ -6,8 +6,8 @@ import { TextInput } from "../../../components/Form/TextInput";
 import { Button } from "../../../components/Button/Button";
 import { useRouter } from "next/router";
 import { JAVA_API_URL } from "../../../utils/const";
-import useSWR from "swr";
-import { UpdatePassInfo } from "../../../types/type";
+// import useSWR from "swr";
+// import { UpdatePassInfo } from "../../../types/type";
 import axios from "axios";
 
 //バリデーションチェック
@@ -49,7 +49,8 @@ const UpdatePass: NextPage = () => {
   //ルーターリンク
   const router = useRouter();
   //URLの後ろからtoken取得
-  const passToken = Number(router.query.token);
+  const passToken = String(router.query.token);
+  console.log(passToken);
 
   //バリデーション機能を呼び出し
   const {
@@ -63,36 +64,33 @@ const UpdatePass: NextPage = () => {
   /**
    * APIで初期表示用データ取得.
    */
-  const { data: updatePassData, error } = useSWR<UpdatePassInfo>(
-    `${JAVA_API_URL}/password/${passToken}`,
-  );
 
-  if (!error && !updatePassData) {
-    return <div>Loading...</div>;
-  }
-  if (error) {
-    return <div>データを取得できませんでした</div>;
-  }
+  // const { data: payload, error } = useSWR(
+  //   `${JAVA_API_URL}/password/${passToken}`,
+  // );
+  // const updatePassData = payload?.mail;
+  // console.dir(JSON.stringify(updatePassData));
+  // console.log("ああ" + payload);
+
+  // if (!error && !updatePassData) {
+  //   return <div>Loading...</div>;
+  // }
+  // if (error) {
+  //   return <div>データを取得できませんでした</div>;
+  // }
+  // const updatePassTokenData: UpdatePassInfo = updatePassData;
 
   //送信ボタンを押したときに呼ばれる
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
     console.log(data);
 
-    const preEmail = updatePassData?.email;
-
-    //APIに送るデータ
-    const postDate = {
-      email: preEmail,
-      password: data.password,
-    };
-
     try {
       //APIに変更するユーザーのアドレスと新しいパスを送信する
-      const res = await axios.post(
-        `${JAVA_API_URL}/password/${passToken}`,
-        postDate,
-      );
+      const res = await axios.patch(`${JAVA_API_URL}/password/${passToken}`, {
+        email: data.email,
+        password: data.password,
+      });
       //パス変更に成功した場合
       if (res.data.status === "success") {
         //パスワード変更完了したら画面遷移
@@ -112,7 +110,23 @@ const UpdatePass: NextPage = () => {
           以下のフォームよりパスワードの更新をお願いします
         </div>
         <div className="flex flex-col items-center mt-5">
-          <div className="mt-3">メールアドレス:{updatePassData?.email}</div>
+          {/* {updatePassData && (
+            <div className="mt-3">
+              メールアドレス:{updatePassTokenData.email}
+            </div>
+          )} */}
+          <div className="w-3/4 sm:w-2/4 mt-3">
+            {/* メールアドレスのテキストフォーム */}
+            <TextInput
+              label="メールアドレス"
+              type="mail"
+              fullWidth={true}
+              required
+              errorMessage={errors.email?.message}
+              placeholder="メールアドレス"
+              registers={register("email")}
+            />
+          </div>
           <div className="w-3/4 sm:w-2/4 mt-3">
             {/* パスワードのテキストフォーム */}
             <TextInput
