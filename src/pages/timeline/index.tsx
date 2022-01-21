@@ -71,7 +71,7 @@ const Timeline: NextPage = () => {
   }, [loginId]);
 
   /**
-   * 古い投稿の読み込み直し.
+   * 古い投稿の読み込み直し.(未実装)
    */
   const getOldData = useCallback(async () => {
     const oldNumber = timelineData.length - 1;
@@ -87,6 +87,7 @@ const Timeline: NextPage = () => {
     }
   }, [loginId]);
 
+  //初期値エラー
   if (!error && !data) {
     return <div>Loading...</div>;
   }

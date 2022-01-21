@@ -19,7 +19,7 @@ type Props = {
   restaurantId?: number; // 店のID(レビュー投稿なら渡ってくる)。投稿の際にAPIに渡す。
   postId?: number; // タイムラインもしくはレビューのID(コメント投稿なら渡ってくる)。投稿の際にAPIに渡す
   target?: "timeline" | "reviews"; // 対象の投稿がタイムラインかレビューか(コメント投稿なら渡ってくる)
-  success?: () => void;
+  success?: () => void; //投稿完了後、自動で更新したい場合は更新のメソッドを渡す
 };
 
 /**

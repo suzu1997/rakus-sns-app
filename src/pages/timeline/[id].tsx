@@ -77,7 +77,7 @@ const TweetDetail: NextPage = () => {
   };
 
   /**
-   * APIを使用してタイムラインデータを取得.
+   * APIを使用してタイムラインデータを取得.(未実装)
    */
   // const { data, error } = useSWR(`${JAVA_API_URL}/timeline/${}`);
   // // タイムライン情報をdataから抽出

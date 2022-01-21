@@ -19,7 +19,7 @@ export const DeletePostModal: FC<Props> = memo((props) => {
   const { isOpen, closeModal, postId, type } = props;
 
   /**
-   * はいボタン押下で発動.
+   * はいボタン押下で発動.(未実装)
    */
   const deletePost = useCallback(async () => {
     // try {

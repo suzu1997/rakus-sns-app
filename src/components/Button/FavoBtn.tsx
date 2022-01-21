@@ -3,6 +3,7 @@ import { FC, memo, useCallback, useContext } from "react";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { JAVA_API_URL } from "../../utils/const";
 
+//一旦?にしているけれど必須にしていいかも
 type Props = {
   postId?: number; //投稿ID
   favoCount?: number; //お気に入り数
@@ -11,7 +12,7 @@ type Props = {
 };
 
 /**
- * つぶやきをお気に入りに登録するボタン.
+ * つぶやきをお気に入りに登録するボタン.(500エラー中)
  */
 export const FavoBtn: FC<Props> = memo((props) => {
   //ログインID
@@ -21,7 +22,7 @@ export const FavoBtn: FC<Props> = memo((props) => {
   const { postId = -1, favoCount, isFavo, type } = props;
 
   /**
-   * はいボタン押下で発動.
+   * はいボタン押下でいいね発動.
    */
   const favo = useCallback(async () => {
     //送信データ

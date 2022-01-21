@@ -55,6 +55,7 @@ export type UpdatePassInfo = {
   email: string;
 };
 
+//タイムライン
 export type Timeline = [
   {
     id: number;
@@ -71,6 +72,7 @@ export type Timeline = [
   },
 ];
 
+//つぶやき詳細画面
 export type TimelineDtail = {
   id: number;
   userId: number;
