@@ -70,6 +70,23 @@ const Timeline: NextPage = () => {
     }
   }, [loginId]);
 
+  /**
+   * 古い投稿の読み込み直し.
+   */
+  const getOldData = useCallback(async () => {
+    const oldNumber = timelineData.length - 1;
+    const oldId = timelineData?.[oldNumber].id;
+    try {
+      const res = await axios.get(`${JAVA_API_URL}/timeline/old/${oldId}`);
+      console.dir(JSON.stringify(res));
+      // タイムライン情報をdataから抽出
+      //useStateで囲むと更新されるけど、リロード問題が起きる
+      // setTimelineData(+res);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [loginId]);
+
   if (!error && !data) {
     return <div>Loading...</div>;
   }
@@ -141,9 +158,7 @@ const Timeline: NextPage = () => {
           ))}
           <div
             className="text-text-brown text-center my-5 cursor-pointer hover:text-basic"
-            onClick={() => {
-              alert("過去のつぶやき読み込み");
-            }}
+            onClick={getOldData}
           >
             過去の投稿を見る…
           </div>
