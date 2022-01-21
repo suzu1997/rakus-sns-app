@@ -28,11 +28,9 @@ export const LoginChecker: FC<Props> = memo((props) => {
     const path = router.pathname;
 
     //仮登録、登録、ログインページは除外
-    if (
-      path != "/auth/presingup" &&
-      path != "/auth/singup" &&
-      path != "/auth/login"
-    ) {
+    if (!path.includes("/auth/")) {
+      console.log(`ブロック！ + ${path}`);
+
       //IDが入っていなければ/loginへ
       if (!loginId) {
         router.push("/auth/login");
