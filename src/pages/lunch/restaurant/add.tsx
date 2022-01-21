@@ -1,36 +1,25 @@
-import axios from "axios";
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-import { FC, useCallback, useState } from "react";
-import Image from "next/image";
-import { Button } from "../../../components/Button/Button";
-import { TextInput } from "../../../components/Form/TextInput";
+import { FC } from "react";
 import { useRouter } from "next/router";
-import { JAVA_API_URL } from "../../../utils/const";
-import { SelectBox } from "../../../components/Form/SelectBox";
 import { AddByHotpepper } from "../../../components/Lunch/AddByHotpepper";
-import toast from "react-hot-toast";
-import { Restaurant } from "../../../types/type";
 import { AddManuallyForm } from "../../../components/Lunch/AddManuallyForm";
 import Link from "next/link";
+
 
 const RestaurantAdd: FC = () => {
   const router = useRouter();
 
+  // URLのパラメータからホットペッパーIDを取得
   const hotpepperId = router.query.hotpepperId;
-  console.log(hotpepperId);
-
-  // 登録するお店
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [restaurant, setRestaurant] = useState<any | null>();
-
-  const [manually, setManually] = useState<boolean>(false);
 
   /**
-   * ページを初期状態に戻す.
+   * お店の登録をキャンセルする.
+   *
+   * @remarks
+   * お店検索ページに戻る。
    */
-  const clear = useCallback(() => {
-    alert("キャンセル");
-  }, []);
+  const cansel = () => {
+    router.push("/lunch/restaurant/search");
+  };
 
   return (
     <div className="flex">
@@ -41,13 +30,17 @@ const RestaurantAdd: FC = () => {
             お店を検索するページ
           </a>
         </Link>
-        {/* 表示確認用の仮置き */}
-        <AddManuallyForm clear={clear} />
-
-        {/* ホットペッパーにある店を登録する画面 */}
-        {restaurant && <AddByHotpepper restaurant={restaurant} clear={clear} />}
-        {/* 手入力で店を登録する画面 */}
-        {manually && <AddManuallyForm clear={clear} />}
+        {typeof hotpepperId === "string" ? (
+          <>
+            {/* ホットペッパーにある店を登録する画面 */}
+            <AddByHotpepper hotpepperId={hotpepperId} cansel={cansel} />
+          </>
+        ) : (
+          <>
+            {/* 手入力で店を登録する画面 */}
+            <AddManuallyForm cansel={cansel} />
+          </>
+        )}
       </div>
     </div>
   );
