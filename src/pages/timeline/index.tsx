@@ -51,6 +51,7 @@ const Timeline: NextPage = () => {
   const { data, error } = useSWR(`${JAVA_API_URL}/timeline/${loginId}`);
   // タイムライン情報をdataから抽出
   const timelineData: Timeline = data?.TimelineList;
+  const message: string = data?.message;
 
   if (!error && !data) {
     return <div>Loading...</div>;
@@ -116,6 +117,7 @@ const Timeline: NextPage = () => {
                     postId={value.id}
                     favoCount={value.likeCount}
                     isFavo={value.myLike}
+                    type={message}
                   />
                   {loginId == value.userId && <TrashBtn postId={value.id} />}
                 </div>

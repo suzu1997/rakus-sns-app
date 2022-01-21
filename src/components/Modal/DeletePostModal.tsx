@@ -8,6 +8,7 @@ type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
   closeModal: () => void; // モーダルを閉じるメソッド
   postId: number; //投稿ID
+  type?: string; //レビューかつぶやきか
 };
 
 /**
@@ -15,7 +16,7 @@ type Props = {
  * @returns 投稿削除をするためのモーダル
  */
 export const DeletePostModal: FC<Props> = memo((props) => {
-  const { isOpen, closeModal, postId } = props;
+  const { isOpen, closeModal, postId, type } = props;
 
   /**
    * はいボタン押下で発動.
