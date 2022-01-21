@@ -1,7 +1,6 @@
 // 店舗のジャンルの選択肢
 export const genreOptions = [
   { id: "G001", name: "居酒屋" },
-  { id: "G002", name: "ダイニングバー・バル" },
   { id: "G003", name: "創作料理" },
   { id: "G004", name: "和食" },
   { id: "G005", name: "洋食" },
@@ -10,8 +9,6 @@ export const genreOptions = [
   { id: "G008", name: "焼肉・ホルモン" },
   { id: "G009", name: "アジア・エスニック料理" },
   { id: "G010", name: "各国料理" },
-  { id: "G011", name: "カラオケ・パーティ" },
-  { id: "G012", name: "バー・カクテル" },
   { id: "G013", name: "ラーメン" },
   { id: "G014", name: "カフェ・スイーツ" },
   { id: "G015", name: "その他グルメ" },

@@ -1,4 +1,4 @@
-import { FC, useCallback, useState } from "react";
+import { FC, useState } from "react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 import { genreOptions, typeOptions } from "../../utils/options";
 
 type Props = {
-  clear: () => void;
+  cansel: () => void;
 };
 
 //バリデーションチェック
@@ -30,11 +30,13 @@ const schema = yup.object().shape({
 
 /**
  * 手入力で店を追加するフォーム.
+ *
+ * @param cansel 登録をキャンセルするためのコールバック関数
  */
 export const AddManuallyForm: FC<Props> = (props) => {
   const router = useRouter();
 
-  const { clear } = props;
+  const { cansel } = props;
 
   // バリデーション機能を呼び出し
   const {
@@ -53,7 +55,6 @@ export const AddManuallyForm: FC<Props> = (props) => {
   //登録ボタンを押した時のメソッド
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
-    console.log(data);
     try {
       const res = await axios.post(`${JAVA_API_URL}/restaurant`, {
         name: data.name,
@@ -80,10 +81,9 @@ export const AddManuallyForm: FC<Props> = (props) => {
 
   return (
     <>
-      <div className="text-3xl text-text-brown my-5 font-bold ">
+      <div className="text-xl md:text-3xl text-text-brown my-5 font-bold text-center">
         お店登録フォーム
       </div>
-
       <div className="flex flex-col gap-5">
         {/* 店名のテキストフォーム */}
         <TextInput
@@ -96,7 +96,7 @@ export const AddManuallyForm: FC<Props> = (props) => {
           registers={register("name")}
         />
         {/* ジャンルのセレクトボックス */}
-        <div className="flex gap-1">
+        <div className="flex flex-col sm:flex-row gap-3">
           <SelectBox
             label="ジャンル"
             value={genre}
@@ -139,11 +139,11 @@ export const AddManuallyForm: FC<Props> = (props) => {
           placeholder="参考URL"
           registers={register("url")}
         />
-        <div className="ml-10 mt-5 flex justify-center gap-3">
+        <div className="mt-5 flex justify-center gap-3">
           <Button label="新規登録" onClick={handleSubmit(onSubmit)} />
           <Button
             label="キャンセル"
-            onClick={clear}
+            onClick={cansel}
             backgroundColor="#f6f0ea"
             color="#622d18"
           />

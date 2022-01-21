@@ -18,6 +18,12 @@ const Hotpepper = async (req: NextApiRequest, res: NextApiResponse) => {
     url += "&name_any=" + name_any;
     url = encodeURI(url); // URLには使用できない文字をできる文字に変換する
   }
+  // クエリパラメータからホットペッパーIDを取得
+  const { hotpepperId } = req.query;
+  if (hotpepperId) {
+    url += "&id=" + hotpepperId;
+    url = encodeURI(url); // URLには使用できない文字をできる文字に変換する
+  }
 
   // fetchでホットペッパーAPIを叩く
   const response = await fetch(url);
