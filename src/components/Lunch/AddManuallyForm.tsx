@@ -1,4 +1,4 @@
-import { FC, useCallback, useState } from "react";
+import { FC, useState } from "react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 import { genreOptions, typeOptions } from "../../utils/options";
 
 type Props = {
-  clear: () => void;
+  cansel: () => void;
 };
 
 //バリデーションチェック
@@ -30,11 +30,13 @@ const schema = yup.object().shape({
 
 /**
  * 手入力で店を追加するフォーム.
+ *
+ * @param cansel 登録をキャンセルするためのコールバック関数
  */
 export const AddManuallyForm: FC<Props> = (props) => {
   const router = useRouter();
 
-  const { clear } = props;
+  const { cansel } = props;
 
   // バリデーション機能を呼び出し
   const {
@@ -143,7 +145,7 @@ export const AddManuallyForm: FC<Props> = (props) => {
           <Button label="新規登録" onClick={handleSubmit(onSubmit)} />
           <Button
             label="キャンセル"
-            onClick={clear}
+            onClick={cansel}
             backgroundColor="#f6f0ea"
             color="#622d18"
           />
