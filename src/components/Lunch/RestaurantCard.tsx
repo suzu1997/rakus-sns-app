@@ -5,7 +5,7 @@ import { Restaurant } from "../../types/type";
 import { Star } from "./Star";
 
 export const RestaurantCard: FC<Restaurant> = memo((props) => {
-  const { id, name, genreValue, star, type, photoPath } = props;
+  const { id, name, genreValue, star, type, photoPath, hotpepperId } = props;
   const router = useRouter();
 
   /**
@@ -47,7 +47,16 @@ export const RestaurantCard: FC<Restaurant> = memo((props) => {
         )}
       </div>
       <div className="mx-6 mt-3">
-        <Image src={`/${photoPath}`} width={300} height={200} alt="icon" />
+        <Image
+          src={
+            hotpepperId === null
+              ? `/image/foodPhoto/${photoPath}`
+              : `${photoPath}`
+          }
+          width={300}
+          height={200}
+          alt="icon"
+        />
       </div>
     </div>
   );

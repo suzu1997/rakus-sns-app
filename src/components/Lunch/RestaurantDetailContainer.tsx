@@ -62,7 +62,11 @@ export const RestaurantDetailContainer: FC = memo(() => {
       <div className="mt-5 sm:mt-10">
         <div>
           <Image
-            src={`/${restaurant.photoPath}`}
+            src={
+              restaurant.hotpepperId === null
+                ? `/image/foodPhoto/${restaurant.photoPath}`
+                : `${restaurant.photoPath}`
+            }
             width={300}
             height={200}
             alt="restaurant photo"
