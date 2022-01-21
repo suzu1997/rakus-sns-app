@@ -19,6 +19,7 @@ type Props = {
   restaurantId?: number; // 店のID(レビュー投稿なら渡ってくる)。投稿の際にAPIに渡す。
   postId?: number; // タイムラインもしくはレビューのID(コメント投稿なら渡ってくる)。投稿の際にAPIに渡す
   target?: "timeline" | "reviews"; // 対象の投稿がタイムラインかレビューか(コメント投稿なら渡ってくる)
+  success?: () => void;
 };
 
 /**
@@ -32,6 +33,7 @@ export const PostModal: FC<Props> = memo((props) => {
     restaurantId = 0,
     postId = 0,
     target,
+    success,
   } = props;
 
   // ログイン中のユーザーidを取得
@@ -101,6 +103,9 @@ export const PostModal: FC<Props> = memo((props) => {
           sentence: post,
         });
         toast.success(`${title}を投稿しました\n${title}内容: ${post}`);
+        if (success) {
+          success();
+        }
       } catch (e) {
         toast.error(`${title}の投稿に失敗しました`);
       }
