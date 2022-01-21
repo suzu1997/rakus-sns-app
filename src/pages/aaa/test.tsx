@@ -17,9 +17,15 @@ const Test: NextPage = () => {
    */
   const latitudeLongitude = useCallback(async () => {
     const url = "https://msearch.gsi.go.jp/address-search/AddressSearch?q=";
-    //この変数に住所が入るようにする
-    // const address = "北海道札幌市北区北６条西４丁目";
-    const address = "東京都中央区八重洲１丁目４丁目２２番地";
+
+    //この変数に住所が入るようにする(下記の表記方法全て取得可能でした)
+    // const address = "東京都中央区八重洲１丁目４丁目２２番地";//全角
+    // const address = "東京都中央区八重洲1-4-22";//半角+ハイフン
+    // const address = "東京都中央区八重洲１-４-２２";//全角+ハイフン
+    // const address = "東京都中央区八重洲1丁目4丁目22番地"; //全角+ハイフン
+    const address =
+      "東京都中央区八重洲1丁目4丁目22番地モリタニビルディング83 １Ｆ"; //ビル名とかも入れる
+
     const res = await axios.get(`${url}${address}`);
     //緯度
     const latitude = String(res.data[0].geometry.coordinates[1]);
@@ -56,7 +62,6 @@ const Test: NextPage = () => {
       {latitudeData != "" && longitudeData != "" && (
         <GoogleMap latitude={latitudeData} longitude={longitudeData} />
       )}
-      <GoogleMap latitude="35.6816166" longitude="139.7676585" />
 
       <p className="font-mono text-red-700">テスト</p>
       <Link href="/">
