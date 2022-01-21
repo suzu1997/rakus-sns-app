@@ -108,7 +108,6 @@ const User: NextPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-
   /**
    * APIで初期表示用データ取得.
    */
