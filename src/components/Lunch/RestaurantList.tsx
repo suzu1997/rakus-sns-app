@@ -5,22 +5,35 @@ import { JAVA_API_URL } from "../../utils/const";
 import { RestaurantCard } from "./RestaurantCard";
 
 export const RestaurantList: FC = memo(() => {
-  const { data: restaurantList, error } = useSWR<Array<Restaurant>>(
-    `${JAVA_API_URL}/restaurants`,
-  );
-  
+  const { data: restaurantList, error } = useSWR(`${JAVA_API_URL}/restaurant`);
+
   if (!error && !restaurantList) {
-    return <div className="w-full">Loading...</div>;
-  }
-  
-  if (error) {
-    return <div className="w-full">データが取得できませんでした</div>;
+    return (
+      <div className="flex justify-center pt-10 w-full">
+        <div className="animate-spin h-8 w-8 bg-basic rounded-xl"></div>
+      </div>
+    );
   }
 
+  if (error) {
+    return (
+      <div className="w-full p-10 text-center">
+        データが取得できませんでした
+      </div>
+    );
+  }
+
+  if (restaurantList.message === "レストランが1件も登録されていません") {
+    return (
+      <div className="w-full p-10 text-center">
+        お店が1件も登録されていません🙇‍♀️
+      </div>
+    );
+  }
   return (
     <div className="w-full">
-      {restaurantList?.map((restaurant) => (
-        <div key={restaurant.restaurantId}>
+      {restaurantList?.restaurant.map((restaurant: Restaurant) => (
+        <div key={restaurant.id}>
           <RestaurantCard {...restaurant} />
         </div>
       ))}
