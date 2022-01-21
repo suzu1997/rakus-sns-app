@@ -112,7 +112,11 @@ const Timeline: NextPage = () => {
                     postId={value.id}
                     target="timeline"
                   />
-                  <FavoBtn postId={value.id} favoCount={value.likeCount} />
+                  <FavoBtn
+                    postId={value.id}
+                    favoCount={value.likeCount}
+                    isFavo={value.myLike}
+                  />
                   {loginId == value.userId && <TrashBtn postId={value.id} />}
                 </div>
               </div>

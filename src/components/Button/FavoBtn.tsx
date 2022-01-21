@@ -1,54 +1,39 @@
-import { FC, memo, useCallback, useState } from "react";
+import axios from "axios";
+import { FC, memo, useCallback, useContext } from "react";
+import { loginIdContext } from "../../providers/LoginIdProvider";
+import { JAVA_API_URL } from "../../utils/const";
 
 type Props = {
   postId?: number; //投稿ID
   favoCount?: number; //お気に入り数
+  isFavo?: boolean; //お気に入りしているかどうか
 };
 
 /**
  * つぶやきをお気に入りに登録するボタン.
  */
 export const FavoBtn: FC<Props> = memo((props) => {
-  //お気に入り(いいね)対象の投稿番号
-  const { postId = 0, favoCount } = props;
+  //ログインID
+  const loginId = useContext(loginIdContext);
 
-  //いいねしてるか、いないか
-  const [isFavo, setIsFavo] = useState(false);
+  //props
+  const { postId = -1, favoCount, isFavo } = props;
 
   /**
    * はいボタン押下で発動.
    */
   const favo = useCallback(async () => {
-    //いいねされていない場合
-    if (!isFavo) {
-      alert("投稿ID" + postId + "をいいねしました");
-      setIsFavo(true);
-      // try {
-      //   const res = await axios.post(url);
-      //   console.log(JSON.stringify(res.data));
-      //   if (res.data.status === "success") {
-      //     console.log(res.data.status);
-      //   } else {
-      //     alert(res.data.message);
-      //   }
-      // } catch (error) {
-      //   console.log(error);
-      // }
-      //既にいいね済の場合
-    } else {
-      setIsFavo(false);
-      // try {
-      //   const res = await axios.post(url);
-      //   console.log(JSON.stringify(res.data));
-      //   if (res.data.status === "success") {
-      //     console.log(res.data.status);
-      //   } else {
-      //     alert(res.data.message);
-      //   }
-      // } catch (error) {
-      //   console.log(error);
-      // }
+    const postData = {
+      userId: Number(loginId), //ログインユーザID
+      timelineId: Number(postId), //投稿ID
+    };
+
+    try {
+      const res = await axios.post(`${JAVA_API_URL}/timeline/like`, postData);
+    } catch (error) {
+      console.log(error);
     }
+
     //[]内入れないと変更が反映しないため挿入
   }, [isFavo, postId]);
 
