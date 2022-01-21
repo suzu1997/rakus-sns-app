@@ -61,7 +61,7 @@ const PreSignUp: NextPage = () => {
   const onSubmit = async (data: any) => {
     //APIに送るデータ
     const postDate = {
-      name: data.firstName + data.lastName,
+      name: data.firstName + " " + data.lastName,
       email: data.email + selectValue,
     };
     try {
