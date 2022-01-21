@@ -6,6 +6,7 @@ import { TextInput } from "../../../components/Form/TextInput";
 import { useRouter } from "next/router";
 import { Restaurant } from "../../../types/type";
 import Link from "next/link";
+import { SubHeader } from "../../../components/Layout/SubHeader";
 
 const RestaurantSearch: FC = () => {
   const router = useRouter();
@@ -98,86 +99,77 @@ const RestaurantSearch: FC = () => {
 
   return (
     <div className="flex">
-      <div className="p-10">
-        <h1 className="text-3xl">お店を検索するページ</h1>
-        <Link href="/lunch/restaurant/add">
-          <a className="underline hover:text-blue-800 mt-3">
-            お店を追加するページ
-          </a>
-        </Link>
-        <div className="flex gap-5 mt-5 mb-5">
-          <TextInput
-            label={"店名"}
-            value={searchName}
-            type={"text"}
-            fullWidth={false}
-            required={true}
-            onChange={inputRestaurantName}
-          />
-          <Button label="店名で検索(1km以内)" onClick={searchByNameIn2km} />
-        </div>
-        {/* データベースに登録済みの店をオートコンプリートに表示する部分 */}
-        {restautrantsInDB.length > 0 && (
-          <>
-            <p>もしかしてこのお店？</p>
-            <div>データベースに登録済みの店表示</div>
-            <ul>
-              {restautrantsInDB.map((restautrant) => {
-                return (
-                  <div key={restautrant.id} className="mb-3">
-                    <li className="list-disc">
-                      {restautrant.name}
-                      <Button
-                        label="選択"
-                        onClick={() => selectRestaurant(restautrant)}
-                        size="xs"
-                      />
-                    </li>
-                  </div>
-                );
-              })}
-            </ul>
-          </>
-        )}
-
-        {/* ホットペッパー検索結果表示 */}
-        {hasClickedSearch &&
-          (hotpeppers.length > 0 ? (
-            <ul>
-              {hotpeppers.map((hotpepper) => {
-                return (
-                  <div key={hotpepper.id} className="mb-3">
-                    <li className="list-disc">
-                      {hotpepper.name}({hotpepper.name_kana})
-                      <Button
-                        label="選択"
-                        onClick={() => selectRestaurant(hotpepper)}
-                        size="xs"
-                      />
-                    </li>
-                  </div>
-                );
-              })}
-            </ul>
-          ) : (
+      <div className="flex-1">
+        <SubHeader title={"お店検索"} />
+        <div className="w-5/6 mx-auto py-5">
+          <div className="flex gap-5 mt-5 mb-5 items-center">
+            <TextInput
+              label={"店名"}
+              value={searchName}
+              type={"text"}
+              fullWidth={false}
+              required={true}
+              onChange={inputRestaurantName}
+            />
+            <Button label="店名で検索" onClick={searchByNameIn2km} />
+          </div>
+          {/* データベースに登録済みの店をオートコンプリートに表示する部分 */}
+          {restautrantsInDB.length > 0 && (
             <>
-              <div className="mb-3">
-                検索結果が見つかりませんでした。手入力でお店を登録しますか？
-              </div>
-              <div className="flex gap-2">
-                <Button
-                  label="手入力で登録"
-                  onClick={() => router.push("/lunch/restaurant/add")}
-                />
-                {/* <Button
-                backgroundColor="#f6f0ea"
-                color="#622d18"
-                label="再検索"
-                onClick={() => alert("クリア")}
-              /> */}
-              </div>
+              <p>もしかしてこのお店？</p>
+              <div>データベースに登録済みの店表示</div>
+              <ul>
+                {restautrantsInDB.map((restautrant) => {
+                  return (
+                    <div key={restautrant.id} className="mb-3">
+                      <li className="list-disc">
+                        {restautrant.name}
+                        <Button
+                          label="選択"
+                          onClick={() => selectRestaurant(restautrant)}
+                          size="xs"
+                        />
+                      </li>
+                    </div>
+                  );
+                })}
+              </ul>
             </>
-          ))}
+          )}
+
+          {/* ホットペッパー検索結果表示 */}
+          {hasClickedSearch &&
+            (hotpeppers.length > 0 ? (
+              <ul>
+                {hotpeppers.map((hotpepper) => {
+                  return (
+                    <div key={hotpepper.id} className="mb-3">
+                      <li className="list-disc">
+                        {hotpepper.name}({hotpepper.name_kana})
+                        <Button
+                          label="選択"
+                          onClick={() => selectRestaurant(hotpepper)}
+                          size="xs"
+                        />
+                      </li>
+                    </div>
+                  );
+                })}
+              </ul>
+            ) : (
+              <>
+                <div className="mb-3">
+                  検索結果が見つかりませんでした。手入力でお店を登録しますか？
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    label="手入力で登録"
+                    onClick={() => router.push("/lunch/restaurant/add")}
+                  />
+                </div>
+              </>
+            ))}
+        </div>
       </div>
     </div>
   );

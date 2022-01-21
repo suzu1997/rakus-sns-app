@@ -82,10 +82,9 @@ export const AddManuallyForm: FC<Props> = (props) => {
 
   return (
     <>
-      <div className="text-3xl text-text-brown my-5 font-bold ">
+      <div className="text-xl md:text-3xl text-text-brown my-5 font-bold text-center">
         お店登録フォーム
       </div>
-
       <div className="flex flex-col gap-5">
         {/* 店名のテキストフォーム */}
         <TextInput
@@ -98,7 +97,7 @@ export const AddManuallyForm: FC<Props> = (props) => {
           registers={register("name")}
         />
         {/* ジャンルのセレクトボックス */}
-        <div className="flex gap-1">
+        <div className="flex flex-col sm:flex-row gap-3">
           <SelectBox
             label="ジャンル"
             value={genre}
@@ -141,7 +140,7 @@ export const AddManuallyForm: FC<Props> = (props) => {
           placeholder="参考URL"
           registers={register("url")}
         />
-        <div className="ml-10 mt-5 flex justify-center gap-3">
+        <div className="mt-5 flex justify-center gap-3">
           <Button label="新規登録" onClick={handleSubmit(onSubmit)} />
           <Button
             label="キャンセル"
