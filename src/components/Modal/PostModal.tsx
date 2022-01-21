@@ -9,6 +9,8 @@ import { TextArea } from "../Form/TextArea";
 import { SelectBox } from "../Form/SelectBox";
 import { JAVA_API_URL } from "../../utils/const";
 import { loginIdContext } from "../../providers/LoginIdProvider";
+import useSWR from "swr";
+import { UserInfo } from "../../types/type";
 
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
@@ -94,11 +96,10 @@ export const PostModal: FC<Props> = memo((props) => {
     }
     if (title === "つぶやき") {
       try {
-        //つぶやき投稿
-        // await axios.post(`${JAVA_API_URL}/timeline`, {
-        //   userId,
-        //   post,
-        // });
+        await axios.post(`${JAVA_API_URL}/timeline`, {
+          userId: userId,
+          sentence: post,
+        });
         toast.success(`${title}を投稿しました\n${title}内容: ${post}`);
       } catch (e) {
         toast.error(`${title}の投稿に失敗しました`);
@@ -131,6 +132,21 @@ export const PostModal: FC<Props> = memo((props) => {
   useEffect(() => {
     setPostLength(140 - post.length);
   }, [post.length]);
+
+  /**
+   * APIを使用して画像データ取得.
+   */
+  const { data, error } = useSWR(`${JAVA_API_URL}/user/${userId}`);
+  // 個人情報をdataから抽出
+  const userPhoto = data.user.userPhotoPath;
+
+  if (!error && !data) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>データを取得できませんでした</div>;
+  }
 
   return (
     <>
@@ -198,7 +214,7 @@ export const PostModal: FC<Props> = memo((props) => {
                   <div className="flex flex-col sm:flex-row mt-5">
                     <div className="ml-5">
                       <Image
-                        src="/usakus.jpg"
+                        src={`/image/userIcon/${userPhoto}`}
                         width={100}
                         height={100}
                         alt="icon"
