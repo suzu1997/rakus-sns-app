@@ -39,6 +39,8 @@ export const LoginChecker: FC<Props> = memo((props) => {
         setFlug(true);
         router.push("/timeline");
       }
+
+      setFlug(true);
     } else {
       setFlug(true);
     }
