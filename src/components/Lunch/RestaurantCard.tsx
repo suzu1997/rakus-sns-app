@@ -5,21 +5,28 @@ import { Restaurant } from "../../types/type";
 import { Star } from "./Star";
 
 export const RestaurantCard: FC<Restaurant> = memo((props) => {
-  const {
-    restaurantId,
-    restaurantName,
-    restaurantGenre,
-    restaurantStar,
-    restaurantType,
-    restaurantImg,
-  } = props;
+  const { id, name, genreValue, star, type, photoPath } = props;
   const router = useRouter();
+
+  /**
+   * タイプのidから文字列に変換する.
+   * @returns 店内かお弁当か両方か
+   */
+  const typeValue = () => {
+    if (type === 1) {
+      return "店内";
+    } else if (type === 2) {
+      return "お弁当";
+    } else if (type === 3) {
+      return "両方";
+    }
+  };
 
   /**
    * 個別の店情報ページへ遷移するメソッド.
    */
   const goRestaurantDetail = () => {
-    router.push(`/lunch/restaurant/${restaurantId}`);
+    router.push(`/lunch/restaurant/${id}`);
   };
 
   return (
@@ -29,16 +36,18 @@ export const RestaurantCard: FC<Restaurant> = memo((props) => {
     >
       <div className="relative">
         <p className="text-xl font-extrabold border-l-8 border-basic mb-5 lg:mb-10 hover:underline">
-          {restaurantName}
+          {name}
         </p>
-        <div className="xl:ml-10">ジャンル: {restaurantGenre}</div>
-        <div className="xl:ml-10">タイプ: {restaurantType}</div>
-        <div className="xl:ml-10">
-          評価(平均): <Star starCount={restaurantStar} />
-        </div>
+        <div className="xl:ml-10">ジャンル: {genreValue}</div>
+        <div className="xl:ml-10">タイプ: {typeValue()}</div>
+        {star > 0 && (
+          <div className="xl:ml-10">
+            評価(平均): <Star starCount={star} />
+          </div>
+        )}
       </div>
       <div className="mx-6 mt-3">
-        <Image src={restaurantImg} width={300} height={200} alt="icon" />
+        <Image src={`/${photoPath}`} width={300} height={200} alt="icon" />
       </div>
     </div>
   );

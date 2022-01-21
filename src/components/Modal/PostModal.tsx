@@ -14,7 +14,7 @@ type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
   closeModal: () => void; // モーダルを閉じるメソッド
   title: "レビュー" | "つぶやき" | "コメント"; // レビュー/つぶやき/コメント
-  restaurantId?: string; // 店のID(レビュー投稿なら渡ってくる)。投稿の際にAPIに渡す。
+  restaurantId?: number; // 店のID(レビュー投稿なら渡ってくる)。投稿の際にAPIに渡す。
   postId?: number; // タイムラインもしくはレビューのID(コメント投稿なら渡ってくる)。投稿の際にAPIに渡す
   target?: "timeline" | "reviews"; // 対象の投稿がタイムラインかレビューか(コメント投稿なら渡ってくる)
 };

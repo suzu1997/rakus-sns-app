@@ -5,7 +5,7 @@ import { SelectorIcon } from "@heroicons/react/solid";
 export type Props = {
   label?: string;
   value: string;
-  select: Dispatch<SetStateAction<string>>;
+  select: Dispatch<SetStateAction<string | any>>;
   options: Array<{ id: string; name: string }>; // 選択肢
 };
 

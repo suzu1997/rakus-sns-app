@@ -16,10 +16,11 @@ type Props = {
  * テキストエリアのコンポーネント.
  */
 export const TextArea: FC<Props> = memo((props) => {
-  const { label, value, rows, cols, placeholder, onChange, registers } = props;
+  const { label, value, rows, cols, placeholder, onChange, registers, errorMessage } = props;
 
   return (
     <div className="flex flex-col">
+      <div className="ml-3 text-red-600">{errorMessage}</div>
       {label && <label htmlFor={label}>{label}</label>}
       <textarea
         id={label}
