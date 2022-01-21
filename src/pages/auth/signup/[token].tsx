@@ -74,14 +74,13 @@ const SignUp: NextPage = () => {
   const router = useRouter();
 
   //URLの後ろからtoken取得
-  const userToken = Number(router.query.token);
+  const userToken = String(router.query.token);
 
   /**
    * APIで初期表示用データ取得.
    */
-  const { data: userPreData, error } = useSWR<UserPreInfo>(
-    `${JAVA_API_URL}/mail/${userToken}`,
-  );
+  const { data: payload, error } = useSWR(`${JAVA_API_URL}/mail/${userToken}`);
+  const userPreData = payload?.mail;
 
   if (!error && !userPreData) {
     return <div>Loading...</div>;
@@ -89,6 +88,7 @@ const SignUp: NextPage = () => {
   if (error) {
     return <div>データを取得できませんでした</div>;
   }
+  const userPreTokenData: UserPreInfo = userPreData;
 
   //登録ボタンを押した時に呼ばれる
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -98,8 +98,8 @@ const SignUp: NextPage = () => {
     const birthDay = String(format(data.birthDay, "yyyy-MM-dd"));
 
     //仮登録情報の名前とアドレスをこれでAPI送信できるのか??
-    const preName = userPreData?.name;
-    const preEmail = userPreData?.email;
+    const preName = userPreTokenData.name;
+    const preEmail = userPreTokenData.email;
 
     //APIに送るデータ
     const postDate = {
@@ -117,6 +117,7 @@ const SignUp: NextPage = () => {
       const res = await axios.post(`${JAVA_API_URL}/signup`, postDate);
       //本登録に成功した場合
       if (res.data.status === "success") {
+        console.dir(JSON.stringify(postDate));
         //会員登録に成功したら登録完了画面に遷移する;
         router.push("/auth/compsignup");
       } else {
@@ -140,8 +141,8 @@ const SignUp: NextPage = () => {
         {userPreData && (
           <div className="flex flex-col items-center mt-10 mr-3 ml-3">
             {/* トークンから名前とアドレス情報を取得 */}
-            <div className="text-xl mt-3">名前:{userPreData.name}</div>
-            <div className="mt-3">メールアドレス:{userPreData.email}</div>
+            <div className="text-xl mt-3">名前:{userPreTokenData.name}</div>
+            <div className="mt-3">メールアドレス:{userPreTokenData.email}</div>
             <div className="w-3/4 mt-3">
               {/* アカウント名のテキストフォーム */}
               <TextInput
