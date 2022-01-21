@@ -70,3 +70,17 @@ export type Timeline = [
     myLike: boolean;
   },
 ];
+
+export type TimelineDtail = {
+  id: number;
+  userId: number;
+  accountName: string;
+  userPhotoPath: string;
+  sentence: string;
+  likeCount: number;
+  commentCount: number;
+  updatedTime: string;
+  postedTime: string;
+  deleted: boolean;
+  myLike: boolean;
+};

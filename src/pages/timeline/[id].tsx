@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Button } from "../../components/Button/Button";
 import { CommentIcon } from "../../components/Button/CommentIcon";
 import { FavoBtn } from "../../components/Button/FavoBtn";
@@ -10,6 +10,8 @@ import { SubHeader } from "../../components/Layout/SubHeader";
 import Image from "next/image";
 import useSWR from "swr";
 import { JAVA_API_URL } from "../../utils/const";
+import { Timeline } from "../../types/type";
+import { loginIdContext } from "../../providers/LoginIdProvider";
 
 /**
  * つぶやき詳細画面.
@@ -50,6 +52,9 @@ const TweetDetail: NextPage = () => {
     ],
   });
 
+  //ログインID
+  const loginId = useContext(loginIdContext);
+
   const style = {
     borderBottom: "solid 1px black",
   };
@@ -71,10 +76,12 @@ const TweetDetail: NextPage = () => {
     router.push(`/user/${userId}`);
   };
 
-  const loginUserId = Number(router.query.id);
-  // const { data: timelineData, error } = useSWR<TimelineDetail>(
-  //   `${JAVA_API_URL}/timeline/${loginUserId}`,
-  // );
+  /**
+   * APIを使用してタイムラインデータを取得.
+   */
+  // const { data, error } = useSWR(`${JAVA_API_URL}/timeline/${}`);
+  // // タイムライン情報をdataから抽出
+  // const timelineData: Timeline = data?.TimelineList;
 
   // if (!error && !timelineData) {
   //   return <div>Loading...</div>;
@@ -127,9 +134,7 @@ const TweetDetail: NextPage = () => {
                   target="timeline"
                 />
                 <FavoBtn postId={data.postId} favoCount={30} />
-                {loginUserId == data.userId && (
-                  <TrashBtn postId={data.postId} />
-                )}
+                {loginId == data.userId && <TrashBtn postId={data.postId} />}
               </div>
             </div>
           </div>
@@ -156,9 +161,7 @@ const TweetDetail: NextPage = () => {
               <div className="pt-5 pb-5 pl-5 w-8/12">{value.tweet}</div>
               <div className="w-full text-right py-3 pr-5">
                 <FavoBtn postId={value.postId} favoCount={30} />
-                {loginUserId == value.userId && (
-                  <TrashBtn postId={value.postId} />
-                )}
+                {loginId == value.userId && <TrashBtn postId={value.postId} />}
               </div>
             </div>
           </div>
