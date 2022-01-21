@@ -1,6 +1,6 @@
 import Image from "next/image";
 import type { NextPage } from "next";
-import { useContext } from "react";
+import { useCallback, useContext, useState } from "react";
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { Button } from "../../components/Button/Button";
 import { CommentIcon } from "../../components/Button/CommentIcon";
@@ -13,6 +13,7 @@ import useSWR from "swr";
 import { JAVA_API_URL } from "../../utils/const";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { Timeline } from "../../types/type";
+import axios from "axios";
 
 /**
  * タイムラインページ.
@@ -50,8 +51,24 @@ const Timeline: NextPage = () => {
    */
   const { data, error } = useSWR(`${JAVA_API_URL}/timeline/${loginId}`);
   // タイムライン情報をdataから抽出
-  const timelineData: Timeline = data?.TimelineList;
+  const [timelineData, setTimelineData] = useState<Timeline>(
+    data?.TimelineList,
+  );
   const message: string = data?.message;
+
+  /**
+   * 投稿の読み込み直し.
+   */
+  const getNewData = useCallback(async () => {
+    try {
+      const res = await axios.get(`${JAVA_API_URL}/timeline/${loginId}`);
+      // タイムライン情報をdataから抽出
+      //useStateで囲むと更新されるけど、リロード問題が起きる
+      setTimelineData(res.data.TimelineList);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [loginId]);
 
   if (!error && !data) {
     return <div>Loading...</div>;
@@ -73,9 +90,7 @@ const Timeline: NextPage = () => {
             <Button
               label="新しいつぶやきを読み込む"
               size="lg"
-              onClick={() => {
-                alert("新しいつぶやき読み込み");
-              }}
+              onClick={getNewData}
             />
           </div>
           {timelineData.map((value, key) => (
