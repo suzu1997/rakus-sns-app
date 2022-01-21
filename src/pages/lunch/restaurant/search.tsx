@@ -1,16 +1,10 @@
 import axios from "axios";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 import { FC, useCallback, useState } from "react";
-import Image from "next/image";
 import { Button } from "../../../components/Button/Button";
 import { TextInput } from "../../../components/Form/TextInput";
 import { useRouter } from "next/router";
-import { JAVA_API_URL } from "../../../utils/const";
-import { SelectBox } from "../../../components/Form/SelectBox";
-import { AddByHotpepper } from "../../../components/Lunch/AddByHotpepper";
-import toast from "react-hot-toast";
 import { Restaurant } from "../../../types/type";
-import { AddManuallyForm } from "../../../components/Lunch/AddManuallyForm";
 import Link from "next/link";
 
 const RestaurantSearch: FC = () => {
@@ -30,12 +24,6 @@ const RestaurantSearch: FC = () => {
   // 検索ボタンが押されたかどうか
   const [hasClickedSearch, setHasClickedSearch] = useState<boolean>(false);
 
-  // 登録するお店
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [restaurant, setRestaurant] = useState<any | null>();
-
-  const [manually, setManually] = useState<boolean>(false);
-
   /**
    * 検索窓のonChangeイベント発動時に実行するメソッド.
    *
@@ -50,7 +38,7 @@ const RestaurantSearch: FC = () => {
 
       // setRestaurantsInDB(res.data.restaurants);
     },
-    [searchName],
+    [setSearchName],
   );
 
   /**
@@ -94,11 +82,9 @@ const RestaurantSearch: FC = () => {
       //   return;
       // }
 
-      alert("選択");
-      setRestaurant(hotpepper);
       router.push(`/lunch/restaurant/add?hotpepperId=${hotpepper.id}`);
     },
-    [setRestaurant, router],
+    [router],
   );
 
   /**
@@ -107,9 +93,7 @@ const RestaurantSearch: FC = () => {
   const clear = useCallback(() => {
     setSearchName("");
     setHotpeppers([]);
-    setRestaurant(null);
     setHasClickedSearch(false);
-    setManually(false);
   }, []);
 
   return (
