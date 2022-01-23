@@ -15,6 +15,7 @@ import axios from "axios";
 import { format } from "date-fns";
 import { JAVA_API_URL } from "../../utils/const";
 import useSWR from "swr";
+import toast from "react-hot-toast";
 
 //バリデーションチェック
 const schema = yup.object().shape({
@@ -136,22 +137,21 @@ const Edit: NextPage = () => {
 
     console.dir("送るデータ" + JSON.stringify(postData));
 
-    // try {
-    //   const res = await axios.post(
-    //     `${JAVA_API_URL}/user/edit/${loginId}`,
-    //     postData,
-    //   );
-    //   if (res.data.status === "success") {
-    //     console.log(res.data.status);
-    //     alert("更新しました");
-    //     //更新完了でユーザ情報画面に戻る
-    //     router.push(`/user/${loginId}`);
-    //   } else {
-    //     alert(res.data.message);
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      const res = await axios.patch(
+        `${JAVA_API_URL}/user/edit/${loginId}`,
+        postData,
+      );
+      if (res.data.status === "success") {
+        toast.success("更新しました");
+        //更新完了でユーザ情報画面に戻る
+        router.push(`/user/${loginId}`);
+      } else {
+        toast.error("エラー" + res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   //パスワード用モーダル開閉
