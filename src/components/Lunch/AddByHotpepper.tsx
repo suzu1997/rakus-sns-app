@@ -89,7 +89,7 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
   const restaurant = data.shops[0];
 
   return (
-    <div>
+    <>
       <div className="text-md md:text-xl text-text-brown my-5 font-bold text-center">
         未登録のお店の為、タイプを選択の上、新規登録をお願いします。
       </div>
@@ -132,6 +132,6 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
           color="#622d18"
         />
       </div>
-    </div>
+    </>
   );
 });
