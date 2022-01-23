@@ -75,6 +75,9 @@ export const RestaurantDetailContainer: FC = memo(() => {
         {restaurant.description && (
           <div className="mt-10">{restaurant.description}</div>
         )}
+        {restaurant.smoking && (
+          <div className="mt-10">禁煙席: {restaurant.smoking}</div>
+        )}
       </div>
       <p className="mt-10">住所: {restaurant.address}</p>
       {restaurant.access && (

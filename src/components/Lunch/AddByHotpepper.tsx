@@ -106,6 +106,7 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
           {restaurant.urls.pc}
         </a>
       </p>
+      <p className="ml-10 mt-2">▶︎禁煙席: {restaurant.non_smoking}</p>
       <div className="w-1/3 ml-10 mt-5">
         <SelectBox
           label="タイプ(店内・お弁当・両方)"
