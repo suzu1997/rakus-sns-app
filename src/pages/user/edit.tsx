@@ -61,6 +61,7 @@ const Edit: NextPage = () => {
    */
   const { data: payload } = useSWR(`${JAVA_API_URL}/user/${loginId}`);
   const [userData] = useState(payload?.user);
+  console.dir(JSON.stringify(userData));
 
   // 年月だけ取得したい初期値は、日付を削る必要があるため
   const defaultHireDate = userData?.hireDate;
@@ -160,12 +161,16 @@ const Edit: NextPage = () => {
           <div className="flex flex-col items-center">
             <div className="mt-3 text-3xl font-extrabold">ユーザー情報編集</div>
             <div>
-              <Image
-                src="/usakus.jpg"
-                width={200}
-                height={200}
-                alt="icon"
-              ></Image>
+              {userData ? (
+                <Image
+                  src={`/image/userIcon/${userData.userPhotoPath}`}
+                  width={200}
+                  height={200}
+                  alt="icon"
+                ></Image>
+              ) : (
+                <p className="text-center my-20">No image</p>
+              )}
             </div>
             <div
               onClick={openPasswordModal}
