@@ -6,6 +6,7 @@ export type Props = {
   type: string;
   fullWidth: boolean; // trueなら親要素のwidthの長さ
   placeholder?: string;
+  maxLength?: number;
   required: boolean;
   onChange?: ChangeEventHandler<HTMLInputElement>;
   onKeyUp?: ChangeEventHandler<HTMLInputElement>;
@@ -21,6 +22,7 @@ export const TextInput: FC<Props> = (props) => {
     type,
     fullWidth = true,
     placeholder,
+    maxLength,
     required,
     onChange,
     errorMessage,
@@ -49,6 +51,7 @@ export const TextInput: FC<Props> = (props) => {
         value={value}
         type={type}
         placeholder={placeholder}
+        maxLength={maxLength}
         required
         className={`${
           fullWidth && "w-full"
