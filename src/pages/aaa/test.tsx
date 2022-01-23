@@ -6,7 +6,7 @@ import { Button } from "../../components/Button/Button";
 import { GoogleMap } from "../../components/Lunch/GoogleMap";
 //郵便番号検索
 import { TextInput } from "../../components/Form/TextInput";
-import { useGetAddress } from "../../hooks/getAddress";
+import { useGetAddress } from "../../hooks/useGetAddress";
 
 const Test: NextPage = () => {
   //緯度経度変数
@@ -53,7 +53,7 @@ const Test: NextPage = () => {
     },
     [setZipcode],
   );
-  const { getAddress, address, errorOfAddress } = useGetAddress(zipcode);
+  const { getAddress, errorOfAddress } = useGetAddress(zipcode);
 
   return (
     <>
@@ -81,8 +81,8 @@ const Test: NextPage = () => {
         required={false}
         onChange={inputZipcode}
       />
-      <Button label="郵便番号から住所を選択" onClick={getAddress} />
-      <div>{address}</div>
+      {/* <Button label="郵便番号から住所を選択" onClick={getAddress} />
+      <div>{address}</div> */}
     </>
   );
 };
