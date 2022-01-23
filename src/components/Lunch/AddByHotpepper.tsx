@@ -90,10 +90,13 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
 
   return (
     <div>
-      <li className="list-disc">
-        {restaurant.name}({restaurant.name_kana})
-      </li>
-      <div className="ml-10 mt-5">
+      <div className="text-md md:text-xl text-text-brown my-5 font-bold text-center">
+        未登録のお店の為、タイプを選択の上、新規登録をお願いします。
+      </div>
+      <p className="text-lg lg:text-2xl font-extrabold border-l-8 border-basic mb-5">
+        {restaurant.name}
+      </p>
+      <div className="sm:ml-10 mt-5">
         <Image
           src={restaurant.photo.pc.l}
           alt="image"
@@ -101,18 +104,18 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
           height={200}
         />
       </div>
-      <p className="ml-10">▶︎ジャンル: {restaurant.genre.name}</p>
-      <p className="ml-10 mt-2">▶︎お店キャッチ: {restaurant.catch}</p>
-      <p className="ml-10 mt-2">▶︎住所: {restaurant.address}</p>
-      <p className="ml-10 mt-2">▶︎交通アクセス: {restaurant.access}</p>
-      <p className="ml-10 mt-2">
+      <p className="sm:ml-10">▶︎ジャンル: {restaurant.genre.name}</p>
+      <p className="sm:ml-10 mt-2">▶︎お店キャッチ: {restaurant.catch}</p>
+      <p className="sm:ml-10 mt-2">▶︎住所: {restaurant.address}</p>
+      <p className="sm:ml-10 mt-2">▶︎交通アクセス: {restaurant.access}</p>
+      <p className="sm:ml-10 mt-2">
         ▶︎店舗URL:{" "}
         <a href={restaurant.urls.pc} className="hover:text-blue-700">
           {restaurant.urls.pc}
         </a>
       </p>
-      <p className="ml-10 mt-2">▶︎禁煙席: {restaurant.non_smoking}</p>
-      <div className="w-1/3 ml-10 mt-5">
+      <p className="sm:ml-10 mt-2">▶︎禁煙席: {restaurant.non_smoking}</p>
+      <div className="sm:w-1/3 sm:ml-10 mt-5">
         <SelectBox
           label="タイプ(店内・お弁当・両方)"
           selectedOption={type}
@@ -120,7 +123,7 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
           options={typeOptions}
         ></SelectBox>
       </div>
-      <div className="ml-10 mt-5 flex justify-center gap-3">
+      <div className="sm:ml-10 mt-5 flex justify-center gap-3">
         <Button label="新規登録" onClick={() => register(restaurant)} />
         <Button
           label="キャンセル"
