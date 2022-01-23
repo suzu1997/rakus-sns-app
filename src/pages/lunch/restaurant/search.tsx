@@ -179,6 +179,7 @@ const RestaurantSearch: FC = () => {
           {/* ホットペッパー検索結果表示 */}
           {hasClickedSearch &&
             (hotpeppers.length > 0 ? (
+              // 検索結果があれば表示する
               <>
                 <p className="my-5 font-bold">検索結果(Hotppepperより検索)</p>
                 <ul>
@@ -209,6 +210,8 @@ const RestaurantSearch: FC = () => {
                     );
                   })}
                 </ul>
+                
+                {/* 検索結果はあるが登録したい店に当てはまらないときに対応 */}
                 <div className="my-5 font-bold">
                   お目当てのお店が見つかりませんか？手入力でお店を登録しますか？
                 </div>
@@ -226,6 +229,7 @@ const RestaurantSearch: FC = () => {
                 </div>
               </>
             ) : (
+              // 検索結果が無ければ、手入力登録に誘導
               <>
                 <div className="mb-3 font-bold">
                   検索結果が見つかりませんでした。手入力でお店を登録しますか？
