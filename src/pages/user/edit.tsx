@@ -62,7 +62,7 @@ const Edit: NextPage = () => {
   /**
    * APIで初期表示用データ取得.
    */
-  const { data: payload, error } = useSWR(`${JAVA_API_URL}/user/${loginId}`);
+  const { data: payload } = useSWR(`${JAVA_API_URL}/user/${loginId}`);
   const [userData] = useState(payload?.user);
 
   // 年月だけ取得したい初期値は、日付を削る必要があるため
@@ -154,14 +154,6 @@ const Edit: NextPage = () => {
   const cancel = () => {
     router.push(`/user/${loginId}`);
   };
-
-  if (!error && !userData) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>データを取得できませんでした</div>;
-  }
 
   return (
     <>
