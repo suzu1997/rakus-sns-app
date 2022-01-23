@@ -93,16 +93,16 @@ export const AddManuallyForm: FC<Props> = (props) => {
   const onSubmit = async (data: any) => {
     try {
       // react-hook-formのgetValuesメソッドで入力された住所を取得
-      const address = getValues(["address", "streetAddress"]);
+      const addressValues = getValues(["address", "streetAddress"]);
+      // 入力された住所(前半・後半)を連結して住所を取得
+      const address = `${addressValues[0]}${addressValues[1]}`;
 
       // 緯度経度を取得
-      const { latitude, longitude } = await latitudeLongitude(
-        `${address[0]}${address[1]}`,
-      );
+      const { latitude, longitude } = await latitudeLongitude(address);
 
       const res = await axios.post(`${JAVA_API_URL}/restaurant`, {
         name: data.name,
-        address: data.address,
+        address: address,
         latitude: latitude,
         longitude: longitude,
         genreFk: genre.id,
