@@ -48,7 +48,7 @@ export const RestaurantDetailContainer: FC = memo(() => {
   };
 
   return (
-    <div className="flex-col mx-5 xl:mx-24 lg:w-2/3">
+    <div className="flex-col m-5 xl:mx-24 lg:w-2/3">
       <p className="text-lg lg:text-3xl font-extrabold border-l-8 border-basic mb-5">
         {restaurant.name}
       </p>
