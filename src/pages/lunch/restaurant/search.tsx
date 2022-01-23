@@ -78,7 +78,6 @@ const RestaurantSearch: FC = () => {
     // 作成したWebAPIエンドポイントを利用する
     // API Routeを使用することで、APIキーを隠せる
     const res = await axios.get(`/api/hotpepper?name_any=${searchName}`);
-    console.log(res.data);
 
     setHotpeppers(res.data.shops);
     setHasClickedSearch(true);
@@ -92,19 +91,19 @@ const RestaurantSearch: FC = () => {
   const selectRestaurant = useCallback(
     async (hotpepper) => {
       // すでに登録されているホットペッパーIDかを確認し、登録済みなら詳細ページへ遷移
-      // const res = await axios.get(
-      //   `${JAVA_API_URL}/restaurants/hp/${hotpepper.id}`,
-      // );
-      // if (true) {
-      //   // router.push(`/lunch/restaurant/${res.data.shop.id}`);
-      //   router.push("/lunch/restaurant/1");
-      //   toast("登録済みの為、詳細ページへ遷移しました", {
-      //     // Custom Icon
-      //     icon: "ℹ️",
-      //   });
-      //   return;
-      // }
+      const res = await axios.get(
+        `${JAVA_API_URL}/restaurant/hp/${hotpepper.id}`,
+      );
+      if (res.data.status === "success") {
+        router.push(`/lunch/restaurant/${res.data.restaurant.id}`);
+        toast("登録済みの為、詳細ページへ遷移しました", {
+          // Custom Icon
+          icon: "ℹ️",
+        });
+        return;
+      }
 
+      // 未登録なら登録ページへ遷移
       router.push(`/lunch/restaurant/add?hotpepperId=${hotpepper.id}`);
     },
     [router],
@@ -210,7 +209,7 @@ const RestaurantSearch: FC = () => {
                     );
                   })}
                 </ul>
-                
+
                 {/* 検索結果はあるが登録したい店に当てはまらないときに対応 */}
                 <div className="my-5 font-bold">
                   お目当てのお店が見つかりませんか？手入力でお店を登録しますか？
