@@ -187,7 +187,9 @@ const Edit: NextPage = () => {
                   alt="icon"
                 ></Image>
               ) : (
-                <p className="text-center my-20">No image</p>
+                <div className="flex justify-center pt-10 w-full">
+                  <div className="animate-spin h-8 w-8 bg-basic rounded-xl"></div>
+                </div>
               )}
             </div>
             <div
