@@ -13,14 +13,14 @@ type Props = {
   cansel: () => void;
 };
 
-export type Options = {
+export type Option = {
   id: string;
   name: string;
 };
 
 /**
  * ホットペッパーから店情報を取得して登録するコンポーネント.
- * 
+ *
  * @param hotpepperId 登録するホットペッパーのID
  * @param cansel 登録をキャンセルするためのコールバック関数
  */
@@ -32,7 +32,7 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
   const { data, error } = useSWR(`/api/hotpepper?hotpepperId=${hotpepperId}`);
 
   // 登録する店舗のタイプ
-  const [type, setType] = useState<Options>(typeOptions[0]);
+  const [type, setType] = useState<Option>(typeOptions[0]);
 
   /**
    * APIに情報を渡して店舗を登録する.
@@ -45,7 +45,7 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
           address: restaurant.address,
           genreFk: restaurant.genre.code,
           photoPath: restaurant.photo.pc.l,
-          type: type.id,
+          type: Number(type.id),
           hotpepperId: restaurant.id,
           description: restaurant.catch,
           access: restaurant.access,
@@ -56,7 +56,6 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
         });
         // 店の情報と入力させたタイプをAPIに渡して登録
         router.push(`/lunch/restaurant/${res.data.restaurant.id}`);
-        alert("登録しました");
       } catch (error) {
         alert(error);
       }
@@ -110,7 +109,7 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
       <div className="w-1/3 ml-10 mt-5">
         <SelectBox
           label="タイプ(店内・お弁当・両方)"
-          value={type.name}
+          selectedOption={type}
           select={setType}
           options={typeOptions}
         ></SelectBox>

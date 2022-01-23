@@ -9,6 +9,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { JAVA_API_URL } from "../../utils/const";
+import { Option } from "../../components/Lunch/AddByHotpepper";
 
 //バリデーションチェック
 const schema = yup.object().shape({
@@ -51,7 +52,7 @@ const PreSignUp: NextPage = () => {
   ];
 
   //セレクトボックスの初期値
-  const [selectValue, setSelectValue] = useState<string>(options[0].name);
+  const [selectValue, setSelectValue] = useState<Option>(options[0]);
 
   //ルーターリンク
   const router = useRouter();
@@ -62,7 +63,7 @@ const PreSignUp: NextPage = () => {
     //APIに送るデータ
     const postDate = {
       name: data.firstName + " " + data.lastName,
-      email: data.email + selectValue,
+      email: data.email + selectValue.name,
     };
     try {
       const res = await axios.post(`${JAVA_API_URL}/presignup`, postDate);
@@ -128,7 +129,7 @@ const PreSignUp: NextPage = () => {
             <div className="mt-2">
               <SelectBox
                 label="ドメイン"
-                value={selectValue}
+                selectedOption={selectValue}
                 select={setSelectValue}
                 options={options}
               />

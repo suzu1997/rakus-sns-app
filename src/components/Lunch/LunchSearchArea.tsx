@@ -1,6 +1,7 @@
 import { FC, memo, useCallback, useState } from "react";
 import { Button } from "../Button/Button";
 import { SelectBox } from "../Form/SelectBox";
+import { Option } from "./AddByHotpepper";
 
 /**
  * ランチの並び替えと絞り込みを行うエリア.
@@ -52,11 +53,11 @@ export const LunchSearchArea: FC = memo(() => {
     },
   ];
   // 選択中の並び替え
-  const [order, setOrder] = useState(orderOptions[0].name);
+  const [order, setOrder] = useState<Option>(orderOptions[0]);
   // 選択中のジャンル
-  const [genre, setGenre] = useState(genreOptions[0].name);
+  const [genre, setGenre] = useState<Option>(genreOptions[0]);
   // 選択中のタイプ
-  const [type, setType] = useState(typeOptions[0].name);
+  const [type, setType] = useState<Option>(typeOptions[0]);
 
   const search = useCallback(() => {
     alert("検索");
@@ -69,19 +70,19 @@ export const LunchSearchArea: FC = memo(() => {
         <SelectBox
           label="並び替え"
           options={orderOptions}
-          value={order}
+          selectedOption={order}
           select={setOrder}
         />
         <SelectBox
           label="ジャンル"
           options={genreOptions}
-          value={genre}
+          selectedOption={genre}
           select={setGenre}
         />
         <SelectBox
           label="タイプ"
           options={typeOptions}
-          value={type}
+          selectedOption={type}
           select={setType}
         />
         <div className="text-center">

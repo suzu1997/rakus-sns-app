@@ -10,6 +10,7 @@ import axios from "axios";
 import { JAVA_API_URL } from "../../utils/const";
 import { useRouter } from "next/router";
 import { genreOptions, typeOptions } from "../../utils/options";
+import { Option } from "./AddByHotpepper";
 
 type Props = {
   cansel: () => void;
@@ -48,9 +49,9 @@ export const AddManuallyForm: FC<Props> = (props) => {
     resolver: yupResolver(schema),
   });
 
-  const [genre, setGenre] = useState(genreOptions[0].name);
+  const [genre, setGenre] = useState<Option>(genreOptions[0]);
 
-  const [type, setType] = useState(typeOptions[0].name);
+  const [type, setType] = useState<Option>(typeOptions[0]);
 
   //登録ボタンを押した時のメソッド
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -59,8 +60,8 @@ export const AddManuallyForm: FC<Props> = (props) => {
       const res = await axios.post(`${JAVA_API_URL}/restaurant`, {
         name: data.name,
         address: data.address,
-        genreFk: "G001",
-        type: 1,
+        genreFk: genre.id,
+        type: Number(type.id),
         description: data.description,
         url: data.url,
       });
@@ -99,14 +100,14 @@ export const AddManuallyForm: FC<Props> = (props) => {
         <div className="flex flex-col sm:flex-row gap-3">
           <SelectBox
             label="ジャンル"
-            value={genre}
+            selectedOption={genre}
             select={setGenre}
             options={genreOptions}
           />
           {/* タイプのセレクトボックス */}
           <SelectBox
             label="タイプ"
-            value={type}
+            selectedOption={type}
             select={setType}
             options={typeOptions}
           />
