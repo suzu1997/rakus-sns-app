@@ -98,7 +98,7 @@ export const PostModal: FC<Props> = memo((props) => {
     }
     if (title === "つぶやき") {
       try {
-        await axios.post(`${JAVA_API_URL}/timeline`, {
+        const res = await axios.post(`${JAVA_API_URL}/timeline`, {
           userId: userId,
           sentence: post,
         });

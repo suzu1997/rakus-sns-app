@@ -135,15 +135,13 @@ const Edit: NextPage = () => {
       introduction: data.introduction, //自己紹介
     };
 
-    console.dir("送るデータ" + JSON.stringify(postData));
-
     try {
       const res = await axios.patch(
         `${JAVA_API_URL}/user/edit/${loginId}`,
         postData,
       );
       if (res.data.status === "success") {
-        toast.success("更新しました");
+        toast.success(res.data.message);
         //更新完了でユーザ情報画面に戻る
         router.push(`/user/${loginId}`);
       } else {
@@ -335,7 +333,6 @@ const Edit: NextPage = () => {
           </div>
         </div>
       </div>
-      )
     </>
   );
 };
