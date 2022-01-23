@@ -6,6 +6,7 @@ import { TextInput } from "../../../components/Form/TextInput";
 import { useRouter } from "next/router";
 import { Restaurant } from "../../../types/type";
 import { SubHeader } from "../../../components/Layout/SubHeader";
+import { JAVA_API_URL } from "../../../utils/const";
 
 const RestaurantSearch: FC = () => {
   const router = useRouter();
@@ -34,11 +35,18 @@ const RestaurantSearch: FC = () => {
     async (e) => {
       setSearchName(e.target.value);
 
-      // const res = await axios.get(`${JAVA_API_URL}/restaurant/search?name=${searchName}`);
-
-      // setRestaurantsInDB(res.data.restaurants);
+      try {
+        const res = await axios.get(
+          `${JAVA_API_URL}/restaurant/name/${searchName}`,
+        );
+        if (res.data.restaurant) {
+          setRestaurantsInDB(res.data.restaurant);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     },
-    [setSearchName],
+    [searchName, setSearchName],
   );
 
   /**
@@ -106,8 +114,7 @@ const RestaurantSearch: FC = () => {
           {/* データベースに登録済みの店をオートコンプリートに表示する部分 */}
           {restautrantsInDB.length > 0 && (
             <>
-              <p>もしかしてこのお店？</p>
-              <div>データベースに登録済みの店表示</div>
+              <p className="mb-5">もしかしてこのお店？(登録済みのお店)</p>
               <ul>
                 {restautrantsInDB.map((restautrant) => {
                   return (
@@ -128,7 +135,7 @@ const RestaurantSearch: FC = () => {
                       </svg>
                       <span
                         className="cursor-pointer hover:text-text-brown hover:underline"
-                        onClick={() => selectRestaurant(restautrant)}
+                        onClick={() => router.push(`/lunch/restaurant/${restautrant.id}`)}
                       >
                         {restautrant.name}
                       </span>
