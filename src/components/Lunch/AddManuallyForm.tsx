@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useCallback, useState } from "react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import { genreOptions, typeOptions } from "../../utils/options";
 import { Option } from "./AddByHotpepper";
 import toast from "react-hot-toast";
+import { useGetAddress } from "../../hooks/useGetAddress";
 
 type Props = {
   cansel: () => void;
@@ -44,6 +45,7 @@ export const AddManuallyForm: FC<Props> = (props) => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -54,6 +56,21 @@ export const AddManuallyForm: FC<Props> = (props) => {
 
   // 選択したタイプ
   const [type, setType] = useState<Option>(typeOptions[0]);
+
+  //郵便番号入力用
+  const [zipcode, setZipcode] = useState("");
+
+  /**
+   * 郵便番号のstateを更新.
+   */
+  const inputZipcode = useCallback(
+    (e) => {
+      setZipcode(e.target.value);
+    },
+    [],
+  );
+  // 郵便番号から住所を取得できるhookを使用
+  const { getAddress, errorOfAddress } = useGetAddress(zipcode);
 
   //登録ボタンを押した時のメソッド
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -112,6 +129,41 @@ export const AddManuallyForm: FC<Props> = (props) => {
             select={setType}
             options={typeOptions}
           />
+        </div>
+        <div>
+          {/* 郵便番号から住所を検索するテキストボックス */}
+          <div className="text-red-500">{errorOfAddress}</div>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end">
+            <TextInput
+              value={zipcode}
+              label="郵便番号(ハイフンなし)"
+              type="text"
+              fullWidth={false}
+              maxLength={7}
+              required={false}
+              onChange={inputZipcode}
+            />
+            <span
+              onClick={() => getAddress(setValue)} // 郵便番号から住所を取得し、住所のテキストボックスに反映する
+              className="cursor-pointer text-text-brown text-base md:text-lg underline hover:opacity-70 flex"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+              郵便番号から住所を取得
+            </span>
+          </div>
         </div>
         {/* 住所のテキストフォーム */}
         <TextInput
