@@ -1,4 +1,5 @@
 import { FC, memo, useCallback, useState } from "react";
+import { genreOptions, typeOptions } from "../../utils/options";
 import { Button } from "../Button/Button";
 import { SelectBox } from "../Form/SelectBox";
 import { Option } from "./AddByHotpepper";
@@ -15,49 +16,31 @@ export const LunchSearchArea: FC = memo(() => {
     },
     {
       id: "2",
-      name: "いいね数順",
+      name: "評価順",
     },
   ];
   // ランチのジャンルのオプション
-  const genreOptions = [
+  const searchGenreOptions = [
     {
-      id: "1",
+      id: "all",
       name: "すべて",
     },
-    {
-      id: "2",
-      name: "中華",
-    },
-    {
-      id: "3",
-      name: "イタリアン",
-    },
-    {
-      id: "4",
-      name: "うどん",
-    },
+    ...genreOptions,
   ];
   // タイプ(店内かお弁当か)のオプション
-  const typeOptions = [
+  const searchTypeOptions = [
     {
-      id: "1",
+      id: "all",
       name: "すべて",
     },
-    {
-      id: "2",
-      name: "店内飲食",
-    },
-    {
-      id: "3",
-      name: "お弁当",
-    },
+    ...typeOptions,
   ];
   // 選択中の並び替え
   const [order, setOrder] = useState<Option>(orderOptions[0]);
   // 選択中のジャンル
-  const [genre, setGenre] = useState<Option>(genreOptions[0]);
+  const [genre, setGenre] = useState<Option>(searchGenreOptions[0]);
   // 選択中のタイプ
-  const [type, setType] = useState<Option>(typeOptions[0]);
+  const [type, setType] = useState<Option>(searchTypeOptions[0]);
 
   const search = useCallback(() => {
     alert("検索");
@@ -75,13 +58,13 @@ export const LunchSearchArea: FC = memo(() => {
         />
         <SelectBox
           label="ジャンル"
-          options={genreOptions}
+          options={searchGenreOptions}
           selectedOption={genre}
           select={setGenre}
         />
         <SelectBox
           label="タイプ"
-          options={typeOptions}
+          options={searchTypeOptions}
           selectedOption={type}
           select={setType}
         />
