@@ -51,13 +51,10 @@ const schema = yup.object().shape({
  */
 const Edit: NextPage = () => {
   //ログインID
-  // const loginId = useContext(loginIdContext);
+  const loginId = useContext(loginIdContext);
 
   //ルーターリンク
   const router = useRouter();
-
-  //URLの後ろからid取得
-  const loginId = Number(router.query.id);
 
   /**
    * APIで初期表示用データ取得.
