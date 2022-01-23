@@ -14,6 +14,7 @@ import { JAVA_API_URL } from "../../utils/const";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { Timeline } from "../../types/type";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 /**
  * タイムラインページ.
@@ -54,12 +55,12 @@ const Timeline: NextPage = () => {
   const [timelineData, setTimelineData] = useState<Timeline>(
     data?.TimelineList,
   );
-  const message: string = data?.message;
+  const [message] = useState<string>(data?.message);
 
   /**
    * 投稿の読み込み直し.
    */
-  const getNewData = useCallback(async () => {
+  const getData = useCallback(async () => {
     try {
       const res = await axios.get(`${JAVA_API_URL}/timeline/${loginId}`);
       // タイムライン情報をdataから抽出
@@ -73,8 +74,16 @@ const Timeline: NextPage = () => {
    * リロード問題解消用.
    */
   useEffect(() => {
-    getNewData();
-  }, [getNewData]);
+    getData();
+  }, [getData]);
+
+  /**
+   * 「新しい投稿を読み込む」押下で発動.
+   */
+  const getNewData = useCallback(async () => {
+    getData();
+    toast.success("投稿を読み込みました");
+  }, [getData]);
 
   /**
    * 古い投稿の読み込み直し.(未実装)
@@ -178,7 +187,7 @@ const Timeline: NextPage = () => {
             過去の投稿を見る…
           </div>
           <div>
-            <PostBtn success={getNewData} />
+            <PostBtn success={getData} />
           </div>
         </div>
       )}
