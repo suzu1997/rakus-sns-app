@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { Restaurant } from "../../../types/type";
 import { SubHeader } from "../../../components/Layout/SubHeader";
 import { JAVA_API_URL } from "../../../utils/const";
+import toast from "react-hot-toast";
 
 const RestaurantSearch: FC = () => {
   const router = useRouter();
@@ -60,7 +61,7 @@ const RestaurantSearch: FC = () => {
         setRestaurantsInDB([]);
       }
     } catch (error) {
-      console.log(error);
+      toast.error("通信に失敗しました");
     }
   }, [searchName]);
 
@@ -77,10 +78,13 @@ const RestaurantSearch: FC = () => {
 
     // 作成したWebAPIエンドポイントを利用する
     // API Routeを使用することで、APIキーを隠せる
-    const res = await axios.get(`/api/hotpepper?name_any=${searchName}`);
-
-    setHotpeppers(res.data.shops);
-    setHasClickedSearch(true);
+    try {
+      const res = await axios.get(`/api/hotpepper?name_any=${searchName}`);
+      setHotpeppers(res.data.shops);
+      setHasClickedSearch(true);
+    } catch (error) {
+      toast.error("通信に失敗しました");
+    }
   };
 
   /**
@@ -91,20 +95,23 @@ const RestaurantSearch: FC = () => {
   const selectRestaurant = useCallback(
     async (hotpepper) => {
       // すでに登録されているホットペッパーIDかを確認し、登録済みなら詳細ページへ遷移
-      const res = await axios.get(
-        `${JAVA_API_URL}/restaurant/hp/${hotpepper.id}`,
-      );
-      if (res.data.status === "success") {
-        router.push(`/lunch/restaurant/${res.data.restaurant.id}`);
-        toast("登録済みの為、詳細ページへ遷移しました", {
-          // Custom Icon
-          icon: "ℹ️",
-        });
-        return;
+      try {
+        const res = await axios.get(
+          `${JAVA_API_URL}/restaurant/hp/${hotpepper.id}`,
+        );
+        if (res.data.status === "success") {
+          router.push(`/lunch/restaurant/${res.data.restaurant.id}`);
+          toast("登録済みの為、詳細ページへ遷移しました", {
+            // Custom Icon
+            icon: "ℹ️",
+          });
+          return;
+        } 
+        // 未登録なら登録ページへ遷移
+        router.push(`/lunch/restaurant/add?hotpepperId=${hotpepper.id}`);
+      } catch (error) {
+        toast.error("通信に失敗しました");
       }
-
-      // 未登録なら登録ページへ遷移
-      router.push(`/lunch/restaurant/add?hotpepperId=${hotpepper.id}`);
     },
     [router],
   );

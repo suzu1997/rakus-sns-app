@@ -11,6 +11,7 @@ import { JAVA_API_URL } from "../../utils/const";
 import { useRouter } from "next/router";
 import { genreOptions, typeOptions } from "../../utils/options";
 import { Option } from "./AddByHotpepper";
+import toast from "react-hot-toast";
 
 type Props = {
   cansel: () => void;
@@ -44,13 +45,14 @@ export const AddManuallyForm: FC<Props> = (props) => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm({
     resolver: yupResolver(schema),
   });
 
+  // 選択したジャンル
   const [genre, setGenre] = useState<Option>(genreOptions[0]);
 
+  // 選択したタイプ
   const [type, setType] = useState<Option>(typeOptions[0]);
 
   //登録ボタンを押した時のメソッド
@@ -67,16 +69,15 @@ export const AddManuallyForm: FC<Props> = (props) => {
       });
       //登録に成功した場合
       if (res.data.status === "success") {
-        //登録と同時に入力内容をクリア
-        reset();
+        toast.success("お店を登録しました");
         //登録した店の詳細画面に遷移する;
         router.push(`/lunch/restaurant/${res.data.restaurant.id}`);
       } else {
-        //ログインに失敗した場合、エラーメッセージアラートを表示
-        alert(res.data.message);
+        //登録に失敗した場合
+        toast.error(res.data.message);
       }
     } catch (error) {
-      console.log(error);
+      toast.error("お店の登録に失敗しました");
     }
   };
 

@@ -2,6 +2,7 @@ import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { FC, memo, useCallback, useState } from "react";
+import toast from "react-hot-toast";
 import useSWR from "swr";
 import { JAVA_API_URL } from "../../utils/const";
 import { typeOptions } from "../../utils/options";
@@ -40,6 +41,7 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
   const register = useCallback(
     async (restaurant) => {
       try {
+        // 店の情報と入力させたタイプをAPIに渡して登録
         const res = await axios.post(`${JAVA_API_URL}/restaurant/hp`, {
           name: restaurant.name,
           address: restaurant.address,
@@ -54,10 +56,14 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
           url: restaurant.urls.pc,
           smoking: restaurant.non_smoking,
         });
-        // 店の情報と入力させたタイプをAPIに渡して登録
-        router.push(`/lunch/restaurant/${res.data.restaurant.id}`);
+        if (res.data.status === "success") {
+          toast.success("お店を登録しました");
+          router.push(`/lunch/restaurant/${res.data.restaurant.id}`);
+        } else {
+          toast.error(res.data.message);
+        }
       } catch (error) {
-        alert(error);
+        toast.error("お店の登録に失敗しました");
       }
     },
     [router, type.id],
