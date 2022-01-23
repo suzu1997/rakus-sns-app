@@ -27,6 +27,7 @@ const schema = yup.object().shape({
     .max(255, "店名は255文字以内で入力してください"),
   // 住所のバリデーション
   address: yup.string().required("住所を入力してください"),
+  streetAddress: yup.string().required("番地以降を入力してください"),
   description: yup.string().max(140, "140文字以内で入力してください"),
   url: yup.string().url("URL形式で入力してください"),
 });
@@ -46,6 +47,7 @@ export const AddManuallyForm: FC<Props> = (props) => {
     register,
     handleSubmit,
     setValue,
+    getValues,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -63,22 +65,46 @@ export const AddManuallyForm: FC<Props> = (props) => {
   /**
    * 郵便番号のstateを更新.
    */
-  const inputZipcode = useCallback(
-    (e) => {
-      setZipcode(e.target.value);
-    },
-    [],
-  );
+  const inputZipcode = useCallback((e) => {
+    setZipcode(e.target.value);
+  }, []);
   // 郵便番号から住所を取得できるhookを使用
   const { getAddress, errorOfAddress } = useGetAddress(zipcode);
+
+  /**
+   * APIを叩いて住所から緯度経度を取得する.
+   * @param address - 住所
+   * @returns 取得した緯度と経度
+   */
+  const latitudeLongitude = async (address: string) => {
+    const url = "https://msearch.gsi.go.jp/address-search/AddressSearch?q=";
+
+    const res = await axios.get(`${url}${address}`);
+    //緯度
+    const latitude = String(res.data[0].geometry.coordinates[1] + "0");
+    //経度
+    const longitude = String(res.data[0].geometry.coordinates[0] + "0");
+
+    return { latitude, longitude };
+  };
 
   //登録ボタンを押した時のメソッド
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
     try {
+      // react-hook-formのgetValuesメソッドで入力された住所を取得
+      const address = getValues(["address", "streetAddress"]);
+
+      // 緯度経度を取得
+      const { latitude, longitude } = await latitudeLongitude(
+        `${address[0]}${address[1]}`,
+      );
+
       const res = await axios.post(`${JAVA_API_URL}/restaurant`, {
         name: data.name,
         address: data.address,
+        latitude: latitude,
+        longitude: longitude,
         genreFk: genre.id,
         type: Number(type.id),
         description: data.description,
@@ -166,15 +192,29 @@ export const AddManuallyForm: FC<Props> = (props) => {
           </div>
         </div>
         {/* 住所のテキストフォーム */}
-        <TextInput
-          label="住所"
-          type="text"
-          fullWidth={true}
-          required
-          errorMessage={errors.address?.message}
-          placeholder="住所"
-          registers={register("address")}
-        />
+        <div className="flex gap-1 flex-col sm:flex-row sm:items-end">
+          <div className="sm:w-2/5">
+            <TextInput
+              label="住所"
+              type="text"
+              fullWidth={true}
+              required
+              errorMessage={errors.address?.message}
+              placeholder="(例)東京都新宿区新宿"
+              registers={register("address")}
+            />
+          </div>
+          <div className="flex-1">
+            <TextInput
+              type="text"
+              fullWidth={true}
+              required={false}
+              errorMessage={errors.streetAddress?.message}
+              placeholder="番地以降(○-○-○)"
+              registers={register("streetAddress")}
+            />
+          </div>
+        </div>
         {/* 店の説明のテキストエリア */}
         <TextArea
           label="店の説明(140字以内)"
