@@ -1,7 +1,7 @@
 import { ChangeEventHandler, FC } from "react";
 
 export type Props = {
-  label: string;
+  label?: string;
   value?: string;
   type: string;
   fullWidth: boolean; // trueなら親要素のwidthの長さ
