@@ -8,6 +8,7 @@ export type Props = {
   placeholder?: string;
   required: boolean;
   onChange?: ChangeEventHandler<HTMLInputElement>;
+  onKeyUp?: ChangeEventHandler<HTMLInputElement>;
   errorMessage?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   registers?: any;
@@ -24,6 +25,7 @@ export const TextInput: FC<Props> = (props) => {
     onChange,
     errorMessage,
     registers,
+    onKeyUp,
   } = props;
 
   return (
@@ -52,6 +54,7 @@ export const TextInput: FC<Props> = (props) => {
           fullWidth && "w-full"
         } relative py-2 pl-3 pr-10 text-left bg-white border border-gray-300 shadow-md outline-none rounded-lg focus:outline-none focus:border-basic focus-visible:ring-white text-xs sm:text-sm lg:text-lg`}
         onChange={onChange}
+        onKeyUp={onKeyUp}
         {...registers}
       />
     </div>

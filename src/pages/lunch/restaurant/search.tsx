@@ -29,25 +29,40 @@ const RestaurantSearch: FC = () => {
    * 検索窓のonChangeイベント発動時に実行するメソッド.
    *
    * @remarks
-   * setStateを使って検索文字列のstateを更新すると同時に、オートコンプリート検索を行うAPIを叩く
+   * setStateを使って検索文字列のstateを更新
    */
-  const inputRestaurantName = useCallback(
-    async (e) => {
-      setSearchName(e.target.value);
+  const inputRestaurantName = useCallback(async (e) => {
+    setSearchName(e.target.value);
+  }, []);
 
-      try {
+  /**
+   * 検索窓のonKeyUpイベント発動時に実行するメソッド.
+   *
+   * @remarks
+   * データベースに登録済みの店を検索するAPIを叩く
+   */
+  const searchInDB = useCallback(async () => {
+    try {
+      // 検索文字列が空白でない場合のみ検索を実行
+      if (searchName !== "") {
         const res = await axios.get(
           `${JAVA_API_URL}/restaurant/name/${searchName}`,
         );
         if (res.data.restaurant) {
+          // 検索結果がある場合はその店を表示
           setRestaurantsInDB(res.data.restaurant);
+        } else {
+          // 検索結果が無ければ空の配列をセット
+          setRestaurantsInDB([]);
         }
-      } catch (error) {
-        console.log(error);
+      } else {
+        // 検索文字列が空白の場合は空の配列をセット
+        setRestaurantsInDB([]);
       }
-    },
-    [searchName, setSearchName],
-  );
+    } catch (error) {
+      console.log(error);
+    }
+  }, [searchName]);
 
   /**
    * ラーセンから1km以内かつ、店名で検索.
@@ -108,6 +123,7 @@ const RestaurantSearch: FC = () => {
               fullWidth={true}
               required={true}
               onChange={inputRestaurantName}
+              onKeyUp={searchInDB}
             />
             <Button label="店名で検索" onClick={searchByNameIn2km} />
           </div>
@@ -135,7 +151,9 @@ const RestaurantSearch: FC = () => {
                       </svg>
                       <span
                         className="cursor-pointer hover:text-text-brown hover:underline"
-                        onClick={() => router.push(`/lunch/restaurant/${restautrant.id}`)}
+                        onClick={() =>
+                          router.push(`/lunch/restaurant/${restautrant.id}`)
+                        }
                       >
                         {restautrant.name}
                       </span>
