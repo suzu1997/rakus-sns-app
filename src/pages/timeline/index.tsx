@@ -1,6 +1,6 @@
 import Image from "next/image";
 import type { NextPage } from "next";
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { Button } from "../../components/Button/Button";
 import { CommentIcon } from "../../components/Button/CommentIcon";
@@ -63,12 +63,18 @@ const Timeline: NextPage = () => {
     try {
       const res = await axios.get(`${JAVA_API_URL}/timeline/${loginId}`);
       // タイムライン情報をdataから抽出
-      //useStateで囲むと更新されるけど、リロード問題が起きる
       setTimelineData(res.data.TimelineList);
     } catch (error) {
       console.log(error);
     }
   }, [loginId]);
+
+  /**
+   * リロード問題解消用.
+   */
+  useEffect(() => {
+    getNewData();
+  }, [getNewData]);
 
   /**
    * 古い投稿の読み込み直し.(未実装)
@@ -99,7 +105,7 @@ const Timeline: NextPage = () => {
   //HTMLコーナー
   return (
     <>
-      {data && (
+      {timelineData && (
         <div>
           {/* サブヘッダー */}
           <SubHeader title="タイムライン" />
