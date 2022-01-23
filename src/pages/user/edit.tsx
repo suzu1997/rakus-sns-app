@@ -9,7 +9,7 @@ import { Radio } from "../../components/Form/Radio";
 import { useForm } from "react-hook-form";
 import { TextArea } from "../../components/Form/TextArea";
 import { PasswordModal } from "../../components/Modal/PasswordModal";
-import { useContext, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import axios from "axios";
 import { format } from "date-fns";
@@ -60,8 +60,7 @@ const Edit: NextPage = () => {
    * APIで初期表示用データ取得.
    */
   const { data: payload } = useSWR(`${JAVA_API_URL}/user/${loginId}`);
-  const [userData] = useState(payload?.user);
-  console.dir(JSON.stringify(userData));
+  const [userData, setUserData] = useState(payload?.user);
 
   // 年月だけ取得したい初期値は、日付を削る必要があるため
   const defaultHireDate = userData?.hireDate;
@@ -91,6 +90,25 @@ const Edit: NextPage = () => {
       introduction: userData?.introduction,
     },
   });
+
+  /**
+   * ユーザ情報読み込み直し.
+   */
+  const getReData = useCallback(async () => {
+    try {
+      const res = await axios.get(`${JAVA_API_URL}/user/${loginId}`);
+      setUserData(res.data.user);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [loginId]);
+
+  /**
+   * リロード問題解消用.
+   */
+  useEffect(() => {
+    getReData();
+  }, [getReData]);
 
   /**
    * 登録ボタンを押した時に呼ばれる
