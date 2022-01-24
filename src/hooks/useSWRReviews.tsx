@@ -43,7 +43,8 @@ export const useSWRReviews = (userId: string) => {
   // error: エラーの場合、エラー情報が入る
   // size:  ページサイズ(ページが何ページあるのか※最初は1ページ)
   // setSize:  ページサイズ変更する際に使用する(ページ数を増やすと自動的にフェッチ処理が走る)
-  const { data, error, size, setSize } = useSWRInfinite(getKey);
+  // mutate: 再検証する際に使用する
+  const { data, error, size, setSize, mutate } = useSWRInfinite(getKey);
 
   /**
    * レビューを追加読み込みする.
@@ -60,5 +61,5 @@ export const useSWRReviews = (userId: string) => {
     ? data.filter((pageData) => pageData.reviewList.length < LIMIT).length > 0
     : false;
 
-  return { data, isLast, error, loadMoreReviews };
+  return { data, isLast, error, loadMoreReviews, reviewsMutate: mutate };
 };
