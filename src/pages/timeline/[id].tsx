@@ -18,40 +18,6 @@ import { loginIdContext } from "../../providers/LoginIdProvider";
  * @returns つぶやき詳細画面
  */
 const TweetDetail: NextPage = () => {
-  //テストデータ
-  const [data] = useState({
-    postId: 1,
-    userId: 1,
-    name: "ふるもっちゃん",
-    tweet:
-      "あああああああああああいいいいいいいいううううううううううえええええええええええええおおおおおおおおおおおおおおおうひうひひょひょほほほほほほほほほほほほほ",
-    img: "/image/userIcon/user3.jpeg",
-    time: "00:00・0000/00/00",
-    comment: [
-      {
-        postId: 2,
-        userId: 2,
-        name: "佐藤花子",
-        tweet: "まじうける",
-        img: "/image/userIcon/user1.jpeg",
-      },
-      {
-        postId: 3,
-        userId: 3,
-        name: "次郎@駆け出しエンジニア",
-        tweet: "分かります",
-        img: "/image/userIcon/user6.jpeg",
-      },
-      {
-        postId: 4,
-        userId: 1,
-        name: "ふるもっちゃん",
-        tweet: "みんないいねしてね",
-        img: "/image/userIcon/user3.jpeg",
-      },
-    ],
-  });
-
   //ログインID
   const loginId = useContext(loginIdContext);
 
@@ -76,20 +42,27 @@ const TweetDetail: NextPage = () => {
     router.push(`/user/${userId}`);
   };
 
+  //URLの後ろからid取得
+  const postId = Number(router.query.id);
+
   /**
    * APIを使用してタイムラインデータを取得.(未実装)
    */
-  // const { data, error } = useSWR(`${JAVA_API_URL}/timeline/${}`);
-  // // タイムライン情報をdataから抽出
-  // const timelineData: Timeline = data?.TimelineList;
+  const { data, error } = useSWR(`${JAVA_API_URL}/timeline/detail/${postId}`);
+  console.dir(JSON.stringify(data));
 
-  // if (!error && !timelineData) {
-  //   return <div>Loading...</div>;
-  // }
+  //つぶやき詳細データ
+  const [detailData] = useState(data.timeline);
+  //コメントリスト
+  const [commentList] = useState(data.commentList);
 
-  // if (error) {
-  //   return <div>データを取得できませんでした</div>;
-  // }
+  if (!error && !data) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>データを取得できませんでした</div>;
+  }
 
   return (
     <>
