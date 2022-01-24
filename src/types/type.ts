@@ -73,7 +73,7 @@ export type Timeline = [
 ];
 
 //つぶやき詳細画面
-export type TimelineDtail = {
+export type TimelineDetail = {
   id: number;
   userId: number;
   accountName: string;

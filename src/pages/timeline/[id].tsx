@@ -10,10 +10,11 @@ import { SubHeader } from "../../components/Layout/SubHeader";
 import Image from "next/image";
 import useSWR from "swr";
 import { JAVA_API_URL } from "../../utils/const";
-import { Timeline, TimelineDtail } from "../../types/type";
+import { Timeline, TimelineDetail } from "../../types/type";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import axios from "axios";
 import { CommentList } from "../../components/Timeline/CommentList";
+import { TimelineDetailPage } from "../../components/Timeline/TimelineDetail";
 
 /**
  * つぶやき詳細画面.
@@ -32,14 +33,6 @@ const TweetDetail: NextPage = () => {
     router.back();
   };
 
-  /**
-   * 画像クリックで投稿ユーザ情報ページに飛ぶ.
-   * @param userId - 投稿者ID
-   */
-  const goUserPage = (userId: number) => {
-    router.push(`/user/${userId}`);
-  };
-
   //URLの後ろからid取得
   const postId = Number(router.query.id);
 
@@ -51,7 +44,7 @@ const TweetDetail: NextPage = () => {
   );
 
   //つぶやき詳細データ
-  const [detailData, setDetailData] = useState<TimelineDtail>(data?.timeline);
+  const [detailData, setDetailData] = useState<TimelineDetail>(data?.timeline);
   //コメントリスト
   const [commentList] = useState<Timeline>(data?.commentList);
 
@@ -106,51 +99,7 @@ const TweetDetail: NextPage = () => {
       {/* つぶやき詳細 */}
       {detailData && (
         <div className="mx-5 mt-10">
-          <div>
-            <div className="px-3 flex">
-              <div className="w-3/12 cursor-pointer hover:opacity-50">
-                <Image
-                  src={`/image/userIcon/${detailData.userPhotoPath}`}
-                  width={200}
-                  height={200}
-                  alt="icon"
-                  onClick={() => {
-                    goUserPage(detailData.userId);
-                  }}
-                  className="rounded-full"
-                />
-              </div>
-              <div className="w-9/12">
-                <div className="text-xl font-extrabold py-3 ml-3">
-                  {detailData.accountName}
-                </div>
-                <div className="w-8/12 ml-5">{detailData.sentence}</div>
-              </div>
-            </div>
-
-            <div className="text-right pb-5  border border-t-0 border-gray-200">
-              <div className="flex flex-col items-end gap-3 sm:flex-row justify-end mr-5 mt-5">
-                <div className="mr-5">投稿日時：{detailData.postedTime}</div>
-                <div>
-                  <CommentIcon
-                    commentCount={detailData.commentCount}
-                    postId={detailData.id}
-                    target="timeline"
-                  />
-                  <FavoBtn
-                    postId={data.postId}
-                    favoCount={detailData.likeCount}
-                    getData={getData}
-                    isFavo={detailData.myLike}
-                  />
-                  {loginId == data.userId && (
-                    <TrashBtn postId={detailData.id} />
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-
+          <TimelineDetailPage detailData={detailData} getData={getData} />
           <CommentList commentList={commentList} getData={getData} />
         </div>
       )}

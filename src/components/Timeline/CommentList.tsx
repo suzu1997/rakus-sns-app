@@ -6,8 +6,14 @@ import { Timeline } from "../../types/type";
 import { useRouter } from "next/router";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 
-type Props = { commentList: Timeline; getData?: () => void };
+type Props = {
+  commentList: Timeline; //コメントリスト
+  getData?: () => void; //データの更新
+};
 
+/**
+ * タイムライン詳細ページのコメントコンポーネント.
+ */
 export const CommentList: FC<Props> = memo((props) => {
   const { commentList, getData } = props;
 
