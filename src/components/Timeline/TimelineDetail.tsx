@@ -56,7 +56,7 @@ export const TimelineDetailPage: FC<Props> = memo((props) => {
           </div>
         </div>
 
-        <div className="text-right pb-5  border border-t-0 border-gray-200">
+        <div className="text-right pb-5">
           <div className="flex flex-col items-end gap-3 sm:flex-row justify-end mr-5 mt-5">
             <div className="mr-5">投稿日時：{detailData.postedTime}</div>
             <div>

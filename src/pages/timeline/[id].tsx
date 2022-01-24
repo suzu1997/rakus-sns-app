@@ -1,14 +1,14 @@
+import useSWR from "swr";
+import axios from "axios";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { Button } from "../../components/Button/Button";
 import { PostBtn } from "../../components/Button/PostBtn";
 import { SubHeader } from "../../components/Layout/SubHeader";
-import useSWR from "swr";
 import { JAVA_API_URL } from "../../utils/const";
 import { Timeline, TimelineDetail } from "../../types/type";
 import { loginIdContext } from "../../providers/LoginIdProvider";
-import axios from "axios";
 import { CommentList } from "../../components/Timeline/CommentList";
 import { TimelineDetailPage } from "../../components/Timeline/TimelineDetail";
 
@@ -94,10 +94,16 @@ const TweetDetail: NextPage = () => {
 
       {/* つぶやき詳細 */}
       {detailData && (
-        <div className="mx-5 mt-10">
-          <TimelineDetailPage detailData={detailData} getData={getData} />
-          <CommentList commentList={commentList} getData={getData} />
-        </div>
+        <>
+          <div className="w-full border border-t-0 border-gray-200">
+            <div className="mx-5 mt-10">
+              <TimelineDetailPage detailData={detailData} getData={getData} />
+            </div>
+          </div>
+          <div className="mx-5 mt-10">
+            <CommentList commentList={commentList} getData={getData} />
+          </div>
+        </>
       )}
       <div>
         <PostBtn getData={getData} />
