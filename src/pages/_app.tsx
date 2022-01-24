@@ -60,7 +60,6 @@ function MyApp({ Component, pageProps }: AppProps) {
           />
         </SWRConfig>
       </Layout>
-      <Component {...pageProps} />
     </>
   );
 }
