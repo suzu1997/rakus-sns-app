@@ -1,14 +1,15 @@
 import { useRouter } from "next/router";
-import { FC, memo, useEffect, useState } from "react";
+import { FC, memo, useContext, useEffect, useState } from "react";
 // import useSWR from "swr";
 import useSWRInfinite, { SWRInfiniteKeyLoader } from "swr/infinite";
+import { loginIdContext } from "../../providers/LoginIdProvider";
 import { LunchReview } from "../../types/type";
 import { JAVA_API_URL } from "../../utils/const";
 import { ReviewCard } from "./ReviewCard";
 
 type Props = {
   restaurantId?: number;
-}
+};
 
 export const ReviewList: FC<Props> = memo((props) => {
   const { restaurantId } = props;
@@ -16,6 +17,8 @@ export const ReviewList: FC<Props> = memo((props) => {
   // レビューカードがレストラン情報を持つかどうか
   const [hasRestaurantInfo, setHasRestaurantInfo] = useState<boolean>(true);
   const router = useRouter();
+
+  const userId = useContext(loginIdContext);
 
   // useSWRでクライアントフェッチ
   // const { data: reviewList, error } = useSWR<Array<LunchReview>>(
@@ -36,7 +39,7 @@ export const ReviewList: FC<Props> = memo((props) => {
     if (previousPageData && !previousPageData.data) return null;
 
     // 一番最初のフェッチ
-    if (pageIndex === 0) return `${JAVA_API_URL}/reviews`;
+    if (pageIndex === 0) return `${JAVA_API_URL}/review/${userId}`;
 
     // 一番古いレビューのIDを取得
     // これで一番古いレビューのIDが取れるのか？？やってみないとわからんです。
@@ -47,7 +50,7 @@ export const ReviewList: FC<Props> = memo((props) => {
     return `${JAVA_API_URL}/reviews/old/${id}`;
   };
 
-  // data: データの配列の配列(※ページごとの二重配列)
+  // data: データの連想配列の配列(※ページごとの配列)
   // error: エラーの場合、エラー情報が入る
   // size:  ページサイズ(ページが何ページあるのか※最初は1ページ)
   // setSize:  ページサイズ変更する際に使用する(ページ数を増やすと自動的にフェッチ処理が走る)
@@ -91,29 +94,32 @@ export const ReviewList: FC<Props> = memo((props) => {
     );
   }
 
+  if (
+    data !== undefined &&
+    data[0].message === "レビューが1件も登録されていません"
+  ) {
+    return (
+      <div className="w-full p-10 text-center">
+        レビューが1件も登録されていません🙇‍♀️
+      </div>
+    );
+  }
+
   return (
     <div className="w-full">
-      {/* {reviewList?.map((review: LunchReview) => (
-        <div key={review.reviewId}>
-          <ReviewCard
-            {...review}
-            type="一覧"
-            hasRestaurantInfo={hasRestaurantInfo}
-          />
-        </div>
-      ))} */}
-      {data?.map((reviewList: Array<LunchReview>) => {
-        // dataはreviewList(配列)の配列
-        return reviewList.map((review: LunchReview) => (
-          <div key={review.reviewId}>
-            <ReviewCard
-              {...review}
-              type="一覧"
-              hasRestaurantInfo={hasRestaurantInfo}
-            />
-          </div>
-        ));
-      })}
+      {data &&
+        // dataはページごとの連想配列の配列
+        data.map((pageData) =>
+          pageData.reviewList.map((review: LunchReview) => {
+            <div key={review.reviewId}>
+              <ReviewCard
+                {...review}
+                type="一覧"
+                hasRestaurantInfo={hasRestaurantInfo}
+              />
+            </div>;
+          }),
+        )}
       <div
         className="text-text-brown text-center my-5 cursor-pointer hover:text-basic"
         onClick={loadMoreReviews}
