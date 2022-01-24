@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { FC, memo, useContext, useEffect, useState } from "react";
-import { useSWRRevirews } from "../../hooks/useSWRReviews";
+import { useSWRReviews } from "../../hooks/useSWRReviews";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { LunchReview } from "../../types/type";
 import { ReviewCard } from "./ReviewCard";
@@ -18,8 +18,7 @@ export const ReviewList: FC<Props> = memo((props) => {
 
   const userId = useContext(loginIdContext);
 
-
-  const { data, isLast, error, loadMoreReviews } = useSWRRevirews(userId);
+  const { data, isLast, error, loadMoreReviews } = useSWRReviews(userId);
 
   // pathにrestaurantが含まれている(店詳細ページにいる)場合はfalseにする
   // レビューページにいるときだけ店詳細ページへのリンクを付けたい

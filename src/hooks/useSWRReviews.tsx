@@ -13,7 +13,7 @@ const LIMIT = 50; // 50件ずつ読み込む
  * - error: エラー
  * - loadMoreReviews: 次のデータを読み込むメソッド
  */
-export const useSWRRevirews = (userId: string) => {
+export const useSWRReviews = (userId: string) => {
   /**
    * 各ページのSWRのキーを取得する関数.
    *
