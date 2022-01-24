@@ -10,7 +10,7 @@ import { SubHeader } from "../../components/Layout/SubHeader";
 import Image from "next/image";
 import useSWR from "swr";
 import { JAVA_API_URL } from "../../utils/const";
-import { Timeline } from "../../types/type";
+import { Timeline, TimelineDtail } from "../../types/type";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 
 /**
@@ -49,12 +49,12 @@ const TweetDetail: NextPage = () => {
    * APIを使用してタイムラインデータを取得.(未実装)
    */
   const { data, error } = useSWR(`${JAVA_API_URL}/timeline/detail/${postId}`);
-  console.dir(JSON.stringify(data));
+  console.dir(JSON.stringify(data.timeline));
 
   //つぶやき詳細データ
-  const [detailData] = useState(data.timeline);
+  const [detailData] = useState<TimelineDtail>(data?.timeline);
   //コメントリスト
-  const [commentList] = useState(data.commentList);
+  const [commentList] = useState<Timeline>(data?.commentList);
 
   if (!error && !data) {
     return <div>Loading...</div>;
@@ -79,12 +79,12 @@ const TweetDetail: NextPage = () => {
           <div className="px-3 flex">
             <div className="w-3/12 cursor-pointer hover:opacity-50">
               <Image
-                src={data.img}
+                src={`/image/userIcon/${detailData.userPhotoPath}`}
                 width={200}
                 height={200}
                 alt="icon"
                 onClick={() => {
-                  goUserPage(data.userId);
+                  goUserPage(detailData.userId);
                 }}
                 className="rounded-full"
               />
@@ -93,31 +93,33 @@ const TweetDetail: NextPage = () => {
               <div className="text-xl font-extrabold py-3 ml-3">
                 {data.name}
               </div>
-              <div className="w-8/12 ml-5">{data.tweet}</div>
+              <div className="w-8/12 ml-5">{detailData.sentence}</div>
             </div>
           </div>
 
           <div className="text-right pb-5" style={style}>
             <div className="flex flex-col items-end gap-3 sm:flex-row justify-end mr-5 mt-5">
-              <div className="mr-5">投稿日時：{data.time}</div>
+              <div className="mr-5">投稿日時：{detailData.postedTime}</div>
               <div>
                 <CommentIcon
-                  commentCount={300}
-                  postId={data.postId}
+                  commentCount={detailData.commentCount}
+                  postId={detailData.id}
                   target="timeline"
                 />
-                <FavoBtn postId={data.postId} favoCount={30} />
-                {loginId == data.userId && <TrashBtn postId={data.postId} />}
+                <FavoBtn
+                  postId={data.postId}
+                  favoCount={detailData.likeCount}
+                />
+                {loginId == data.userId && <TrashBtn postId={detailData.id} />}
               </div>
             </div>
           </div>
         </div>
-
-        {data.comment.map((value, key) => (
+        {commentList.map((value, key) => (
           <div style={style} key={key} className="flex">
             <div className="w-1/5 text-center pt-5 cursor-pointer hover:opacity-50">
               <Image
-                src={value.img}
+                src={`/image/userIcon/${value.userPhotoPath}`}
                 width={100}
                 height={100}
                 alt="icon"
@@ -129,12 +131,12 @@ const TweetDetail: NextPage = () => {
             </div>
             <div className="w-4/5">
               <div className="text-xl font-extrabold py-3 ml-3">
-                {value.name}
+                {value.accountName}
               </div>
-              <div className="pt-5 pb-5 pl-5 w-8/12">{value.tweet}</div>
+              <div className="pt-5 pb-5 pl-5 w-8/12">{value.sentence}</div>
               <div className="w-full text-right py-3 pr-5">
-                <FavoBtn postId={value.postId} favoCount={30} />
-                {loginId == value.userId && <TrashBtn postId={value.postId} />}
+                <FavoBtn postId={value.id} favoCount={value.likeCount} />
+                {loginId == value.userId && <TrashBtn postId={value.id} />}
               </div>
             </div>
           </div>
