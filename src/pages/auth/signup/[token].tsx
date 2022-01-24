@@ -55,7 +55,7 @@ const schema = yup.object().shape({
 });
 
 /**
- * ユーザー登録画面
+ * ユーザー登録画面.
  * @returns ユーザー登録するためのページ
  */
 const SignUp: NextPage = () => {
@@ -90,14 +90,16 @@ const SignUp: NextPage = () => {
   }
   const userPreTokenData: UserPreInfo = userPreData;
 
-  //登録ボタンを押した時に呼ばれる
+  /**
+   * 登録ボタンを押した時に呼ばれる.
+   * @param data 入力したデータ
+   */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
     //フォーマットを変換
     const hireDate = String(format(data.hireDate, "yyyy-MM-dd"));
     const birthDay = String(format(data.birthDay, "yyyy-MM-dd"));
 
-    //仮登録情報の名前とアドレスをこれでAPI送信できるのか??
     const preName = userPreTokenData.name;
     const preEmail = userPreTokenData.email;
 
@@ -111,20 +113,21 @@ const SignUp: NextPage = () => {
       serviceFk: data.serviceFk,
       password: data.password,
     };
-    
+
     try {
       //APIにユーザー登録情報を送信する
       const res = await axios.post(`${JAVA_API_URL}/signup`, postDate);
       //本登録に成功した場合
       if (res.data.status === "success") {
         console.dir(JSON.stringify(postDate));
-        //会員登録に成功したら登録完了画面に遷移する;
+        //会員登録に成功したら入力値をクリアして登録完了画面に遷移する;
+        clear();
         router.push("/auth/signup/compsignup");
       } else {
         alert(res.data.message);
       }
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   };
   //クリアボタン

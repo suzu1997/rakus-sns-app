@@ -1,6 +1,10 @@
 import { NextPage } from "next";
 import Link from "next/link";
 
+/**
+ * 仮登録完了画面.
+ * @returns 仮登録が完了した際に表示する画面
+ */
 const CompPreSignUp: NextPage = () => {
   return (
     <>

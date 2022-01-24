@@ -20,24 +20,27 @@ const schema = yup.object().shape({
 });
 
 /**
- * パスワードを忘れたときの画面
+ * パスワードを忘れたときの画面.
  * @returns パスワードを忘れたときの画面
  */
 const ForgetPass: NextPage = () => {
   // モーダルのオープン状態
   const [isOpen, setIsOpen] = useState(false);
 
-  //バリデーション機能を呼び出し
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm({
+    //バリデーション機能を呼び出し
     resolver: yupResolver(schema),
   });
 
-  //送信ボタンを押したときに呼ばれる
+  /**
+   * 送信ボタンを押した時のメソッド.
+   * @param data 入力したデータ
+   */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
     //APIに送るデータ
@@ -49,17 +52,15 @@ const ForgetPass: NextPage = () => {
         `${JAVA_API_URL}/password/sendMail`,
         postDate,
       );
-      //仮登録に成功した場合
+      //メール認証に成功した場合
       if (res.data.status === "success") {
-        //入力内容をクリアした後、仮登録完了画面に遷移する
-        reset;
         //メール認証成功したらモーダルを開ける
         setIsOpen(true);
       } else {
         alert(res.data.message);
       }
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   };
 
