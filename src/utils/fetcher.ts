@@ -13,6 +13,5 @@ export const fetcher = async (url: string) => {
     return;
   }
   const result = await axios.get(url);
-  console.log(url);
   return result.data;
 };
