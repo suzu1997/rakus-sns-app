@@ -41,6 +41,11 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
   const register = useCallback(
     async (restaurant) => {
       try {
+        // 店の説明は、restaurant.catchがあればそれ、無ければrestaurant.genre.catchを設定
+        const description = restaurant.catch
+          ? restaurant.catch
+          : restaurant.genre.catch;
+
         // 店の情報と入力させたタイプをAPIに渡して登録
         const res = await axios.post(`${JAVA_API_URL}/restaurant/hp`, {
           name: restaurant.name,
@@ -49,7 +54,7 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
           photoPath: restaurant.photo.pc.l,
           type: Number(type.id),
           hotpepperId: restaurant.id,
-          description: restaurant.catch,
+          description: description,
           access: restaurant.access,
           latitude: restaurant.lat,
           longitude: restaurant.lng,

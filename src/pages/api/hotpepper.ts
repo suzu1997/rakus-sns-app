@@ -1,6 +1,6 @@
 // jsonp形式のデータをfetchするパッケージ
 import { NextApiRequest, NextApiResponse } from "next";
-import { HOTPEPPER_URL2 } from "../../utils/const";
+import { HOTPEPPER_URL } from "../../utils/const";
 
 /**
  * ホットペッパーAPIを叩くための簡易API.
@@ -10,7 +10,7 @@ import { HOTPEPPER_URL2 } from "../../utils/const";
 const Hotpepper = async (req: NextApiRequest, res: NextApiResponse) => {
   // サーバー側でのみ使用できる定数、API_KEYを使用
   // サーバー側でAPIを叩いているため、jsonで取得してもCORSエラーは発生しない
-  let url = HOTPEPPER_URL2;
+  let url = HOTPEPPER_URL;
 
   // クエリパラメータから店名を取得
   const { name_any } = req.query;

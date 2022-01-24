@@ -1,10 +1,10 @@
-import { FC } from "react";
+import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { AddByHotpepper } from "../../../components/Lunch/AddByHotpepper";
 import { AddManuallyForm } from "../../../components/Lunch/AddManuallyForm";
 import { SubHeader } from "../../../components/Layout/SubHeader";
 
-const RestaurantAdd: FC = () => {
+const RestaurantAdd: NextPage = () => {
   const router = useRouter();
 
   // URLのパラメータからホットペッパーIDを取得

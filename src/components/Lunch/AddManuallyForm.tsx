@@ -1,4 +1,4 @@
-import { FC, useCallback, useState } from "react";
+import { FC, memo, useCallback, useState } from "react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -37,7 +37,7 @@ const schema = yup.object().shape({
  *
  * @param cansel 登録をキャンセルするためのコールバック関数
  */
-export const AddManuallyForm: FC<Props> = (props) => {
+export const AddManuallyForm: FC<Props> = memo((props) => {
   const router = useRouter();
 
   const { cansel } = props;
@@ -245,4 +245,4 @@ export const AddManuallyForm: FC<Props> = (props) => {
       </div>
     </>
   );
-};
+});

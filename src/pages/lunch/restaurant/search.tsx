@@ -1,6 +1,7 @@
+import { NextPage } from "next";
 import axios from "axios";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-import { FC, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { Button } from "../../../components/Button/Button";
 import { TextInput } from "../../../components/Form/TextInput";
 import { useRouter } from "next/router";
@@ -9,7 +10,7 @@ import { SubHeader } from "../../../components/Layout/SubHeader";
 import { JAVA_API_URL } from "../../../utils/const";
 import toast from "react-hot-toast";
 
-const RestaurantSearch: FC = () => {
+const RestaurantSearch: NextPage = () => {
   const router = useRouter();
   // 店名で検索するキーワード
   const [searchName, setSearchName] = useState<string>("");
@@ -106,7 +107,7 @@ const RestaurantSearch: FC = () => {
             icon: "ℹ️",
           });
           return;
-        } 
+        }
         // 未登録なら登録ページへ遷移
         router.push(`/lunch/restaurant/add?hotpepperId=${hotpepper.id}`);
       } catch (error) {

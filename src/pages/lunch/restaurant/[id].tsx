@@ -58,7 +58,7 @@ const RestaurantDetail: NextPage = () => {
                 <Button label={"レビュー投稿"} size="sm" onClick={openModal} />
               </span>
             </div>
-            <ReviewList />
+            <ReviewList restaurantId={restaurantId}/>
             <PostModal
               isOpen={isOpen}
               closeModal={closeModal}
