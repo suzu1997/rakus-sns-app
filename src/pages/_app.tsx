@@ -6,8 +6,27 @@ import Head from "next/head";
 import { SWRConfig } from "swr";
 import { Toaster } from "react-hot-toast";
 import { fetcher } from "../utils/fetcher";
+import nprogress from "nprogress"; // NProgressインポート
+import "nprogress/nprogress.css"; // バーのデフォルトスタイルのインポート
+import "../styles/globals.css";
+import React, { useEffect } from "react";
+
+// バーの設定
+//    showSpinner: バーと一緒にローディングスピナーを表示するかどうか
+//    speed: バーが右端に到達し消えるまでの時間 (msec)
+//    minimum: バーの開始地点
+nprogress.configure({ showSpinner: true, speed: 400, minimum: 0.25 });
 
 function MyApp({ Component, pageProps }: AppProps) {
+  if (process.browser) {
+    // バーの表示開始
+    nprogress.start();
+  }
+  useEffect(() => {
+    // バーの表示終了
+    nprogress.done();
+  });
+
   return (
     <>
       <Head>
@@ -41,6 +60,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           />
         </SWRConfig>
       </Layout>
+      <Component {...pageProps} />
     </>
   );
 }
