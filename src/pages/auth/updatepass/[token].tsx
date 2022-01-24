@@ -36,7 +36,7 @@ const schema = yup.object().shape({
 });
 
 /**
- * パスワードを忘れたときの画面
+ * パスワードを忘れたときの画面.
  * @returns パスワードを忘れたときの画面
  */
 const UpdatePass: NextPage = () => {
@@ -45,12 +45,13 @@ const UpdatePass: NextPage = () => {
   //URLの後ろからtoken取得
   const passToken = String(router.query.token);
 
-  //バリデーション機能を呼び出し
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
+    //バリデーション機能を呼び出し
     resolver: yupResolver(schema),
   });
 
@@ -68,7 +69,10 @@ const UpdatePass: NextPage = () => {
   }
   const updatePassTokenData: UpdatePassInfo = updatePassData;
 
-  //送信ボタンを押したときに呼ばれる
+  /**
+   * 送信ボタンを押した時に呼ばれるメソッド.
+   * @param data 入力したデータ
+   */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
     const preEmail = updatePassTokenData.email;
@@ -86,14 +90,24 @@ const UpdatePass: NextPage = () => {
       );
       //パス変更に成功した場合
       if (res.data.status === "success") {
+        //入力情報をクリア
+        clear();
         //パスワード変更完了したら画面遷移
         router.push("/auth/compupdatepass");
       } else {
         alert(res.data.message);
       }
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
+  };
+
+  //入力データをクリア
+  const clear = () => {
+    reset({
+      password: "",
+      passwordConf: "",
+    });
   };
 
   return (

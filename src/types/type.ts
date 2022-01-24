@@ -43,7 +43,7 @@ export type UserInfo = {
   serviceFk: string;
   accountName: string;
   birthDay: string;
-  profile: string;
+  introduction: string;
 };
 
 //ユーザ本登録画面
