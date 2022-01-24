@@ -13,6 +13,7 @@ import { JAVA_API_URL } from "../../utils/const";
 import { Timeline, TimelineDtail } from "../../types/type";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import axios from "axios";
+import { CommentList } from "../../components/Timeline/CommentList";
 
 /**
  * つぶやき詳細画面.
@@ -64,7 +65,6 @@ const TweetDetail: NextPage = () => {
       );
       // タイムライン情報をdataから抽出
       setDetailData(res.data.timeline);
-      console.dir(JSON.stringify(res.data.timeline));
     } catch (error) {
       console.log(error);
     }
@@ -151,50 +151,7 @@ const TweetDetail: NextPage = () => {
             </div>
           </div>
 
-          {commentList ? (
-            <div>
-              {commentList.map((value, key) => (
-                <div
-                  key={key}
-                  className="flex  border border-t-0 border-gray-200"
-                >
-                  <div className="w-1/5 text-center pt-5 cursor-pointer hover:opacity-50">
-                    <Image
-                      src={`/image/userIcon/${value.userPhotoPath}`}
-                      width={100}
-                      height={100}
-                      alt="icon"
-                      onClick={() => {
-                        goUserPage(value.userId);
-                      }}
-                      className="rounded-full"
-                    />
-                  </div>
-                  <div className="w-4/5">
-                    <div className="text-xl font-extrabold py-3 ml-3">
-                      {value.accountName}
-                    </div>
-                    <div className="pt-5 pb-5 pl-5 w-8/12">
-                      {value.sentence}
-                    </div>
-                    <div className="w-full text-right py-3 pr-5">
-                      <FavoBtn
-                        postId={value.id}
-                        favoCount={value.likeCount}
-                        getData={getData}
-                        isFavo={value.myLike}
-                      />
-                      {loginId == value.userId && (
-                        <TrashBtn postId={value.id} />
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div>コメントはありません</div>
-          )}
+          <CommentList commentList={commentList} getData={getData} />
         </div>
       )}
       <div>
