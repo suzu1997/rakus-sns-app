@@ -104,10 +104,13 @@ export const ReviewList: FC<Props> = memo((props) => {
       </div>
     );
   }
-  
+
+  // 一回で取得できるデータ数
+  const LIMIT = 50;
+
   // 最後まで読み込んだかどうか
   const isLast = data
-    ? data.filter((pageData) => pageData.reviewList.length < 50).length > 0
+    ? data.filter((pageData) => pageData.reviewList.length < LIMIT).length > 0
     : false;
 
   return (
