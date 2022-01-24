@@ -104,11 +104,11 @@ export const ReviewList: FC<Props> = memo((props) => {
       </div>
     );
   }
-  if (data) {
-    console.log(data);
-    console.log(data[0]);
-    console.log(data[0].reviewList);
-  }
+  
+  // 最後まで読み込んだかどうか
+  const isLast = data
+    ? data.filter((pageData) => pageData.reviewList.length < 50).length > 0
+    : false;
 
   return (
     <div className="w-full">
@@ -127,12 +127,15 @@ export const ReviewList: FC<Props> = memo((props) => {
             );
           }),
         )}
-      <div
-        className="text-text-brown text-center my-5 cursor-pointer hover:text-basic"
-        onClick={loadMoreReviews}
-      >
-        過去のレビューを見る…
-      </div>
+      {/* 最後まで読み込んでいれば過去のレビューを見るボタンを表示しない */}
+      {isLast === false && (
+        <div
+          className="text-text-brown text-center my-5 cursor-pointer hover:text-basic"
+          onClick={loadMoreReviews}
+        >
+          過去のレビューを見る…
+        </div>
+      )}
     </div>
   );
 });
