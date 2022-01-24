@@ -2,6 +2,7 @@ import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { FC, memo, useCallback, useState } from "react";
+import toast from "react-hot-toast";
 import useSWR from "swr";
 import { JAVA_API_URL } from "../../utils/const";
 import { typeOptions } from "../../utils/options";
@@ -13,14 +14,14 @@ type Props = {
   cansel: () => void;
 };
 
-export type Options = {
+export type Option = {
   id: string;
   name: string;
 };
 
 /**
  * ホットペッパーから店情報を取得して登録するコンポーネント.
- * 
+ *
  * @param hotpepperId 登録するホットペッパーのID
  * @param cansel 登録をキャンセルするためのコールバック関数
  */
@@ -32,7 +33,7 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
   const { data, error } = useSWR(`/api/hotpepper?hotpepperId=${hotpepperId}`);
 
   // 登録する店舗のタイプ
-  const [type, setType] = useState<Options>(typeOptions[0]);
+  const [type, setType] = useState<Option>(typeOptions[0]);
 
   /**
    * APIに情報を渡して店舗を登録する.
@@ -40,12 +41,13 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
   const register = useCallback(
     async (restaurant) => {
       try {
+        // 店の情報と入力させたタイプをAPIに渡して登録
         const res = await axios.post(`${JAVA_API_URL}/restaurant/hp`, {
           name: restaurant.name,
           address: restaurant.address,
           genreFk: restaurant.genre.code,
           photoPath: restaurant.photo.pc.l,
-          type: type.id,
+          type: Number(type.id),
           hotpepperId: restaurant.id,
           description: restaurant.catch,
           access: restaurant.access,
@@ -54,11 +56,14 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
           url: restaurant.urls.pc,
           smoking: restaurant.non_smoking,
         });
-        // 店の情報と入力させたタイプをAPIに渡して登録
-        router.push(`/lunch/restaurant/${res.data.restaurant.id}`);
-        alert("登録しました");
+        if (res.data.status === "success") {
+          toast.success("お店を登録しました");
+          router.push(`/lunch/restaurant/${res.data.restaurant.id}`);
+        } else {
+          toast.error(res.data.message);
+        }
       } catch (error) {
-        alert(error);
+        toast.error("お店の登録に失敗しました");
       }
     },
     [router, type.id],
@@ -84,11 +89,14 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
   const restaurant = data.shops[0];
 
   return (
-    <div>
-      <li className="list-disc">
-        {restaurant.name}({restaurant.name_kana})
-      </li>
-      <div className="ml-10 mt-5">
+    <>
+      <div className="text-md md:text-xl text-text-brown my-5 font-bold text-center">
+        未登録のお店の為、タイプを選択の上、新規登録をお願いします。
+      </div>
+      <p className="text-lg lg:text-2xl font-extrabold border-l-8 border-basic mb-5">
+        {restaurant.name}
+      </p>
+      <div className="sm:ml-10 mt-5">
         <Image
           src={restaurant.photo.pc.l}
           alt="image"
@@ -96,25 +104,26 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
           height={200}
         />
       </div>
-      <p className="ml-10">▶︎ジャンル: {restaurant.genre.name}</p>
-      <p className="ml-10 mt-2">▶︎お店キャッチ: {restaurant.catch}</p>
-      <p className="ml-10 mt-2">▶︎住所: {restaurant.address}</p>
-      <p className="ml-10 mt-2">▶︎交通アクセス: {restaurant.access}</p>
-      <p className="ml-10 mt-2">
+      <p className="sm:ml-10">▶︎ジャンル: {restaurant.genre.name}</p>
+      <p className="sm:ml-10 mt-2">▶︎お店キャッチ: {restaurant.catch}</p>
+      <p className="sm:ml-10 mt-2">▶︎住所: {restaurant.address}</p>
+      <p className="sm:ml-10 mt-2">▶︎交通アクセス: {restaurant.access}</p>
+      <p className="sm:ml-10 mt-2">
         ▶︎店舗URL:{" "}
         <a href={restaurant.urls.pc} className="hover:text-blue-700">
           {restaurant.urls.pc}
         </a>
       </p>
-      <div className="w-1/3 ml-10 mt-5">
+      <p className="sm:ml-10 mt-2">▶︎禁煙席: {restaurant.non_smoking}</p>
+      <div className="sm:w-1/3 sm:ml-10 mt-5">
         <SelectBox
           label="タイプ(店内・お弁当・両方)"
-          value={type.name}
+          selectedOption={type}
           select={setType}
           options={typeOptions}
         ></SelectBox>
       </div>
-      <div className="ml-10 mt-5 flex justify-center gap-3">
+      <div className="sm:ml-10 mt-5 flex justify-center gap-3">
         <Button label="新規登録" onClick={() => register(restaurant)} />
         <Button
           label="キャンセル"
@@ -123,6 +132,6 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
           color="#622d18"
         />
       </div>
-    </div>
+    </>
   );
 });

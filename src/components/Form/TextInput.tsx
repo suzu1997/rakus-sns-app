@@ -1,13 +1,15 @@
 import { ChangeEventHandler, FC } from "react";
 
 export type Props = {
-  label: string;
+  label?: string;
   value?: string;
   type: string;
   fullWidth: boolean; // trueなら親要素のwidthの長さ
   placeholder?: string;
+  maxLength?: number;
   required: boolean;
   onChange?: ChangeEventHandler<HTMLInputElement>;
+  onKeyUp?: ChangeEventHandler<HTMLInputElement>;
   errorMessage?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   registers?: any;
@@ -20,10 +22,12 @@ export const TextInput: FC<Props> = (props) => {
     type,
     fullWidth = true,
     placeholder,
+    maxLength,
     required,
     onChange,
     errorMessage,
     registers,
+    onKeyUp,
   } = props;
 
   return (
@@ -47,11 +51,13 @@ export const TextInput: FC<Props> = (props) => {
         value={value}
         type={type}
         placeholder={placeholder}
+        maxLength={maxLength}
         required
         className={`${
           fullWidth && "w-full"
         } relative py-2 pl-3 pr-10 text-left bg-white border border-gray-300 shadow-md outline-none rounded-lg focus:outline-none focus:border-basic focus-visible:ring-white text-xs sm:text-sm lg:text-lg`}
         onChange={onChange}
+        onKeyUp={onKeyUp}
         {...registers}
       />
     </div>

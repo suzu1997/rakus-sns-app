@@ -48,7 +48,7 @@ export const RestaurantDetailContainer: FC = memo(() => {
   };
 
   return (
-    <div className="flex-col mx-5 xl:mx-24 lg:w-2/3">
+    <div className="flex-col m-5 xl:mx-24 lg:w-2/3">
       <p className="text-lg lg:text-3xl font-extrabold border-l-8 border-basic mb-5">
         {restaurant.name}
       </p>
@@ -62,7 +62,11 @@ export const RestaurantDetailContainer: FC = memo(() => {
       <div className="mt-5 sm:mt-10">
         <div>
           <Image
-            src={`/${restaurant.photoPath}`}
+            src={
+              restaurant.hotpepperId === null
+                ? `/image/foodPhoto/${restaurant.photoPath}`
+                : `${restaurant.photoPath}`
+            }
             width={300}
             height={200}
             alt="restaurant photo"
@@ -70,6 +74,9 @@ export const RestaurantDetailContainer: FC = memo(() => {
         </div>
         {restaurant.description && (
           <div className="mt-10">{restaurant.description}</div>
+        )}
+        {restaurant.smoking && (
+          <div className="mt-10">禁煙席: {restaurant.smoking}</div>
         )}
       </div>
       <p className="mt-10">住所: {restaurant.address}</p>

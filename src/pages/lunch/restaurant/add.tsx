@@ -24,7 +24,7 @@ const RestaurantAdd: FC = () => {
     <div className="flex">
       <div className="flex-1">
         <SubHeader title={"お店登録"} />
-        <div className="w-5/6 mx-auto py-5">
+        <div className="max-w-xl w-5/6 mx-auto py-5">
           {typeof hotpepperId === "string" ? (
             <>
               {/* ホットペッパーにある店を登録する画面 */}

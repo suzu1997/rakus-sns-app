@@ -54,7 +54,7 @@ export const PostModal: FC<Props> = memo((props) => {
     { id: "1", name: "1" },
   ];
   // 選択した星の数を格納するstate
-  const [star, setStar] = useState(starOptions[0].name);
+  const [star, setStar] = useState(starOptions[0]);
 
   /**
    * 入力テキストの内容をstateに格納する.
@@ -84,7 +84,7 @@ export const PostModal: FC<Props> = memo((props) => {
         // await axios.post(`${JAVA_API_URL}/reviews`, {
         //   userId,
         //   post,
-        //   star,
+        //   star: Number(star.id),
         // });
         toast.success(
           `id${restaurantId}のお店に${title}を投稿しました\n${title}内容: ${post}, 星の数: ${star}`,
@@ -207,7 +207,7 @@ export const PostModal: FC<Props> = memo((props) => {
                       <div className="flex gap-3 items-center mb-3">
                         評価: 星
                         <SelectBox
-                          value={star}
+                          selectedOption={star}
                           select={setStar}
                           options={starOptions}
                         />

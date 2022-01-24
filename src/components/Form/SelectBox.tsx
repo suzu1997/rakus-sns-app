@@ -1,16 +1,17 @@
 import { Dispatch, FC, Fragment, SetStateAction } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { SelectorIcon } from "@heroicons/react/solid";
+import { Option } from "../Lunch/AddByHotpepper";
 
 export type Props = {
   label?: string;
-  value: string;
-  select: Dispatch<SetStateAction<string | any>>;
+  selectedOption: Option;
+  select: Dispatch<SetStateAction<Option>>;
   options: Array<{ id: string; name: string }>; // 選択肢
 };
 
 export const SelectBox: FC<Props> = (props) => {
-  const { label, value, select, options } = props;
+  const { label, selectedOption, select, options } = props;
 
   return (
     <div>
@@ -18,10 +19,10 @@ export const SelectBox: FC<Props> = (props) => {
       <div className="text-left">
         {label && <label className="text-gray-500 text-sm">{label}</label>}
       </div>
-      <Listbox value={value} onChange={select}>
+      <Listbox value={selectedOption} onChange={select}>
         <div className="relative">
-          <Listbox.Button className="relative w-44 sm:w-56 h-8  sm:h-10 lg:w-64 lg:h-11 py-1 pl-3 pr-10 text-left bg-white border border-gray-200 rounded-lg shadow-md focus:outline-none text-xs sm:text-sm">
-            <span className="block truncate">{value}</span>
+          <Listbox.Button className="relative w-44 sm:w-56 h-8 sm:h-10 lg:w-64 lg:h-11 py-1 pl-3 pr-10 text-left bg-white border border-gray-200 rounded-lg shadow-md focus:outline-none text-xs sm:text-sm">
+            <span className="block truncate">{selectedOption.name}</span>
             <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
               <SelectorIcon
                 className="w-5 h-5 text-gray-400"
@@ -35,7 +36,7 @@ export const SelectBox: FC<Props> = (props) => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute w-56 sm:w-56  py-1 mt-1 z-20 text-base text-left bg-white rounded-md shadow-lg max-h-60 focus:outline-none sm:text-sm text-xs lg:text-lg ">
+            <Listbox.Options className="absolute w-full py-1 mt-1 z-20 text-left bg-white rounded-md shadow-lg max-h-60 focus:outline-none sm:text-sm text-xs lg:text-lg overflow-y-auto">
               {options.map((option) => (
                 <Listbox.Option
                   key={option.id}
@@ -43,7 +44,7 @@ export const SelectBox: FC<Props> = (props) => {
                     `${active ? "text-text-brown bg-bgc" : "text-gray-900"}
                            select-none relative py-2 pl-4 pr-4`
                   }
-                  value={option.name}
+                  value={option}
                 >
                   {({ selected }) => (
                     <>

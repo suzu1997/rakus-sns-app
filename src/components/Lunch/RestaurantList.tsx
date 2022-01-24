@@ -5,9 +5,9 @@ import { JAVA_API_URL } from "../../utils/const";
 import { RestaurantCard } from "./RestaurantCard";
 
 export const RestaurantList: FC = memo(() => {
-  const { data: restaurantList, error } = useSWR(`${JAVA_API_URL}/restaurant`);
+  const { data, error } = useSWR(`${JAVA_API_URL}/restaurant`);
 
-  if (!error && !restaurantList) {
+  if (!error && !data) {
     return (
       <div className="flex justify-center pt-10 w-full">
         <div className="animate-spin h-8 w-8 bg-basic rounded-xl"></div>
@@ -23,16 +23,20 @@ export const RestaurantList: FC = memo(() => {
     );
   }
 
-  if (restaurantList.message === "レストランが1件も登録されていません") {
+  if (data.message === "レストランが1件も登録されていません") {
     return (
       <div className="w-full p-10 text-center">
         お店が1件も登録されていません🙇‍♀️
       </div>
     );
   }
+
+  // レストラン一覧をdataから抽出
+  const restaurantList: Array<Restaurant> = data.restaurant;
+
   return (
     <div className="w-full">
-      {restaurantList?.restaurant.map((restaurant: Restaurant) => (
+      {restaurantList.map((restaurant: Restaurant) => (
         <div key={restaurant.id}>
           <RestaurantCard {...restaurant} />
         </div>
