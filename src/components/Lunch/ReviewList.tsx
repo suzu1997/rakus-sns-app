@@ -6,7 +6,13 @@ import { LunchReview } from "../../types/type";
 import { JAVA_API_URL } from "../../utils/const";
 import { ReviewCard } from "./ReviewCard";
 
-export const ReviewList: FC = memo(() => {
+type Props = {
+  restaurantId?: number;
+}
+
+export const ReviewList: FC<Props> = memo((props) => {
+  const { restaurantId } = props;
+
   // レビューカードがレストラン情報を持つかどうか
   const [hasRestaurantInfo, setHasRestaurantInfo] = useState<boolean>(true);
   const router = useRouter();
