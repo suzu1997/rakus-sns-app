@@ -48,12 +48,12 @@ const TweetDetail: NextPage = () => {
   const { data, error } = useSWR(
     `${JAVA_API_URL}/timeline/detail/${postId}/${loginId}`,
   );
-  console.dir(JSON.stringify(data));
 
   //つぶやき詳細データ
   const [detailData, setDetailData] = useState<TimelineDtail>(data?.timeline);
   //コメントリスト
   const [commentList] = useState<Timeline>(data?.commentList);
+  console.dir(JSON.stringify(detailData));
 
   /**
    * 投稿の読み込み直し.
@@ -73,9 +73,9 @@ const TweetDetail: NextPage = () => {
   /**
    * リロード問題解消用.
    */
-  useEffect(() => {
-    getData();
-  }, [getData]);
+  // useEffect(() => {
+  //   getData();
+  // }, [getData]);
 
   //初期値エラー
   if (!error && !data) {
@@ -122,7 +122,7 @@ const TweetDetail: NextPage = () => {
               </div>
               <div className="w-9/12">
                 <div className="text-xl font-extrabold py-3 ml-3">
-                  {data.name}
+                  {detailData.accountName}
                 </div>
                 <div className="w-8/12 ml-5">{detailData.sentence}</div>
               </div>

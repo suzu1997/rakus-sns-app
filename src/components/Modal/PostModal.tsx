@@ -141,7 +141,8 @@ export const PostModal: FC<Props> = memo((props) => {
   /**
    * APIを使用して画像データ取得.
    */
-  const { data, error } = useSWR(`${JAVA_API_URL}/user/${userId}`);
+  const { data, error } = useSWR(`${JAVA_API_URL}/user/2`);
+  // const { data, error } = useSWR(`${JAVA_API_URL}/user/${userId}`);
   // 個人情報をdataから抽出
   const userPhoto = data?.user.userPhotoPath;
 
