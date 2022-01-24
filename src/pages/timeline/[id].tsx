@@ -45,7 +45,10 @@ const TweetDetail: NextPage = () => {
   /**
    * APIを使用してタイムラインデータを取得.(未実装)
    */
-  const { data, error } = useSWR(`${JAVA_API_URL}/timeline/detail/${postId}`);
+  const { data, error } = useSWR(
+    `${JAVA_API_URL}/timeline/detail/${postId}/${loginId}`,
+  );
+  console.dir(JSON.stringify(data));
 
   //つぶやき詳細データ
   const [detailData, setDetailData] = useState<TimelineDtail>(data?.timeline);
@@ -57,13 +60,15 @@ const TweetDetail: NextPage = () => {
    */
   const getData = useCallback(async () => {
     try {
-      const res = await axios.get(`${JAVA_API_URL}/timeline/detail/${postId}`);
+      const res = await axios.get(
+        `${JAVA_API_URL}/timeline/detail/${postId}/${loginId}`,
+      );
       // タイムライン情報をdataから抽出
       setDetailData(res.data.Timeline);
     } catch (error) {
       console.log(error);
     }
-  }, [postId]);
+  }, [loginId, postId]);
 
   /**
    * リロード問題解消用.
