@@ -53,7 +53,6 @@ const TweetDetail: NextPage = () => {
   const [detailData, setDetailData] = useState<TimelineDtail>(data?.timeline);
   //コメントリスト
   const [commentList] = useState<Timeline>(data?.commentList);
-  console.dir(JSON.stringify(detailData));
 
   /**
    * 投稿の読み込み直し.
@@ -64,7 +63,7 @@ const TweetDetail: NextPage = () => {
         `${JAVA_API_URL}/timeline/detail/${postId}/${loginId}`,
       );
       // タイムライン情報をdataから抽出
-      setDetailData(res.data.Timeline);
+      setDetailData(res.data.timeline);
     } catch (error) {
       console.log(error);
     }
@@ -73,9 +72,9 @@ const TweetDetail: NextPage = () => {
   /**
    * リロード問題解消用.
    */
-  // useEffect(() => {
-  //   getData();
-  // }, [getData]);
+  useEffect(() => {
+    getData();
+  }, [getData]);
 
   //初期値エラー
   if (!error && !data) {
