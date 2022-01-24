@@ -11,7 +11,7 @@ const Template: Story<Props> = (args) => <SelectBox {...args} />;
 export const Default: Story<Props> = Template.bind({});
 Default.args = {
   label: "Default",
-  value: "テスト1",
+  selectedOption: { id: "1", name: "テスト1" },
   options: [
     { id: "1", name: "テスト1" },
     { id: "2", name: "テスト2" },
