@@ -64,6 +64,7 @@ const TweetDetail: NextPage = () => {
       );
       // タイムライン情報をdataから抽出
       setDetailData(res.data.timeline);
+      console.dir(JSON.stringify(res.data.timeline));
     } catch (error) {
       console.log(error);
     }
@@ -140,6 +141,7 @@ const TweetDetail: NextPage = () => {
                     postId={data.postId}
                     favoCount={detailData.likeCount}
                     getData={getData}
+                    isFavo={detailData.myLike}
                   />
                   {loginId == data.userId && (
                     <TrashBtn postId={detailData.id} />
@@ -180,6 +182,7 @@ const TweetDetail: NextPage = () => {
                         postId={value.id}
                         favoCount={value.likeCount}
                         getData={getData}
+                        isFavo={value.myLike}
                       />
                       {loginId == value.userId && (
                         <TrashBtn postId={value.id} />
