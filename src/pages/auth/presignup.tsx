@@ -72,7 +72,7 @@ const PreSignUp: NextPage = () => {
         console.log(postDate);
         console.log(res.data.status);
         //入力内容をクリアした後、仮登録完了画面に遷移する
-        reset;
+        clear();
         router.push("/auth/comppresignup");
       } else {
         alert(res.data.message);
@@ -80,6 +80,15 @@ const PreSignUp: NextPage = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  //入力データをクリア
+  const clear = () => {
+    reset({
+      firstName: "",
+      lastName: "",
+      email: "",
+    });
   };
 
   return (
