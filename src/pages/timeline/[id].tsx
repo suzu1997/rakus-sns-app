@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { Button } from "../../components/Button/Button";
 import { CommentIcon } from "../../components/Button/CommentIcon";
 import { FavoBtn } from "../../components/Button/FavoBtn";
@@ -12,6 +12,7 @@ import useSWR from "swr";
 import { JAVA_API_URL } from "../../utils/const";
 import { Timeline, TimelineDtail } from "../../types/type";
 import { loginIdContext } from "../../providers/LoginIdProvider";
+import axios from "axios";
 
 /**
  * つぶやき詳細画面.
@@ -51,9 +52,29 @@ const TweetDetail: NextPage = () => {
   const { data, error } = useSWR(`${JAVA_API_URL}/timeline/detail/${postId}`);
 
   //つぶやき詳細データ
-  const [detailData] = useState<TimelineDtail>(data?.timeline);
+  const [detailData, setDetailData] = useState<TimelineDtail>(data?.timeline);
   //コメントリスト
   const [commentList] = useState<Timeline>(data?.commentList);
+
+  /**
+   * 投稿の読み込み直し.
+   */
+  const getData = useCallback(async () => {
+    try {
+      const res = await axios.get(`${JAVA_API_URL}/timeline/detail/${postId}`);
+      // タイムライン情報をdataから抽出
+      setDetailData(res.data.Timeline);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [postId]);
+
+  /**
+   * リロード問題解消用.
+   */
+  useEffect(() => {
+    getData();
+  }, [getData]);
 
   if (!error && !data) {
     return <div>Loading...</div>;
