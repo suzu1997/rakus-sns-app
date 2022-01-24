@@ -104,6 +104,11 @@ export const ReviewList: FC<Props> = memo((props) => {
       </div>
     );
   }
+  if (data) {
+    console.log(data);
+    console.log(data[0]);
+    console.log(data[0].reviewList);
+  }
 
   return (
     <div className="w-full">
@@ -111,13 +116,15 @@ export const ReviewList: FC<Props> = memo((props) => {
         // dataはページごとの連想配列の配列
         data.map((pageData) =>
           pageData.reviewList.map((review: LunchReview) => {
-            <div key={review.reviewId}>
-              <ReviewCard
-                {...review}
-                type="一覧"
-                hasRestaurantInfo={hasRestaurantInfo}
-              />
-            </div>;
+            return (
+              <div key={review.id}>
+                <ReviewCard
+                  {...review}
+                  type="一覧"
+                  hasRestaurantInfo={hasRestaurantInfo}
+                />
+              </div>
+            );
           }),
         )}
       <div
