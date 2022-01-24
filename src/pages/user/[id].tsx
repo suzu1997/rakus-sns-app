@@ -168,7 +168,7 @@ const User: NextPage = () => {
                     key={category}
                     className={({ selected }) =>
                       classNames(
-                        "w-full py-2.5 text-sm leading-5 font-medium text-bgc rounded-lg",
+                        "w-full py-2.5 text-sm font-bold leading-5 font-medium text-bgc rounded-lg",
                         "focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60 bg-text-brown",
                         selected
                           ? "bg-white shadow"
