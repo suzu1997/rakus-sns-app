@@ -22,7 +22,7 @@ const Info: NextPage = () => {
           <div className="border-solid  border-2 border-bgc-200 m-5 shadow-lg rounded-md text-center">
             <div className="mt-3 text-xl font-bold">第二ラーニングセンター</div>
             <Image
-              src="/usakus.jpg"
+              src="/image/userIcon/user3.jpeg"
               width={100}
               height={100}
               alt="icon"
@@ -35,7 +35,7 @@ const Info: NextPage = () => {
           <div className="border-solid  border-2 border-bgc-200 m-5 shadow-lg rounded-md text-center">
             <div className="mt-3 text-xl font-bold">第一ラーニングセンター</div>
             <Image
-              src="/usakus.jpg"
+              src="/image/userIcon/user4.jpeg"
               width={100}
               height={100}
               alt="icon"
@@ -49,7 +49,7 @@ const Info: NextPage = () => {
           <div className="border-solid  border-2 border-bgc-200 m-5 shadow-lg rounded-md text-center">
             <div className="mt-3 text-xl font-bold">本社</div>
             <Image
-              src="/usakus.jpg"
+              src="/image/userIcon/user5.jpeg"
               width={100}
               height={100}
               alt="icon"

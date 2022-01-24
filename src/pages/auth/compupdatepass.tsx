@@ -1,6 +1,10 @@
 import { NextPage } from "next";
 import Link from "next/link";
 
+/**
+ * パスワード変更完了画面.
+ * @returns パスワードの変更が完了した際に表示する画面
+ */
 const CompUpdatePass: NextPage = () => {
   return (
     <>

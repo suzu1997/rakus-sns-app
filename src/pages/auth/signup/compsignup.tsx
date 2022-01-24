@@ -1,6 +1,10 @@
 import { NextPage } from "next";
 import Link from "next/link";
 
+/**
+ * 本会員登録完了ページ.
+ * @returns 本会員登録が完了した際に表示するページ
+ */
 const CompSignUp: NextPage = () => {
   return (
     <>
