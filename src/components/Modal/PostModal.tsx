@@ -83,11 +83,12 @@ export const PostModal: FC<Props> = memo((props) => {
         //レビュー投稿
         // await axios.post(`${JAVA_API_URL}/reviews`, {
         //   userId,
-        //   post,
+        //   restaurantId,
+        //   sentence: post,
         //   star: Number(star.id),
         // });
         toast.success(
-          `id${restaurantId}のお店に${title}を投稿しました\n${title}内容: ${post}, 星の数: ${star}`,
+          `${title}を投稿しました\n${title}内容: ${post}, 星の数: ${star}`,
         );
       } catch (e) {
         toast.error(`${title}の投稿に失敗しました`);
