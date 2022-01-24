@@ -12,12 +12,6 @@ import axios from "axios";
 
 //バリデーションチェック
 const schema = yup.object().shape({
-  //メールアドレスのバリデーション
-  email: yup
-    .string()
-    .required("メールアドレスを入力してください")
-    .email("メールアドレス形式で入力してください")
-    .max(255, "メールアドレスは255文字以内で入力してください"),
   //パスワードのバリデーション
   password: yup
     .string()
@@ -49,7 +43,7 @@ const UpdatePass: NextPage = () => {
   //ルーターリンク
   const router = useRouter();
   //URLの後ろからtoken取得
-  const passToken = Number(router.query.token);
+  const passToken = String(router.query.token);
 
   //バリデーション機能を呼び出し
   const {
@@ -63,9 +57,8 @@ const UpdatePass: NextPage = () => {
   /**
    * APIで初期表示用データ取得.
    */
-  const { data: updatePassData, error } = useSWR<UpdatePassInfo>(
-    `${JAVA_API_URL}/password/${passToken}`,
-  );
+  const { data: payload, error } = useSWR(`${JAVA_API_URL}/mail/${passToken}`);
+  const updatePassData = payload?.mail;
 
   if (!error && !updatePassData) {
     return <div>Loading...</div>;
@@ -73,25 +66,23 @@ const UpdatePass: NextPage = () => {
   if (error) {
     return <div>データを取得できませんでした</div>;
   }
+  const updatePassTokenData: UpdatePassInfo = updatePassData;
 
   //送信ボタンを押したときに呼ばれる
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
-    console.log(data);
+    const preEmail = updatePassTokenData.email;
 
-    const preEmail = updatePassData?.email;
-
-    //APIに送るデータ
-    const postDate = {
+    const postData = {
       email: preEmail,
       password: data.password,
     };
 
     try {
       //APIに変更するユーザーのアドレスと新しいパスを送信する
-      const res = await axios.post(
+      const res = await axios.patch(
         `${JAVA_API_URL}/password/${passToken}`,
-        postDate,
+        postData,
       );
       //パス変更に成功した場合
       if (res.data.status === "success") {
@@ -111,42 +102,46 @@ const UpdatePass: NextPage = () => {
         <div className="mt-10 ">
           以下のフォームよりパスワードの更新をお願いします
         </div>
-        <div className="flex flex-col items-center mt-5">
-          <div className="mt-3">メールアドレス:{updatePassData?.email}</div>
-          <div className="w-3/4 sm:w-2/4 mt-3">
-            {/* パスワードのテキストフォーム */}
-            <TextInput
-              label="パスワード"
-              type="password"
-              fullWidth={true}
-              required
-              errorMessage={errors.password?.message}
-              placeholder="8文字以上16文字以内"
-              registers={register("password")}
-            />
+        {updatePassData && (
+          <div className="flex flex-col items-center mt-5">
+            <div className="mt-3">
+              メールアドレス:{updatePassTokenData.email}
+            </div>
+            <div className="w-3/4 sm:w-2/4 mt-3">
+              {/* パスワードのテキストフォーム */}
+              <TextInput
+                label="パスワード"
+                type="password"
+                fullWidth={true}
+                required
+                errorMessage={errors.password?.message}
+                placeholder="8文字以上16文字以内"
+                registers={register("password")}
+              />
+            </div>
+            <div className="w-3/4 sm:w-2/4 mt-3">
+              {/* 確認用パスワードのテキストフォーム */}
+              <TextInput
+                label="確認用パスワード"
+                type="password"
+                fullWidth={true}
+                required
+                errorMessage={errors.passwordConf?.message}
+                placeholder="8文字以上16文字以内"
+                registers={register("passwordConf")}
+              />
+            </div>
+            <div className="mt-10 mb-10">
+              <Button
+                label="変更"
+                backgroundColor="#f28728"
+                color="white"
+                size="md"
+                onClick={handleSubmit(onSubmit)}
+              />
+            </div>{" "}
           </div>
-          <div className="w-3/4 sm:w-2/4 mt-3">
-            {/* 確認用パスワードのテキストフォーム */}
-            <TextInput
-              label="確認用パスワード"
-              type="password"
-              fullWidth={true}
-              required
-              errorMessage={errors.passwordConf?.message}
-              placeholder="8文字以上16文字以内"
-              registers={register("passwordConf")}
-            />
-          </div>
-          <div className="mt-10 mb-10">
-            <Button
-              label="変更"
-              backgroundColor="#f28728"
-              color="white"
-              size="md"
-              onClick={handleSubmit(onSubmit)}
-            />
-          </div>{" "}
-        </div>{" "}
+        )}
       </div>
     </>
   );
