@@ -7,6 +7,7 @@ import { Star } from "./Star";
 import { TrashBtn } from "../Button/TrashBtn";
 import { LinkToRestaurant } from "./LinkToRestaurat";
 import { LunchReview } from "../../types/type";
+import { getFormattedDate } from "../../utils/methods";
 
 type Props = LunchReview & {
   type: string;
@@ -97,7 +98,9 @@ export const ReviewCard: FC<Props> = memo((props) => {
         )}
         <div className="flex flex-col items-end gap-3 sm:flex-row justify-end">
           {type === "詳細" && (
-            <span className="mr-7">投稿日時：{postedTime}</span>
+            <span className="mr-7">
+              投稿日時：{getFormattedDate(new Date(postedTime))}
+            </span>
           )}
           <div>
             <CommentIcon
