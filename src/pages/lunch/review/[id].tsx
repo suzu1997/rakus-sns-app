@@ -8,6 +8,8 @@ import { TrashBtn } from "../../../components/Button/TrashBtn";
 import { ReviewCard } from "../../../components/Lunch/ReviewCard";
 import { JAVA_API_URL } from "../../../utils/const";
 import { LunchReview } from "../../../types/type";
+import { useContext } from "react";
+import { loginIdContext } from "../../../providers/LoginIdProvider";
 
 type ReviewWithComment = LunchReview & {
   comment?: { value: string; count: number }[];
@@ -17,9 +19,9 @@ const ReviewDetail: NextPage = () => {
   const router = useRouter();
   const reviewId = Number(router.query.id);
 
-  const { data: review, error } = useSWR<ReviewWithComment>(
-    `${JAVA_API_URL}/reviews/${reviewId}`,
-  );
+  const userId = useContext(loginIdContext);
+
+  const { data: review, error } = useSWR<ReviewWithComment>(`${JAVA_API_URL}/review/${reviewId}/${userId}`);
 
   if (!error && !review) {
     return <div>Loading...</div>;
