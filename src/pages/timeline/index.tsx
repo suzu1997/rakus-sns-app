@@ -24,11 +24,6 @@ const Timeline: NextPage = () => {
   //ログインID
   const loginId = useContext(loginIdContext);
 
-  //1人1人のつぶやきの下に入る線
-  const style = {
-    borderBottom: "solid 1px black",
-  };
-
   //ルーターリンク
   const router = useRouter();
   /**
@@ -135,7 +130,7 @@ const Timeline: NextPage = () => {
             />
           </div>
           {timelineData.map((value, key) => (
-            <div style={style} key={key} className="flex">
+            <div key={key} className="flex border border-t-0 border-gray-200">
               <div
                 className="rounded-full w-1/5 text-center pt-5 cursor-pointer hover:opacity-50"
                 onClick={() => {

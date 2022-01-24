@@ -22,10 +22,6 @@ const TweetDetail: NextPage = () => {
   //ログインID
   const loginId = useContext(loginIdContext);
 
-  const style = {
-    borderBottom: "solid 1px black",
-  };
-
   //ルーターリンク
   const router = useRouter();
   /**
@@ -118,7 +114,7 @@ const TweetDetail: NextPage = () => {
               </div>
             </div>
 
-            <div className="text-right pb-5" style={style}>
+            <div className="text-right pb-5  border border-t-0 border-gray-200">
               <div className="flex flex-col items-end gap-3 sm:flex-row justify-end mr-5 mt-5">
                 <div className="mr-5">投稿日時：{detailData.postedTime}</div>
                 <div>
@@ -142,7 +138,10 @@ const TweetDetail: NextPage = () => {
           {commentList ? (
             <div>
               {commentList.map((value, key) => (
-                <div style={style} key={key} className="flex">
+                <div
+                  key={key}
+                  className="flex  border border-t-0 border-gray-200"
+                >
                   <div className="w-1/5 text-center pt-5 cursor-pointer hover:opacity-50">
                     <Image
                       src={`/image/userIcon/${value.userPhotoPath}`}
