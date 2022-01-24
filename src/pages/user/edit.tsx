@@ -9,12 +9,13 @@ import { Radio } from "../../components/Form/Radio";
 import { useForm } from "react-hook-form";
 import { TextArea } from "../../components/Form/TextArea";
 import { PasswordModal } from "../../components/Modal/PasswordModal";
-import { useContext, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import axios from "axios";
 import { format } from "date-fns";
 import { JAVA_API_URL } from "../../utils/const";
 import useSWR from "swr";
+import toast from "react-hot-toast";
 
 //バリデーションチェック
 const schema = yup.object().shape({
@@ -51,19 +52,16 @@ const schema = yup.object().shape({
  */
 const Edit: NextPage = () => {
   //ログインID
-  // const loginId = useContext(loginIdContext);
+  const loginId = useContext(loginIdContext);
 
   //ルーターリンク
   const router = useRouter();
 
-  //URLの後ろからid取得
-  const loginId = Number(router.query.id);
-
   /**
    * APIで初期表示用データ取得.
    */
-  const { data: payload, error } = useSWR(`${JAVA_API_URL}/user/${loginId}`);
-  const [userData] = useState(payload?.user);
+  const { data: payload } = useSWR(`${JAVA_API_URL}/user/${loginId}`);
+  const [userData, setUserData] = useState(payload?.user);
 
   // 年月だけ取得したい初期値は、日付を削る必要があるため
   const defaultHireDate = userData?.hireDate;
@@ -95,6 +93,25 @@ const Edit: NextPage = () => {
   });
 
   /**
+   * ユーザ情報読み込み直し.
+   */
+  const getReData = useCallback(async () => {
+    try {
+      const res = await axios.get(`${JAVA_API_URL}/user/${loginId}`);
+      setUserData(res.data.user);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [loginId]);
+
+  /**
+   * リロード問題解消用.
+   */
+  useEffect(() => {
+    getReData();
+  }, [getReData]);
+
+  /**
    * 登録ボタンを押した時に呼ばれる
    * @param data - 入力したデータ
    */
@@ -118,24 +135,21 @@ const Edit: NextPage = () => {
       introduction: data.introduction, //自己紹介
     };
 
-    console.dir("送るデータ" + JSON.stringify(postData));
-
-    // try {
-    //   const res = await axios.post(
-    //     `${JAVA_API_URL}/user/edit/${loginId}`,
-    //     postData,
-    //   );
-    //   if (res.data.status === "success") {
-    //     console.log(res.data.status);
-    //     alert("更新しました");
-    //     //更新完了でユーザ情報画面に戻る
-    //     router.push(`/user/${loginId}`);
-    //   } else {
-    //     alert(res.data.message);
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      const res = await axios.patch(
+        `${JAVA_API_URL}/user/edit/${loginId}`,
+        postData,
+      );
+      if (res.data.status === "success") {
+        toast.success(res.data.message);
+        //更新完了でユーザ情報画面に戻る
+        router.push(`/user/${loginId}`);
+      } else {
+        toast.error("エラー" + res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   //パスワード用モーダル開閉
@@ -155,14 +169,6 @@ const Edit: NextPage = () => {
     router.push(`/user/${loginId}`);
   };
 
-  if (!error && !userData) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>データを取得できませんでした</div>;
-  }
-
   return (
     <>
       <div>
@@ -171,12 +177,18 @@ const Edit: NextPage = () => {
           <div className="flex flex-col items-center">
             <div className="mt-3 text-3xl font-extrabold">ユーザー情報編集</div>
             <div>
-              <Image
-                src="/usakus.jpg"
-                width={200}
-                height={200}
-                alt="icon"
-              ></Image>
+              {userData ? (
+                <Image
+                  src={`/image/userIcon/${userData.userPhotoPath}`}
+                  width={200}
+                  height={200}
+                  alt="icon"
+                ></Image>
+              ) : (
+                <div className="flex justify-center pt-10 w-full">
+                  <div className="animate-spin h-8 w-8 bg-basic rounded-xl"></div>
+                </div>
+              )}
             </div>
             <div
               onClick={openPasswordModal}
@@ -321,7 +333,6 @@ const Edit: NextPage = () => {
           </div>
         </div>
       </div>
-      )
     </>
   );
 };

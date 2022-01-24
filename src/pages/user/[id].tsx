@@ -38,8 +38,7 @@ const User: NextPage = () => {
 
   //編集ボタンを押した時に呼ばれる
   const editInfo = () => {
-    router.push(`/user/edit?id=${userId}`);
-    // router.push("/user/edit");
+    router.push("/user/edit");
   };
 
   //タブテストデータ

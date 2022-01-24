@@ -1,56 +1,49 @@
-import { FC, memo, useCallback, useState } from "react";
+import axios from "axios";
+import { FC, memo, useCallback, useContext } from "react";
+import { loginIdContext } from "../../providers/LoginIdProvider";
+import { JAVA_API_URL } from "../../utils/const";
 
+//一旦?にしているけれど必須にしていいかも
 type Props = {
   postId?: number; //投稿ID
   favoCount?: number; //お気に入り数
+  isFavo?: boolean; //お気に入りしているかどうか
+  type?: string; //レビューかつぶやきか
 };
 
 /**
- * つぶやきをお気に入りに登録するボタン.
+ * つぶやきをお気に入りに登録するボタン.(500エラー中)
  */
 export const FavoBtn: FC<Props> = memo((props) => {
-  //お気に入り(いいね)対象の投稿番号
-  const { postId = 0, favoCount } = props;
+  //ログインID
+  const loginId = useContext(loginIdContext);
 
-  //いいねしてるか、いないか
-  const [isFavo, setIsFavo] = useState(false);
+  //props
+  const { postId = -1, favoCount, isFavo, type } = props;
 
   /**
-   * はいボタン押下で発動.
+   * はいボタン押下でいいね発動.
    */
   const favo = useCallback(async () => {
-    //いいねされていない場合
-    if (!isFavo) {
-      alert("投稿ID" + postId + "をいいねしました");
-      setIsFavo(true);
-      // try {
-      //   const res = await axios.post(url);
-      //   console.log(JSON.stringify(res.data));
-      //   if (res.data.status === "success") {
-      //     console.log(res.data.status);
-      //   } else {
-      //     alert(res.data.message);
-      //   }
-      // } catch (error) {
-      //   console.log(error);
-      // }
-      //既にいいね済の場合
-    } else {
-      setIsFavo(false);
-      // try {
-      //   const res = await axios.post(url);
-      //   console.log(JSON.stringify(res.data));
-      //   if (res.data.status === "success") {
-      //     console.log(res.data.status);
-      //   } else {
-      //     alert(res.data.message);
-      //   }
-      // } catch (error) {
-      //   console.log(error);
-      // }
+    //送信データ
+    const postData = {
+      userId: Number(loginId), //ログインユーザID
+      timelineId: Number(postId), //投稿ID
+    };
+
+    try {
+      if (type === "タイムライン一覧の検索に成功しました") {
+        console.log("これはタイムラインに対するいいね");
+        const res = await axios.post(`${JAVA_API_URL}/timeline/like`, postData);
+      } else {
+        console.log("これはレビューに対するいいね");
+      }
+    } catch (error) {
+      console.log(error);
     }
+
     //[]内入れないと変更が反映しないため挿入
-  }, [isFavo, postId]);
+  }, [loginId, postId, type]);
 
   return (
     <>

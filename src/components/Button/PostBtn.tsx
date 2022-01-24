@@ -1,7 +1,13 @@
 import { memo, FC, useCallback, useState } from "react";
 import { PostModal } from "../Modal/PostModal";
 
-export const PostBtn: FC = memo(() => {
+type Props = {
+  success?: () => void; //投稿完了後、自動で更新したい場合は更新のメソッドを渡す
+};
+
+export const PostBtn: FC<Props> = memo((props) => {
+  const { success } = props;
+
   // レビュー投稿のモーダルのオープン状態
   const [isPostOpen, setPostIsOpen] = useState(false);
 
@@ -26,6 +32,7 @@ export const PostBtn: FC = memo(() => {
           isOpen={isPostOpen}
           closeModal={closePostModal}
           title={"つぶやき"}
+          success={success}
         />
       ) : (
         <div className="fixed bottom-20 right-10">

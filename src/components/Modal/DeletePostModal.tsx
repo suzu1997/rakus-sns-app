@@ -2,11 +2,13 @@ import { useCallback, Fragment, FC, memo } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Button } from "../Button/Button";
 import axios from "axios";
+import { JAVA_API_URL } from "../../utils/const";
 
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
   closeModal: () => void; // モーダルを閉じるメソッド
   postId: number; //投稿ID
+  type?: string; //レビューかつぶやきか
 };
 
 /**
@@ -14,18 +16,20 @@ type Props = {
  * @returns 投稿削除をするためのモーダル
  */
 export const DeletePostModal: FC<Props> = memo((props) => {
-  const { isOpen, closeModal, postId } = props;
+  const { isOpen, closeModal, postId, type } = props;
 
   /**
-   * はいボタン押下で発動.
+   * はいボタン押下で発動.(未実装)
    */
   const deletePost = useCallback(async () => {
-    alert("投稿ID" + postId + "を削除しました");
     // try {
-    //   const res = await axios.post("http://localhost:8080/signup");
+    //   //投稿IDPOSTでいいのかしら
+    //   const res = await axios.post(`${JAVA_API_URL}/timeline`, {
+    //     timelineId: postId,
+    //   });
     //   console.log(JSON.stringify(res.data));
     //   if (res.data.status === "success") {
-    //     console.log(res.data.status);
+    alert("投稿ID" + postId + "を削除しました");
     //     //成功→タイムラインページに戻る
     //     closeModal();
     //   } else {

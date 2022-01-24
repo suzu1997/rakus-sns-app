@@ -54,3 +54,35 @@ export type UserPreInfo = {
 export type UpdatePassInfo = {
   email: string;
 };
+
+//タイムライン
+export type Timeline = [
+  {
+    id: number;
+    userId: number;
+    accountName: string;
+    userPhotoPath: string;
+    sentence: string;
+    likeCount: number;
+    commentCount: number;
+    updatedTime: string;
+    postedTime: string;
+    deleted: boolean;
+    myLike: boolean;
+  },
+];
+
+//つぶやき詳細画面
+export type TimelineDtail = {
+  id: number;
+  userId: number;
+  accountName: string;
+  userPhotoPath: string;
+  sentence: string;
+  likeCount: number;
+  commentCount: number;
+  updatedTime: string;
+  postedTime: string;
+  deleted: boolean;
+  myLike: boolean;
+};

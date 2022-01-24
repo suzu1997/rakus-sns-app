@@ -1,6 +1,6 @@
 import Image from "next/image";
 import type { NextPage } from "next";
-import { useContext, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { Button } from "../../components/Button/Button";
 import { CommentIcon } from "../../components/Button/CommentIcon";
@@ -12,58 +12,15 @@ import { PostBtn } from "../../components/Button/PostBtn";
 import useSWR from "swr";
 import { JAVA_API_URL } from "../../utils/const";
 import { loginIdContext } from "../../providers/LoginIdProvider";
+import { Timeline } from "../../types/type";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 /**
  * タイムラインページ.
  * @returns つぶやきの一覧が流れてくるページ
  */
 const Timeline: NextPage = () => {
-  //テストデータ
-  const [data] = useState([
-    {
-      postId: 1,
-      name: "ふるもっちゃん",
-      userId: 1,
-      post: "あああ",
-      img: "/image/userIcon/user3.jpeg",
-    },
-    {
-      postId: 2,
-      name: "山田太郎",
-      userId: 200,
-      post: "いいい",
-      img: "/image/userIcon/user2.jpeg",
-    },
-    {
-      postId: 3,
-      name: "ランチックス",
-      userId: 300,
-      post: "ううう",
-      img: "/usakus.jpg",
-    },
-    {
-      postId: 1,
-      name: "ふるもっちゃん",
-      userId: 1,
-      post: "あああ",
-      img: "/image/userIcon/user3.jpeg",
-    },
-    {
-      postId: 2,
-      name: "佐藤花子",
-      userId: 500,
-      post: "あああああああああああいいいいいいいいううううううううううえええええええええええええおおおおおおおおおおおおおおおうひうひひょひょほほほほほほほほほほほほほ",
-      img: "/image/userIcon/user1.jpeg",
-    },
-    {
-      postId: 3,
-      name: "ランチックス",
-      userId: 600,
-      post: "ううう",
-      img: "/usakus.jpg",
-    },
-  ]);
-
   //ログインID
   const loginId = useContext(loginIdContext);
 
@@ -90,87 +47,150 @@ const Timeline: NextPage = () => {
     router.push(`/timeline/${postId}`);
   };
 
-  // const { data: timelineData, error } = useSWR<Timeline>(
-  //   `${JAVA_API_URL}/timeline`,
-  // );
+  /**
+   * APIを使用してタイムラインデータを取得.
+   */
+  const { data, error } = useSWR(`${JAVA_API_URL}/timeline/${loginId}`);
+  // タイムライン情報をdataから抽出
+  const [timelineData, setTimelineData] = useState<Timeline>(
+    data?.TimelineList,
+  );
+  const [message] = useState<string>(data?.message);
 
-  // if (!error && !timelineData) {
-  //   return <div>Loading...</div>;
-  // }
+  /**
+   * 投稿の読み込み直し.
+   */
+  const getData = useCallback(async () => {
+    try {
+      const res = await axios.get(`${JAVA_API_URL}/timeline/${loginId}`);
+      // タイムライン情報をdataから抽出
+      setTimelineData(res.data.TimelineList);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [loginId]);
 
-  // if (error) {
-  //   return <div>データを取得できませんでした</div>;
-  // }
+  /**
+   * リロード問題解消用.
+   */
+  useEffect(() => {
+    getData();
+  }, [getData]);
+
+  /**
+   * 「新しい投稿を読み込む」押下で発動.
+   */
+  const getNewData = useCallback(async () => {
+    getData();
+    toast.success("投稿を読み込みました");
+  }, [getData]);
+
+  /**
+   * 古い投稿の読み込み直し.(未実装)
+   */
+  const getOldData = useCallback(async () => {
+    const oldNumber = timelineData.length - 1;
+    const oldId = timelineData?.[oldNumber].id;
+    try {
+      const res = await axios.get(`${JAVA_API_URL}/timeline/old/${oldId}`);
+      console.dir(JSON.stringify(res));
+      // タイムライン情報をdataから抽出
+      //useStateで囲むと更新されるけど、リロード問題が起きる
+      // setTimelineData(+res);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [loginId]);
+
+  //初期値エラー
+  if (!error && !data) {
+    return (
+      <div className="flex justify-center pt-10 w-full">
+        <div className="animate-spin h-8 w-8 bg-basic rounded-xl"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="w-full p-10 text-center">
+        データが取得できませんでした
+      </div>
+    );
+  }
 
   //HTMLコーナー
   return (
     <>
-      {/* サブヘッダー */}
-      <SubHeader title="タイムライン" />
-
-      {/* タイムラインゾーン */}
-      <div className="text-center my-10 animate-bounce">
-        <Button
-          label="新しいつぶやきを読み込む"
-          size="lg"
-          onClick={() => {
-            alert("新しいつぶやき読み込み");
-          }}
-        />
-      </div>
-
-      {data.map((value, key) => (
-        <div style={style} key={key} className="flex">
-          <div
-            className="rounded-full w-1/5 text-center pt-5 cursor-pointer hover:opacity-50"
-            onClick={() => {
-              goUserPage(value.userId);
-            }}
-          >
-            <Image
-              src={value.img}
-              width={100}
-              height={100}
-              alt="icon"
-              className="rounded-full"
+      {timelineData && (
+        <div>
+          {/* サブヘッダー */}
+          <SubHeader title="タイムライン" />
+          {/* タイムラインゾーン */}
+          <div className="text-center my-10 animate-bounce">
+            <Button
+              label="新しいつぶやきを読み込む"
+              size="lg"
+              onClick={getNewData}
             />
           </div>
-          <div className="w-4/5">
-            <div
-              className="cursor-pointer hover:opacity-50"
-              onClick={() => {
-                goDetailPage(value.postId);
-              }}
-            >
-              <div className="text-xl font-extrabold pt-3 pb-3">
-                {value.name}
+          {timelineData.map((value, key) => (
+            <div style={style} key={key} className="flex">
+              <div
+                className="rounded-full w-1/5 text-center pt-5 cursor-pointer hover:opacity-50"
+                onClick={() => {
+                  goUserPage(value.userId);
+                }}
+              >
+                <Image
+                  src={`/image/userIcon/${value.userPhotoPath}`}
+                  width={100}
+                  height={100}
+                  alt="icon"
+                  className="rounded-full"
+                />
               </div>
-              <div className="pt-5 pb-5 pl-5 w-8/12">{value.post}</div>
-            </div>
+              <div className="w-4/5">
+                <div
+                  className="cursor-pointer hover:opacity-50"
+                  onClick={() => {
+                    goDetailPage(value.id);
+                  }}
+                >
+                  <div className="text-xl font-extrabold pt-3 pb-3">
+                    {value.accountName}
+                  </div>
+                  <div className="pt-5 pb-5 pl-5 w-8/12">{value.sentence}</div>
+                </div>
 
-            <div className="w-full text-right py-3">
-              <CommentIcon
-                commentCount={300}
-                postId={value.postId}
-                target="timeline"
-              />
-              <FavoBtn postId={value.postId} favoCount={30} />
-              {loginId == value.userId && <TrashBtn postId={value.postId} />}
+                <div className="w-full text-right py-3">
+                  <CommentIcon
+                    commentCount={value.commentCount}
+                    postId={value.id}
+                    target="timeline"
+                  />
+                  <FavoBtn
+                    postId={value.id}
+                    favoCount={value.likeCount}
+                    isFavo={value.myLike}
+                    type={message}
+                  />
+                  {loginId == value.userId && <TrashBtn postId={value.id} />}
+                </div>
+              </div>
             </div>
+          ))}
+          <div
+            className="text-text-brown text-center my-5 cursor-pointer hover:text-basic"
+            onClick={getOldData}
+          >
+            過去の投稿を見る…
+          </div>
+          <div>
+            <PostBtn success={getData} />
           </div>
         </div>
-      ))}
-      <div
-        className="text-text-brown text-center my-5 cursor-pointer hover:text-basic"
-        onClick={() => {
-          alert("過去のつぶやき読み込み");
-        }}
-      >
-        過去の投稿を見る…
-      </div>
-      <div>
-        <PostBtn />
-      </div>
+      )}
     </>
   );
 };
