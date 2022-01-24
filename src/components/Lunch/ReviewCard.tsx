@@ -7,7 +7,7 @@ import { Star } from "./Star";
 import { TrashBtn } from "../Button/TrashBtn";
 import { LinkToRestaurant } from "./LinkToRestaurat";
 import { LunchReview } from "../../types/type";
-import { getFormattedDate } from "../../utils/methods";
+import { getFormattedDate, getRestaurantPhotoPath } from "../../utils/methods";
 
 type Props = LunchReview & {
   type: string;
@@ -34,20 +34,6 @@ export const ReviewCard: FC<Props> = memo((props) => {
   } = props;
 
   const router = useRouter();
-
-  /**
-   * レストラン画像のパスを取得するメソッド.
-   * @remarks
-   * restaurantPhotoPathに"hotp"が含まれていれば、ホットペッパー画像のパスをそのまま返す。含まれていなければ、publicフォルダ内の画像までのパスを返す。
-   * @returns 表示するレストラン画像のパス
-   */
-  const getRestaurantPhotoPath = () => {
-    if (restaurantPhotoPath.includes("hotp")) {
-      return restaurantPhotoPath;
-    } else {
-      return `/image/foodPhoto/${restaurantPhotoPath}`;
-    }
-  };
 
   /**
    * レビュー詳細ページへ遷移するメソッド.
@@ -94,7 +80,7 @@ export const ReviewCard: FC<Props> = memo((props) => {
           <LinkToRestaurant
             restaurantId={restaurantId}
             restaurantName={restaurantName}
-            restaurantImg={getRestaurantPhotoPath()}
+            restaurantImg={getRestaurantPhotoPath(restaurantPhotoPath)}
           />
         )}
         <div className="flex flex-col items-end gap-3 sm:flex-row justify-end">

@@ -11,3 +11,17 @@ export const getFormattedDate = (date: Date) => {
 
   return formattedDate;
 };
+
+/**
+   * レストラン画像のパスを取得するメソッド.
+   * @remarks
+   * photoPathに"hotp"が含まれていれば、ホットペッパー画像のパスをそのまま返す。含まれていなければ、publicフォルダ内の画像までのパスを返す。
+   * @returns 表示するレストラン画像のパス
+   */
+export const getRestaurantPhotoPath = (photoPath: string) => {
+  if (photoPath.includes("hotp")) {
+    return photoPath;
+  } else {
+    return `/image/foodPhoto/${photoPath}`;
+  }
+};

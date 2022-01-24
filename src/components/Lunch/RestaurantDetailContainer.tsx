@@ -4,6 +4,7 @@ import { FC, memo } from "react";
 import useSWR from "swr";
 import { Restaurant } from "../../types/type";
 import { JAVA_API_URL } from "../../utils/const";
+import { getRestaurantPhotoPath } from "../../utils/methods";
 import { GoogleMap } from "./GoogleMap";
 import { Star } from "./Star";
 
@@ -62,11 +63,7 @@ export const RestaurantDetailContainer: FC = memo(() => {
       <div className="mt-5 sm:mt-10">
         <div>
           <Image
-            src={
-              restaurant.hotpepperId === null
-                ? `/image/foodPhoto/${restaurant.photoPath}`
-                : `${restaurant.photoPath}`
-            }
+            src={getRestaurantPhotoPath(restaurant.photoPath)}
             width={300}
             height={200}
             alt="restaurant photo"
