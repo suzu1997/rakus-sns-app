@@ -100,7 +100,7 @@ const Timeline: NextPage = () => {
     } catch (error) {
       console.log(error);
     }
-  }, [loginId]);
+  }, [timelineData]);
 
   //初期値エラー
   if (!error && !data) {
@@ -174,6 +174,7 @@ const Timeline: NextPage = () => {
                     favoCount={value.likeCount}
                     isFavo={value.myLike}
                     type={message}
+                    getData={getData}
                   />
                   {loginId == value.userId && <TrashBtn postId={value.id} />}
                 </div>
