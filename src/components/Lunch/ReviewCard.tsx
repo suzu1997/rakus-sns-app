@@ -74,9 +74,10 @@ export const ReviewCard: FC<Props> = memo((props) => {
         <div className="mr-6" onClick={goUserPage}>
           <Image
             src={`/image/userIcon/${userPhotoPath}`}
-            width={100}
-            height={100}
+            width={type === "詳細" ? 200 : 100}
+            height={type === "詳細" ? 200 : 100}
             alt="icon"
+            className="rounded-full"
           />
         </div>
         <div className="flex flex-col w-full">
