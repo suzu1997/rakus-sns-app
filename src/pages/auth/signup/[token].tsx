@@ -111,7 +111,7 @@ const SignUp: NextPage = () => {
       serviceFk: data.serviceFk,
       password: data.password,
     };
-
+    
     try {
       //APIにユーザー登録情報を送信する
       const res = await axios.post(`${JAVA_API_URL}/signup`, postDate);
@@ -119,7 +119,7 @@ const SignUp: NextPage = () => {
       if (res.data.status === "success") {
         console.dir(JSON.stringify(postDate));
         //会員登録に成功したら登録完了画面に遷移する;
-        router.push("/auth/compsignup");
+        router.push("/auth/signup/compsignup");
       } else {
         alert(res.data.message);
       }
@@ -129,7 +129,13 @@ const SignUp: NextPage = () => {
   };
   //クリアボタン
   const clear = () => {
-    reset();
+    reset({
+      accountName: "",
+      hireDate: "",
+      birthDay: "",
+      password: "",
+      passwordConf: "",
+    });
   };
 
   return (
