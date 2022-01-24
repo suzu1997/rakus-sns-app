@@ -1,38 +1,19 @@
 import Image from "next/image";
-import { useRouter } from "next/router";
 import { FC, memo } from "react";
-import useSWR from "swr";
 import { Restaurant } from "../../types/type";
-import { JAVA_API_URL } from "../../utils/const";
 import { getRestaurantPhotoPath } from "../../utils/methods";
 import { GoogleMap } from "./GoogleMap";
 import { Star } from "./Star";
 
+type Props = {
+  restaurant: Restaurant;
+};
+
 /**
  * 店詳細画面のメイン部分のコンポーネント.
  */
-export const RestaurantDetailContainer: FC = memo(() => {
-  const router = useRouter();
-
-  // idをURLから取得
-  const restaurantId = Number(router.query.id);
-
-  const { data, error } = useSWR(`${JAVA_API_URL}/restaurant/${restaurantId}`);
-
-  if (!error && !data) {
-    return (
-      <div className="flex justify-center pt-10 w-full">
-        <div className="animate-spin h-8 w-8 bg-basic rounded-xl"></div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return <div>データを取得できませんでした</div>;
-  }
-
-  // レストラン情報をdataから抽出
-  const restaurant: Restaurant = data.restaurant;
+export const RestaurantDetailContainer: FC<Props> = memo((props) => {
+  const { restaurant } = props;
 
   /**
    * タイプのidから文字列に変換する.
