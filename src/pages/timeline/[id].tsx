@@ -72,12 +72,21 @@ const TweetDetail: NextPage = () => {
     getData();
   }, [getData]);
 
+  //初期値エラー
   if (!error && !data) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center pt-10 w-full">
+        <div className="animate-spin h-8 w-8 bg-basic rounded-xl"></div>
+      </div>
+    );
   }
 
   if (error) {
-    return <div>データを取得できませんでした</div>;
+    return (
+      <div className="w-full p-10 text-center">
+        データが取得できませんでした
+      </div>
+    );
   }
 
   return (
