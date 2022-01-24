@@ -66,6 +66,7 @@ const Login: NextPage = () => {
         console.log("ログイン成功" + userData);
 
         //ログインと同時に入力内容をクリア
+        clear();
         toast.success("ログインしました");
         //タイムライン画面に遷移する;
         router.push("/timeline");
@@ -76,6 +77,14 @@ const Login: NextPage = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  //入力データをクリア
+  const clear = () => {
+    reset({
+      email: "",
+      password: "",
+    });
   };
 
   return (
