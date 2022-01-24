@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import { FC, memo, useContext, useEffect, useState } from "react";
-// import useSWR from "swr";
 import useSWRInfinite, { SWRInfiniteKeyLoader } from "swr/infinite";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { LunchReview } from "../../types/type";
@@ -19,11 +18,6 @@ export const ReviewList: FC<Props> = memo((props) => {
   const router = useRouter();
 
   const userId = useContext(loginIdContext);
-
-  // useSWRでクライアントフェッチ
-  // const { data: reviewList, error } = useSWR<Array<LunchReview>>(
-  //   `${JAVA_API_URL}/reviews`,
-  // );
 
   /**
    * 各ページのSWRのキーを取得する関数.
