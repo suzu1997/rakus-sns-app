@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import { JAVA_API_URL } from "../../utils/const";
 import { loginIdContext } from "../../providers/LoginIdProvider";
+import { UserInfo } from "../../types/type";
 
 //タブテスト
 function classNames(...classes: unknown[]) {
@@ -48,48 +49,30 @@ const User: NextPage = () => {
       {
         id: 1,
         title: "おはよう",
-        date: "5h ago",
-        commentCount: 5,
-        shareCount: 2,
       },
       {
         id: 2,
         title: "こんにちは",
-        date: "2h ago",
-        commentCount: 3,
-        shareCount: 2,
       },
     ],
     投稿履歴: [
       {
         id: 1,
         title: "やあ",
-        date: "Jan 7",
-        commentCount: 29,
-        shareCount: 16,
       },
       {
         id: 2,
         title: "よっ",
-        date: "Mar 19",
-        commentCount: 24,
-        shareCount: 12,
       },
     ],
     いいね履歴: [
       {
         id: 1,
         title: "ありがとう",
-        date: "2d ago",
-        commentCount: 9,
-        shareCount: 5,
       },
       {
         id: 2,
         title: "さようなら",
-        date: "4d ago",
-        commentCount: 1,
-        shareCount: 2,
       },
     ],
   });
@@ -111,15 +94,17 @@ const User: NextPage = () => {
    * APIで初期表示用データ取得.
    */
   const { data: payload, error } = useSWR(`${JAVA_API_URL}/user/${userId}`);
-  const userData = payload?.user;
+  const userDatas = payload?.user;
 
-  if (!error && !userData) {
+  if (!error && !userDatas) {
     return <div>Loading...</div>;
   }
 
   if (error) {
     return <div>データを取得できませんでした</div>;
   }
+
+  const userData: UserInfo = userDatas;
 
   return (
     <>
@@ -213,16 +198,7 @@ const User: NextPage = () => {
                           {post.title}
                         </h3>
 
-                        <div className="flex mt-1 space-x-1 text-xs font-normal leading-4 text-coolGray-500">
-                          <span>{post.date}</span>
-                          &middot;
-                          <span>{post.commentCount} comments</span>
-                          &middot;
-                          <span>{post.shareCount} shares</span>
-                          {/* <Link href="/">
-                            <a className="absolute inset-0 rounded-md focus:z-10 focus:outline-none focus:ring-2 ring-blue-400"></a>
-                          </Link> */}
-                        </div>
+                        <div className="flex mt-1 space-x-1 text-xs font-normal leading-4 text-coolGray-500"></div>
                       </div>
                     ))}
                   </Tab.Panel>

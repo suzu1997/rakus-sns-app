@@ -9,6 +9,7 @@ import Cookie from "universal-cookie";
 import Link from "next/link";
 import axios from "axios";
 import { JAVA_API_URL } from "../../utils/const";
+import toast from "react-hot-toast";
 
 //バリデーションチェック
 const schema = yup.object().shape({
@@ -65,7 +66,8 @@ const Login: NextPage = () => {
         console.log("ログイン成功" + userData);
 
         //ログインと同時に入力内容をクリア
-        reset();
+        clear();
+        toast.success("ログインしました");
         //タイムライン画面に遷移する;
         router.push("/timeline");
       } else {
@@ -75,6 +77,14 @@ const Login: NextPage = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  //入力データをクリア
+  const clear = () => {
+    reset({
+      email: "",
+      password: "",
+    });
   };
 
   return (

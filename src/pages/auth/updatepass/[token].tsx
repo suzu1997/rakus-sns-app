@@ -50,6 +50,7 @@ const UpdatePass: NextPage = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     resolver: yupResolver(schema),
   });
@@ -86,6 +87,7 @@ const UpdatePass: NextPage = () => {
       );
       //パス変更に成功した場合
       if (res.data.status === "success") {
+        clear();
         //パスワード変更完了したら画面遷移
         router.push("/auth/compupdatepass");
       } else {
@@ -94,6 +96,14 @@ const UpdatePass: NextPage = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  //入力データをクリア
+  const clear = () => {
+    reset({
+      password: "",
+      passwordConf: "",
+    });
   };
 
   return (
