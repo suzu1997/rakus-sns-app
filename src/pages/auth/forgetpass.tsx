@@ -70,9 +70,16 @@ const ForgetPass: NextPage = () => {
 
   //入力内容をクリアしてモーダルを閉じる
   const doOnButton = () => {
-    //本当は入力内容をクリアしたいがクリアされず
-    reset;
+    //入力値をクリア
+    clear();
     setIsOpen(false);
+  };
+
+  //入力データをクリア
+  const clear = () => {
+    reset({
+      email: "",
+    });
   };
 
   return (
