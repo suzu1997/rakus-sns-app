@@ -135,6 +135,7 @@ const TweetDetail: NextPage = () => {
                   <FavoBtn
                     postId={data.postId}
                     favoCount={detailData.likeCount}
+                    getData={getData}
                   />
                   {loginId == data.userId && (
                     <TrashBtn postId={detailData.id} />
@@ -171,7 +172,11 @@ const TweetDetail: NextPage = () => {
                       {value.sentence}
                     </div>
                     <div className="w-full text-right py-3 pr-5">
-                      <FavoBtn postId={value.id} favoCount={value.likeCount} />
+                      <FavoBtn
+                        postId={value.id}
+                        favoCount={value.likeCount}
+                        getData={getData}
+                      />
                       {loginId == value.userId && (
                         <TrashBtn postId={value.id} />
                       )}
@@ -186,7 +191,7 @@ const TweetDetail: NextPage = () => {
         </div>
       )}
       <div>
-        <PostBtn />
+        <PostBtn getData={getData} />
       </div>
     </>
   );

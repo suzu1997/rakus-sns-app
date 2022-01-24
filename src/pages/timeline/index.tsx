@@ -183,7 +183,7 @@ const Timeline: NextPage = () => {
             過去の投稿を見る…
           </div>
           <div>
-            <PostBtn success={getData} />
+            <PostBtn getData={getData} />
           </div>
         </div>
       )}
