@@ -2,7 +2,7 @@ import { createContext, FC, ReactNode, useState } from "react";
 import Cookie from "universal-cookie";
 
 //contextを使用する
-export const loginIdContext = createContext({});
+export const loginIdContext = createContext("");
 
 type Props = {
   children: ReactNode;
@@ -18,7 +18,7 @@ export const LoginIdProvider: FC<Props> = (props) => {
 
   //cookie
   const cookie = new Cookie();
-  const [loginId] = useState(cookie.get("id"));
+  const [loginId] = useState<string>(cookie.get("id"));
 
   return (
     <loginIdContext.Provider value={loginId}>
