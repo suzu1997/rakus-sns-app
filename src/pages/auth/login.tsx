@@ -57,19 +57,8 @@ const Login: NextPage = () => {
       // console.log(JSON.stringify(res.data));
       //ログインに成功した場合
       if (res.data.status === "success") {
-        //ログインに成功したらクッキーに連想配列でログイン情報をセット
-        // const userInfo = {
-        //   //一旦あるものだけ
-        //   id: res.data.user.id,
-        //   name: res.data.user.name,
-        //   accountName: res.data.user.accountName,
-        //   hireDate: res.data.user.hireDate,
-        //   serviceFk: res.data.user.serviceFk,
-        //   birthDay: res.data.user.birthDay,
-        //   profile: res.data.user.profile,
-        // };
-        cookie.set("id", res.data.user.id, { path: "/" });
-        // cookie.set("id", res.data.user.id, { path: "/" });
+        //ログインに成功したらクッキーにログイン情報をセット
+        cookie.set("id", res.data.user.logicalId, { path: "/" });
 
         //コンソールテスト
         const userData = cookie.get("id");
