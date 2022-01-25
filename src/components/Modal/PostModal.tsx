@@ -129,15 +129,19 @@ export const PostModal: FC<Props> = memo((props) => {
 
     if (title === "コメント") {
       try {
-        //コメント投稿
-        // await axios.post(`${JAVA_API_URL}/${target}/comment`, {
-        //   userId,
-        //   post, // コメント内容
-        //   postId, // コメント対象の投稿のID
-        // });
-        toast.success(
-          `id${postId}の${target}に${title}を投稿しました\n${title}内容: ${post}`,
-        );
+        const res = await axios.post(`${JAVA_API_URL}/timeline/comment`, {
+          userLogicalId: userId, //ログインユーザＩＤ
+          sentence: post, //投稿内容
+          timelineId: postId, //投稿ＩＤ
+        });
+        if (res.data.status === "success") {
+          toast.success(
+            `id${postId}の${target}に${title}を投稿しました\n${title}内容: ${post}`,
+          );
+          if (success) {
+            success();
+          }
+        }
       } catch {
         toast.error(`${title}の投稿に失敗しました`);
       }
