@@ -80,15 +80,23 @@ export const PostModal: FC<Props> = memo((props) => {
 
     if (title === "レビュー") {
       try {
-        //レビュー投稿
-        // await axios.post(`${JAVA_API_URL}/reviews`, {
-        //   userId,
-        //   post,
-        //   star: Number(star.id),
-        // });
-        toast.success(
-          `id${restaurantId}のお店に${title}を投稿しました\n${title}内容: ${post}, 星の数: ${star}`,
-        );
+        // レビュー投稿
+        const res = await axios.post(`${JAVA_API_URL}/review`, {
+          userLogicalId: userId,
+          restaurantId,
+          sentence: post,
+          star: Number(star.id),
+        });
+        if (res.data.status === "success") {
+          if (success) {
+            success();
+          }
+          toast.success(
+            `${title}を投稿しました\n${title}内容: ${post}, 星の数: ${star}`,
+          );
+        } else {
+          toast.error(res.data.message);
+        }
       } catch (e) {
         toast.error(`${title}の投稿に失敗しました`);
       }
@@ -146,13 +154,13 @@ export const PostModal: FC<Props> = memo((props) => {
   // 個人情報をdataから抽出
   const userPhoto = data?.user.userPhotoPath;
 
-  if (!error && !data) {
-    return <div>Loading...</div>;
-  }
+  // if (!error && !data) {
+  //   return <div>Loading...</div>;
+  // }
 
-  if (error) {
-    return <div>データを取得できませんでした</div>;
-  }
+  // if (error) {
+  //   return <div>データを取得できませんでした</div>;
+  // }
 
   return (
     <>
@@ -219,13 +227,13 @@ export const PostModal: FC<Props> = memo((props) => {
                   </div>
                   <div className="flex flex-col sm:flex-row mt-5">
                     <div className="ml-5">
-                      <Image
+                      {/* <Image
                         src={`/image/userIcon/${userPhoto}`}
                         width={100}
                         height={100}
                         alt="icon"
                         className="rounded-full"
-                      />
+                      /> */}
                     </div>
                     <div className="sm:mx-5">
                       <form>

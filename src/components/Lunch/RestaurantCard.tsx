@@ -2,10 +2,11 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { FC, memo } from "react";
 import { Restaurant } from "../../types/type";
+import { getRestaurantPhotoPath } from "../../utils/methods";
 import { Star } from "./Star";
 
 export const RestaurantCard: FC<Restaurant> = memo((props) => {
-  const { id, name, genreValue, star, type, photoPath, hotpepperId } = props;
+  const { id, name, genreValue, star, type, photoPath } = props;
   const router = useRouter();
 
   /**
@@ -48,11 +49,7 @@ export const RestaurantCard: FC<Restaurant> = memo((props) => {
       </div>
       <div className="mx-6 mt-3">
         <Image
-          src={
-            hotpepperId === null
-              ? `/image/foodPhoto/${photoPath}`
-              : `${photoPath}`
-          }
+          src={getRestaurantPhotoPath(photoPath)}
           width={300}
           height={200}
           alt="icon"

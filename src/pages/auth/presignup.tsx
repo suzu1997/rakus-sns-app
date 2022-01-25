@@ -35,13 +35,13 @@ const schema = yup.object().shape({
  * @returns 仮登録するためのページ
  */
 const PreSignUp: NextPage = () => {
-  // バリデーション機能を呼び出し
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm({
+    // バリデーション機能を呼び出し
     resolver: yupResolver(schema),
   });
 
@@ -57,7 +57,10 @@ const PreSignUp: NextPage = () => {
   //ルーターリンク
   const router = useRouter();
 
-  //登録ボタンを押した時のメソッド
+  /**
+   * 登録ボタン押した時のメソッド.
+   * @param data 入力データ
+   */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
     //APIに送るデータ
@@ -69,17 +72,24 @@ const PreSignUp: NextPage = () => {
       const res = await axios.post(`${JAVA_API_URL}/presignup`, postDate);
       //仮登録に成功した場合
       if (res.data.status === "success") {
-        console.log(postDate);
-        console.log(res.data.status);
         //入力内容をクリアした後、仮登録完了画面に遷移する
-        reset;
+        clear();
         router.push("/auth/comppresignup");
       } else {
         alert(res.data.message);
       }
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
+  };
+
+  //入力データをクリア
+  const clear = () => {
+    reset({
+      firstName: "",
+      lastName: "",
+      email: "",
+    });
   };
 
   return (

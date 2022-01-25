@@ -9,6 +9,7 @@ import Cookie from "universal-cookie";
 import Link from "next/link";
 import axios from "axios";
 import { JAVA_API_URL } from "../../utils/const";
+import toast from "react-hot-toast";
 
 //バリデーションチェック
 const schema = yup.object().shape({
@@ -26,17 +27,17 @@ const schema = yup.object().shape({
 });
 
 /**
- * ログインページ
+ * ログインページ.
  * @returns ログインするためのページ
  */
 const Login: NextPage = () => {
-  // バリデーション機能を呼び出し
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm({
+    // バリデーション機能を呼び出し
     resolver: yupResolver(schema),
   });
 
@@ -45,27 +46,25 @@ const Login: NextPage = () => {
   //クッキー
   const cookie = new Cookie();
 
-  //ログインボタンを押した時のメソッド
+  /**
+   * ログインボタンを押した時のメソッド.
+   * @param data 入力したデータ
+   */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
-    // console.log(data);
     try {
       const res = await axios.post(`${JAVA_API_URL}/login`, {
         email: data.email,
         password: data.password,
       });
-      // console.log(JSON.stringify(res.data));
       //ログインに成功した場合
       if (res.data.status === "success") {
         //ログインに成功したらクッキーにログイン情報をセット
         cookie.set("id", res.data.user.logicalId, { path: "/" });
 
-        //コンソールテスト
-        const userData = cookie.get("id");
-        console.log("ログイン成功" + userData);
-
         //ログインと同時に入力内容をクリア
-        reset();
+        clear();
+        toast.success("ログインしました");
         //タイムライン画面に遷移する;
         router.push("/timeline");
       } else {
@@ -73,8 +72,16 @@ const Login: NextPage = () => {
         alert(res.data.message);
       }
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
+  };
+
+  //入力データをクリア
+  const clear = () => {
+    reset({
+      email: "",
+      password: "",
+    });
   };
 
   return (
