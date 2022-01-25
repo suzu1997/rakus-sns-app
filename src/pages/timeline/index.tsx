@@ -162,6 +162,7 @@ const Timeline: NextPage = () => {
                     commentCount={value.commentCount}
                     postId={value.id}
                     target="timeline"
+                    success={updateData}
                   />
                   <FavoBtn
                     postId={value.id}
