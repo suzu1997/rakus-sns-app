@@ -4,12 +4,14 @@ import { Button } from "../Button/Button";
 import axios from "axios";
 import { JAVA_API_URL } from "../../utils/const";
 import { loginIdContext } from "../../providers/LoginIdProvider";
+import toast from "react-hot-toast";
 
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
   closeModal: () => void; // モーダルを閉じるメソッド
   postId: number; //投稿ID
   type?: string; //レビューかつぶやきか
+  success?: () => void; //削除成功後にデータ再読み込み
 };
 
 /**
@@ -17,7 +19,7 @@ type Props = {
  * @returns 投稿削除をするためのモーダル
  */
 export const DeletePostModal: FC<Props> = memo((props) => {
-  const { isOpen, closeModal, postId, type } = props;
+  const { isOpen, closeModal, postId, type, success } = props;
 
   //ログインID
   const loginId = useContext(loginIdContext);
@@ -35,11 +37,24 @@ export const DeletePostModal: FC<Props> = memo((props) => {
       url = "";
     }
     try {
+      //API発動
       const res = await axios.delete(url);
+      //成功→トースト出してデータ再読み込み,モーダルを閉じる
+      if (res.data.status === "success") {
+        toast.success("削除しました");
+        if (success) {
+          success();
+        }
+        closeModal();
+        //失敗→トーストにエラー原因を
+      } else {
+        toast.error(res.data.message);
+        closeModal();
+      }
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [closeModal, loginId, postId, success, type]);
 
   return (
     <>

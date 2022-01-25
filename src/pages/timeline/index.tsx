@@ -170,7 +170,11 @@ const Timeline: NextPage = () => {
                     type={message}
                     success={updateData}
                   />
-                  <TrashBtn postId={value.id} type="タイムライン" />
+                  <TrashBtn
+                    postId={value.id}
+                    type="タイムライン"
+                    success={updateData}
+                  />
                 </div>
               </div>
             </div>
