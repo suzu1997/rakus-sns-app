@@ -106,7 +106,7 @@ const TweetDetail: NextPage = () => {
         </>
       )}
       <div>
-        <PostBtn getData={getData} />
+        <PostBtn success={getData} />
       </div>
     </>
   );

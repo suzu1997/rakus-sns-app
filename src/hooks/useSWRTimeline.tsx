@@ -26,16 +26,15 @@ export const useSWRTimeline = (loginId: string) => {
   const getKey: SWRInfiniteKeyLoader = (pageIndex, previousPageData) => {
     // 最後まで読み込んだらnullを返す
     if (previousPageData && !previousPageData.data) return null;
-
     // 一番最初のフェッチ
+    //まだデータが0件なら、普通にAPI呼ぶ
     if (pageIndex === 0) return `${JAVA_API_URL}/timeline/${loginId}`;
 
     // 一番古いレビューのIDを取得
-    // これで一番古いレビューのIDが取れるのか？？やってみないとわからんです。
     const id =
-      previousPageData.data[previousPageData.data.length - 1].timelineId;
+      previousPageData.data[previousPageData?.data.length - 1].timelineId;
 
-    // 「過去のレビューを見る」ボタンを押したとき
+    // 「過去の投稿を見る」ボタンを押したとき
     // 一番下の投稿IDをAPIに渡す
     return `${JAVA_API_URL}/timeline/old/${id}`;
   };
@@ -48,19 +47,20 @@ export const useSWRTimeline = (loginId: string) => {
   const { data, error, size, setSize, mutate } = useSWRInfinite(getKey);
 
   /**
-   * レビューを追加読み込みする.
+   * 投稿を追加読み込みする.
    *
    * @remarks
    * ページサイズを増やすことで、次のフェッチ処理を走らせる。
    */
   const loadMoreTimeline = () => {
     setSize(size + 1);
+    console.log("走った！");
   };
 
   // 最後まで読み込んだかどうか
-  const isLast = data
-    ? data.filter((pageData) => pageData.timelineList.length < LIMIT).length > 0
-    : false;
+  const isLast = data;
+  // ? data.filter((pageData) => pageData.timelineList.length < LIMIT).length > 0
+  // : false;
 
   return { data, isLast, error, loadMoreTimeline, timelineMutate: mutate };
 };

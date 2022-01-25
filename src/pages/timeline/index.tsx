@@ -28,7 +28,7 @@ const Timeline: NextPage = () => {
   //ルーターリンク
   const router = useRouter();
 
-  // レビュー一覧を再検証・再取得する関数をhooksから取得
+  // 投稿一覧を再検証・再取得する関数をhooksから取得
   const { timelineMutate } = useSWRTimeline(loginId);
 
   /**
@@ -52,14 +52,14 @@ const Timeline: NextPage = () => {
    */
   const { data, error, mutate } = useSWR(`${JAVA_API_URL}/timeline/${loginId}`);
   // タイムライン情報をdataから抽出
-  const [timelineData] = useState<Timeline>(data?.TimelineList);
-  const [message] = useState<string>(data?.message);
+  const timelineData: Timeline = data?.TimelineList;
+  const message: string = data?.message;
 
   /**
    * タイムラインの情報を更新するメソッド.
    *
    * @remarks
-   * レビュー投稿が成功すると呼ばれる。
+   * 投稿が成功すると呼ばれる。
    */
   const updateData = useCallback(() => {
     timelineMutate(); // タイムライン一覧を再検証・再取得する
@@ -90,22 +90,22 @@ const Timeline: NextPage = () => {
   /**
    * 古い投稿の読み込み直し.(未実装)
    */
-  const getOldData = useCallback(async () => {
-    const oldNumber = timelineData.length - 1;
-    const oldId = timelineData?.[oldNumber].id;
-    try {
-      const res = await axios.get(`${JAVA_API_URL}/timeline/old/${oldId}`);
-      console.dir(JSON.stringify(res));
-      // タイムライン情報をdataから抽出
-      //useStateで囲むと更新されるけど、リロード問題が起きる
-      // setTimelineData(+res);
-    } catch (error) {
-      console.log(error);
-    }
-  }, [timelineData]);
+  // const getOldData = useCallback(async () => {
+  // const oldNumber = timelineData.length - 1;
+  // const oldId = timelineData?.[oldNumber].id;
+  //   try {
+  //     const res = await axios.get(`${JAVA_API_URL}/timeline/old/${oldId}`);
+  //     console.dir(JSON.stringify(res));
+  //     // タイムライン情報をdataから抽出
+  //     //useStateで囲むと更新されるけど、リロード問題が起きる
+  //     // setTimelineData(+res);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }, [timelineData]);
 
   //初期値エラー
-  if (!error && !data) {
+  if (!error && !timelineData) {
     return (
       <div className="flex justify-center pt-10 w-full">
         <div className="animate-spin h-8 w-8 bg-basic rounded-xl"></div>
@@ -176,7 +176,7 @@ const Timeline: NextPage = () => {
                     favoCount={value.likeCount}
                     isFavo={value.myLike}
                     type={message}
-                    success={timelineMutate}
+                    success={updateData}
                   />
                   {/* {loginId == value.userId && <TrashBtn postId={value.id} />} */}
                 </div>
@@ -185,12 +185,14 @@ const Timeline: NextPage = () => {
           ))}
           <div
             className="text-text-brown text-center my-5 cursor-pointer hover:text-basic"
-            onClick={getOldData}
+            onClick={() => {
+              1 + 1;
+            }}
           >
             過去の投稿を見る…
           </div>
           <div>
-            <PostBtn success={timelineMutate} />
+            <PostBtn success={updateData} />
           </div>
         </div>
       )}

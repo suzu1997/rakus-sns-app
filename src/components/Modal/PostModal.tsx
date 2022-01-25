@@ -104,15 +104,20 @@ export const PostModal: FC<Props> = memo((props) => {
       closeModal();
       setPost("");
     }
+
     if (title === "つぶやき") {
       try {
         const res = await axios.post(`${JAVA_API_URL}/timeline`, {
           userId: userId,
           sentence: post,
         });
-        toast.success(`${title}を投稿しました\n${title}内容: ${post}`);
-        if (success) {
-          success();
+        if (res.data.status === "success") {
+          toast.success(`${title}を投稿しました\n${title}内容: ${post}`);
+          if (success) {
+            success();
+          }
+        } else {
+          toast.error(`${res.data.message}`);
         }
       } catch (e) {
         toast.error(`${title}の投稿に失敗しました`);
@@ -120,6 +125,7 @@ export const PostModal: FC<Props> = memo((props) => {
       closeModal();
       setPost("");
     }
+
     if (title === "コメント") {
       try {
         //コメント投稿
