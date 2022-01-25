@@ -1,17 +1,19 @@
 export type LunchReview = {
-  reviewId: number;
+  id: number;
+  userId: number;
+  accountName: string;
+  userPhotoPath: string;
+  restaurantId: number;
+  restaurantName: string;
+  restaurantPhotoPath: string;
   star: number;
-  name: string;
   sentence: string;
   likeCount: number;
   commentCount: number;
-  userId: string;
-  accountName: string;
-  userImg: string;
-  restaurantId: number;
-  restaurantName: string;
-  restaurantImg: string;
-  time?: Date;
+  updatedTime: Date | null;
+  postedTime: Date;
+  deleted: boolean;
+  myLike: boolean;
 };
 
 export type Restaurant = {

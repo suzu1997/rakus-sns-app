@@ -7,6 +7,7 @@ import { Star } from "./Star";
 import { TrashBtn } from "../Button/TrashBtn";
 import { LinkToRestaurant } from "./LinkToRestaurat";
 import { LunchReview } from "../../types/type";
+import { getFormattedDate, getRestaurantPhotoPath } from "../../utils/methods";
 
 type Props = LunchReview & {
   type: string;
@@ -15,18 +16,19 @@ type Props = LunchReview & {
 
 export const ReviewCard: FC<Props> = memo((props) => {
   const {
-    reviewId,
-    star,
-    sentence,
+    id,
     userId,
     accountName,
-    userImg,
-    likeCount,
-    commentCount,
+    userPhotoPath,
     restaurantId,
     restaurantName,
-    restaurantImg,
-    time,
+    restaurantPhotoPath,
+    star,
+    sentence,
+    likeCount,
+    commentCount,
+    postedTime,
+    myLike,
     type,
     hasRestaurantInfo,
   } = props;
@@ -37,7 +39,7 @@ export const ReviewCard: FC<Props> = memo((props) => {
    * レビュー詳細ページへ遷移するメソッド.
    */
   const goReviewDetail = () => {
-    router.push(`/lunch/review/${reviewId}`);
+    router.push(`/lunch/review/${id}`);
   };
 
   /**
@@ -56,7 +58,13 @@ export const ReviewCard: FC<Props> = memo((props) => {
     >
       <div className="flex">
         <div className="mr-6" onClick={goUserPage}>
-          <Image src={userImg} width={100} height={100} alt="icon" />
+          <Image
+            src={`/image/userIcon/${userPhotoPath}`}
+            width={type === "詳細" ? 200 : 100}
+            height={type === "詳細" ? 200 : 100}
+            alt="icon"
+            className="rounded-full"
+          />
         </div>
         <div className="flex flex-col w-full">
           <div className="text-xl font-extrabold pt-3 pb-3">{accountName}</div>
@@ -72,15 +80,23 @@ export const ReviewCard: FC<Props> = memo((props) => {
           <LinkToRestaurant
             restaurantId={restaurantId}
             restaurantName={restaurantName}
-            restaurantImg={restaurantImg}
+            restaurantImg={getRestaurantPhotoPath(restaurantPhotoPath)}
           />
         )}
         <div className="flex flex-col items-end gap-3 sm:flex-row justify-end">
-          {type === "詳細" && <span className="mr-7">投稿日時：{time}</span>}
+          {type === "詳細" && (
+            <span className="mr-7">
+              投稿日時：{getFormattedDate(new Date(postedTime))}
+            </span>
+          )}
           <div>
-            <CommentIcon commentCount={commentCount} postId={reviewId} target="reviews"  />
-            <FavoBtn postId={reviewId} />
-            <TrashBtn postId={reviewId} />
+            <CommentIcon
+              commentCount={commentCount}
+              postId={id}
+              target="reviews"
+            />
+            <FavoBtn postId={id} favoCount={likeCount} isFavo={myLike} />
+            <TrashBtn postId={id} />
           </div>
         </div>
       </div>

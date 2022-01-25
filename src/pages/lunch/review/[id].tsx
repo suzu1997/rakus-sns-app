@@ -8,26 +8,28 @@ import { TrashBtn } from "../../../components/Button/TrashBtn";
 import { ReviewCard } from "../../../components/Lunch/ReviewCard";
 import { JAVA_API_URL } from "../../../utils/const";
 import { LunchReview } from "../../../types/type";
-
-type ReviewWithComment = LunchReview & {
-  comment?: { value: string; count: number }[];
-};
+import { useContext } from "react";
+import { loginIdContext } from "../../../providers/LoginIdProvider";
 
 const ReviewDetail: NextPage = () => {
   const router = useRouter();
   const reviewId = Number(router.query.id);
 
-  const { data: review, error } = useSWR<ReviewWithComment>(
-    `${JAVA_API_URL}/reviews/${reviewId}`,
+  const userId = useContext(loginIdContext);
+
+  const { data, error } = useSWR(
+    `${JAVA_API_URL}/review/detail/${reviewId}/${userId}`,
   );
 
-  if (!error && !review) {
+  if (!error && !data) {
     return <div>Loading...</div>;
   }
 
   if (error) {
     return <div>データを取得できませんでした</div>;
   }
+
+  const review: LunchReview = data.review;
 
   return (
     <div className="flex">
@@ -45,7 +47,7 @@ const ReviewDetail: NextPage = () => {
           <>
             <ReviewCard {...review} type="詳細" hasRestaurantInfo={true} />
             {/* コメント部分 */}
-            {review.comment?.map((value: any, index: number) => (
+            {data.commentList.map((value: any, index: number) => (
               <div key={index} className="flex border border-b border-gray-200">
                 <div className="w-1/5 text-center pt-5">
                   <Image
