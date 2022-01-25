@@ -15,6 +15,7 @@ import { loginIdContext } from "../../providers/LoginIdProvider";
 import { Timeline } from "../../types/type";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useSWRTimeline } from "../../hooks/useSWRTimeline";
 
 /**
  * タイムラインページ.
@@ -26,6 +27,10 @@ const Timeline: NextPage = () => {
 
   //ルーターリンク
   const router = useRouter();
+
+  // レビュー一覧を再検証・再取得する関数をhooksから取得
+  const { timelineMutate } = useSWRTimeline(loginId);
+
   /**
    * 画像クリックで投稿ユーザ情報ページに飛ぶ.
    * @param userId - 投稿者ID
@@ -45,7 +50,7 @@ const Timeline: NextPage = () => {
   /**
    * APIを使用してタイムラインデータを取得.
    */
-  const { data, error } = useSWR(`${JAVA_API_URL}/timeline/${loginId}`);
+  const { data, error, mutate } = useSWR(`${JAVA_API_URL}/timeline/${loginId}`);
   // タイムライン情報をdataから抽出
   const [timelineData, setTimelineData] = useState<Timeline>(
     data?.TimelineList,
@@ -53,13 +58,25 @@ const Timeline: NextPage = () => {
   const [message] = useState<string>(data?.message);
 
   /**
-   * 投稿の読み込み直し.
+   * 店詳細の情報を更新するメソッド.
+   *
+   * @remarks
+   * レビュー投稿が成功すると呼ばれる。
    */
-  const getData = useCallback(async () => {
+  const updateData = useCallback(() => {
+    timelineMutate(); // レビュー一覧を再検証・再取得する
+    mutate(); // レストラン情報を再検証・再取得する
+  }, [mutate, timelineMutate]);
+
+  /**
+   * 「新しい投稿を読み込む」押下で発動.
+   */
+  const getNewData = useCallback(async () => {
     try {
       const res = await axios.get(`${JAVA_API_URL}/timeline/${loginId}`);
       // タイムライン情報をdataから抽出
       setTimelineData(res.data.TimelineList);
+      toast.success("投稿を読み込みました");
     } catch (error) {
       console.log(error);
     }
@@ -68,17 +85,9 @@ const Timeline: NextPage = () => {
   /**
    * リロード問題解消用.
    */
-  useEffect(() => {
-    getData();
-  }, [getData]);
-
-  /**
-   * 「新しい投稿を読み込む」押下で発動.
-   */
-  const getNewData = useCallback(async () => {
-    getData();
-    toast.success("投稿を読み込みました");
-  }, [getData]);
+  // useEffect(() => {
+  //   getData();
+  // }, [getData]);
 
   /**
    * 古い投稿の読み込み直し.(未実装)
@@ -169,9 +178,9 @@ const Timeline: NextPage = () => {
                     favoCount={value.likeCount}
                     isFavo={value.myLike}
                     type={message}
-                    getData={getData}
+                    getData={timelineMutate}
                   />
-                  {loginId == value.userId && <TrashBtn postId={value.id} />}
+                  {/* {loginId == value.userId && <TrashBtn postId={value.id} />} */}
                 </div>
               </div>
             </div>
@@ -183,7 +192,7 @@ const Timeline: NextPage = () => {
             過去の投稿を見る…
           </div>
           <div>
-            <PostBtn getData={getData} />
+            <PostBtn success={timelineMutate} />
           </div>
         </div>
       )}
