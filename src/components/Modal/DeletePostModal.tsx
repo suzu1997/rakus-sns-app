@@ -1,8 +1,9 @@
-import { useCallback, Fragment, FC, memo } from "react";
+import { FC, Fragment, memo, useCallback, useContext } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Button } from "../Button/Button";
 import axios from "axios";
 import { JAVA_API_URL } from "../../utils/const";
+import { loginIdContext } from "../../providers/LoginIdProvider";
 
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
@@ -18,26 +19,26 @@ type Props = {
 export const DeletePostModal: FC<Props> = memo((props) => {
   const { isOpen, closeModal, postId, type } = props;
 
+  //ログインID
+  const loginId = useContext(loginIdContext);
+
   /**
    * はいボタン押下で発動.(未実装)
    */
+
   const deletePost = useCallback(async () => {
-    // try {
-    //   //投稿IDPOSTでいいのかしら
-    //   const res = await axios.post(`${JAVA_API_URL}/timeline`, {
-    //     timelineId: postId,
-    //   });
-    //   console.log(JSON.stringify(res.data));
-    //   if (res.data.status === "success") {
-    alert("投稿ID" + postId + "を削除しました");
-    //     //成功→タイムラインページに戻る
-    //     closeModal();
-    //   } else {
-    //     alert(res.data.message);
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    let url = "";
+    if (type === "タイムライン") {
+      url = `${JAVA_API_URL}/timeline/${postId}/${loginId}`;
+    }
+    if (type === "レビュー") {
+      url = "";
+    }
+    try {
+      const res = await axios.delete(url);
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
 
   return (

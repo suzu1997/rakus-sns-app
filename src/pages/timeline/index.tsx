@@ -80,7 +80,7 @@ const Timeline: NextPage = () => {
       const oldList: Timeline = res.data.TimelineList;
       //取得した古いリストが空だったらreturn(lengthが上手く取れないのでこのような処理)
       if (!oldList[0]) {
-        toast.success("古い投稿はありません");
+        toast.success("過去の投稿はありません");
         return;
       }
       //空でなければ既存のリストに追加
@@ -170,7 +170,7 @@ const Timeline: NextPage = () => {
                     type={message}
                     success={updateData}
                   />
-                  <TrashBtn postId={value.id} />
+                  <TrashBtn postId={value.id} type="タイムライン" />
                 </div>
               </div>
             </div>
