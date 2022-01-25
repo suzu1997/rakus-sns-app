@@ -53,7 +53,7 @@ const Timeline: NextPage = () => {
   const { data, error, mutate } = useSWR(`${JAVA_API_URL}/timeline/${loginId}`);
   // タイムライン情報をdataから抽出
   const timelineData: Timeline = data?.TimelineList;
-  const message: string = data?.message;
+  const message = data?.message;
 
   /**
    * タイムラインの情報を更新するメソッド.
@@ -74,15 +74,24 @@ const Timeline: NextPage = () => {
     const oldNumber = timelineData?.length - 1;
     const oldId = timelineData?.[oldNumber].id;
     try {
-      const res = await axios.get(`${JAVA_API_URL}/timeline/old/${oldId}`);
-      console.dir(JSON.stringify(res));
-      // タイムライン情報をdataから抽出
-      //useStateで囲むと更新されるけど、リロード問題が起きる
-      // setTimelineData(+res);
+      const res = await axios.get(
+        `${JAVA_API_URL}/timeline/old/${oldId}/${loginId}`,
+      );
+      const oldList: Timeline = res.data.TimelineList;
+      //取得した古いリストが空だったらreturn(lengthが上手く取れないのでこのような処理)
+      if (!oldList[0]) {
+        toast.success("古い投稿はありません");
+        return;
+      }
+      //空でなければ既存のリストに追加
+      for (const oldData of oldList) {
+        timelineData.push(oldData);
+      }
+      toast.success("過去の投稿を読み込みました");
     } catch (error) {
       console.log(error);
     }
-  }, [timelineData]);
+  }, [loginId, timelineData]);
 
   //初期値エラー
   if (!error && !timelineData) {
@@ -161,7 +170,7 @@ const Timeline: NextPage = () => {
                     type={message}
                     success={updateData}
                   />
-                  {/* {loginId == value.userId && <TrashBtn postId={value.id} />} */}
+                  <TrashBtn postId={value.id} />
                 </div>
               </div>
             </div>

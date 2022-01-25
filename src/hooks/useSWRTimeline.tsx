@@ -26,6 +26,9 @@ export const useSWRTimeline = (loginId: string) => {
   const getKey: SWRInfiniteKeyLoader = (pageIndex, previousPageData) => {
     // 最後まで読み込んだらnullを返す
     if (previousPageData && !previousPageData.data) return null;
+
+    console.dir("pageIndex:" + JSON.stringify(pageIndex));
+    console.dir("previousPageData:" + JSON.stringify(previousPageData));
     // 一番最初のフェッチ
     //まだデータが0件なら、普通にAPI呼ぶ
     if (pageIndex === 0) return `${JAVA_API_URL}/timeline/${loginId}`;
@@ -36,7 +39,7 @@ export const useSWRTimeline = (loginId: string) => {
     console.dir(JSON.stringify(previousPageData));
     // 「過去の投稿を見る」ボタンを押したとき
     // 一番下の投稿IDをAPIに渡す
-    return `${JAVA_API_URL}/timeline/old/${id}`;
+    return `${JAVA_API_URL}/timeline/old/${id}/${loginId}`;
   };
 
   // data: データの連想配列の配列(※ページごとの配列)
