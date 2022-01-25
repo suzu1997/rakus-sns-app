@@ -67,42 +67,22 @@ const Timeline: NextPage = () => {
   }, [mutate, timelineMutate]);
 
   /**
-   * 「新しい投稿を読み込む」押下で発動.
+   * 古い投稿の読み込み直し.
    */
-  // const getNewData = useCallback(async () => {
-  //   try {
-  //     const res = await axios.get(`${JAVA_API_URL}/timeline/${loginId}`);
-  //     // タイムライン情報をdataから抽出
-  //     setTimelineData(res.data.TimelineList);
-  //     toast.success("投稿を読み込みました");
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }, [loginId]);
-
-  /**
-   * リロード問題解消用.
-   */
-  // useEffect(() => {
-  //   getData();
-  // }, [getData]);
-
-  /**
-   * 古い投稿の読み込み直し.(未実装)
-   */
-  // const getOldData = useCallback(async () => {
-  // const oldNumber = timelineData.length - 1;
-  // const oldId = timelineData?.[oldNumber].id;
-  //   try {
-  //     const res = await axios.get(`${JAVA_API_URL}/timeline/old/${oldId}`);
-  //     console.dir(JSON.stringify(res));
-  //     // タイムライン情報をdataから抽出
-  //     //useStateで囲むと更新されるけど、リロード問題が起きる
-  //     // setTimelineData(+res);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }, [timelineData]);
+  const getOldData = useCallback(async () => {
+    //データの最後のidを取得
+    const oldNumber = timelineData?.length - 1;
+    const oldId = timelineData?.[oldNumber].id;
+    try {
+      const res = await axios.get(`${JAVA_API_URL}/timeline/old/${oldId}`);
+      console.dir(JSON.stringify(res));
+      // タイムライン情報をdataから抽出
+      //useStateで囲むと更新されるけど、リロード問題が起きる
+      // setTimelineData(+res);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [timelineData]);
 
   //初期値エラー
   if (!error && !timelineData) {
@@ -133,7 +113,10 @@ const Timeline: NextPage = () => {
             <Button
               label="新しいつぶやきを読み込む"
               size="lg"
-              onClick={updateData}
+              onClick={() => {
+                updateData;
+                toast.success("新しい投稿を読み込みました");
+              }}
             />
           </div>
           {timelineData.map((value, key) => (
@@ -185,9 +168,7 @@ const Timeline: NextPage = () => {
           ))}
           <div
             className="text-text-brown text-center my-5 cursor-pointer hover:text-basic"
-            onClick={() => {
-              1 + 1;
-            }}
+            onClick={getOldData}
           >
             過去の投稿を見る…
           </div>
