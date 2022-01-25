@@ -52,35 +52,33 @@ const Timeline: NextPage = () => {
    */
   const { data, error, mutate } = useSWR(`${JAVA_API_URL}/timeline/${loginId}`);
   // タイムライン情報をdataから抽出
-  const [timelineData, setTimelineData] = useState<Timeline>(
-    data?.TimelineList,
-  );
+  const [timelineData] = useState<Timeline>(data?.TimelineList);
   const [message] = useState<string>(data?.message);
 
   /**
-   * 店詳細の情報を更新するメソッド.
+   * タイムラインの情報を更新するメソッド.
    *
    * @remarks
    * レビュー投稿が成功すると呼ばれる。
    */
   const updateData = useCallback(() => {
-    timelineMutate(); // レビュー一覧を再検証・再取得する
-    mutate(); // レストラン情報を再検証・再取得する
+    timelineMutate(); // タイムライン一覧を再検証・再取得する
+    mutate(); // タイムライン情報を再検証・再取得する
   }, [mutate, timelineMutate]);
 
   /**
    * 「新しい投稿を読み込む」押下で発動.
    */
-  const getNewData = useCallback(async () => {
-    try {
-      const res = await axios.get(`${JAVA_API_URL}/timeline/${loginId}`);
-      // タイムライン情報をdataから抽出
-      setTimelineData(res.data.TimelineList);
-      toast.success("投稿を読み込みました");
-    } catch (error) {
-      console.log(error);
-    }
-  }, [loginId]);
+  // const getNewData = useCallback(async () => {
+  //   try {
+  //     const res = await axios.get(`${JAVA_API_URL}/timeline/${loginId}`);
+  //     // タイムライン情報をdataから抽出
+  //     setTimelineData(res.data.TimelineList);
+  //     toast.success("投稿を読み込みました");
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }, [loginId]);
 
   /**
    * リロード問題解消用.
@@ -135,7 +133,7 @@ const Timeline: NextPage = () => {
             <Button
               label="新しいつぶやきを読み込む"
               size="lg"
-              onClick={getNewData}
+              onClick={updateData}
             />
           </div>
           {timelineData.map((value, key) => (
@@ -178,7 +176,7 @@ const Timeline: NextPage = () => {
                     favoCount={value.likeCount}
                     isFavo={value.myLike}
                     type={message}
-                    getData={timelineMutate}
+                    success={timelineMutate}
                   />
                   {/* {loginId == value.userId && <TrashBtn postId={value.id} />} */}
                 </div>

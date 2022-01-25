@@ -9,7 +9,7 @@ type Props = {
   favoCount?: number; //お気に入り数
   isFavo?: boolean; //お気に入りしているかどうか
   type?: string; //レビューかつぶやきか
-  getData?: () => void; //自動リロード用メソッド
+  success?: () => void; //自動リロード用メソッド
 };
 
 /**
@@ -20,7 +20,7 @@ export const FavoBtn: FC<Props> = memo((props) => {
   const loginId = useContext(loginIdContext);
 
   //props
-  const { postId, favoCount, isFavo, type, getData } = props;
+  const { postId, favoCount, isFavo, type, success } = props;
 
   /**
    * はいボタン押下でいいね発動.
@@ -36,8 +36,8 @@ export const FavoBtn: FC<Props> = memo((props) => {
         };
         await axios.post(`${JAVA_API_URL}/timeline/like`, postData);
         //リロード
-        if (getData) {
-          getData();
+        if (success) {
+          success();
         }
         //レビューにたいするいいね
       } else {
@@ -48,7 +48,7 @@ export const FavoBtn: FC<Props> = memo((props) => {
     }
 
     //[]内入れないと変更が反映しないため挿入
-  }, [getData, loginId, postId, type]);
+  }, [success, loginId, postId, type]);
 
   return (
     <>
