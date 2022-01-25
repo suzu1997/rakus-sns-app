@@ -28,15 +28,6 @@ export const DeletePostModal: FC<Props> = memo((props) => {
    * はいボタン押下で発動.(未実装)
    */
   const deletePost = useCallback(async () => {
-    //URLの設定
-    let url = "";
-    if (type === "タイムライン") {
-      url = `${JAVA_API_URL}/timeline/${postId}/${loginId}`;
-    }
-    if (type === "レビュー") {
-      url = "";
-    }
-
     try {
       //タイムラインに対する削除
       if (type === "タイムライン") {
@@ -49,11 +40,13 @@ export const DeletePostModal: FC<Props> = memo((props) => {
           if (success) {
             success();
           }
+          closeModal();
         } else {
           toast.error(res.data.message);
           closeModal();
         }
       }
+
       //タイムラインコメントに対する削除
       if (type === "タイムラインコメント") {
         const res = await axios.delete(
@@ -65,6 +58,7 @@ export const DeletePostModal: FC<Props> = memo((props) => {
           if (success) {
             success();
           }
+          closeModal();
         } else {
           toast.error(res.data.message);
           closeModal();
