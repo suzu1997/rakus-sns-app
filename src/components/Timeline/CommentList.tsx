@@ -2,12 +2,12 @@ import { FC, memo, useContext } from "react";
 import Image from "next/image";
 import { FavoBtn } from "../Button/FavoBtn";
 import { TrashBtn } from "../Button/TrashBtn";
-import { Timeline } from "../../types/type";
+import { TimelineComment } from "../../types/type";
 import { useRouter } from "next/router";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 
 type Props = {
-  commentList: Timeline; //コメントリスト
+  commentList: TimelineComment; //コメントリスト
   getData?: () => void; //データの更新
 };
 
@@ -16,9 +16,6 @@ type Props = {
  */
 export const CommentList: FC<Props> = memo((props) => {
   const { commentList, getData } = props;
-
-  //ログインID
-  const loginId = useContext(loginIdContext);
 
   //ルーターリンク
   const router = useRouter();
@@ -32,11 +29,11 @@ export const CommentList: FC<Props> = memo((props) => {
   };
 
   return (
-    <>
+    <div className="border border-t-0 border-gray-200">
       {commentList ? (
         <div>
           {commentList.map((value, key) => (
-            <div key={key} className="flex  border border-t-0 border-gray-200">
+            <div key={key} className="flex">
               <div className="w-1/5 text-center pt-5 cursor-pointer hover:opacity-50">
                 <Image
                   src={`/image/userIcon/${value.userPhotoPath}`}
@@ -53,15 +50,15 @@ export const CommentList: FC<Props> = memo((props) => {
                 <div className="text-xl font-extrabold py-3 ml-3">
                   {value.accountName}
                 </div>
-                <div className="pt-5 pb-5 pl-5 w-8/12">{value.sentence}</div>
+                <div className="pt-5 pb-5 pl-5 w-8/12">{value.comment}</div>
                 <div className="w-full text-right py-3 pr-5">
                   <FavoBtn
                     postId={value.id}
-                    favoCount={value.likeCount}
-                    getData={getData}
+                    favoCount={value.commentLikeCount}
+                    success={getData}
                     isFavo={value.myLike}
                   />
-                  {loginId == value.userId && <TrashBtn postId={value.id} />}
+                  <TrashBtn postId={value.id} />
                 </div>
               </div>
             </div>
@@ -70,6 +67,6 @@ export const CommentList: FC<Props> = memo((props) => {
       ) : (
         <div className="text-center my-10">コメントはありません</div>
       )}
-    </>
+    </div>
   );
 });

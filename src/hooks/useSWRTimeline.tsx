@@ -27,8 +27,6 @@ export const useSWRTimeline = (loginId: string) => {
     // 最後まで読み込んだらnullを返す
     if (previousPageData && !previousPageData.data) return null;
 
-    console.dir("pageIndex:" + JSON.stringify(pageIndex));
-    console.dir("previousPageData:" + JSON.stringify(previousPageData));
     // 一番最初のフェッチ
     //まだデータが0件なら、普通にAPI呼ぶ
     if (pageIndex === 0) return `${JAVA_API_URL}/timeline/${loginId}`;
@@ -36,7 +34,6 @@ export const useSWRTimeline = (loginId: string) => {
     // 一番古いレビューのIDを取得
     const id =
       previousPageData.data[previousPageData?.data.length - 1].timelineId;
-    console.dir(JSON.stringify(previousPageData));
     // 「過去の投稿を見る」ボタンを押したとき
     // 一番下の投稿IDをAPIに渡す
     return `${JAVA_API_URL}/timeline/old/${id}/${loginId}`;
@@ -57,7 +54,6 @@ export const useSWRTimeline = (loginId: string) => {
    */
   const loadMoreTimeline = () => {
     setSize(size + 1);
-    console.log("走った！");
   };
 
   // 最後まで読み込んだかどうか
