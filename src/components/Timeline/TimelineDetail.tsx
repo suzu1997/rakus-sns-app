@@ -9,14 +9,15 @@ import { loginIdContext } from "../../providers/LoginIdProvider";
 
 type Props = {
   detailData: TimelineDetail; //タイムライン詳細データ
-  getData?: () => void; //データの更新
+  success?: () => void; //データの更新
 };
 
 /**
  * タイムライン詳細コンポーネント.
  */
 export const TimelineDetailPage: FC<Props> = memo((props) => {
-  const { detailData, getData } = props;
+  const { detailData, success } = props;
+  console.dir(JSON.stringify(detailData));
 
   //ログインID
   const loginId = useContext(loginIdContext);
@@ -68,12 +69,11 @@ export const TimelineDetailPage: FC<Props> = memo((props) => {
               <FavoBtn
                 postId={detailData.id}
                 favoCount={detailData.likeCount}
-                getData={getData}
+                success={success}
                 isFavo={detailData.myLike}
+                type="タイムライン"
               />
-              {loginId == detailData.userId && (
-                <TrashBtn postId={detailData.id} />
-              )}
+              <TrashBtn postId={detailData.id} />
             </div>
           </div>
         </div>

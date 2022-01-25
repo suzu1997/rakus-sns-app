@@ -53,7 +53,6 @@ const Timeline: NextPage = () => {
   const { data, error, mutate } = useSWR(`${JAVA_API_URL}/timeline/${loginId}`);
   // タイムライン情報をdataから抽出
   const timelineData: Timeline = data?.TimelineList;
-  const message = data?.message;
 
   /**
    * タイムラインの情報を更新するメソッド.
@@ -168,7 +167,7 @@ const Timeline: NextPage = () => {
                     postId={value.id}
                     favoCount={value.likeCount}
                     isFavo={value.myLike}
-                    type={message}
+                    type="タイムライン"
                     success={updateData}
                   />
                   <TrashBtn

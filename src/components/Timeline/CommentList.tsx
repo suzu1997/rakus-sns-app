@@ -7,14 +7,14 @@ import { useRouter } from "next/router";
 
 type Props = {
   commentList: TimelineComment; //コメントリスト
-  getData?: () => void; //データの更新
+  success?: () => void; //データの更新
 };
 
 /**
  * タイムライン詳細ページのコメントコンポーネント.
  */
 export const CommentList: FC<Props> = memo((props) => {
-  const { commentList, getData } = props;
+  const { commentList, success } = props;
   //ルーターリンク
   const router = useRouter();
 
@@ -54,12 +54,13 @@ export const CommentList: FC<Props> = memo((props) => {
                   <FavoBtn
                     postId={value.id}
                     favoCount={value.commentLikeCount}
-                    success={getData}
+                    success={success}
                     isFavo={value.myLike}
+                    type="タイムラインコメント"
                   />
                   <TrashBtn
                     postId={value.id}
-                    success={getData}
+                    success={success}
                     type="タイムラインコメント"
                   />
                 </div>

@@ -27,21 +27,31 @@ export const FavoBtn: FC<Props> = memo((props) => {
    */
   const favo = useCallback(async () => {
     try {
-      //タイムラインに対するいいね
-      if (type === "タイムライン一覧の検索に成功しました") {
-        //送信データ
-        const postData = {
+      if (type === "タイムライン") {
+        //タイムラインに対するいいね
+        const res = await axios.post(`${JAVA_API_URL}/timeline/like`, {
           timelineId: postId, //投稿ID
           userLogicalId: loginId, //ログインユーザID
-        };
-        await axios.post(`${JAVA_API_URL}/timeline/like`, postData);
-        //リロード
-        if (success) {
-          success();
+        });
+        if (res.data.status === "success") {
+          //リロード
+          if (success) {
+            success();
+          }
         }
-        //レビューにたいするいいね
-      } else {
-        console.log("これはレビューに対するいいね");
+      }
+
+      if (type === "タイムラインコメント") {
+        const res = await axios.post(`${JAVA_API_URL}/timeline/comment/like`, {
+          timelineId: postId, //投稿ID
+          userLogicalId: loginId, //ログインユーザID
+        });
+        if (res.data.status === "success") {
+          //リロード
+          if (success) {
+            success();
+          }
+        }
       }
     } catch (error) {
       console.log(error);

@@ -7,7 +7,7 @@ import { Button } from "../../components/Button/Button";
 import { PostBtn } from "../../components/Button/PostBtn";
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { JAVA_API_URL } from "../../utils/const";
-import { TimelineComment, Timeline } from "../../types/type";
+import { TimelineComment, TimelineDetail } from "../../types/type";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { CommentList } from "../../components/Timeline/CommentList";
 import { TimelineDetailPage } from "../../components/Timeline/TimelineDetail";
@@ -40,7 +40,7 @@ const TweetDetail: NextPage = () => {
   );
 
   //つぶやき詳細データ
-  const [detailData, setDetailData] = useState<Timeline>(data?.timeline);
+  const [detailData, setDetailData] = useState<TimelineDetail>(data?.timeline);
   //コメントリスト
   const [commentList] = useState<TimelineComment>(data?.commentList);
   console.dir(JSON.stringify(commentList));
@@ -98,11 +98,11 @@ const TweetDetail: NextPage = () => {
         <>
           <div className="w-full border border-t-0 border-gray-200">
             <div className="mx-5 mt-10">
-              <TimelineDetailPage detailData={detailData} getData={getData} />
+              <TimelineDetailPage detailData={detailData} success={getData} />
             </div>
           </div>
           <div className="w-full">
-            <CommentList commentList={commentList} getData={getData} />
+            <CommentList commentList={commentList} success={getData} />
           </div>
         </>
       )}
