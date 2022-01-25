@@ -36,24 +36,39 @@ export const DeletePostModal: FC<Props> = memo((props) => {
     if (type === "レビュー") {
       url = "";
     }
-    if (type === "タイムラインコメント") {
-      url = `${JAVA_API_URL}/timeline/comment/${postId}/${loginId}`;
-    }
 
     try {
-      //API発動
-      const res = await axios.delete(url);
-      //成功→トースト出してデータ再読み込み,モーダルを閉じる
-      if (res.data.status === "success") {
-        toast.success("削除しました");
-        if (success) {
-          success();
+      //タイムラインに対する削除
+      if (type === "タイムライン") {
+        const res = await axios.delete(
+          `${JAVA_API_URL}/timeline/${postId}/${loginId}`,
+        );
+        if (res.data.status === "success") {
+          toast.success("削除しました");
+          //リロード
+          if (success) {
+            success();
+          }
+        } else {
+          toast.error(res.data.message);
+          closeModal();
         }
-        closeModal();
-        //失敗→トーストにエラー原因を
-      } else {
-        toast.error(res.data.message);
-        closeModal();
+      }
+      //タイムラインコメントに対する削除
+      if (type === "タイムラインコメント") {
+        const res = await axios.delete(
+          `${JAVA_API_URL}/timeline/comment/${postId}/${loginId}`,
+        );
+        if (res.data.status === "success") {
+          toast.success("削除しました");
+          //リロード
+          if (success) {
+            success();
+          }
+        } else {
+          toast.error(res.data.message);
+          closeModal();
+        }
       }
     } catch (error) {
       console.log(error);

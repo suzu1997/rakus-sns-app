@@ -73,7 +73,7 @@ export const TimelineDetailPage: FC<Props> = memo((props) => {
                 isFavo={detailData.myLike}
                 type="タイムライン"
               />
-              <TrashBtn postId={detailData.id} />
+              <TrashBtn postId={detailData.id} type="タイムライン" />
             </div>
           </div>
         </div>
