@@ -17,7 +17,6 @@ type Props = {
  */
 export const TimelineDetailPage: FC<Props> = memo((props) => {
   const { detailData, success } = props;
-  console.dir(JSON.stringify(detailData));
 
   //ログインID
   const loginId = useContext(loginIdContext);

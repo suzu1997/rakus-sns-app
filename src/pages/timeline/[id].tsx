@@ -43,7 +43,6 @@ const TweetDetail: NextPage = () => {
   const [detailData, setDetailData] = useState<TimelineDetail>(data?.timeline);
   //コメントリスト
   const [commentList] = useState<TimelineComment>(data?.commentList);
-  console.dir(JSON.stringify(commentList));
 
   /**
    * 投稿の読み込み直し.
