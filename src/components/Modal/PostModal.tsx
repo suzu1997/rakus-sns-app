@@ -105,11 +105,12 @@ export const PostModal: FC<Props> = memo((props) => {
       setPost("");
     }
 
+    //タイムライン投稿
     if (title === "つぶやき") {
       try {
         const res = await axios.post(`${JAVA_API_URL}/timeline`, {
-          userId: userId,
-          sentence: post,
+          userLogicalId: userId, //ログインユーザID
+          sentence: post, //投稿内容
         });
         if (res.data.status === "success") {
           toast.success(`${title}を投稿しました\n${title}内容: ${post}`);
@@ -155,9 +156,9 @@ export const PostModal: FC<Props> = memo((props) => {
   /**
    * APIを使用して画像データ取得.
    */
-  const { data, error } = useSWR(`${JAVA_API_URL}/user/${userId}`);
+  const { data } = useSWR(`${JAVA_API_URL}/user/${userId}`);
   // 個人情報をdataから抽出
-  const userPhoto = data?.user.userPhotoPath;
+  const [userPhoto] = useState<string>(data?.user.userPhotoPath);
 
   return (
     <>
