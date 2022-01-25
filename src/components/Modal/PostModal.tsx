@@ -149,18 +149,9 @@ export const PostModal: FC<Props> = memo((props) => {
   /**
    * APIを使用して画像データ取得.
    */
-  const { data, error } = useSWR(`${JAVA_API_URL}/user/2`);
-  // const { data, error } = useSWR(`${JAVA_API_URL}/user/${userId}`);
+  const { data, error } = useSWR(`${JAVA_API_URL}/user/${userId}`);
   // 個人情報をdataから抽出
   const userPhoto = data?.user.userPhotoPath;
-
-  // if (!error && !data) {
-  //   return <div>Loading...</div>;
-  // }
-
-  // if (error) {
-  //   return <div>データを取得できませんでした</div>;
-  // }
 
   return (
     <>
@@ -227,13 +218,21 @@ export const PostModal: FC<Props> = memo((props) => {
                   </div>
                   <div className="flex flex-col sm:flex-row mt-5">
                     <div className="ml-5">
-                      {/* <Image
-                        src={`/image/userIcon/${userPhoto}`}
-                        width={100}
-                        height={100}
-                        alt="icon"
-                        className="rounded-full"
-                      /> */}
+                      {userPhoto ? (
+                        <>
+                          <Image
+                            src={`/image/userIcon/${userPhoto}`}
+                            width={100}
+                            height={100}
+                            alt="icon"
+                            className="rounded-full"
+                          />
+                        </>
+                      ) : (
+                        <div className="w-28 h-28 rounded-full bg-gray-200 flex items-center pl-5 mb-5">
+                          No Image
+                        </div>
+                      )}
                     </div>
                     <div className="sm:mx-5">
                       <form>
