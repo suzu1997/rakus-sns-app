@@ -27,8 +27,8 @@ export const DeletePostModal: FC<Props> = memo((props) => {
   /**
    * はいボタン押下で発動.(未実装)
    */
-
   const deletePost = useCallback(async () => {
+    //URLの設定
     let url = "";
     if (type === "タイムライン") {
       url = `${JAVA_API_URL}/timeline/${postId}/${loginId}`;
@@ -36,6 +36,10 @@ export const DeletePostModal: FC<Props> = memo((props) => {
     if (type === "レビュー") {
       url = "";
     }
+    if (type === "タイムラインコメント") {
+      url = `${JAVA_API_URL}/timeline/comment/${postId}/${loginId}`;
+    }
+
     try {
       //API発動
       const res = await axios.delete(url);
