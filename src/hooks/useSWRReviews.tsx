@@ -20,23 +20,22 @@ export const useSWRReviews = (userId: string) => {
    * @remarks
    * useSWRInfiniteからデータをフェッチする際に呼び出される。
    * @param pageIndex - ページインデックス
-   * @param previousPageData -
+   * @param previousPageData - 前のページのデータ
    * @returns ページのキー
    */
   const getKey: SWRInfiniteKeyLoader = (pageIndex, previousPageData) => {
     // 最後まで読み込んだらnullを返す
-    if (previousPageData && !previousPageData.data) return null;
+    if (previousPageData && previousPageData.reviewList.length < LIMIT) return null;
 
     // 一番最初のフェッチ
     if (pageIndex === 0) return `${JAVA_API_URL}/review/${userId}`;
 
     // 一番古いレビューのIDを取得
-    // これで一番古いレビューのIDが取れるのか？？やってみないとわからんです。
-    const id = previousPageData.data[previousPageData.data.length - 1].reviewId;
+    const id = previousPageData.reviewList[previousPageData.reviewList.length - 1].id;
 
     // 「過去のレビューを見る」ボタンを押したとき
     // 一番下の投稿IDをAPIに渡す
-    return `${JAVA_API_URL}/reviews/old/${id}`;
+    return `${JAVA_API_URL}/reviews/old/${id}/${userId}`;
   };
 
   // data: データの連想配列の配列(※ページごとの配列)

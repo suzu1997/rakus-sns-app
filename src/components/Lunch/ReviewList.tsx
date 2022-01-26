@@ -77,12 +77,16 @@ export const ReviewList: FC<Props> = memo((props) => {
           }),
         )}
       {/* 最後まで読み込んでいれば過去のレビューを見るボタンを表示しない */}
-      {isLast === false && (
+      {isLast === false ? (
         <div
           className="text-text-brown text-center my-5 cursor-pointer hover:text-basic"
           onClick={loadMoreReviews}
         >
           過去のレビューを見る…
+        </div>
+      ) : (
+        <div className="text-text-brown text-center my-5 ">
+          最後まで読み込みました
         </div>
       )}
     </div>
