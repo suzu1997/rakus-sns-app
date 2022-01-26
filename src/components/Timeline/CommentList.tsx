@@ -1,9 +1,12 @@
-import { FC, memo } from "react";
+import { FC, memo, useContext, useState } from "react";
 import Image from "next/image";
 import { FavoBtn } from "../Button/FavoBtn";
 import { TrashBtn } from "../Button/TrashBtn";
 import { TimelineComment } from "../../types/type";
 import { useRouter } from "next/router";
+import useSWR from "swr";
+import { JAVA_API_URL } from "../../utils/const";
+import { loginIdContext } from "../../providers/LoginIdProvider";
 
 type Props = {
   commentList: TimelineComment; //コメントリスト
@@ -15,10 +18,19 @@ type Props = {
  */
 export const CommentList: FC<Props> = memo((props) => {
   const { commentList, success } = props;
+
+  //ログインID
+  const loginId = useContext(loginIdContext);
+
   //ルーターリンク
   const router = useRouter();
 
-  console.dir(JSON.stringify(commentList));
+  /**
+   * ごみ箱ボタン表示非表示判断のため、ログインIDをハッシュ値→通常のIDに変換.
+   */
+  const { data: userInfo } = useSWR(`${JAVA_API_URL}/user/${loginId}`);
+  const [trashCheckId] = useState(userInfo?.user.id);
+
   /**
    * 画像クリックで投稿ユーザ情報ページに飛ぶ.
    * @param userId - 投稿者ID
@@ -58,11 +70,13 @@ export const CommentList: FC<Props> = memo((props) => {
                     isFavo={value.myLike}
                     type="タイムラインコメント"
                   />
-                  <TrashBtn
-                    postId={value.id}
-                    success={success}
-                    type="タイムラインコメント"
-                  />
+                  {trashCheckId === value.userId && (
+                    <TrashBtn
+                      postId={value.id}
+                      success={success}
+                      type="タイムラインコメント"
+                    />
+                  )}
                 </div>
               </div>
             </div>

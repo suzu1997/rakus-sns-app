@@ -22,6 +22,7 @@ const TweetDetail: NextPage = () => {
 
   //ルーターリンク
   const router = useRouter();
+
   /**
    * 戻るボタン押下で発動.
    */
