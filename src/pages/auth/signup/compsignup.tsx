@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import Link from "next/link";
+import { LinkComp } from "../../../components/Form/LinkComp";
 
 /**
  * 本会員登録完了ページ.
@@ -13,11 +13,10 @@ const CompSignUp: NextPage = () => {
           会員登録が完了しました
         </div>
         <div className="mt-10">
-          <Link href="/auth/login">
-            <a className="underline hover:text-blue-800 mt-3">
-              ログインページはコチラから
-            </a>
-          </Link>
+          <LinkComp
+            url="/auth/login"
+            linkText="ログインページはコチラから"
+          ></LinkComp>
         </div>
       </div>
     </>
