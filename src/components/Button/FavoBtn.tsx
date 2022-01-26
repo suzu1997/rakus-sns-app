@@ -43,7 +43,7 @@ export const FavoBtn: FC<Props> = memo((props) => {
 
       if (type === "タイムラインコメント") {
         const res = await axios.post(`${JAVA_API_URL}/timeline/comment/like`, {
-          timelineId: postId, //投稿ID
+          commentId: postId, //投稿ID
           userLogicalId: loginId, //ログインユーザID
         });
         if (res.data.status === "success") {
@@ -62,7 +62,7 @@ export const FavoBtn: FC<Props> = memo((props) => {
 
   return (
     <>
-      <button type="button" className="pr-10" onClick={favo}>
+      <button type="button" className="pr-10 outline none" onClick={favo}>
         {isFavo ? (
           <>
             <i className="fas fa-heart text-red-500"></i>

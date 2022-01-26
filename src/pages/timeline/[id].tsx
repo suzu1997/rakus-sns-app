@@ -7,10 +7,10 @@ import { Button } from "../../components/Button/Button";
 import { PostBtn } from "../../components/Button/PostBtn";
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { JAVA_API_URL } from "../../utils/const";
-import { TimelineComment, TimelineDetail } from "../../types/type";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { CommentList } from "../../components/Timeline/CommentList";
 import { TimelineDetailPage } from "../../components/Timeline/TimelineDetail";
+import { Timeline } from "../../types/type";
 
 /**
  * つぶやき詳細画面.
@@ -22,6 +22,7 @@ const TweetDetail: NextPage = () => {
 
   //ルーターリンク
   const router = useRouter();
+
   /**
    * 戻るボタン押下で発動.
    */
@@ -33,16 +34,14 @@ const TweetDetail: NextPage = () => {
   const postId = Number(router.query.id);
 
   /**
-   * APIを使用してタイムラインデータを取得.(未実装)
+   * APIを使用してタイムラインデータを取得.
    */
   const { data, error } = useSWR(
     `${JAVA_API_URL}/timeline/detail/${postId}/${loginId}`,
   );
 
   //つぶやき詳細データ
-  const [detailData, setDetailData] = useState<TimelineDetail>(data?.timeline);
-  //コメントリスト
-  const [commentList] = useState<TimelineComment>(data?.commentList);
+  const [detailData, setDetailData] = useState<Timeline>(data?.timeline);
 
   /**
    * 投稿の読み込み直し.
@@ -101,7 +100,7 @@ const TweetDetail: NextPage = () => {
             </div>
           </div>
           <div className="w-full">
-            <CommentList commentList={commentList} success={getData} />
+            {CommentList && <CommentList postId={postId} />}
           </div>
         </>
       )}
