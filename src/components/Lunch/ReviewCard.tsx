@@ -47,6 +47,9 @@ export const ReviewCard: FC<Props> = memo((props) => {
 
   // ユーザーのハッシュ値
   const { hash } = useContext(loginIdContext);
+  // ユーザーID
+  const { loginId } = useContext(loginIdContext);
+
   // レビューリスト更新のmutate関数をhooksから取得
   const { reviewsMutate } = useSWRReviews(hash);
 
@@ -124,11 +127,13 @@ export const ReviewCard: FC<Props> = memo((props) => {
               target="reviews"
             />
             <FavoBtn postId={id} favoCount={likeCount} isFavo={myLike} />
-            <TrashBtn
-              postId={id}
-              type="レビュー"
-              success={deleteReviewSuccess}
-            />
+            {Number(loginId) === userId && (
+              <TrashBtn
+                postId={id}
+                type="レビュー"
+                success={deleteReviewSuccess}
+              />
+            )}
           </div>
         </div>
       </div>

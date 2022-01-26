@@ -1,10 +1,11 @@
-import { FC, memo } from "react";
+import { FC, memo, useContext } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
 import { FavoBtn } from "../Button/FavoBtn";
 import { TrashBtn } from "../Button/TrashBtn";
 import { TimelineComment } from "../../types/type";
+import { loginIdContext } from "../../providers/LoginIdProvider";
 
 type Props = {
   commentList: TimelineComment; //コメントリスト
@@ -18,7 +19,10 @@ export const CommentList: FC<Props> = memo((props) => {
   const { commentList, success } = props;
   //ルーターリンク
   const router = useRouter();
-  
+
+  // ログインユーザーID
+  const { loginId } = useContext(loginIdContext);
+
   /**
    * 画像クリックで投稿ユーザ情報ページに飛ぶ.
    * @param userId - 投稿者ID
@@ -58,11 +62,13 @@ export const CommentList: FC<Props> = memo((props) => {
                     isFavo={value.myLike}
                     type="レビューコメント"
                   />
-                  <TrashBtn
-                    postId={value.id}
-                    success={success}
-                    type="レビューコメント"
-                  />
+                  {Number(loginId) === value.userId && (
+                    <TrashBtn
+                      postId={value.id}
+                      success={success}
+                      type="レビューコメント"
+                    />
+                  )}
                 </div>
               </div>
             </div>
