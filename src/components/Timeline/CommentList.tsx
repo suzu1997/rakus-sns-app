@@ -41,8 +41,6 @@ export const CommentList: FC<Props> = memo((props) => {
     timelineDetail.commentList,
   );
 
-  console.dir("コメントリスト" + JSON.stringify(commentList));
-
   /**
    * 投稿の読み込み直し.
    */
