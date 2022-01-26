@@ -44,7 +44,7 @@ const User: NextPage = () => {
 
   //タブテストデータ
   // eslint-disable-next-line prefer-const
-  let [categories] = useState({
+  let [categoriesA] = useState({
     つぶやき履歴: [
       {
         id: 1,
@@ -65,14 +65,39 @@ const User: NextPage = () => {
         title: "よっ",
       },
     ],
-    いいね履歴: [
+    いいね履歴: [{ id: 1, title: "履歴の詳細は以下からご覧ください" }],
+  });
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  let [categoriesB] = useState({
+    つぶやきいいね履歴: [
       {
         id: 1,
-        title: "ありがとう",
+        title: "つぶやきのいいね",
       },
       {
         id: 2,
-        title: "さようなら",
+        title: "いいね",
+      },
+    ],
+    投稿いいね履歴: [
+      {
+        id: 1,
+        title: "つぶやきのいいね",
+      },
+      {
+        id: 2,
+        title: "投稿のいいね",
+      },
+    ],
+    コメントいいね履歴: [
+      {
+        id: 1,
+        title: "つぶやきのいいね",
+      },
+      {
+        id: 2,
+        title: "投稿のいいね",
       },
     ],
   });
