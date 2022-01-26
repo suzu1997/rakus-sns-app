@@ -15,7 +15,9 @@ export const LinkComp: FC<Props> = (props) => {
       <div>
         {firstText}
         <Link href={url}>
-          <a className="underline hover:text-blue-800 mt-3">{linkText}</a>
+          <a className="underline block mt-3 hover:text-blue-800 ">
+            {linkText}
+          </a>
         </Link>
         {lastText}
       </div>
