@@ -87,14 +87,14 @@ const Timeline: NextPage = () => {
       <SubHeader title="タイムライン" />
       {/* タイムラインゾーン */}
       <div className="text-center my-10 animate-bounce">
-        <Button
+        {/* <Button
           label="新しいつぶやきを読み込む"
           size="lg"
           onClick={() => {
             // updateData;
             toast.success("新しい投稿を読み込みました");
           }}
-        />
+        /> */}
       </div>
       {data &&
         // dataはページごとの連想配列の配列
