@@ -64,41 +64,39 @@ const RestaurantDetail: NextPage = () => {
   const restaurant: Restaurant = data.restaurant;
 
   return (
-    <div className="flex">
-      <div className="flex-1">
-        <SubHeader title="ランチ店詳細" />
-        <div
-          className="cursor-pointer m-5"
-          onClick={() => {
-            router.back();
-          }}
-        >
-          ←戻る
-        </div>
-        <div className="flex flex-col lg:flex-row">
-          {/* メインの店情報表示部分 */}
-          <RestaurantDetailContainer restaurant={restaurant} />
+    <>
+      <SubHeader title="ランチ店詳細" />
+      <div
+        className="cursor-pointer m-5"
+        onClick={() => {
+          router.back();
+        }}
+      >
+        ←戻る
+      </div>
+      <div className="flex flex-col lg:flex-row">
+        {/* メインの店情報表示部分 */}
+        <RestaurantDetailContainer restaurant={restaurant} />
 
-          {/* レビューエリア */}
-          <div className="lg:w-1/3 mt-10 sm:ml-auto">
-            <div className="font-bold ml-3">
-              この店へのレビュー
-              <span className="ml-5">
-                <Button label={"レビュー投稿"} size="sm" onClick={openModal} />
-              </span>
-            </div>
-            <ReviewList restaurantId={restaurantId} />
-            <PostModal
-              isOpen={modalStatus}
-              closeModal={closeModal}
-              title={"レビュー"}
-              restaurantId={restaurantId}
-              success={updateData}
-            />
+        {/* レビューエリア */}
+        <div className="lg:w-1/3 mt-10 sm:ml-auto">
+          <div className="font-bold ml-3">
+            この店へのレビュー
+            <span className="ml-5">
+              <Button label={"レビュー投稿"} size="sm" onClick={openModal} />
+            </span>
           </div>
+          <ReviewList restaurantId={restaurantId} />
+          <PostModal
+            isOpen={modalStatus}
+            closeModal={closeModal}
+            title={"レビュー"}
+            restaurantId={restaurantId}
+            success={updateData}
+          />
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

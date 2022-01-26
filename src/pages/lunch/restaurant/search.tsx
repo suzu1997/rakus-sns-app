@@ -133,32 +133,70 @@ const RestaurantSearch: NextPage = () => {
   };
 
   return (
-    <div className="flex">
-      <div className="flex-1">
-        <SubHeader title={"お店検索"} />
-        <div className="max-w-screen-sm w-5/6 mx-auto py-5">
-          <div className="flex flex-col gap-3 mb-5">
-            <TextInput
-              label={"店名"}
-              value={searchName}
-              type={"text"}
-              fullWidth={true}
-              required={true}
-              onChange={inputRestaurantName}
-              onKeyUp={searchInDB}
-            />
-            <Button label="店名で検索" onClick={searchByNameIn2km} />
-          </div>
-          {/* データベースに登録済みの店をオートコンプリートに表示する部分 */}
-          {restautrantsInDB.length > 0 && (
+    <>
+      <SubHeader title={"お店検索"} />
+      <div className="max-w-screen-sm w-5/6 mx-auto py-5">
+        <div className="flex flex-col gap-3 mb-5">
+          <TextInput
+            label={"店名"}
+            value={searchName}
+            type={"text"}
+            fullWidth={true}
+            required={true}
+            onChange={inputRestaurantName}
+            onKeyUp={searchInDB}
+          />
+          <Button label="店名で検索" onClick={searchByNameIn2km} />
+        </div>
+        {/* データベースに登録済みの店をオートコンプリートに表示する部分 */}
+        {restautrantsInDB.length > 0 && (
+          <>
+            <p className="mb-5 font-bold">
+              もしかしてこのお店？(登録済みのお店)
+            </p>
+            <ul>
+              {restautrantsInDB.map((restautrant) => {
+                return (
+                  <li key={restautrant.id} className="flex items-center mb-3">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-3 w-3 mr-3"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                    <span
+                      className="cursor-pointer hover:text-text-brown hover:underline"
+                      onClick={() =>
+                        router.push(`/lunch/restaurant/${restautrant.id}`)
+                      }
+                    >
+                      {restautrant.name}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          </>
+        )}
+
+        {/* ホットペッパー検索結果表示 */}
+        {hasClickedSearch &&
+          (hotpeppers.length > 0 ? (
+            // 検索結果があれば表示する
             <>
-              <p className="mb-5 font-bold">
-                もしかしてこのお店？(登録済みのお店)
-              </p>
+              <p className="my-5 font-bold">検索結果(Hotppepperより検索)</p>
               <ul>
-                {restautrantsInDB.map((restautrant) => {
+                {hotpeppers.map((hotpepper) => {
                   return (
-                    <li key={restautrant.id} className="flex items-center mb-3">
+                    <li key={hotpepper.id} className="flex items-center mb-3">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-3 w-3 mr-3"
@@ -175,88 +213,48 @@ const RestaurantSearch: NextPage = () => {
                       </svg>
                       <span
                         className="cursor-pointer hover:text-text-brown hover:underline"
-                        onClick={() =>
-                          router.push(`/lunch/restaurant/${restautrant.id}`)
-                        }
+                        onClick={() => selectRestaurant(hotpepper)}
                       >
-                        {restautrant.name}
+                        {hotpepper.name}
                       </span>
                     </li>
                   );
                 })}
               </ul>
+
+              {/* 検索結果はあるが登録したい店に当てはまらないときに対応 */}
+              <div className="my-5 font-bold">
+                お目当てのお店が見つかりませんか？手入力でお店を登録しますか？
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  label="手入力で登録"
+                  onClick={() => router.push("/lunch/restaurant/add")}
+                />
+                <Button
+                  label="クリア"
+                  onClick={clear}
+                  backgroundColor="#f6f0ea"
+                  color="#622d18"
+                />
+              </div>
             </>
-          )}
-
-          {/* ホットペッパー検索結果表示 */}
-          {hasClickedSearch &&
-            (hotpeppers.length > 0 ? (
-              // 検索結果があれば表示する
-              <>
-                <p className="my-5 font-bold">検索結果(Hotppepperより検索)</p>
-                <ul>
-                  {hotpeppers.map((hotpepper) => {
-                    return (
-                      <li key={hotpepper.id} className="flex items-center mb-3">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-3 w-3 mr-3"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M5 13l4 4L19 7"
-                          />
-                        </svg>
-                        <span
-                          className="cursor-pointer hover:text-text-brown hover:underline"
-                          onClick={() => selectRestaurant(hotpepper)}
-                        >
-                          {hotpepper.name}
-                        </span>
-                      </li>
-                    );
-                  })}
-                </ul>
-
-                {/* 検索結果はあるが登録したい店に当てはまらないときに対応 */}
-                <div className="my-5 font-bold">
-                  お目当てのお店が見つかりませんか？手入力でお店を登録しますか？
-                </div>
-                <div className="flex gap-2">
-                  <Button
-                    label="手入力で登録"
-                    onClick={() => router.push("/lunch/restaurant/add")}
-                  />
-                  <Button
-                    label="クリア"
-                    onClick={clear}
-                    backgroundColor="#f6f0ea"
-                    color="#622d18"
-                  />
-                </div>
-              </>
-            ) : (
-              // 検索結果が無ければ、手入力登録に誘導
-              <>
-                <div className="mb-3 font-bold">
-                  検索結果が見つかりませんでした。手入力でお店を登録しますか？
-                </div>
-                <div className="flex gap-2">
-                  <Button
-                    label="手入力で登録"
-                    onClick={() => router.push("/lunch/restaurant/add")}
-                  />
-                </div>
-              </>
-            ))}
-        </div>
+          ) : (
+            // 検索結果が無ければ、手入力登録に誘導
+            <>
+              <div className="mb-3 font-bold">
+                検索結果が見つかりませんでした。手入力でお店を登録しますか？
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  label="手入力で登録"
+                  onClick={() => router.push("/lunch/restaurant/add")}
+                />
+              </div>
+            </>
+          ))}
       </div>
-    </div>
+    </>
   );
 };
 
