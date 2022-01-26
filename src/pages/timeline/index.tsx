@@ -1,6 +1,6 @@
 import Image from "next/image";
 import type { NextPage } from "next";
-import { useCallback, useContext } from "react";
+import { useCallback, useContext, useState } from "react";
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { Button } from "../../components/Button/Button";
 import { CommentIcon } from "../../components/Button/CommentIcon";
@@ -13,6 +13,8 @@ import { loginIdContext } from "../../providers/LoginIdProvider";
 import { Timeline } from "../../types/type";
 import toast from "react-hot-toast";
 import { useSWRTimeline } from "../../hooks/useSWRTimeline";
+import { JAVA_API_URL } from "../../utils/const";
+import useSWR from "swr";
 
 /**
  * タイムラインページ.
@@ -28,6 +30,12 @@ const Timeline: NextPage = () => {
   // 投稿一覧を再検証・再取得する関数をhooksから取得
   const { data, error, loadMoreTimeline, timelineMutate } =
     useSWRTimeline(loginId);
+
+  /**
+   * ごみ箱ボタン表示非表示判断のため、ログインIDをハッシュ値→通常のIDに変換.
+   */
+  const { data: userInfo } = useSWR(`${JAVA_API_URL}/user/${loginId}`);
+  const [trashCheckId] = useState(userInfo?.user.id);
 
   /**
    * 画像クリックで投稿ユーザ情報ページに飛ぶ.
@@ -140,11 +148,13 @@ const Timeline: NextPage = () => {
                       type="タイムライン"
                       success={updateData}
                     />
-                    <TrashBtn
-                      postId={timelime.id}
-                      type="タイムライン"
-                      success={updateData}
-                    />
+                    {trashCheckId === timelime.userId && (
+                      <TrashBtn
+                        postId={timelime.id}
+                        type="タイムライン"
+                        success={updateData}
+                      />
+                    )}
                   </div>
                 </div>
               </div>
