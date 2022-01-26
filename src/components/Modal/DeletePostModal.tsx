@@ -64,6 +64,26 @@ export const DeletePostModal: FC<Props> = memo((props) => {
           closeModal();
         }
       }
+
+      //レビューに対する削除
+      if (type === "レビュー") {
+        const res = await axios.delete(`${JAVA_API_URL}/review/${postId}`, {
+          data: {
+            userLogicalId: loginId,
+          },
+        });
+        if (res.data.status === "success") {
+          toast.success("削除しました");
+          // レビュー一覧再取得
+          if (success) {
+            success();
+          }
+          closeModal();
+        } else {
+          toast.error(res.data.message);
+          closeModal();
+        }
+      }
     } catch (error) {
       console.log(error);
     }
