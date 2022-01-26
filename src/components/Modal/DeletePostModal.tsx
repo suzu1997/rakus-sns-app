@@ -26,7 +26,7 @@ type Props = {
 export const DeletePostModal: FC<Props> = memo((props) => {
   const { postId, type, success, modalStatus, closeModal } = props;
   //ログインID
-  const loginId = useContext(loginIdContext);
+  const {hash} = useContext(loginIdContext);
 
   /**
    * はいボタン押下で発動.(未実装)
@@ -36,7 +36,7 @@ export const DeletePostModal: FC<Props> = memo((props) => {
       //タイムラインに対する削除
       if (type === "タイムライン") {
         const res = await axios.delete(
-          `${JAVA_API_URL}/timeline/${postId}/${loginId}`,
+          `${JAVA_API_URL}/timeline/${postId}/${hash}`,
         );
         if (res.data.status === "success") {
           toast.success("削除しました");
@@ -54,7 +54,7 @@ export const DeletePostModal: FC<Props> = memo((props) => {
       //タイムラインコメントに対する削除
       if (type === "タイムラインコメント") {
         const res = await axios.delete(
-          `${JAVA_API_URL}/timeline/comment/${postId}/${loginId}`,
+          `${JAVA_API_URL}/timeline/comment/${postId}/${hash}`,
         );
         if (res.data.status === "success") {
           toast.success("削除しました");
@@ -73,7 +73,7 @@ export const DeletePostModal: FC<Props> = memo((props) => {
       if (type === "レビュー") {
         const res = await axios.delete(`${JAVA_API_URL}/review/${postId}`, {
           data: {
-            userLogicalId: loginId,
+            userLogicalId: hash,
           },
         });
         if (res.data.status === "success") {
@@ -91,7 +91,7 @@ export const DeletePostModal: FC<Props> = memo((props) => {
     } catch (error) {
       console.log(error);
     }
-  }, [closeModal, loginId, postId, success, type]);
+  }, [closeModal, hash, postId, success, type]);
 
   return (
     <>

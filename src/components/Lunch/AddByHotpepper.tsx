@@ -1,22 +1,19 @@
-import axios from "axios";
+import { FC, memo, useCallback, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { FC, memo, useCallback, useState } from "react";
-import toast from "react-hot-toast";
 import useSWR from "swr";
-import { JAVA_API_URL } from "../../utils/const";
-import { typeOptions } from "../../utils/options";
+import axios from "axios";
+import toast from "react-hot-toast";
+
 import { Button } from "../Button/Button";
 import { SelectBox } from "../Form/SelectBox";
+import { Option } from "../../types/type";
+import { JAVA_API_URL } from "../../utils/const";
+import { typeOptions } from "../../utils/options";
 
 type Props = {
   hotpepperId: string;
   cansel: () => void;
-};
-
-export type Option = {
-  id: string;
-  name: string;
 };
 
 /**

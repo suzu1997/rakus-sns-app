@@ -1,16 +1,18 @@
+import { useState, useCallback, useContext } from "react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useState, useCallback, useContext } from "react";
-import { Button } from "../../../components/Button/Button";
-import { ReviewList } from "../../../components/Lunch/ReviewList";
-import { PostModal } from "../../../components/Modal/PostModal";
-import { SubHeader } from "../../../components/Layout/SubHeader";
-import { RestaurantDetailContainer } from "../../../components/Lunch/RestaurantDetailContainer";
 import useSWR from "swr";
-import { JAVA_API_URL } from "../../../utils/const";
+
+import { Button } from "../../../components/Button/Button";
+import { PostModal } from "../../../components/Modal/PostModal";
+import { ReviewList } from "../../../components/Lunch/ReviewList";
+import { RestaurantDetailContainer } from "../../../components/Lunch/RestaurantDetailContainer";
+import { SubHeader } from "../../../components/Layout/SubHeader";
 import { Restaurant } from "../../../types/type";
+import { JAVA_API_URL } from "../../../utils/const";
 import { loginIdContext } from "../../../providers/LoginIdProvider";
 import { useSWRReviews } from "../../../hooks/useSWRReviews";
+import { useModal } from "../../../hooks/useModal";
 
 /**
  * お店情報の詳細を表示するページ.
@@ -18,28 +20,15 @@ import { useSWRReviews } from "../../../hooks/useSWRReviews";
  * @returns お店情報の詳細を表示する画面
  */
 const RestaurantDetail: NextPage = () => {
-  // レビュー投稿のモーダルのオープン状態
-  const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 
-  const userId = useContext(loginIdContext);
+  // ログインユーザーのハッシュ値
+  const { hash } = useContext(loginIdContext);
 
   // レビュー一覧を再検証・再取得する関数をhooksから取得
-  const { reviewsMutate } = useSWRReviews(userId);
+  const { reviewsMutate } = useSWRReviews(hash);
 
-  /**
-   * モーダルを閉じるメソッド.
-   */
-  const closeModal = useCallback(() => {
-    setIsOpen(false);
-  }, [setIsOpen]);
-
-  /**
-   * モーダルを開けるメソッド.
-   */
-  const openModal = useCallback(() => {
-    setIsOpen(true);
-  }, [setIsOpen]);
+  const { modalStatus, openModal, closeModal } = useModal();
 
   // idをURLから取得
   const restaurantId = Number(router.query.id);
@@ -75,41 +64,39 @@ const RestaurantDetail: NextPage = () => {
   const restaurant: Restaurant = data.restaurant;
 
   return (
-    <div className="flex">
-      <div className="flex-1">
-        <SubHeader title="ランチ店詳細" />
-        <div
-          className="cursor-pointer m-5"
-          onClick={() => {
-            router.back();
-          }}
-        >
-          ←戻る
-        </div>
-        <div className="flex flex-col lg:flex-row">
-          {/* メインの店情報表示部分 */}
-          <RestaurantDetailContainer restaurant={restaurant} />
+    <>
+      <SubHeader title="ランチ店詳細" />
+      <div
+        className="cursor-pointer m-5"
+        onClick={() => {
+          router.back();
+        }}
+      >
+        ←戻る
+      </div>
+      <div className="flex flex-col lg:flex-row">
+        {/* メインの店情報表示部分 */}
+        <RestaurantDetailContainer restaurant={restaurant} />
 
-          {/* レビューエリア */}
-          <div className="lg:w-1/3 mt-10 sm:ml-auto">
-            <div className="font-bold ml-3">
-              この店へのレビュー
-              <span className="ml-5">
-                <Button label={"レビュー投稿"} size="sm" onClick={openModal} />
-              </span>
-            </div>
-            <ReviewList restaurantId={restaurantId} />
-            <PostModal
-              isOpen={isOpen}
-              closeModal={closeModal}
-              title={"レビュー"}
-              restaurantId={restaurantId}
-              success={updateData}
-            />
+        {/* レビューエリア */}
+        <div className="lg:w-1/3 mt-10 sm:ml-auto">
+          <div className="font-bold ml-3">
+            この店へのレビュー
+            <span className="ml-5">
+              <Button label={"レビュー投稿"} size="sm" onClick={openModal} />
+            </span>
           </div>
+          <ReviewList restaurantId={restaurantId} />
+          <PostModal
+            isOpen={modalStatus}
+            closeModal={closeModal}
+            title={"レビュー"}
+            restaurantId={restaurantId}
+            success={updateData}
+          />
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

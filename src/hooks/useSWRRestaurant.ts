@@ -13,7 +13,7 @@ const LIMIT = 50; // 50件ずつ読み込む
  * - error: エラー
  * - loadMoreReviews: 次のデータを読み込むメソッド
  */
-export const useSWRRestaurant = (userId: string) => {
+export const useSWRRestaurant = () => {
   /**
    * 各ページのSWRのキーを取得する関数.
    *
@@ -28,14 +28,14 @@ export const useSWRRestaurant = (userId: string) => {
     if (previousPageData && previousPageData.restaurant.length < LIMIT) return null;
 
     // 一番最初のフェッチ
-    if (pageIndex === 0) return `${JAVA_API_URL}/restaurant/${userId}`;
+    if (pageIndex === 0) return `${JAVA_API_URL}/restaurant`;
 
     // 一番古いレビューのIDを取得
     const id = previousPageData.restaurant[previousPageData.restaurant.length - 1].id;
 
     // 「過去のレビューを見る」ボタンを押したとき
     // 一番下の投稿IDをAPIに渡す
-    return `${JAVA_API_URL}/restaurant/old/${id}/${userId}`;
+    return `${JAVA_API_URL}/restaurant/old/${id}`;
   };
 
   // data: データの連想配列の配列(※ページごとの配列)

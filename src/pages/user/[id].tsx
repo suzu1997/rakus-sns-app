@@ -38,10 +38,11 @@ const User: NextPage = () => {
   const router = useRouter();
 
   //URLの後ろからid取得
-  const userId = String(router.query.id);
+  const userId = Number(router.query.id);
 
   //ログインID
-  const loginId = useContext(loginIdContext);
+  const { loginId } = useContext(loginIdContext);
+  const { hash } = useContext(loginIdContext);
 
   //編集ボタンを押した時に呼ばれる
   const editInfo = () => {
@@ -132,7 +133,7 @@ const User: NextPage = () => {
   /**
    * APIで初期表示用データ取得.
    */
-  const { data: payload, error } = useSWR(`${JAVA_API_URL}/user/${userId}`);
+  const { data: payload, error } = useSWR(`${JAVA_API_URL}/user/${hash}`);
   const userDatas = payload?.user;
 
   if (!error && !userDatas) {

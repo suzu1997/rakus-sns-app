@@ -15,6 +15,9 @@ export type Props = {
   registers?: any;
 };
 
+/**
+ * 汎用的なテキスト入力コンポーネント.
+ */
 export const TextInput: FC<Props> = (props) => {
   const {
     label,

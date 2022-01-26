@@ -60,7 +60,8 @@ export const useLogin = () => {
       //ログインに成功した場合
       if (res.data.status === "success") {
         //ログインに成功したらクッキーにログイン情報をセット
-        cookie.set("id", res.data.user.logicalId, { path: "/" });
+        cookie.set("hash", res.data.user.logicalId, { path: "/" });
+        cookie.set("loginId", res.data.user.id, { path: "/" });
         //ログインと同時に入力内容をクリア
         clear();
         toast.success("ログインしました");

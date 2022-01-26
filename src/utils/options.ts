@@ -22,3 +22,12 @@ export const typeOptions = [
   { id: "2", name: "お弁当" },
   { id: "3", name: "両方" },
 ];
+
+// 星の数の選択オプション
+export const starOptions = [
+  { id: "5", name: "5" },
+  { id: "4", name: "4" },
+  { id: "3", name: "3" },
+  { id: "2", name: "2" },
+  { id: "1", name: "1" },
+];

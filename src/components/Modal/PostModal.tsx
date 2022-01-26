@@ -1,16 +1,24 @@
-import { FC, memo, useCallback, useEffect, useState, useContext } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import { Fragment } from "react";
-import axios from "axios";
-import { Button } from "../Button/Button";
+import {
+  FC,
+  memo,
+  useCallback,
+  useEffect,
+  useState,
+  useContext,
+  Fragment,
+} from "react";
 import Image from "next/image";
+import useSWR from "swr";
+import axios from "axios";
+import { Dialog, Transition } from "@headlessui/react";
 import toast from "react-hot-toast";
+
+import { Button } from "../Button/Button";
 import { TextArea } from "../Form/TextArea";
 import { SelectBox } from "../Form/SelectBox";
 import { JAVA_API_URL } from "../../utils/const";
+import { starOptions } from "../../utils/options";
 import { loginIdContext } from "../../providers/LoginIdProvider";
-import useSWR from "swr";
-import { UserInfo } from "../../types/type";
 
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
@@ -37,7 +45,8 @@ export const PostModal: FC<Props> = memo((props) => {
   } = props;
 
   // ログイン中のユーザーidを取得
-  const userId = useContext(loginIdContext);
+  const { hash } = useContext(loginIdContext);
+  const { loginId } = useContext(loginIdContext);
 
   //入力テキストの内容を格納するstate
   const [post, setPost] = useState<string>("");
@@ -45,14 +54,6 @@ export const PostModal: FC<Props> = memo((props) => {
   //入力テキスト残り文字数
   const [postLength, setPostLength] = useState<number>(0);
 
-  // 星の数の選択オプション
-  const starOptions = [
-    { id: "5", name: "5" },
-    { id: "4", name: "4" },
-    { id: "3", name: "3" },
-    { id: "2", name: "2" },
-    { id: "1", name: "1" },
-  ];
   // 選択した星の数を格納するstate
   const [star, setStar] = useState(starOptions[0]);
 
@@ -82,7 +83,7 @@ export const PostModal: FC<Props> = memo((props) => {
       try {
         // レビュー投稿
         const res = await axios.post(`${JAVA_API_URL}/review`, {
-          userLogicalId: userId,
+          userLogicalId: hash,
           restaurantId,
           sentence: post,
           star: Number(star.id),
@@ -109,7 +110,7 @@ export const PostModal: FC<Props> = memo((props) => {
     if (title === "つぶやき") {
       try {
         const res = await axios.post(`${JAVA_API_URL}/timeline`, {
-          userLogicalId: userId, //ログインユーザID
+          userLogicalId: hash, //ログインユーザID
           sentence: post, //投稿内容
         });
         if (res.data.status === "success") {
@@ -130,7 +131,7 @@ export const PostModal: FC<Props> = memo((props) => {
     if (title === "コメント") {
       try {
         const res = await axios.post(`${JAVA_API_URL}/timeline/comment`, {
-          userLogicalId: userId, //ログインユーザＩＤ
+          userLogicalId: hash, //ログインユーザＩＤ
           sentence: post, //投稿内容
           timelineId: postId, //投稿ＩＤ
         });
@@ -160,7 +161,7 @@ export const PostModal: FC<Props> = memo((props) => {
   /**
    * APIを使用して画像データ取得.
    */
-  const { data } = useSWR(`${JAVA_API_URL}/user/${userId}`);
+  const { data } = useSWR(`${JAVA_API_URL}/user/${loginId}/${hash}`);
   // 個人情報をdataから抽出
   const [userPhoto] = useState<string>(data?.user.userPhotoPath);
 

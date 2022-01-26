@@ -8,6 +8,9 @@ export type Props = {
   onClick: MouseEventHandler<HTMLButtonElement>;
 };
 
+/**
+ * 汎用的なボタンコンポーネント.
+ */
 export const Button: FC<Props> = memo((props) => {
   const {
     label,

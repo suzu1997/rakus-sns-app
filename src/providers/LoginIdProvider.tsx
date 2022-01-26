@@ -1,8 +1,11 @@
-import { createContext, FC, ReactNode, useState } from "react";
+import { createContext, FC, ReactNode } from "react";
 import Cookie from "universal-cookie";
 
 //contextを使用する
-export const loginIdContext = createContext("");
+export const loginIdContext = createContext<{
+  hash: string;
+  loginId: number;
+}>({ hash: "", loginId: 0 });
 
 type Props = {
   children: ReactNode;
@@ -11,17 +14,20 @@ type Props = {
 /**
  * contextでログインIDを渡すコンポーネント.
  * @param props - props
- * @returns ログインID
+ * @returns ハッシュ値とログインID
  */
 export const LoginIdProvider: FC<Props> = (props) => {
   const { children } = props;
 
   //cookie
   const cookie = new Cookie();
-  const [loginId] = useState<string>(cookie.get("id"));
+  // cookieからハッシュ値を取得
+  const hash = cookie.get("hash");
+  // cookieからユーザーIDを取得
+  const loginId = cookie.get("loginId");
 
   return (
-    <loginIdContext.Provider value={loginId}>
+    <loginIdContext.Provider value={{ hash, loginId }}>
       {children}
     </loginIdContext.Provider>
   );

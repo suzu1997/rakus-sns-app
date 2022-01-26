@@ -1,16 +1,17 @@
+import { FC, memo, MouseEvent, useCallback, useContext } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useSWRConfig } from "swr";
-import { FC, memo, MouseEvent, useCallback, useContext } from "react";
+
 import { CommentIcon } from "../Button/CommentIcon";
 import { FavoBtn } from "../Button/FavoBtn";
-import { Star } from "./Star";
 import { TrashBtn } from "../Button/TrashBtn";
+import { Star } from "./Star";
 import { LinkToRestaurant } from "./LinkToRestaurat";
 import { LunchReview } from "../../types/type";
-import { getFormattedDate, getRestaurantPhotoPath } from "../../utils/methods";
 import { useSWRReviews } from "../../hooks/useSWRReviews";
 import { loginIdContext } from "../../providers/LoginIdProvider";
+import { getFormattedDate, getRestaurantPhotoPath } from "../../utils/methods";
 import { JAVA_API_URL } from "../../utils/const";
 
 type Props = LunchReview & {
@@ -18,6 +19,9 @@ type Props = LunchReview & {
   hasRestaurantInfo: boolean;
 };
 
+/**
+ * レビューを表示するカードコンポーネント.
+ */
 export const ReviewCard: FC<Props> = memo((props) => {
   const {
     id,
@@ -42,9 +46,12 @@ export const ReviewCard: FC<Props> = memo((props) => {
   const { mutate } = useSWRConfig();
 
   // ユーザーのハッシュ値
-  const logicalId = useContext(loginIdContext);
+  const { hash } = useContext(loginIdContext);
+  // ユーザーID
+  const { loginId } = useContext(loginIdContext);
+
   // レビューリスト更新のmutate関数をhooksから取得
-  const { reviewsMutate } = useSWRReviews(logicalId);
+  const { reviewsMutate } = useSWRReviews(hash);
 
   /**
    * レビュー詳細ページへ遷移するメソッド.
@@ -72,7 +79,7 @@ export const ReviewCard: FC<Props> = memo((props) => {
     // レビュー詳細ページにいれば、一覧に戻る
     if (type === "詳細") {
       router.back();
-    } 
+    }
   }, [mutate, reviewsMutate, restaurantId, router, type]);
 
   return (
@@ -120,11 +127,13 @@ export const ReviewCard: FC<Props> = memo((props) => {
               target="reviews"
             />
             <FavoBtn postId={id} favoCount={likeCount} isFavo={myLike} />
-            <TrashBtn
-              postId={id}
-              type="レビュー"
-              success={deleteReviewSuccess}
-            />
+            {Number(loginId) === userId && (
+              <TrashBtn
+                postId={id}
+                type="レビュー"
+                success={deleteReviewSuccess}
+              />
+            )}
           </div>
         </div>
       </div>

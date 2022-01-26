@@ -1,3 +1,10 @@
+// セレクトボックスのオプション
+export type Option = {
+  id: string;
+  name: string;
+};
+
+// レビュー
 export type LunchReview = {
   id: number;
   userId: number;
@@ -16,6 +23,7 @@ export type LunchReview = {
   myLike: boolean;
 };
 
+// レストラン情報
 export type Restaurant = {
   id: number;
   name: string;

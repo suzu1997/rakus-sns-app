@@ -1,29 +1,41 @@
 import { FC, memo } from "react";
-import useSWR from "swr";
-import { Restaurant } from "../../types/type";
-import { JAVA_API_URL } from "../../utils/const";
+
 import { RestaurantCard } from "./RestaurantCard";
+import { Restaurant } from "../../types/type";
+import { useSWRRestaurant } from "../../hooks/useSWRRestaurant";
 
+/**
+ * レストラン一覧用コンポーネント.
+ */
 export const RestaurantList: FC = memo(() => {
-  const { data, error } = useSWR(`${JAVA_API_URL}/restaurant`);
+  const {
+    data,
+    isLast,
+    error,
+    loadMoreReviews,
+  } = useSWRRestaurant();
 
+  // ローディング処理
   if (!error && !data) {
     return (
-      <div className="flex justify-center pt-10 w-full">
+      <div className="flex justify-center pt-10">
         <div className="animate-spin h-8 w-8 bg-basic rounded-xl"></div>
       </div>
     );
   }
-
+  // エラー処理
   if (error) {
     return (
       <div className="w-full p-10 text-center">
-        データが取得できませんでした
+        データを取得できませんでした
       </div>
     );
   }
 
-  if (data.message === "レストランが1件も登録されていません") {
+  if (
+    data !== undefined &&
+    data[0].message === "レストランが1件も登録されていません"
+  ) {
     return (
       <div className="w-full p-10 text-center">
         お店が1件も登録されていません🙇‍♀️
@@ -31,16 +43,32 @@ export const RestaurantList: FC = memo(() => {
     );
   }
 
-  // レストラン一覧をdataから抽出
-  const restaurantList: Array<Restaurant> = data.restaurant;
-
   return (
     <div className="w-full">
-      {restaurantList.map((restaurant: Restaurant) => (
-        <div key={restaurant.id}>
-          <RestaurantCard {...restaurant} />
+      {data &&
+        // dataはページごとの連想配列の配列
+        data.map((pageData) =>
+          pageData.restaurant.map((restaurant: Restaurant) => {
+            return (
+              <div key={restaurant.id}>
+                <RestaurantCard {...restaurant} />
+              </div>
+            );
+          }),
+        )}
+      {/* 最後まで読み込んでいればさらに読み込むボタンを表示しない */}
+      {isLast === false ? (
+        <div
+          className="text-text-brown text-center my-5 cursor-pointer hover:text-basic"
+          onClick={loadMoreReviews}
+        >
+          さらに読み込む
         </div>
-      ))}
+      ) : (
+        <div className="text-text-brown text-center my-5 ">
+          最後まで読み込みました
+        </div>
+      )}
     </div>
   );
 });

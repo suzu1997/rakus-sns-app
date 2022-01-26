@@ -20,7 +20,7 @@ export const CommentList: FC<Props> = memo((props) => {
   const { postId } = props;
 
   //ログインID
-  const loginId = useContext(loginIdContext);
+  const { hash } = useContext(loginIdContext);
 
   //ルーターリンク
   const router = useRouter();
@@ -28,14 +28,14 @@ export const CommentList: FC<Props> = memo((props) => {
   /**
    * ごみ箱ボタン表示非表示判断のため、ログインIDをハッシュ値→通常のIDに変換.
    */
-  const { data: userInfo } = useSWR(`${JAVA_API_URL}/user/${loginId}`);
+  const { data: userInfo } = useSWR(`${JAVA_API_URL}/user/${hash}`);
   const [trashCheckId] = useState(userInfo?.user.id);
 
   /**
    * コメントリスト取得.
    */
   const { data: timelineDetail } = useSWR(
-    `${JAVA_API_URL}/timeline/detail/${postId}/${loginId}`,
+    `${JAVA_API_URL}/timeline/detail/${postId}/${hash}`,
   );
   const [commentList, setCommentList] = useState<TimelineComment>(
     timelineDetail.commentList,
@@ -47,14 +47,14 @@ export const CommentList: FC<Props> = memo((props) => {
   const getData = useCallback(async () => {
     try {
       const res = await axios.get(
-        `${JAVA_API_URL}/timeline/detail/${postId}/${loginId}`,
+        `${JAVA_API_URL}/timeline/detail/${postId}/${hash}`,
       );
       // タイムライン情報をdataから抽出
       setCommentList(res.data.commentList);
     } catch (error) {
       console.log(error);
     }
-  }, [loginId, postId]);
+  }, [postId, hash]);
 
   /**
    * リロード問題解消用.

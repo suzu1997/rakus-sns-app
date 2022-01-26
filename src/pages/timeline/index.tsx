@@ -20,19 +20,19 @@ import useSWR from "swr";
  */
 const Timeline: NextPage = () => {
   //ログインID
-  const loginId = useContext(loginIdContext);
+  const { hash } = useContext(loginIdContext);
 
   //ルーターリンク
   const router = useRouter();
 
   // 投稿一覧を再検証・再取得する関数をhooksから取得
   const { data, error, loadMoreTimeline, timelineMutate, isLast } =
-    useSWRTimeline(loginId);
+    useSWRTimeline(hash);
 
   /**
    * ごみ箱ボタン表示非表示判断のため、ログインIDをハッシュ値→通常のIDに変換.
    */
-  const { data: userInfo } = useSWR(`${JAVA_API_URL}/user/${loginId}`);
+  const { data: userInfo } = useSWR(`${JAVA_API_URL}/user/${hash}`);
   const [trashCheckId] = useState(userInfo?.user.id);
 
   /**
