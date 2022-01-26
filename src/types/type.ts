@@ -67,24 +67,7 @@ export type UpdatePassInfo = {
 };
 
 //タイムライン
-export type Timeline = [
-  {
-    id: number;
-    userId: number;
-    accountName: string;
-    userPhotoPath: string;
-    sentence: string;
-    likeCount: number;
-    commentCount: number;
-    updatedTime: string;
-    postedTime: string;
-    deleted: boolean;
-    myLike: boolean;
-  },
-];
-
-//タイムライン詳細
-export type TimelineDetail = {
+export type Timeline = {
   id: number;
   userId: number;
   accountName: string;
