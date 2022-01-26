@@ -6,10 +6,10 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import Cookie from "universal-cookie";
-import Link from "next/link";
 import axios from "axios";
 import { JAVA_API_URL } from "../../utils/const";
 import toast from "react-hot-toast";
+import { LinkComp } from "../../components/Form/LinkComp";
 
 //バリデーションチェック
 const schema = yup.object().shape({
@@ -117,16 +117,14 @@ const Login: NextPage = () => {
           onClick={handleSubmit(onSubmit)}
         />
       </div>
-      <Link href="/auth/presignup">
-        <a className="underline hover:text-blue-800 mt-3">
-          会員登録はコチラから
-        </a>
-      </Link>
-      <Link href="/auth/forgetpass">
-        <a className="underline hover:text-blue-800 mt-3">
-          パスワードを忘れた方はコチラ
-        </a>
-      </Link>
+      <LinkComp
+        url="/auth/presignup"
+        linkText="会員登録はコチラから"
+      ></LinkComp>
+      <LinkComp
+        url="/auth/forgetpass"
+        linkText="パスワードを忘れた方はこちらから"
+      ></LinkComp>
     </div>
   );
 };
