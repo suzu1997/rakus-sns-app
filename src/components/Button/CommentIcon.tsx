@@ -6,6 +6,7 @@ export type Props = {
   commentCount: number;
   postId?: number; // 対象の投稿ID
   target: "timeline" | "reviews"; // 対象の投稿がタイムラインかレビューか
+  success?: () => void; //投稿完了後、自動で更新したい場合は更新のメソッドを渡す
 };
 
 /**
@@ -13,7 +14,7 @@ export type Props = {
  * @remarks コメント数を渡してあげる
  */
 export const CommentIcon: FC<Props> = memo((props) => {
-  const { commentCount, postId = 1, target } = props;
+  const { commentCount, postId = 1, target, success } = props;
   // コメント投稿のモーダルのオープン状態
   const [isCommentOpen, setCommentIsOpen] = useState(false);
 
@@ -42,6 +43,7 @@ export const CommentIcon: FC<Props> = memo((props) => {
         title={"コメント"}
         postId={postId}
         target={target}
+        success={success}
       />
       <button type="button" className="pr-10" onClick={openCommentModal}>
         <i className="fas fa-comment text-gray-500 hover:text-yellow-600"></i>

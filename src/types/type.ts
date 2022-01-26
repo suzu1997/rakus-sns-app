@@ -74,8 +74,8 @@ export type Timeline = [
   },
 ];
 
-//つぶやき詳細画面
-export type TimelineDtail = {
+//タイムライン詳細
+export type TimelineDetail = {
   id: number;
   userId: number;
   accountName: string;
@@ -88,3 +88,24 @@ export type TimelineDtail = {
   deleted: boolean;
   myLike: boolean;
 };
+
+//タイムラインコメント
+export type TimelineComment = [
+  {
+    id: number;
+    userId: number;
+    accountName: string;
+    userPhotoPath: string;
+    timelineId: number;
+    reviewId: number;
+    parentCommentId: number;
+    comment: string;
+    commentLikeCount: number;
+    actionedTime: string;
+    hasNoticed: boolean;
+    commentDeleted: boolean;
+    read: boolean;
+    like: boolean;
+    myLike: boolean;
+  },
+];
