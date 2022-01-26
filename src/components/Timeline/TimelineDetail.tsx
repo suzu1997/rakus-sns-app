@@ -22,7 +22,7 @@ export const TimelineDetailPage: FC<Props> = memo((props) => {
   const { detailData, success } = props;
 
   //ログインID
-  const loginId = useContext(loginIdContext);
+  const { hash } = useContext(loginIdContext);
 
   //ルーターリンク
   const router = useRouter();
@@ -30,7 +30,7 @@ export const TimelineDetailPage: FC<Props> = memo((props) => {
   /**
    * ごみ箱ボタン表示非表示判断のため、ログインIDをハッシュ値→通常のIDに変換.
    */
-  const { data: userInfo } = useSWR(`${JAVA_API_URL}/user/${loginId}`);
+  const { data: userInfo } = useSWR(`${JAVA_API_URL}/user/${hash}`);
   const [trashCheckId] = useState(userInfo?.user.id);
 
   /**

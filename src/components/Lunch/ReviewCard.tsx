@@ -46,9 +46,9 @@ export const ReviewCard: FC<Props> = memo((props) => {
   const { mutate } = useSWRConfig();
 
   // ユーザーのハッシュ値
-  const logicalId = useContext(loginIdContext);
+  const { hash } = useContext(loginIdContext);
   // レビューリスト更新のmutate関数をhooksから取得
-  const { reviewsMutate } = useSWRReviews(logicalId);
+  const { reviewsMutate } = useSWRReviews(hash);
 
   /**
    * レビュー詳細ページへ遷移するメソッド.
@@ -76,7 +76,7 @@ export const ReviewCard: FC<Props> = memo((props) => {
     // レビュー詳細ページにいれば、一覧に戻る
     if (type === "詳細") {
       router.back();
-    } 
+    }
   }, [mutate, reviewsMutate, restaurantId, router, type]);
 
   return (

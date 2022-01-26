@@ -18,7 +18,7 @@ type Props = {
  */
 export const FavoBtn: FC<Props> = memo((props) => {
   //ログインID
-  const loginId = useContext(loginIdContext);
+  const {hash} = useContext(loginIdContext);
 
   //props
   const { postId, favoCount, isFavo, type, success } = props;
@@ -32,7 +32,7 @@ export const FavoBtn: FC<Props> = memo((props) => {
         //タイムラインに対するいいね
         const res = await axios.post(`${JAVA_API_URL}/timeline/like`, {
           timelineId: postId, //投稿ID
-          userLogicalId: loginId, //ログインユーザID
+          userLogicalId: hash, //ログインユーザID
         });
         if (res.data.status === "success") {
           //リロード
@@ -45,7 +45,7 @@ export const FavoBtn: FC<Props> = memo((props) => {
       if (type === "タイムラインコメント") {
         const res = await axios.post(`${JAVA_API_URL}/timeline/comment/like`, {
           commentId: postId, //投稿ID
-          userLogicalId: loginId, //ログインユーザID
+          userLogicalId: hash, //ログインユーザID
         });
         if (res.data.status === "success") {
           //リロード
@@ -59,7 +59,7 @@ export const FavoBtn: FC<Props> = memo((props) => {
     }
 
     //[]内入れないと変更が反映しないため挿入
-  }, [success, loginId, postId, type]);
+  }, [success, hash, postId, type]);
 
   return (
     <>

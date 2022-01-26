@@ -14,7 +14,7 @@ export const LoginChecker: FC<Props> = memo((props) => {
   //ルーターリンク
   const router = useRouter();
   //ログインID
-  const loginId = useContext(loginIdContext);
+  const { hash } = useContext(loginIdContext);
   //ローディングフラグ
   const [flug, setFlug] = useState(false);
 
@@ -32,7 +32,7 @@ export const LoginChecker: FC<Props> = memo((props) => {
       console.log(`ブロック！ + ${path}`);
 
       //IDが入っていなければ/loginへ
-      if (!loginId) {
+      if (!hash) {
         router.push("/auth/login");
         //トップページ＆ログインしている→タイムラインページへ
       } else if (path === "/") {

@@ -20,9 +20,10 @@ export const ReviewList: FC<Props> = memo((props) => {
   const [hasRestaurantInfo, setHasRestaurantInfo] = useState<boolean>(true);
   const router = useRouter();
 
-  const userId = useContext(loginIdContext);
+  // ユーザーのハッシュ値
+  const {hash} = useContext(loginIdContext);
 
-  const { data, isLast, error, loadMoreReviews } = useSWRReviews(userId);
+  const { data, isLast, error, loadMoreReviews } = useSWRReviews(hash);
 
   // pathにrestaurantが含まれている(店詳細ページにいる)場合はfalseにする
   // レビューページにいるときだけ店詳細ページへのリンクを付けたい

@@ -18,7 +18,7 @@ import { Timeline } from "../../types/type";
  */
 const TweetDetail: NextPage = () => {
   //ログインID
-  const loginId = useContext(loginIdContext);
+  const { hash } = useContext(loginIdContext);
 
   //ルーターリンク
   const router = useRouter();
@@ -37,7 +37,7 @@ const TweetDetail: NextPage = () => {
    * APIを使用してタイムラインデータを取得.
    */
   const { data, error } = useSWR(
-    `${JAVA_API_URL}/timeline/detail/${postId}/${loginId}`,
+    `${JAVA_API_URL}/timeline/detail/${postId}/${hash}`,
   );
 
   //つぶやき詳細データ
@@ -49,14 +49,14 @@ const TweetDetail: NextPage = () => {
   const getData = useCallback(async () => {
     try {
       const res = await axios.get(
-        `${JAVA_API_URL}/timeline/detail/${postId}/${loginId}`,
+        `${JAVA_API_URL}/timeline/detail/${postId}/${hash}`,
       );
       // タイムライン情報をdataから抽出
       setDetailData(res.data.timeline);
     } catch (error) {
       console.log(error);
     }
-  }, [loginId, postId]);
+  }, [hash, postId]);
 
   /**
    * リロード問題解消用.

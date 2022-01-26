@@ -33,10 +33,11 @@ const Logout: NextPage = () => {
    */
   const logout = useCallback(() => {
     //cookieからログインID削除
-    cookie.remove("id");
+    cookie.remove("hash");
+    cookie.remove("loginId");
     //ログインページに戻る
     router.push("/auth/login");
-  }, []);
+  }, [cookie, router]);
 
   return (
     <>
