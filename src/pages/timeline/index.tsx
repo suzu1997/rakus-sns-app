@@ -1,21 +1,18 @@
 import Image from "next/image";
 import type { NextPage } from "next";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { SubHeader } from "../../components/Layout/SubHeader";
-import { Button } from "../../components/Button/Button";
 import { CommentIcon } from "../../components/Button/CommentIcon";
 import { FavoBtn } from "../../components/Button/FavoBtn";
 //自分のつぶやきを消せるボタンコンポーネント(自分のつぶやきの時のみ表示させたい)
 import { TrashBtn } from "../../components/Button/TrashBtn";
 import { useRouter } from "next/router";
 import { PostBtn } from "../../components/Button/PostBtn";
-import useSWR from "swr";
-import { JAVA_API_URL } from "../../utils/const";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { Timeline } from "../../types/type";
-import axios from "axios";
-import toast from "react-hot-toast";
 import { useSWRTimeline } from "../../hooks/useSWRTimeline";
+import { JAVA_API_URL } from "../../utils/const";
+import useSWR from "swr";
 
 /**
  * タイムラインページ.
@@ -29,13 +26,14 @@ const Timeline: NextPage = () => {
   const router = useRouter();
 
   // 投稿一覧を再検証・再取得する関数をhooksから取得
-  const {
-    data,
+  const { data, error, loadMoreTimeline, timelineMutate, isLast } =
+    useSWRTimeline(loginId);
 
-    error,
-    loadMoreTimeline,
-    timelineMutate,
-  } = useSWRTimeline(loginId);
+  /**
+   * ごみ箱ボタン表示非表示判断のため、ログインIDをハッシュ値→通常のIDに変換.
+   */
+  const { data: userInfo } = useSWR(`${JAVA_API_URL}/user/${loginId}`);
+  const [trashCheckId] = useState(userInfo?.user.id);
 
   /**
    * 画像クリックで投稿ユーザ情報ページに飛ぶ.
@@ -54,13 +52,6 @@ const Timeline: NextPage = () => {
   };
 
   /**
-   * APIを使用してタイムラインデータを取得.
-   */
-  // const { data, error, mutate } = useSWR(`${JAVA_API_URL}/timeline/${loginId}`);
-  // // タイムライン情報をdataから抽出
-  // const timelineData: Timeline = data?.TimelineList;
-
-  /**
    * タイムラインの情報を更新するメソッド.
    *
    * @remarks
@@ -68,35 +59,7 @@ const Timeline: NextPage = () => {
    */
   const updateData = useCallback(() => {
     timelineMutate(); // タイムライン一覧を再検証・再取得する
-    // mutate(); // タイムライン情報を再検証・再取得する
   }, [timelineMutate]);
-
-  /**
-   * 古い投稿の読み込み直し.
-   */
-  // const getOldData = useCallback(async () => {
-  //   //データの最後のidを取得
-  //   const oldNumber = timelineData?.length - 1;
-  //   const oldId = timelineData?.[oldNumber].id;
-  //   try {
-  //     const res = await axios.get(
-  //       `${JAVA_API_URL}/timeline/old/${oldId}/${loginId}`,
-  //     );
-  //     const oldList: Timeline = res.data.TimelineList;
-  //     //取得した古いリストが空だったらreturn(lengthが上手く取れないのでこのような処理)
-  //     if (!oldList[0]) {
-  //       toast.success("過去の投稿はありません");
-  //       return;
-  //     }
-  //     //空でなければ既存のリストに追加
-  //     for (const oldData of oldList) {
-  //       timelineData.push(oldData);
-  //     }
-  //     toast.success("過去の投稿を読み込みました");
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }, [loginId, timelineData]);
 
   //初期値エラー
   if (!error && !data) {
@@ -121,20 +84,10 @@ const Timeline: NextPage = () => {
       {/* サブヘッダー */}
       <SubHeader title="タイムライン" />
       {/* タイムラインゾーン */}
-      <div className="text-center my-10 animate-bounce">
-        <Button
-          label="新しいつぶやきを読み込む"
-          size="lg"
-          onClick={() => {
-            // updateData;
-            toast.success("新しい投稿を読み込みました");
-          }}
-        />
-      </div>
       {data &&
         // dataはページごとの連想配列の配列
         data.map((pageData) =>
-          pageData?.TimelineList.map((timelime: any) => {
+          pageData?.TimelineList.map((timelime: Timeline) => {
             return (
               <div
                 key={timelime.id}
@@ -183,11 +136,13 @@ const Timeline: NextPage = () => {
                       type="タイムライン"
                       success={updateData}
                     />
-                    <TrashBtn
-                      postId={timelime.id}
-                      type="タイムライン"
-                      success={updateData}
-                    />
+                    {trashCheckId === timelime.userId && (
+                      <TrashBtn
+                        postId={timelime.id}
+                        type="タイムライン"
+                        success={updateData}
+                      />
+                    )}
                   </div>
                 </div>
               </div>
@@ -195,12 +150,19 @@ const Timeline: NextPage = () => {
           }),
         )}
 
-      <div
-        className="text-text-brown text-center my-5 cursor-pointer hover:text-basic"
-        onClick={loadMoreTimeline}
-      >
-        過去の投稿を見る…
-      </div>
+      {!isLast ? (
+        <div
+          className="text-text-brown text-center my-5 cursor-pointer hover:text-basic"
+          onClick={loadMoreTimeline}
+        >
+          過去の投稿を見る…
+        </div>
+      ) : (
+        <div className="text-text-brown text-center my-5 ">
+          最後まで読み込みました
+        </div>
+      )}
+
       <div>
         <PostBtn success={updateData} />
       </div>

@@ -45,7 +45,11 @@ export const CommentIcon: FC<Props> = memo((props) => {
         target={target}
         success={success}
       />
-      <button type="button" className="pr-10" onClick={openCommentModal}>
+      <button
+        type="button"
+        className="pr-10 outline none"
+        onClick={openCommentModal}
+      >
         <i className="fas fa-comment text-gray-500 hover:text-yellow-600"></i>
         <span className="pl-1">{commentCount}</span>
       </button>

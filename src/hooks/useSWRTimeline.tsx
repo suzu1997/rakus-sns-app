@@ -24,12 +24,11 @@ export const useSWRTimeline = (loginId: string) => {
    * @returns ページのキー
    */
   const getKey: SWRInfiniteKeyLoader = (pageIndex, previousPageData) => {
-    console.log(pageIndex);
-    console.log(previousPageData);
     // console.log(previousPageData.timelineList);
-    
+
     // 最後まで読み込んだらnullを返す
-    if (previousPageData && previousPageData.TimelineList.length < LIMIT) return null;
+    if (previousPageData && previousPageData.TimelineList.length < LIMIT)
+      return null;
 
     // 一番最初のフェッチ
     //まだデータが0件なら、普通にAPI呼ぶ
@@ -37,10 +36,9 @@ export const useSWRTimeline = (loginId: string) => {
 
     // 一番古いレビューのIDを取得
     const id =
-      previousPageData.TimelineList[previousPageData?.TimelineList.length - 1].id;
-    console.log(id);
-    console.log(previousPageData.TimelineList[previousPageData.TimelineList.length - 1]);
-    
+      previousPageData.TimelineList[previousPageData?.TimelineList.length - 1]
+        .id;
+
     // 「過去の投稿を見る」ボタンを押したとき
     // 一番下の投稿IDをAPIに渡す
     return `${JAVA_API_URL}/timeline/old/${id}/${loginId}`;
@@ -64,9 +62,9 @@ export const useSWRTimeline = (loginId: string) => {
   };
 
   // 最後まで読み込んだかどうか
-  const isLast = data;
-  // ? data.filter((pageData) => pageData.timelineList.length < LIMIT).length > 0
-  // : false;
+  const isLast = data
+    ? data.filter((pageData) => pageData.TimelineList.length < LIMIT).length > 0
+    : false;
 
   return { data, isLast, error, loadMoreTimeline, timelineMutate: mutate };
 };
