@@ -188,7 +188,7 @@ const User: NextPage = () => {
           <div className="w-full px-2 sm:px-0">
             <Tab.Group>
               <Tab.List className="flex p-1 space-x-1 bg-blue-900/20 rounded-xl">
-                {Object.keys(categories).map((category) => (
+                {Object.keys(categoriesA).map((category) => (
                   <Tab
                     key={category}
                     className={({ selected }) =>
@@ -201,12 +201,64 @@ const User: NextPage = () => {
                       )
                     }
                   >
+                    <div
+                      onClick={() => {
+                        tabOpen(category);
+                      }}
+                    >
+                      {category}
+                    </div>
+                  </Tab>
+                ))}
+              </Tab.List>
+
+              <Tab.Panels className="mt-2">
+                {Object.values(categoriesA).map((posts, idx) => (
+                  <Tab.Panel
+                    key={idx}
+                    className="bg-bgc rounded-xl p-3 focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60"
+                  >
+                    {posts.map((post) => (
+                      <div
+                        key={post.id}
+                        className="focus:outline-none relative p-3 rounded-md hover:bg-coolGray-100 cursor-pointer hover:opacity-50"
+                        onClick={() => {
+                          goDetailPage(post.id);
+                        }}
+                      >
+                        <h3 className="text-sm font-medium leading-5">
+                          {post.title}
+                        </h3>
+
+                        <div className="flex space-x-1 text-xs font-normal leading-4 text-coolGray-500"></div>
+                      </div>
+                    ))}
+                  </Tab.Panel>
+                ))}
+              </Tab.Panels>
+
+              {/* 2回目 */}
+              <div>
+                  <Tab.List className="flex p-1 space-x-1 bg-blue-900/20 rounded-xl">
+                    {Object.keys(categoriesB).map((category) => (
+                      <Tab
+                        key={category}
+                        className={({ selected }) =>
+                          classNames(
+                            "w-full py-2.5 text-xs font-bold leading-5 font-medium text-bgc rounded-lg",
+                            "focus:outline-none focus:ring-2 ring-offset-2 ring-offset-red-400 ring-white ring-opacity-60 bg-text-brown",
+                            selected
+                              ? "bg-white shadow"
+                              : "text-blue-100 hover:bg-white/[0.12] hover:text-basic",
+                          )
+                        }
+                      >
                     {category}
                   </Tab>
                 ))}
               </Tab.List>
               <Tab.Panels className="mt-2">
-                {Object.values(categories).map((posts, idx) => (
+                    {Object.values(categoriesB).map((posts, idx) => (
                   <Tab.Panel
                     key={idx}
                     className="bg-bgc rounded-xl p-3 focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60"
@@ -229,6 +281,7 @@ const User: NextPage = () => {
                   </Tab.Panel>
                 ))}
               </Tab.Panels>
+              </div>
             </Tab.Group>
           </div>
         </div>
