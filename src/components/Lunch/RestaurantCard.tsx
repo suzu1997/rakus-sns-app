@@ -41,11 +41,11 @@ export const RestaurantCard: FC<Restaurant> = memo((props) => {
         </p>
         <div className="xl:ml-10">ジャンル: {genreValue}</div>
         <div className="xl:ml-10">タイプ: {typeValue()}</div>
-        {star > 0 && (
+        {star > 0 ? (
           <div className="xl:ml-10">
             評価(平均): <Star starCount={star} />
           </div>
-        )}
+        ): <div className="xl:ml-10 mt-2">(レビューがありません)</div>}
       </div>
       <div className="mx-6 mt-3">
         <Image

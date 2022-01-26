@@ -1,15 +1,13 @@
 import { NextPage } from "next";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import useSWR from "swr";
-import { FavoBtn } from "../../../components/Button/FavoBtn";
 import { SubHeader } from "../../../components/Layout/SubHeader";
-import { TrashBtn } from "../../../components/Button/TrashBtn";
 import { ReviewCard } from "../../../components/Lunch/ReviewCard";
 import { JAVA_API_URL } from "../../../utils/const";
 import { LunchReview } from "../../../types/type";
 import { useContext } from "react";
 import { loginIdContext } from "../../../providers/LoginIdProvider";
+import { CommentList } from "../../../components/Lunch/CommentList";
 
 const ReviewDetail: NextPage = () => {
   const router = useRouter();
@@ -47,29 +45,9 @@ const ReviewDetail: NextPage = () => {
           <>
             <ReviewCard {...review} type="詳細" hasRestaurantInfo={true} />
             {/* コメント部分 */}
-            {data.commentList.map((value: any, index: number) => (
-              <div key={index} className="flex border border-b border-gray-200">
-                <div className="w-1/5 text-center pt-5">
-                  <Image
-                    src="/usakus.jpg"
-                    width={100}
-                    height={100}
-                    alt="icon"
-                  />
-                </div>
-
-                <div className="w-4/5">
-                  <div className="text-xl font-extrabold pt-3 pb-3">
-                    {value.name}
-                  </div>
-                  <div className="pt-5 pb-5 pl-5">{value.content}</div>
-                  <div className="w-full text-right pt-3 pb-3">
-                    <FavoBtn />
-                    <TrashBtn />
-                  </div>
-                </div>
-              </div>
-            ))}
+            <div className="w-full">
+              <CommentList commentList={data.commentList}/>
+            </div>
           </>
         )}
       </div>

@@ -4,7 +4,7 @@ import { JAVA_API_URL } from "../utils/const";
 const LIMIT = 50; // 50件ずつ読み込む
 
 /**
- * レビューのリストを取得するカスタムフック.
+ * レストランのリストを取得するカスタムフック.
  * 
  * @param userId ログイン中のユーザーのハッシュ値
  * @returns
@@ -13,7 +13,7 @@ const LIMIT = 50; // 50件ずつ読み込む
  * - error: エラー
  * - loadMoreReviews: 次のデータを読み込むメソッド
  */
-export const useSWRReviews = (userId: string) => {
+export const useSWRRestaurant = (userId: string) => {
   /**
    * 各ページのSWRのキーを取得する関数.
    *
@@ -25,17 +25,17 @@ export const useSWRReviews = (userId: string) => {
    */
   const getKey: SWRInfiniteKeyLoader = (pageIndex, previousPageData) => {
     // 最後まで読み込んだらnullを返す
-    if (previousPageData && previousPageData.reviewList.length < LIMIT) return null;
+    if (previousPageData && previousPageData.restaurant.length < LIMIT) return null;
 
     // 一番最初のフェッチ
-    if (pageIndex === 0) return `${JAVA_API_URL}/review/${userId}`;
+    if (pageIndex === 0) return `${JAVA_API_URL}/restaurant/${userId}`;
 
     // 一番古いレビューのIDを取得
-    const id = previousPageData.reviewList[previousPageData.reviewList.length - 1].id;
+    const id = previousPageData.restaurant[previousPageData.restaurant.length - 1].id;
 
     // 「過去のレビューを見る」ボタンを押したとき
     // 一番下の投稿IDをAPIに渡す
-    return `${JAVA_API_URL}/reviews/old/${id}/${userId}`;
+    return `${JAVA_API_URL}/restaurant/old/${id}/${userId}`;
   };
 
   // data: データの連想配列の配列(※ページごとの配列)
@@ -57,8 +57,8 @@ export const useSWRReviews = (userId: string) => {
 
   // 最後まで読み込んだかどうか
   const isLast = data
-    ? data.filter((pageData) => pageData.reviewList.length < LIMIT).length > 0
+    ? data.filter((pageData) => pageData.restaurant.length < LIMIT).length > 0
     : false;
 
-  return { data, isLast, error, loadMoreReviews, reviewsMutate: mutate };
+  return { data, isLast, error, loadMoreReviews, restaurantMutate: mutate };
 };
