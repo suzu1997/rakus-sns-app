@@ -1,8 +1,9 @@
+/* eslint-disable prefer-const */
 import { NextPage } from "next";
 import { useCallback, useContext, useState } from "react";
 import Image from "next/image";
 import { SubHeader } from "../../components/Layout/SubHeader";
-import { Tab } from "@headlessui/react";
+import { Tab, Transition } from "@headlessui/react";
 import { Button } from "../../components/Button/Button";
 import { useRouter } from "next/router";
 import useSWR from "swr";
@@ -26,13 +27,18 @@ const User: NextPage = () => {
     // hireDate: "2021年10月",
     img: "/usakus.jpg",
     // jobtype: "FR",
+    introduction:
+      "ああああああああああああああああああああああああああああああああああああああああああああ",
   });
+
+  //いいね履歴タブの表示
+  const [isOpenHis, setIsOpenHis] = useState(false);
 
   //ルーターリンク
   const router = useRouter();
 
   //URLの後ろからid取得
-  const userId = Number(router.query.id);
+  const userId = String(router.query.id);
 
   //ログインID
   const loginId = useContext(loginIdContext);
@@ -44,7 +50,7 @@ const User: NextPage = () => {
 
   //タブテストデータ
   // eslint-disable-next-line prefer-const
-  let [categories] = useState({
+  let [categoriesA] = useState({
     つぶやき履歴: [
       {
         id: 1,
@@ -65,14 +71,39 @@ const User: NextPage = () => {
         title: "よっ",
       },
     ],
-    いいね履歴: [
+    いいね履歴: [{ id: 1, title: "履歴の詳細は以下からご覧ください" }],
+  });
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  let [categoriesB] = useState({
+    つぶやきいいね履歴: [
       {
         id: 1,
-        title: "ありがとう",
+        title: "つぶやきのいいね",
       },
       {
         id: 2,
-        title: "さようなら",
+        title: "いいね",
+      },
+    ],
+    投稿いいね履歴: [
+      {
+        id: 1,
+        title: "つぶやきのいいね",
+      },
+      {
+        id: 2,
+        title: "投稿のいいね",
+      },
+    ],
+    コメントいいね履歴: [
+      {
+        id: 1,
+        title: "つぶやきのいいね",
+      },
+      {
+        id: 2,
+        title: "投稿のいいね",
       },
     ],
   });
@@ -89,6 +120,14 @@ const User: NextPage = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const tabOpen = (categories: string) => {
+    if (categories === "いいね履歴") {
+      setIsOpenHis(true);
+    } else {
+      setIsOpenHis(false);
+    }
+  };
 
   /**
    * APIで初期表示用データ取得.
@@ -112,27 +151,27 @@ const User: NextPage = () => {
         {/* ユーザー情報 */}
         <div className="w-full">
           <SubHeader title="ユーザー情報" />
-          <div className="border-solid  border-2 border-bgc-200 m-5 shadow-lg rounded-md">
+          <div className="border-solid  border-2 border-bgc-200 m-3 shadow-lg rounded-md">
             {userData && (
               <div className=" text-center">
-                <div className="mt-3 text-xl font-bold">
-                  名前:{userData.name}
+                <div className="mt-1 text-xl font-bold">
+                  アカウント名:{userData.accountName}
                 </div>
                 <div className="w-12/12">
                   <Image
-                    src={datas.img}
-                    width={100}
-                    height={100}
+                    src={`/image/userIcon/${userData.userPhotoPath}`}
+                    width={80}
+                    height={80}
                     alt="icon"
+                    className="rounded-full"
                   ></Image>
                 </div>
-
                 <div>
+                  <div>名前:{userData.name}</div>
                   <div>入社日:{userData.hireDate}</div>
                   <div>職種:{userData.serviceFk}</div>
-                  <div>アカウント名:{userData.accountName}</div>
                   <div>誕生日:{userData.birthDay}</div>
-                  <div>自己紹介:{userData.introduction}</div>
+                  <div>自己紹介:{datas.introduction}</div>
                 </div>
               </div>
             )}
@@ -163,7 +202,7 @@ const User: NextPage = () => {
           <div className="w-full px-2 sm:px-0">
             <Tab.Group>
               <Tab.List className="flex p-1 space-x-1 bg-blue-900/20 rounded-xl">
-                {Object.keys(categories).map((category) => (
+                {Object.keys(categoriesA).map((category) => (
                   <Tab
                     key={category}
                     className={({ selected }) =>
@@ -176,12 +215,19 @@ const User: NextPage = () => {
                       )
                     }
                   >
-                    {category}
+                    <div
+                      onClick={() => {
+                        tabOpen(category);
+                      }}
+                    >
+                      {category}
+                    </div>
                   </Tab>
                 ))}
               </Tab.List>
+
               <Tab.Panels className="mt-2">
-                {Object.values(categories).map((posts, idx) => (
+                {Object.values(categoriesA).map((posts, idx) => (
                   <Tab.Panel
                     key={idx}
                     className="bg-bgc rounded-xl p-3 focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60"
@@ -198,12 +244,60 @@ const User: NextPage = () => {
                           {post.title}
                         </h3>
 
-                        <div className="flex mt-1 space-x-1 text-xs font-normal leading-4 text-coolGray-500"></div>
+                        <div className="flex space-x-1 text-xs font-normal leading-4 text-coolGray-500"></div>
                       </div>
                     ))}
                   </Tab.Panel>
                 ))}
               </Tab.Panels>
+
+              {/* 2回目 */}
+              <div>
+                <Transition appear show={isOpenHis}>
+                  <Tab.List className="flex p-1 space-x-1 bg-blue-900/20 rounded-xl">
+                    {Object.keys(categoriesB).map((category) => (
+                      <Tab
+                        key={category}
+                        className={({ selected }) =>
+                          classNames(
+                            "w-full py-2.5 text-xs font-bold leading-5 font-medium text-bgc rounded-lg",
+                            "focus:outline-none focus:ring-2 ring-offset-2 ring-offset-red-400 ring-white ring-opacity-60 bg-text-brown",
+                            selected
+                              ? "bg-white shadow"
+                              : "text-blue-100 hover:bg-white/[0.12] hover:text-basic",
+                          )
+                        }
+                      >
+                        {category}
+                      </Tab>
+                    ))}
+                  </Tab.List>
+                  <Tab.Panels className="mt-2">
+                    {Object.values(categoriesB).map((posts, idx) => (
+                      <Tab.Panel
+                        key={idx}
+                        className="bg-bgc rounded-xl p-3 focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60"
+                      >
+                        {posts.map((post) => (
+                          <div
+                            key={post.id}
+                            className="focus:outline-none relative p-3 rounded-md hover:bg-coolGray-100 cursor-pointer hover:opacity-50"
+                            onClick={() => {
+                              goDetailPage(post.id);
+                            }}
+                          >
+                            <h3 className="text-sm font-medium leading-5">
+                              {post.title}
+                            </h3>
+
+                            <div className="flex mt-1 space-x-1 text-xs font-normal leading-4 text-coolGray-500"></div>
+                          </div>
+                        ))}
+                      </Tab.Panel>
+                    ))}
+                  </Tab.Panels>
+                </Transition>
+              </div>
             </Tab.Group>
           </div>
         </div>
