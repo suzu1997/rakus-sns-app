@@ -38,7 +38,31 @@ export const CommentList: FC<Props> = memo((props) => {
   const { data: timelineDetail } = useSWR(
     `${JAVA_API_URL}/timeline/detail/${postId}/${loginId}`,
   );
-  const [commentList] = useState<TimelineComment>(timelineDetail.commentList);
+  const [commentList, setCommentList] = useState<TimelineComment>(
+    timelineDetail.commentList,
+  );
+
+  /**
+   * 投稿の読み込み直し.
+   */
+  const getData = useCallback(async () => {
+    try {
+      const res = await axios.get(
+        `${JAVA_API_URL}/timeline/detail/${postId}/${loginId}`,
+      );
+      // タイムライン情報をdataから抽出
+      setCommentList(res.data.commentList);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [loginId, postId]);
+
+  /**
+   * リロード問題解消用.
+   */
+  useEffect(() => {
+    getData();
+  }, [getData]);
 
   /**
    * 画像クリックで投稿ユーザ情報ページに飛ぶ.
@@ -59,50 +83,46 @@ export const CommentList: FC<Props> = memo((props) => {
 
   return (
     <div className="border border-t-0 border-gray-200">
-      {commentList ? (
-        <div>
-          {commentList.map((value, key) => (
-            <div key={key} className="flex">
-              <div className="w-1/5 text-center pt-5 cursor-pointer hover:opacity-50">
-                <Image
-                  src={`/image/userIcon/${value.userPhotoPath}`}
-                  width={100}
-                  height={100}
-                  alt="icon"
-                  onClick={() => {
-                    goUserPage(value.userId);
-                  }}
-                  className="rounded-full"
-                />
+      <div>
+        {commentList.map((value, key) => (
+          <div key={key} className="flex">
+            <div className="w-1/5 text-center pt-5 cursor-pointer hover:opacity-50">
+              <Image
+                src={`/image/userIcon/${value.userPhotoPath}`}
+                width={100}
+                height={100}
+                alt="icon"
+                onClick={() => {
+                  goUserPage(value.userId);
+                }}
+                className="rounded-full"
+              />
+            </div>
+            <div className="w-4/5">
+              <div className="text-xl font-extrabold py-3 ml-3">
+                {value.accountName}
               </div>
-              <div className="w-4/5">
-                <div className="text-xl font-extrabold py-3 ml-3">
-                  {value.accountName}
-                </div>
-                <div className="pt-5 pb-5 pl-5 w-8/12">{value.comment}</div>
-                <div className="w-full text-right py-3 pr-5">
-                  <FavoBtn
+              <div className="pt-5 pb-5 pl-5 w-8/12">{value.comment}</div>
+              <div className="w-full text-right py-3 pr-5">
+                <FavoBtn
+                  postId={value.id}
+                  favoCount={value.commentLikeCount}
+                  success={success}
+                  isFavo={value.myLike}
+                  type="タイムラインコメント"
+                />
+                {trashCheckId === value.userId && (
+                  <TrashBtn
                     postId={value.id}
-                    favoCount={value.commentLikeCount}
                     success={success}
-                    isFavo={value.myLike}
                     type="タイムラインコメント"
                   />
-                  {trashCheckId === value.userId && (
-                    <TrashBtn
-                      postId={value.id}
-                      success={success}
-                      type="タイムラインコメント"
-                    />
-                  )}
-                </div>
+                )}
               </div>
             </div>
-          ))}
-        </div>
-      ) : (
-        <div className="text-center my-10">コメントはありません</div>
-      )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 });

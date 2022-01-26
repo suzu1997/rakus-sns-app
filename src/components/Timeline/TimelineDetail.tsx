@@ -3,14 +3,14 @@ import { CommentIcon } from "../Button/CommentIcon";
 import Image from "next/image";
 import { FavoBtn } from "../Button/FavoBtn";
 import { TrashBtn } from "../Button/TrashBtn";
-import { TimelineDetail } from "../../types/type";
+import { Timeline } from "../../types/type";
 import { useRouter } from "next/router";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import useSWR from "swr";
 import { JAVA_API_URL } from "../../utils/const";
 
 type Props = {
-  detailData: TimelineDetail; //タイムライン詳細データ
+  detailData: Timeline; //タイムライン詳細データ
   success?: () => void; //データの更新
 };
 
@@ -72,6 +72,7 @@ export const TimelineDetailPage: FC<Props> = memo((props) => {
                 commentCount={detailData.commentCount}
                 postId={detailData.id}
                 target="timeline"
+                success={success}
               />
               <FavoBtn
                 postId={detailData.id}

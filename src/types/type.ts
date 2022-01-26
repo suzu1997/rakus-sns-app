@@ -73,21 +73,6 @@ export type Timeline = {
   myLike: boolean;
 };
 
-//タイムライン詳細
-export type TimelineDetail = {
-  id: number;
-  userId: number;
-  accountName: string;
-  userPhotoPath: string;
-  sentence: string;
-  likeCount: number;
-  commentCount: number;
-  updatedTime: string;
-  postedTime: string;
-  deleted: boolean;
-  myLike: boolean;
-};
-
 //タイムラインコメント
 export type TimelineComment = [
   {
