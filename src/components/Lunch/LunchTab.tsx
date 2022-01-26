@@ -1,5 +1,4 @@
 import { FC, memo } from "react";
-import { useRouter } from "next/router";
 import { Tab } from "@headlessui/react";
 
 import { ReviewList } from "./ReviewList";
@@ -9,10 +8,6 @@ import { LunchSearchArea } from "./LunchSearchArea";
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
-
-type Props = {
-  path: string;
-};
 
 // タブの種類
 const tabMap = [
@@ -28,33 +23,11 @@ const tabMap = [
 
 /**
  * ランチのレビューと店情報の切り替え用タブ.
- *
- * @params - path:URLの末尾を渡す
  */
-export const LunchTab: FC<Props> = memo((props) => {
-  const { path } = props;
-  const initialTab = tabMap.findIndex((tab) => tab.path === path);
-
-  const router = useRouter();
-
+export const LunchTab: FC = memo(() => {
   return (
     <div className="w-full">
-      <Tab.Group
-        defaultIndex={initialTab}
-        onChange={(idx) => {
-          // タブが変更されたらrouterへpush。
-          router.push(
-            {
-              pathname: router.pathname,
-              query: {
-                path: [tabMap[idx].path],
-              },
-            },
-            undefined,
-            { shallow: true },
-          ); // shallowすることでrouterを再度呼び出さない
-        }}
-      >
+      <Tab.Group>
         <Tab.List className="flex p-1 space-x-1 bg-bgc rounded-xl">
           {tabMap.map((tab) => (
             <Tab
