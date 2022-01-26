@@ -3,7 +3,7 @@ import { DeletePostModal } from "../Modal/DeletePostModal";
 
 type Props = {
   postId?: number; //投稿番号
-  type?: string; //レビューかタイムラインか
+  type: "レビュー" | "タイムライン" | "タイムラインコメント"; //レビューかタイムラインか
   success?: () => void; //削除成功後にデータ再読み込み
 };
 
