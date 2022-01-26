@@ -10,7 +10,12 @@ type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
   closeModal: () => void; // モーダルを閉じるメソッド
   postId: number; //投稿ID
-  type: "レビュー" | "タイムライン" | "タイムラインコメント";
+  type:
+    | "タイムライン"
+    | "タイムラインコメント"
+    | "レビュー"
+    | "レビューコメント"; //レビューかタイムラインか
+
   success?: () => void; //削除成功後にデータ再読み込み
 };
 
@@ -55,6 +60,26 @@ export const DeletePostModal: FC<Props> = memo((props) => {
         if (res.data.status === "success") {
           toast.success("削除しました");
           //リロード
+          if (success) {
+            success();
+          }
+          closeModal();
+        } else {
+          toast.error(res.data.message);
+          closeModal();
+        }
+      }
+
+      //レビューに対する削除
+      if (type === "レビュー") {
+        const res = await axios.delete(`${JAVA_API_URL}/review/${postId}`, {
+          data: {
+            userLogicalId: loginId,
+          },
+        });
+        if (res.data.status === "success") {
+          toast.success("削除しました");
+          // レビュー一覧再取得
           if (success) {
             success();
           }

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { FC, memo, MouseEvent } from "react";
+import { useSWRConfig } from "swr";
+import { FC, memo, MouseEvent, useCallback, useContext } from "react";
 import { CommentIcon } from "../Button/CommentIcon";
 import { FavoBtn } from "../Button/FavoBtn";
 import { Star } from "./Star";
@@ -8,6 +9,9 @@ import { TrashBtn } from "../Button/TrashBtn";
 import { LinkToRestaurant } from "./LinkToRestaurat";
 import { LunchReview } from "../../types/type";
 import { getFormattedDate, getRestaurantPhotoPath } from "../../utils/methods";
+import { useSWRReviews } from "../../hooks/useSWRReviews";
+import { loginIdContext } from "../../providers/LoginIdProvider";
+import { JAVA_API_URL } from "../../utils/const";
 
 type Props = LunchReview & {
   type: string;
@@ -35,6 +39,13 @@ export const ReviewCard: FC<Props> = memo((props) => {
 
   const router = useRouter();
 
+  const { mutate } = useSWRConfig();
+
+  // ユーザーのハッシュ値
+  const logicalId = useContext(loginIdContext);
+  // レビューリスト更新のmutate関数をhooksから取得
+  const { reviewsMutate } = useSWRReviews(logicalId);
+
   /**
    * レビュー詳細ページへ遷移するメソッド.
    */
@@ -50,6 +61,19 @@ export const ReviewCard: FC<Props> = memo((props) => {
     e.stopPropagation();
     router.push(`/user/${userId}`);
   };
+
+  /**
+   * レビュー削除成功後の処理.
+   */
+  const deleteReviewSuccess = useCallback(() => {
+    mutate(`${JAVA_API_URL}/restaurant/${restaurantId}`); // レストラン情報(評価)を更新
+    reviewsMutate(); // レビューリストを更新
+
+    // レビュー詳細ページにいれば、一覧に戻る
+    if (type === "詳細") {
+      router.back();
+    } 
+  }, [mutate, reviewsMutate, restaurantId, router, type]);
 
   return (
     <div
@@ -96,7 +120,11 @@ export const ReviewCard: FC<Props> = memo((props) => {
               target="reviews"
             />
             <FavoBtn postId={id} favoCount={likeCount} isFavo={myLike} />
-            <TrashBtn postId={id} type="レビュー"/>
+            <TrashBtn
+              postId={id}
+              type="レビュー"
+              success={deleteReviewSuccess}
+            />
           </div>
         </div>
       </div>
