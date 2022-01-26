@@ -1,22 +1,22 @@
 import { FC, Fragment, memo, useCallback, useContext } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { Button } from "../Button/Button";
 import axios from "axios";
-import { JAVA_API_URL } from "../../utils/const";
-import { loginIdContext } from "../../providers/LoginIdProvider";
 import toast from "react-hot-toast";
 
+import { Button } from "../Button/Button";
+import { JAVA_API_URL } from "../../utils/const";
+import { loginIdContext } from "../../providers/LoginIdProvider";
+
 type Props = {
-  isOpen: boolean; // モーダルが開いているかどうか
-  closeModal: () => void; // モーダルを閉じるメソッド
   postId: number; //投稿ID
   type:
     | "タイムライン"
     | "タイムラインコメント"
     | "レビュー"
     | "レビューコメント"; //レビューかタイムラインか
-
   success?: () => void; //削除成功後にデータ再読み込み
+  modalStatus: boolean; //モーダルの開閉状況
+  closeModal: () => void;
 };
 
 /**
@@ -24,8 +24,7 @@ type Props = {
  * @returns 投稿削除をするためのモーダル
  */
 export const DeletePostModal: FC<Props> = memo((props) => {
-  const { isOpen, closeModal, postId, type, success } = props;
-
+  const { postId, type, success, modalStatus, closeModal } = props;
   //ログインID
   const {hash} = useContext(loginIdContext);
 
@@ -96,7 +95,7 @@ export const DeletePostModal: FC<Props> = memo((props) => {
 
   return (
     <>
-      <Transition appear show={isOpen} as={Fragment}>
+      <Transition appear show={modalStatus} as={Fragment}>
         <Dialog
           as="div"
           className="fixed inset-0 z-10 overflow-y-auto"
