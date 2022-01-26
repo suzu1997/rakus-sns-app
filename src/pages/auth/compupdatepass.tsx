@@ -1,5 +1,4 @@
 import { NextPage } from "next";
-import Link from "next/link";
 import { LinkComp } from "../../components/Form/LinkComp";
 
 /**
