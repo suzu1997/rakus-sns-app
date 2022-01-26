@@ -11,14 +11,13 @@ import axios from "axios";
 
 type Props = {
   postId: number; //コメントリスト
-  success: () => void; //データの更新
 };
 
 /**
  * タイムライン詳細ページのコメントコンポーネント.
  */
 export const CommentList: FC<Props> = memo((props) => {
-  const { postId, success } = props;
+  const { postId } = props;
 
   //ログインID
   const loginId = useContext(loginIdContext);
@@ -107,14 +106,14 @@ export const CommentList: FC<Props> = memo((props) => {
                 <FavoBtn
                   postId={value.id}
                   favoCount={value.commentLikeCount}
-                  success={success}
+                  success={getData}
                   isFavo={value.myLike}
                   type="タイムラインコメント"
                 />
                 {trashCheckId === value.userId && (
                   <TrashBtn
                     postId={value.id}
-                    success={success}
+                    success={getData}
                     type="タイムラインコメント"
                   />
                 )}

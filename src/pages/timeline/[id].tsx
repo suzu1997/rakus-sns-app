@@ -100,7 +100,7 @@ const TweetDetail: NextPage = () => {
             </div>
           </div>
           <div className="w-full">
-            {CommentList && <CommentList postId={postId} success={getData} />}
+            {CommentList && <CommentList postId={postId} />}
           </div>
         </>
       )}
