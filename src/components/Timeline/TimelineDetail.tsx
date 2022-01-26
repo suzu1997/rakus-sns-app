@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import useSWR from "swr";
 import { JAVA_API_URL } from "../../utils/const";
+import { getFormattedDate } from "../../utils/methods";
 
 type Props = {
   detailData: Timeline; //タイムライン詳細データ
@@ -66,7 +67,10 @@ export const TimelineDetailPage: FC<Props> = memo((props) => {
 
         <div className="text-right pb-5">
           <div className="flex flex-col items-end gap-3 sm:flex-row justify-end mr-5 mt-5">
-            <div className="mr-5">投稿日時：{detailData.postedTime}</div>
+            <div className="mr-5">
+              投稿日時： {getFormattedDate(new Date(detailData.postedTime))}
+            </div>
+
             <div>
               <CommentIcon
                 commentCount={detailData.commentCount}
