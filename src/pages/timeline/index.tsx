@@ -15,6 +15,7 @@ import { loginIdContext } from "../../providers/LoginIdProvider";
 import { Timeline } from "../../types/type";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useSWRTimeline } from "../../hooks/useSWRTimeline";
 
 /**
  * タイムラインページ.
@@ -24,13 +25,12 @@ const Timeline: NextPage = () => {
   //ログインID
   const loginId = useContext(loginIdContext);
 
-  //1人1人のつぶやきの下に入る線
-  const style = {
-    borderBottom: "solid 1px black",
-  };
-
   //ルーターリンク
   const router = useRouter();
+
+  // 投稿一覧を再検証・再取得する関数をhooksから取得
+  const { timelineMutate } = useSWRTimeline(loginId);
+
   /**
    * 画像クリックで投稿ユーザ情報ページに飛ぶ.
    * @param userId - 投稿者ID
@@ -50,60 +50,50 @@ const Timeline: NextPage = () => {
   /**
    * APIを使用してタイムラインデータを取得.
    */
-  const { data, error } = useSWR(`${JAVA_API_URL}/timeline/${loginId}`);
+  const { data, error, mutate } = useSWR(`${JAVA_API_URL}/timeline/${loginId}`);
   // タイムライン情報をdataから抽出
-  const [timelineData, setTimelineData] = useState<Timeline>(
-    data?.TimelineList,
-  );
-  const [message] = useState<string>(data?.message);
+  const timelineData: Timeline = data?.TimelineList;
 
   /**
-   * 投稿の読み込み直し.
+   * タイムラインの情報を更新するメソッド.
+   *
+   * @remarks
+   * 投稿が成功すると呼ばれる。
    */
-  const getData = useCallback(async () => {
-    try {
-      const res = await axios.get(`${JAVA_API_URL}/timeline/${loginId}`);
-      // タイムライン情報をdataから抽出
-      setTimelineData(res.data.TimelineList);
-    } catch (error) {
-      console.log(error);
-    }
-  }, [loginId]);
+  const updateData = useCallback(() => {
+    timelineMutate(); // タイムライン一覧を再検証・再取得する
+    mutate(); // タイムライン情報を再検証・再取得する
+  }, [mutate, timelineMutate]);
 
   /**
-   * リロード問題解消用.
-   */
-  useEffect(() => {
-    getData();
-  }, [getData]);
-
-  /**
-   * 「新しい投稿を読み込む」押下で発動.
-   */
-  const getNewData = useCallback(async () => {
-    getData();
-    toast.success("投稿を読み込みました");
-  }, [getData]);
-
-  /**
-   * 古い投稿の読み込み直し.(未実装)
+   * 古い投稿の読み込み直し.
    */
   const getOldData = useCallback(async () => {
-    const oldNumber = timelineData.length - 1;
+    //データの最後のidを取得
+    const oldNumber = timelineData?.length - 1;
     const oldId = timelineData?.[oldNumber].id;
     try {
-      const res = await axios.get(`${JAVA_API_URL}/timeline/old/${oldId}`);
-      console.dir(JSON.stringify(res));
-      // タイムライン情報をdataから抽出
-      //useStateで囲むと更新されるけど、リロード問題が起きる
-      // setTimelineData(+res);
+      const res = await axios.get(
+        `${JAVA_API_URL}/timeline/old/${oldId}/${loginId}`,
+      );
+      const oldList: Timeline = res.data.TimelineList;
+      //取得した古いリストが空だったらreturn(lengthが上手く取れないのでこのような処理)
+      if (!oldList[0]) {
+        toast.success("過去の投稿はありません");
+        return;
+      }
+      //空でなければ既存のリストに追加
+      for (const oldData of oldList) {
+        timelineData.push(oldData);
+      }
+      toast.success("過去の投稿を読み込みました");
     } catch (error) {
       console.log(error);
     }
-  }, [loginId]);
+  }, [loginId, timelineData]);
 
   //初期値エラー
-  if (!error && !data) {
+  if (!error && !timelineData) {
     return (
       <div className="flex justify-center pt-10 w-full">
         <div className="animate-spin h-8 w-8 bg-basic rounded-xl"></div>
@@ -131,11 +121,14 @@ const Timeline: NextPage = () => {
             <Button
               label="新しいつぶやきを読み込む"
               size="lg"
-              onClick={getNewData}
+              onClick={() => {
+                updateData;
+                toast.success("新しい投稿を読み込みました");
+              }}
             />
           </div>
           {timelineData.map((value, key) => (
-            <div style={style} key={key} className="flex">
+            <div key={key} className="flex border border-t-0 border-gray-200">
               <div
                 className="rounded-full w-1/5 text-center pt-5 cursor-pointer hover:opacity-50"
                 onClick={() => {
@@ -168,14 +161,20 @@ const Timeline: NextPage = () => {
                     commentCount={value.commentCount}
                     postId={value.id}
                     target="timeline"
+                    success={updateData}
                   />
                   <FavoBtn
                     postId={value.id}
                     favoCount={value.likeCount}
                     isFavo={value.myLike}
-                    type={message}
+                    type="タイムライン"
+                    success={updateData}
                   />
-                  {loginId == value.userId && <TrashBtn postId={value.id} />}
+                  <TrashBtn
+                    postId={value.id}
+                    type="タイムライン"
+                    success={updateData}
+                  />
                 </div>
               </div>
             </div>
@@ -187,7 +186,7 @@ const Timeline: NextPage = () => {
             過去の投稿を見る…
           </div>
           <div>
-            <PostBtn success={getData} />
+            <PostBtn success={updateData} />
           </div>
         </div>
       )}

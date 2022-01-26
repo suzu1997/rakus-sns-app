@@ -1,14 +1,17 @@
-import { useCallback, Fragment, FC, memo } from "react";
+import { FC, Fragment, memo, useCallback, useContext } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Button } from "../Button/Button";
 import axios from "axios";
 import { JAVA_API_URL } from "../../utils/const";
+import { loginIdContext } from "../../providers/LoginIdProvider";
+import toast from "react-hot-toast";
 
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
   closeModal: () => void; // モーダルを閉じるメソッド
   postId: number; //投稿ID
   type?: string; //レビューかつぶやきか
+  success?: () => void; //削除成功後にデータ再読み込み
 };
 
 /**
@@ -16,29 +19,55 @@ type Props = {
  * @returns 投稿削除をするためのモーダル
  */
 export const DeletePostModal: FC<Props> = memo((props) => {
-  const { isOpen, closeModal, postId, type } = props;
+  const { isOpen, closeModal, postId, type, success } = props;
+
+  //ログインID
+  const loginId = useContext(loginIdContext);
 
   /**
    * はいボタン押下で発動.(未実装)
    */
   const deletePost = useCallback(async () => {
-    // try {
-    //   //投稿IDPOSTでいいのかしら
-    //   const res = await axios.post(`${JAVA_API_URL}/timeline`, {
-    //     timelineId: postId,
-    //   });
-    //   console.log(JSON.stringify(res.data));
-    //   if (res.data.status === "success") {
-    alert("投稿ID" + postId + "を削除しました");
-    //     //成功→タイムラインページに戻る
-    //     closeModal();
-    //   } else {
-    //     alert(res.data.message);
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
-  }, []);
+    try {
+      //タイムラインに対する削除
+      if (type === "タイムライン") {
+        const res = await axios.delete(
+          `${JAVA_API_URL}/timeline/${postId}/${loginId}`,
+        );
+        if (res.data.status === "success") {
+          toast.success("削除しました");
+          //リロード
+          if (success) {
+            success();
+          }
+          closeModal();
+        } else {
+          toast.error(res.data.message);
+          closeModal();
+        }
+      }
+
+      //タイムラインコメントに対する削除
+      if (type === "タイムラインコメント") {
+        const res = await axios.delete(
+          `${JAVA_API_URL}/timeline/comment/${postId}/${loginId}`,
+        );
+        if (res.data.status === "success") {
+          toast.success("削除しました");
+          //リロード
+          if (success) {
+            success();
+          }
+          closeModal();
+        } else {
+          toast.error(res.data.message);
+          closeModal();
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [closeModal, loginId, postId, success, type]);
 
   return (
     <>
