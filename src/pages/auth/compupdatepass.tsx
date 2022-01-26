@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import Link from "next/link";
+import { LinkComp } from "../../components/Form/LinkComp";
 
 /**
  * パスワード変更完了画面.
@@ -13,11 +13,10 @@ const CompUpdatePass: NextPage = () => {
           パスワードの変更が完了しました
         </div>
         <div className="mt-10">
-          <Link href="/auth/login">
-            <a className="underline hover:text-blue-800 mt-3">
-              ログインページはコチラから
-            </a>
-          </Link>
+          <LinkComp
+            linkText="ログインページはコチラから"
+            url="/auth/login"
+          ></LinkComp>
         </div>
       </div>
     </>

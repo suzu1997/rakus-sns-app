@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import Link from "next/link";
+import { LinkComp } from "../../components/Form/LinkComp";
 
 /**
  * 仮登録完了画面.
@@ -16,11 +16,12 @@ const CompPreSignUp: NextPage = () => {
           送信したメールより本登録をお願いします
         </div>
         <div className="mt-10 text-sm">
-          しばらく待っていただいて届かない場合は
-          <Link href="/auth/presignup">
-            <a className="underline hover:text-blue-800 mt-3">コチラ</a>
-          </Link>
-          から再度お手続きをお願いします
+          <LinkComp
+            firstText=" しばらく待っていただいて届かない場合は"
+            linkText="コチラ"
+            lastText="  から再度お手続きをお願いします"
+            url="/auth/presignup"
+          ></LinkComp>
         </div>
       </div>
     </>
