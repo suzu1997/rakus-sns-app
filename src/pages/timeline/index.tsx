@@ -1,6 +1,6 @@
 import Image from "next/image";
 import type { NextPage } from "next";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext } from "react";
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { Button } from "../../components/Button/Button";
 import { CommentIcon } from "../../components/Button/CommentIcon";
@@ -9,11 +9,8 @@ import { FavoBtn } from "../../components/Button/FavoBtn";
 import { TrashBtn } from "../../components/Button/TrashBtn";
 import { useRouter } from "next/router";
 import { PostBtn } from "../../components/Button/PostBtn";
-import useSWR from "swr";
-import { JAVA_API_URL } from "../../utils/const";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { Timeline } from "../../types/type";
-import axios from "axios";
 import toast from "react-hot-toast";
 import { useSWRTimeline } from "../../hooks/useSWRTimeline";
 
@@ -29,13 +26,8 @@ const Timeline: NextPage = () => {
   const router = useRouter();
 
   // 投稿一覧を再検証・再取得する関数をhooksから取得
-  const {
-    data,
-
-    error,
-    loadMoreTimeline,
-    timelineMutate,
-  } = useSWRTimeline(loginId);
+  const { data, error, loadMoreTimeline, timelineMutate } =
+    useSWRTimeline(loginId);
 
   /**
    * 画像クリックで投稿ユーザ情報ページに飛ぶ.
@@ -54,13 +46,6 @@ const Timeline: NextPage = () => {
   };
 
   /**
-   * APIを使用してタイムラインデータを取得.
-   */
-  // const { data, error, mutate } = useSWR(`${JAVA_API_URL}/timeline/${loginId}`);
-  // // タイムライン情報をdataから抽出
-  // const timelineData: Timeline = data?.TimelineList;
-
-  /**
    * タイムラインの情報を更新するメソッド.
    *
    * @remarks
@@ -68,35 +53,7 @@ const Timeline: NextPage = () => {
    */
   const updateData = useCallback(() => {
     timelineMutate(); // タイムライン一覧を再検証・再取得する
-    // mutate(); // タイムライン情報を再検証・再取得する
   }, [timelineMutate]);
-
-  /**
-   * 古い投稿の読み込み直し.
-   */
-  // const getOldData = useCallback(async () => {
-  //   //データの最後のidを取得
-  //   const oldNumber = timelineData?.length - 1;
-  //   const oldId = timelineData?.[oldNumber].id;
-  //   try {
-  //     const res = await axios.get(
-  //       `${JAVA_API_URL}/timeline/old/${oldId}/${loginId}`,
-  //     );
-  //     const oldList: Timeline = res.data.TimelineList;
-  //     //取得した古いリストが空だったらreturn(lengthが上手く取れないのでこのような処理)
-  //     if (!oldList[0]) {
-  //       toast.success("過去の投稿はありません");
-  //       return;
-  //     }
-  //     //空でなければ既存のリストに追加
-  //     for (const oldData of oldList) {
-  //       timelineData.push(oldData);
-  //     }
-  //     toast.success("過去の投稿を読み込みました");
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }, [loginId, timelineData]);
 
   //初期値エラー
   if (!error && !data) {
@@ -134,9 +91,12 @@ const Timeline: NextPage = () => {
       {data &&
         // dataはページごとの連想配列の配列
         data.map((pageData) =>
-          pageData?.TimelineList.map((timelime: any) => {
+          pageData?.TimelineList.map((timelime: Timeline) => {
             return (
-              <div key={timelime.id} className="flex border border-t-0 border-gray-200">
+              <div
+                key={timelime.id}
+                className="flex border border-t-0 border-gray-200"
+              >
                 <div
                   className="rounded-full w-1/5 text-center pt-5 cursor-pointer hover:opacity-50"
                   onClick={() => {
