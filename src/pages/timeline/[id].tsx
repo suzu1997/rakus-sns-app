@@ -34,7 +34,7 @@ const TweetDetail: NextPage = () => {
   const postId = Number(router.query.id);
 
   /**
-   * APIを使用してタイムラインデータを取得.(未実装)
+   * APIを使用してタイムラインデータを取得.
    */
   const { data, error } = useSWR(
     `${JAVA_API_URL}/timeline/detail/${postId}/${loginId}`,
@@ -42,8 +42,6 @@ const TweetDetail: NextPage = () => {
 
   //つぶやき詳細データ
   const [detailData, setDetailData] = useState<TimelineDetail>(data?.timeline);
-  //コメントリスト
-  const [commentList] = useState<TimelineComment>(data?.commentList);
 
   /**
    * 投稿の読み込み直し.
@@ -102,7 +100,7 @@ const TweetDetail: NextPage = () => {
             </div>
           </div>
           <div className="w-full">
-            <CommentList commentList={commentList} success={getData} />
+            {CommentList && <CommentList postId={postId} success={getData} />}
           </div>
         </>
       )}

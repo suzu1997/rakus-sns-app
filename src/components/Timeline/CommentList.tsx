@@ -1,4 +1,4 @@
-import { FC, memo, useContext, useState } from "react";
+import { FC, memo, useCallback, useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { FavoBtn } from "../Button/FavoBtn";
 import { TrashBtn } from "../Button/TrashBtn";
@@ -7,17 +7,18 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import { JAVA_API_URL } from "../../utils/const";
 import { loginIdContext } from "../../providers/LoginIdProvider";
+import axios from "axios";
 
 type Props = {
-  commentList: TimelineComment; //コメントリスト
-  success?: () => void; //データの更新
+  postId: number; //コメントリスト
+  success: () => void; //データの更新
 };
 
 /**
  * タイムライン詳細ページのコメントコンポーネント.
  */
 export const CommentList: FC<Props> = memo((props) => {
-  const { commentList, success } = props;
+  const { postId, success } = props;
 
   //ログインID
   const loginId = useContext(loginIdContext);
@@ -32,12 +33,29 @@ export const CommentList: FC<Props> = memo((props) => {
   const [trashCheckId] = useState(userInfo?.user.id);
 
   /**
+   * コメントリスト取得.
+   */
+  const { data: timelineDetail } = useSWR(
+    `${JAVA_API_URL}/timeline/detail/${postId}/${loginId}`,
+  );
+  const [commentList] = useState<TimelineComment>(timelineDetail.commentList);
+
+  /**
    * 画像クリックで投稿ユーザ情報ページに飛ぶ.
    * @param userId - 投稿者ID
    */
   const goUserPage = (userId: number) => {
     router.push(`/user/${userId}`);
   };
+
+  //初期値エラー
+  if (!commentList) {
+    return (
+      <div className="flex justify-center pt-10 w-full">
+        <div className="animate-spin h-8 w-8 bg-basic rounded-xl"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="border border-t-0 border-gray-200">
