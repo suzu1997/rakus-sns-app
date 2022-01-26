@@ -6,7 +6,7 @@ import { useCallback, useState } from "react";
  */
 export const useModal = () => {
   // レビュー投稿のモーダルのオープン状態
-  const [isPostOpen, setPostIsOpen] = useState(false);
+  const [modalStatus, setModalStatus] = useState(false);
 
   /**
    * モーダルを開けるメソッド.
@@ -14,15 +14,15 @@ export const useModal = () => {
   const openModal = useCallback((e) => {
     // 親要素へのイベントの伝搬を止める
     e.stopPropagation();
-    setPostIsOpen(true);
+    setModalStatus(true);
   }, []);
 
   /**
    * モーダルを閉じるメソッド.
    */
   const closeModal = useCallback(() => {
-    setPostIsOpen(false);
+    setModalStatus(false);
   }, []);
 
-  return { isPostOpen, openModal, closeModal };
+  return { modalStatus, openModal, closeModal };
 };

@@ -136,7 +136,10 @@ const Timeline: NextPage = () => {
         data.map((pageData) =>
           pageData?.TimelineList.map((timelime: any) => {
             return (
-              <div key={timelime.id} className="flex border border-t-0 border-gray-200">
+              <div
+                key={timelime.id}
+                className="flex border border-t-0 border-gray-200"
+              >
                 <div
                   className="rounded-full w-1/5 text-center pt-5 cursor-pointer hover:opacity-50"
                   onClick={() => {
