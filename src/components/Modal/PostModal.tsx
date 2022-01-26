@@ -45,7 +45,8 @@ export const PostModal: FC<Props> = memo((props) => {
   } = props;
 
   // ログイン中のユーザーidを取得
-  const userId = useContext(loginIdContext);
+  const { hash } = useContext(loginIdContext);
+  const { loginId } = useContext(loginIdContext);
 
   //入力テキストの内容を格納するstate
   const [post, setPost] = useState<string>("");
@@ -82,7 +83,7 @@ export const PostModal: FC<Props> = memo((props) => {
       try {
         // レビュー投稿
         const res = await axios.post(`${JAVA_API_URL}/review`, {
-          userLogicalId: userId,
+          userLogicalId: hash,
           restaurantId,
           sentence: post,
           star: Number(star.id),
@@ -109,7 +110,7 @@ export const PostModal: FC<Props> = memo((props) => {
     if (title === "つぶやき") {
       try {
         const res = await axios.post(`${JAVA_API_URL}/timeline`, {
-          userLogicalId: userId, //ログインユーザID
+          userLogicalId: hash, //ログインユーザID
           sentence: post, //投稿内容
         });
         if (res.data.status === "success") {
@@ -130,7 +131,7 @@ export const PostModal: FC<Props> = memo((props) => {
     if (title === "コメント") {
       try {
         const res = await axios.post(`${JAVA_API_URL}/timeline/comment`, {
-          userLogicalId: userId, //ログインユーザＩＤ
+          userLogicalId: hash, //ログインユーザＩＤ
           sentence: post, //投稿内容
           timelineId: postId, //投稿ＩＤ
         });
@@ -160,7 +161,7 @@ export const PostModal: FC<Props> = memo((props) => {
   /**
    * APIを使用して画像データ取得.
    */
-  const { data } = useSWR(`${JAVA_API_URL}/user/${userId}`);
+  const { data } = useSWR(`${JAVA_API_URL}/user/${loginId}/${hash}`);
   // 個人情報をdataから抽出
   const [userPhoto] = useState<string>(data?.user.userPhotoPath);
 

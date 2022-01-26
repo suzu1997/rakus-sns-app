@@ -21,7 +21,7 @@ export const ReviewList: FC<Props> = memo((props) => {
   const router = useRouter();
 
   // ユーザーのハッシュ値
-  const {hash} = useContext(loginIdContext);
+  const { hash } = useContext(loginIdContext);
 
   const { data, isLast, error, loadMoreReviews } = useSWRReviews(hash);
 
