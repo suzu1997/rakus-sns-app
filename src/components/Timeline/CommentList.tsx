@@ -41,6 +41,8 @@ export const CommentList: FC<Props> = memo((props) => {
     timelineDetail.commentList,
   );
 
+  console.dir("コメントリスト" + JSON.stringify(commentList));
+
   /**
    * 投稿の読み込み直し.
    */
@@ -102,7 +104,7 @@ export const CommentList: FC<Props> = memo((props) => {
                 {value.accountName}
               </div>
               <div className="pt-5 pb-5 pl-5 w-8/12">{value.comment}</div>
-              <div className="w-full text-right py-3 pr-5">
+              <div className="w-full text-right py-3 pr-10">
                 <FavoBtn
                   postId={value.id}
                   favoCount={value.commentLikeCount}
