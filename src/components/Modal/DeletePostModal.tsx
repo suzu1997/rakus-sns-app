@@ -1,11 +1,11 @@
 import { FC, Fragment, memo, useCallback, useContext } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { Button } from "../Button/Button";
 import axios from "axios";
+import toast from "react-hot-toast";
+
+import { Button } from "../Button/Button";
 import { JAVA_API_URL } from "../../utils/const";
 import { loginIdContext } from "../../providers/LoginIdProvider";
-import toast from "react-hot-toast";
-import { useModal } from "../../hooks/useModal";
 
 type Props = {
   postId: number; //投稿ID

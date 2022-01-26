@@ -1,4 +1,5 @@
 import { FC, memo } from "react";
+
 import { useModal } from "../../hooks/useModal";
 import { DeletePostModal } from "../Modal/DeletePostModal";
 
