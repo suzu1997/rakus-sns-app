@@ -2,6 +2,9 @@ import { FC, memo, useContext, useState } from "react";
 import Link from "next/link";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 
+/**
+ * メニューバーコンポーネント.
+ */
 export const MenuBar: FC = memo(() => {
   //ログインID
   const loginId = useContext(loginIdContext);

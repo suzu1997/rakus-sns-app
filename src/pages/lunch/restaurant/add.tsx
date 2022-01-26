@@ -5,6 +5,11 @@ import { AddByHotpepper } from "../../../components/Lunch/AddByHotpepper";
 import { AddManuallyForm } from "../../../components/Lunch/AddManuallyForm";
 import { SubHeader } from "../../../components/Layout/SubHeader";
 
+/**
+ * お店情報を追加するページ.
+ *
+ * @returns お店情報を追加するための画面
+ */
 const RestaurantAdd: NextPage = () => {
   const router = useRouter();
 

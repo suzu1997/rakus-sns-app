@@ -7,6 +7,9 @@ type Props = {
   openMenu: () => void;
 };
 
+/**
+ * ヘッダー.
+ */
 export const Header: FC<Props> = memo((props) => {
   const { openMenu } = props;
   //ルーターリンク

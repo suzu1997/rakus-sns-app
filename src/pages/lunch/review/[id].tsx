@@ -10,6 +10,11 @@ import { LunchReview } from "../../../types/type";
 import { loginIdContext } from "../../../providers/LoginIdProvider";
 import { JAVA_API_URL } from "../../../utils/const";
 
+/**
+ * レビュー詳細を表示するページ.
+ * 
+ * @returns レビュー詳細を表示する画面
+ */
 const ReviewDetail: NextPage = () => {
   const router = useRouter();
   const reviewId = Number(router.query.id);

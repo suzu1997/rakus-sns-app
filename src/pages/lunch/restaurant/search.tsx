@@ -10,6 +10,11 @@ import { SubHeader } from "../../../components/Layout/SubHeader";
 import { Restaurant } from "../../../types/type";
 import { JAVA_API_URL } from "../../../utils/const";
 
+/**
+ * お店を検索するページ.
+ *
+ * @returns お店を検索する画面
+ */
 const RestaurantSearch: NextPage = () => {
   const router = useRouter();
   // 店名で検索するキーワード

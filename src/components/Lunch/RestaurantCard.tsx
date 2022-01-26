@@ -6,6 +6,9 @@ import { Star } from "./Star";
 import { Restaurant } from "../../types/type";
 import { getRestaurantPhotoPath } from "../../utils/methods";
 
+/**
+ * レストラン一覧用のカード.
+ */
 export const RestaurantCard: FC<Restaurant> = memo((props) => {
   const { id, name, genreValue, star, type, photoPath } = props;
   const router = useRouter();

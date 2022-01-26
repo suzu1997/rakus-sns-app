@@ -10,6 +10,9 @@ type Props = {
   restaurantId?: number;
 };
 
+/**
+ * レビュー一覧を表示するコンポーネント.
+ */
 export const ReviewList: FC<Props> = memo((props) => {
   const { restaurantId } = props;
 

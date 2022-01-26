@@ -19,6 +19,9 @@ type Props = LunchReview & {
   hasRestaurantInfo: boolean;
 };
 
+/**
+ * レビューを表示するカードコンポーネント.
+ */
 export const ReviewCard: FC<Props> = memo((props) => {
   const {
     id,

@@ -5,6 +5,9 @@ import { RestaurantCard } from "./RestaurantCard";
 import { Restaurant } from "../../types/type";
 import { JAVA_API_URL } from "../../utils/const";
 
+/**
+ * レストラン一覧用コンポーネント.
+ */
 export const RestaurantList: FC = memo(() => {
   const { data, error } = useSWR(`${JAVA_API_URL}/restaurant`);
 
