@@ -27,6 +27,8 @@ const User: NextPage = () => {
     // hireDate: "2021年10月",
     img: "/usakus.jpg",
     // jobtype: "FR",
+    introduction:
+      "ああああああああああああああああああああああああああああああああああああああああああああ",
   });
 
   //いいね履歴タブの表示
@@ -149,31 +151,32 @@ const User: NextPage = () => {
         {/* ユーザー情報 */}
         <div className="w-full">
           <SubHeader title="ユーザー情報" />
-          <div className="border-solid  border-2 border-bgc-200 m-5 shadow-lg rounded-md">
+          <div className="border-solid  border-2 border-bgc-200 m-3 shadow-lg rounded-md">
             {userData && (
               <div className=" text-center">
-                <div className="mt-3 text-xl font-bold">
-                  名前:{userData.name}
+                <div className="mt-1 text-xl font-bold">
+                  アカウント名:{userData.accountName}
                 </div>
                 <div className="w-12/12">
                   <Image
-                    src={datas.img}
-                    width={100}
-                    height={100}
+                    src={`/image/userIcon/${userData.userPhotoPath}`}
+                    width={80}
+                    height={80}
                     alt="icon"
+                    className="rounded-full"
                   ></Image>
                 </div>
-
                 <div>
+                  <div>名前:{userData.name}</div>
                   <div>入社日:{userData.hireDate}</div>
                   <div>職種:{userData.serviceFk}</div>
-                  <div>アカウント名:{userData.accountName}</div>
                   <div>誕生日:{userData.birthDay}</div>
-                  <div>自己紹介:{userData.introduction}</div>
+                  <div>自己紹介:{datas.introduction}</div>
                 </div>
               </div>
             )}
-            {userId == loginId && (
+            {/* エラーになるので一旦コメントアウト */}
+            {/* {userId == loginId && ( */}
               <div className="text-right mr-10 mb-5">
                 <Button
                   label="プロフィール編集"
@@ -183,7 +186,7 @@ const User: NextPage = () => {
                   onClick={editInfo}
                 />
               </div>
-            )}
+            {/* )} */}
           </div>
 
           <div className="w-full text-center mb-2">
@@ -266,34 +269,34 @@ const User: NextPage = () => {
                           )
                         }
                       >
-                    {category}
-                  </Tab>
-                ))}
-              </Tab.List>
-              <Tab.Panels className="mt-2">
-                    {Object.values(categoriesB).map((posts, idx) => (
-                  <Tab.Panel
-                    key={idx}
-                    className="bg-bgc rounded-xl p-3 focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60"
-                  >
-                    {posts.map((post) => (
-                      <div
-                        key={post.id}
-                        className="focus:outline-none relative p-3 rounded-md hover:bg-coolGray-100 cursor-pointer hover:opacity-50"
-                        onClick={() => {
-                          goDetailPage(post.id);
-                        }}
-                      >
-                        <h3 className="text-sm font-medium leading-5">
-                          {post.title}
-                        </h3>
-
-                        <div className="flex mt-1 space-x-1 text-xs font-normal leading-4 text-coolGray-500"></div>
-                      </div>
+                        {category}
+                      </Tab>
                     ))}
-                  </Tab.Panel>
-                ))}
-              </Tab.Panels>
+                  </Tab.List>
+                  <Tab.Panels className="mt-2">
+                    {Object.values(categoriesB).map((posts, idx) => (
+                      <Tab.Panel
+                        key={idx}
+                        className="bg-bgc rounded-xl p-3 focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60"
+                      >
+                        {posts.map((post) => (
+                          <div
+                            key={post.id}
+                            className="focus:outline-none relative p-3 rounded-md hover:bg-coolGray-100 cursor-pointer hover:opacity-50"
+                            onClick={() => {
+                              goDetailPage(post.id);
+                            }}
+                          >
+                            <h3 className="text-sm font-medium leading-5">
+                              {post.title}
+                            </h3>
+
+                            <div className="flex mt-1 space-x-1 text-xs font-normal leading-4 text-coolGray-500"></div>
+                          </div>
+                        ))}
+                      </Tab.Panel>
+                    ))}
+                  </Tab.Panels>
                 </Transition>
               </div>
             </Tab.Group>
