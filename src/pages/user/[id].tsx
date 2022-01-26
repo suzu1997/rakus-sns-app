@@ -1,8 +1,9 @@
+/* eslint-disable prefer-const */
 import { NextPage } from "next";
 import { useCallback, useContext, useState } from "react";
 import Image from "next/image";
 import { SubHeader } from "../../components/Layout/SubHeader";
-import { Tab } from "@headlessui/react";
+import { Tab, Transition } from "@headlessui/react";
 import { Button } from "../../components/Button/Button";
 import { useRouter } from "next/router";
 import useSWR from "swr";
@@ -27,6 +28,9 @@ const User: NextPage = () => {
     img: "/usakus.jpg",
     // jobtype: "FR",
   });
+
+  //いいね履歴タブの表示
+  const [isOpenHis, setIsOpenHis] = useState(false);
 
   //ルーターリンク
   const router = useRouter();
@@ -114,6 +118,14 @@ const User: NextPage = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const tabOpen = (categories: string) => {
+    if (categories === "いいね履歴") {
+      setIsOpenHis(true);
+    } else {
+      setIsOpenHis(false);
+    }
+  };
 
   /**
    * APIで初期表示用データ取得.
@@ -239,6 +251,7 @@ const User: NextPage = () => {
 
               {/* 2回目 */}
               <div>
+                <Transition appear show={isOpenHis}>
                   <Tab.List className="flex p-1 space-x-1 bg-blue-900/20 rounded-xl">
                     {Object.keys(categoriesB).map((category) => (
                       <Tab
@@ -281,6 +294,7 @@ const User: NextPage = () => {
                   </Tab.Panel>
                 ))}
               </Tab.Panels>
+                </Transition>
               </div>
             </Tab.Group>
           </div>
