@@ -96,7 +96,7 @@ export const ReviewCard: FC<Props> = memo((props) => {
               target="reviews"
             />
             <FavoBtn postId={id} favoCount={likeCount} isFavo={myLike} />
-            <TrashBtn postId={id} />
+            <TrashBtn postId={id} type="レビュー"/>
           </div>
         </div>
       </div>

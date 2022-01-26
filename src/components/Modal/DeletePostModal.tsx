@@ -10,7 +10,7 @@ type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
   closeModal: () => void; // モーダルを閉じるメソッド
   postId: number; //投稿ID
-  type?: string; //レビューかつぶやきか
+  type: "レビュー" | "タイムライン" | "タイムラインコメント";
   success?: () => void; //削除成功後にデータ再読み込み
 };
 
