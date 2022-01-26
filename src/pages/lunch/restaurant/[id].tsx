@@ -12,6 +12,7 @@ import { Restaurant } from "../../../types/type";
 import { JAVA_API_URL } from "../../../utils/const";
 import { loginIdContext } from "../../../providers/LoginIdProvider";
 import { useSWRReviews } from "../../../hooks/useSWRReviews";
+import { useModal } from "../../../hooks/useModal";
 
 /**
  * お店情報の詳細を表示するページ.
@@ -19,28 +20,15 @@ import { useSWRReviews } from "../../../hooks/useSWRReviews";
  * @returns お店情報の詳細を表示する画面
  */
 const RestaurantDetail: NextPage = () => {
-  // レビュー投稿のモーダルのオープン状態
-  const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 
-  const userId = useContext(loginIdContext);
+  // ログインユーザーのハッシュ値
+  const { hash } = useContext(loginIdContext);
 
   // レビュー一覧を再検証・再取得する関数をhooksから取得
-  const { reviewsMutate } = useSWRReviews(userId);
+  const { reviewsMutate } = useSWRReviews(hash);
 
-  /**
-   * モーダルを閉じるメソッド.
-   */
-  const closeModal = useCallback(() => {
-    setIsOpen(false);
-  }, [setIsOpen]);
-
-  /**
-   * モーダルを開けるメソッド.
-   */
-  const openModal = useCallback(() => {
-    setIsOpen(true);
-  }, [setIsOpen]);
+  const { modalStatus, openModal, closeModal } = useModal();
 
   // idをURLから取得
   const restaurantId = Number(router.query.id);
@@ -101,7 +89,7 @@ const RestaurantDetail: NextPage = () => {
             </div>
             <ReviewList restaurantId={restaurantId} />
             <PostModal
-              isOpen={isOpen}
+              isOpen={modalStatus}
               closeModal={closeModal}
               title={"レビュー"}
               restaurantId={restaurantId}
