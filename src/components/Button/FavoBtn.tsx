@@ -62,7 +62,7 @@ export const FavoBtn: FC<Props> = memo((props) => {
 
   return (
     <>
-      <button type="button" className="pr-10" onClick={favo}>
+      <button type="button" className="pr-10 outline none" onClick={favo}>
         {isFavo ? (
           <>
             <i className="fas fa-heart text-red-500"></i>
