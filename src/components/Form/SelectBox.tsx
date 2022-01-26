@@ -1,7 +1,7 @@
 import { Dispatch, FC, Fragment, SetStateAction } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { SelectorIcon } from "@heroicons/react/solid";
-import { Option } from "../Lunch/AddByHotpepper";
+import { Option } from "../../types/type";
 
 export type Props = {
   label?: string;
