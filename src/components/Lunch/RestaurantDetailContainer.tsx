@@ -1,9 +1,10 @@
-import Image from "next/image";
 import { FC, memo } from "react";
-import { Restaurant } from "../../types/type";
-import { getRestaurantPhotoPath } from "../../utils/methods";
+import Image from "next/image";
+
 import { GoogleMap } from "./GoogleMap";
 import { Star } from "./Star";
+import { Restaurant } from "../../types/type";
+import { getRestaurantPhotoPath } from "../../utils/methods";
 
 type Props = {
   restaurant: Restaurant;

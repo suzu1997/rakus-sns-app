@@ -1,6 +1,7 @@
 import { FC, memo } from "react";
-import { Tab } from "@headlessui/react";
 import { useRouter } from "next/router";
+import { Tab } from "@headlessui/react";
+
 import { ReviewList } from "./ReviewList";
 import { RestaurantList } from "./RestaurantList";
 import { LunchSearchArea } from "./LunchSearchArea";

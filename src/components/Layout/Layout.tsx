@@ -1,11 +1,12 @@
 import { FC, memo, ReactNode, useCallback, useEffect, useState } from "react";
+import { useRouter } from "next/router";
+
 import { Footer } from "./Footer";
 import { Header } from "./Header";
+import { MenuBar } from "./MenuBar";
 //ログインチェッカーをONにしたいときコメント外す
 import { LoginChecker } from "../Auth";
 import { LoginIdProvider } from "../../providers/LoginIdProvider";
-import { MenuBar } from "./MenuBar";
-import { useRouter } from "next/router";
 
 type Props = {
   children: ReactNode;

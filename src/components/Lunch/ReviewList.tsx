@@ -1,9 +1,10 @@
-import { useRouter } from "next/router";
 import { FC, memo, useContext, useEffect, useState } from "react";
+import { useRouter } from "next/router";
+
+import { ReviewCard } from "./ReviewCard";
+import { LunchReview } from "../../types/type";
 import { useSWRReviews } from "../../hooks/useSWRReviews";
 import { loginIdContext } from "../../providers/LoginIdProvider";
-import { LunchReview } from "../../types/type";
-import { ReviewCard } from "./ReviewCard";
 
 type Props = {
   restaurantId?: number;

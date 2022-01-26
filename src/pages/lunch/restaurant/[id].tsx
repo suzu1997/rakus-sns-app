@@ -1,14 +1,15 @@
+import { useState, useCallback, useContext } from "react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useState, useCallback, useContext } from "react";
-import { Button } from "../../../components/Button/Button";
-import { ReviewList } from "../../../components/Lunch/ReviewList";
-import { PostModal } from "../../../components/Modal/PostModal";
-import { SubHeader } from "../../../components/Layout/SubHeader";
-import { RestaurantDetailContainer } from "../../../components/Lunch/RestaurantDetailContainer";
 import useSWR from "swr";
-import { JAVA_API_URL } from "../../../utils/const";
+
+import { Button } from "../../../components/Button/Button";
+import { PostModal } from "../../../components/Modal/PostModal";
+import { ReviewList } from "../../../components/Lunch/ReviewList";
+import { RestaurantDetailContainer } from "../../../components/Lunch/RestaurantDetailContainer";
+import { SubHeader } from "../../../components/Layout/SubHeader";
 import { Restaurant } from "../../../types/type";
+import { JAVA_API_URL } from "../../../utils/const";
 import { loginIdContext } from "../../../providers/LoginIdProvider";
 import { useSWRReviews } from "../../../hooks/useSWRReviews";
 

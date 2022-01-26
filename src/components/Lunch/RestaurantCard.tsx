@@ -1,9 +1,10 @@
+import { FC, memo } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { FC, memo } from "react";
+
+import { Star } from "./Star";
 import { Restaurant } from "../../types/type";
 import { getRestaurantPhotoPath } from "../../utils/methods";
-import { Star } from "./Star";
 
 export const RestaurantCard: FC<Restaurant> = memo((props) => {
   const { id, name, genreValue, star, type, photoPath } = props;

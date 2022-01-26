@@ -1,6 +1,7 @@
+import { useEffect, useState } from "react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { Button } from "../../components/Button/Button";
 import { LunchTab } from "../../components/Lunch/LunchTab";

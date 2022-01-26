@@ -1,9 +1,10 @@
 import { FC, memo } from "react";
 import Image from "next/image";
+import { useRouter } from "next/router";
+
 import { FavoBtn } from "../Button/FavoBtn";
 import { TrashBtn } from "../Button/TrashBtn";
 import { TimelineComment } from "../../types/type";
-import { useRouter } from "next/router";
 
 type Props = {
   commentList: TimelineComment; //コメントリスト

@@ -1,8 +1,9 @@
 import { FC, memo } from "react";
 import useSWR from "swr";
+
+import { RestaurantCard } from "./RestaurantCard";
 import { Restaurant } from "../../types/type";
 import { JAVA_API_URL } from "../../utils/const";
-import { RestaurantCard } from "./RestaurantCard";
 
 export const RestaurantList: FC = memo(() => {
   const { data, error } = useSWR(`${JAVA_API_URL}/restaurant`);

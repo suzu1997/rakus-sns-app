@@ -1,16 +1,15 @@
-import { FC, memo, useCallback, useEffect, useState, useContext } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import { Fragment } from "react";
-import axios from "axios";
-import { Button } from "../Button/Button";
+import { FC, memo, useCallback, useEffect, useState, useContext, Fragment } from "react";
 import Image from "next/image";
+import useSWR from "swr";
+import axios from "axios";
+import { Dialog, Transition } from "@headlessui/react";
 import toast from "react-hot-toast";
+
+import { Button } from "../Button/Button";
 import { TextArea } from "../Form/TextArea";
 import { SelectBox } from "../Form/SelectBox";
 import { JAVA_API_URL } from "../../utils/const";
 import { loginIdContext } from "../../providers/LoginIdProvider";
-import useSWR from "swr";
-import { UserInfo } from "../../types/type";
 
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか

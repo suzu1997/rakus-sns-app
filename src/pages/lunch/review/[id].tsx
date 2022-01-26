@@ -1,13 +1,14 @@
+import { useContext } from "react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import useSWR from "swr";
-import { SubHeader } from "../../../components/Layout/SubHeader";
+
 import { ReviewCard } from "../../../components/Lunch/ReviewCard";
-import { JAVA_API_URL } from "../../../utils/const";
-import { LunchReview } from "../../../types/type";
-import { useContext } from "react";
-import { loginIdContext } from "../../../providers/LoginIdProvider";
 import { CommentList } from "../../../components/Lunch/CommentList";
+import { SubHeader } from "../../../components/Layout/SubHeader";
+import { LunchReview } from "../../../types/type";
+import { loginIdContext } from "../../../providers/LoginIdProvider";
+import { JAVA_API_URL } from "../../../utils/const";
 
 const ReviewDetail: NextPage = () => {
   const router = useRouter();

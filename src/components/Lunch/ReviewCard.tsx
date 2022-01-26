@@ -1,16 +1,17 @@
+import { FC, memo, MouseEvent, useCallback, useContext } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useSWRConfig } from "swr";
-import { FC, memo, MouseEvent, useCallback, useContext } from "react";
+
 import { CommentIcon } from "../Button/CommentIcon";
 import { FavoBtn } from "../Button/FavoBtn";
-import { Star } from "./Star";
 import { TrashBtn } from "../Button/TrashBtn";
+import { Star } from "./Star";
 import { LinkToRestaurant } from "./LinkToRestaurat";
 import { LunchReview } from "../../types/type";
-import { getFormattedDate, getRestaurantPhotoPath } from "../../utils/methods";
 import { useSWRReviews } from "../../hooks/useSWRReviews";
 import { loginIdContext } from "../../providers/LoginIdProvider";
+import { getFormattedDate, getRestaurantPhotoPath } from "../../utils/methods";
 import { JAVA_API_URL } from "../../utils/const";
 
 type Props = LunchReview & {

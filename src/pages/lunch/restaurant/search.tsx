@@ -1,14 +1,14 @@
-import { NextPage } from "next";
-import axios from "axios";
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 import { useCallback, useState } from "react";
+import { NextPage } from "next";
+import { useRouter } from "next/router";
+import axios from "axios";
+import toast from "react-hot-toast";
+
 import { Button } from "../../../components/Button/Button";
 import { TextInput } from "../../../components/Form/TextInput";
-import { useRouter } from "next/router";
-import { Restaurant } from "../../../types/type";
 import { SubHeader } from "../../../components/Layout/SubHeader";
+import { Restaurant } from "../../../types/type";
 import { JAVA_API_URL } from "../../../utils/const";
-import toast from "react-hot-toast";
 
 const RestaurantSearch: NextPage = () => {
   const router = useRouter();

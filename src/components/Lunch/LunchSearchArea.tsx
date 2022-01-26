@@ -1,8 +1,9 @@
 import { FC, memo, useCallback, useState } from "react";
-import { genreOptions, typeOptions } from "../../utils/options";
+
 import { Button } from "../Button/Button";
 import { SelectBox } from "../Form/SelectBox";
-import { Option } from "./AddByHotpepper";
+import { Option } from "../../types/type";
+import { genreOptions, typeOptions } from "../../utils/options";
 
 /**
  * ランチの並び替えと絞り込みを行うエリア.
@@ -35,6 +36,7 @@ export const LunchSearchArea: FC = memo(() => {
     },
     ...typeOptions,
   ];
+
   // 選択中の並び替え
   const [order, setOrder] = useState<Option>(orderOptions[0]);
   // 選択中のジャンル
