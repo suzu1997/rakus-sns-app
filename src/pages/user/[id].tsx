@@ -38,7 +38,7 @@ const User: NextPage = () => {
   const router = useRouter();
 
   //URLの後ろからid取得
-  const userId = Number(router.query.id);
+  const userId = String(router.query.id);
 
   //ログインID
   const loginId = useContext(loginIdContext);
@@ -175,8 +175,7 @@ const User: NextPage = () => {
                 </div>
               </div>
             )}
-            {/* エラーになるので一旦コメントアウト */}
-            {/* {userId == loginId && ( */}
+            {userId == loginId && (
               <div className="text-right mr-10 mb-5">
                 <Button
                   label="プロフィール編集"
@@ -186,7 +185,7 @@ const User: NextPage = () => {
                   onClick={editInfo}
                 />
               </div>
-            {/* )} */}
+            )}
           </div>
 
           <div className="w-full text-center mb-2">
