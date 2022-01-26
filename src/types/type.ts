@@ -44,6 +44,7 @@ export type UserInfo = {
   accountName: string;
   birthDay: string;
   introduction: string;
+  userPhotoPath: string;
 };
 
 //ユーザ本登録画面
