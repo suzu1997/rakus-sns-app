@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 
 /**
  * モーダルを開け閉めできるhook.
- * @returns
+ * @returns 開閉状況／モーダルを開ける／モーダルを閉じる
  */
 export const useModal = () => {
   // レビュー投稿のモーダルのオープン状態
