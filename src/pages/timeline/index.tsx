@@ -2,7 +2,6 @@ import Image from "next/image";
 import type { NextPage } from "next";
 import { useCallback, useContext, useState } from "react";
 import { SubHeader } from "../../components/Layout/SubHeader";
-import { Button } from "../../components/Button/Button";
 import { CommentIcon } from "../../components/Button/CommentIcon";
 import { FavoBtn } from "../../components/Button/FavoBtn";
 //自分のつぶやきを消せるボタンコンポーネント(自分のつぶやきの時のみ表示させたい)
@@ -11,7 +10,6 @@ import { useRouter } from "next/router";
 import { PostBtn } from "../../components/Button/PostBtn";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { Timeline } from "../../types/type";
-import toast from "react-hot-toast";
 import { useSWRTimeline } from "../../hooks/useSWRTimeline";
 import { JAVA_API_URL } from "../../utils/const";
 import useSWR from "swr";
@@ -28,7 +26,7 @@ const Timeline: NextPage = () => {
   const router = useRouter();
 
   // 投稿一覧を再検証・再取得する関数をhooksから取得
-  const { data, error, loadMoreTimeline, timelineMutate } =
+  const { data, error, loadMoreTimeline, timelineMutate, isLast } =
     useSWRTimeline(loginId);
 
   /**
@@ -152,12 +150,19 @@ const Timeline: NextPage = () => {
           }),
         )}
 
-      <div
-        className="text-text-brown text-center my-5 cursor-pointer hover:text-basic"
-        onClick={loadMoreTimeline}
-      >
-        過去の投稿を見る…
-      </div>
+      {!isLast ? (
+        <div
+          className="text-text-brown text-center my-5 cursor-pointer hover:text-basic"
+          onClick={loadMoreTimeline}
+        >
+          過去の投稿を見る…
+        </div>
+      ) : (
+        <div className="text-text-brown text-center my-5 ">
+          最後まで読み込みました
+        </div>
+      )}
+
       <div>
         <PostBtn success={updateData} />
       </div>
