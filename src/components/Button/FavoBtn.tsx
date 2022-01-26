@@ -18,48 +18,56 @@ type Props = {
  */
 export const FavoBtn: FC<Props> = memo((props) => {
   //ログインID
-  const {hash} = useContext(loginIdContext);
+  const { hash } = useContext(loginIdContext);
 
   //props
   const { postId, favoCount, isFavo, type, success } = props;
 
   /**
-   * はいボタン押下でいいね発動.
+   * ボタン押下でいいね発動.
    */
-  const favo = useCallback(async () => {
-    try {
-      if (type === "タイムライン") {
-        //タイムラインに対するいいね
-        const res = await axios.post(`${JAVA_API_URL}/timeline/like`, {
-          timelineId: postId, //投稿ID
-          userLogicalId: hash, //ログインユーザID
-        });
-        if (res.data.status === "success") {
-          //リロード
-          if (success) {
-            success();
+  const favo = useCallback(
+    async (e) => {
+      // 親要素へのイベントを伝播させない
+      e.stopPropagation();
+      try {
+        if (type === "タイムライン") {
+          //タイムラインに対するいいね
+          const res = await axios.post(`${JAVA_API_URL}/timeline/like`, {
+            timelineId: postId, //投稿ID
+            userLogicalId: hash, //ログインユーザID
+          });
+          if (res.data.status === "success") {
+            //リロード
+            if (success) {
+              success();
+            }
           }
         }
-      }
 
-      if (type === "タイムラインコメント") {
-        const res = await axios.post(`${JAVA_API_URL}/timeline/comment/like`, {
-          commentId: postId, //投稿ID
-          userLogicalId: hash, //ログインユーザID
-        });
-        if (res.data.status === "success") {
-          //リロード
-          if (success) {
-            success();
+        if (type === "タイムラインコメント") {
+          const res = await axios.post(
+            `${JAVA_API_URL}/timeline/comment/like`,
+            {
+              commentId: postId, //投稿ID
+              userLogicalId: hash, //ログインユーザID
+            },
+          );
+          if (res.data.status === "success") {
+            //リロード
+            if (success) {
+              success();
+            }
           }
         }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
 
-    //[]内入れないと変更が反映しないため挿入
-  }, [success, hash, postId, type]);
+      //[]内入れないと変更が反映しないため挿入
+    },
+    [success, hash, postId, type],
+  );
 
   return (
     <>
