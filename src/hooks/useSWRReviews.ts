@@ -35,7 +35,7 @@ export const useSWRReviews = (userId: string) => {
 
     // 「過去のレビューを見る」ボタンを押したとき
     // 一番下の投稿IDをAPIに渡す
-    return `${JAVA_API_URL}/reviews/old/${id}/${userId}`;
+    return `${JAVA_API_URL}/review/old/${id}/${userId}`;
   };
 
   // data: データの連想配列の配列(※ページごとの配列)
