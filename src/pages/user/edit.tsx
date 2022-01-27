@@ -134,7 +134,7 @@ const Edit: NextPage = () => {
 
     try {
       const res = await axios.patch(
-        `${JAVA_API_URL}/user/edit/${loginId}/${hash}`,
+        `${JAVA_API_URL}/user/edit/${hash}`,
         postData,
       );
       if (res.data.status === "success") {
