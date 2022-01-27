@@ -60,11 +60,24 @@ export const FavoBtn: FC<Props> = memo((props) => {
             }
           }
         }
+
+        if (type === "レビュー") {
+          const res = await axios.post(`${JAVA_API_URL}/review/like`, {
+            reviewId: postId, //投稿ID
+            userLogicalId: hash, //ログインユーザID
+          });
+          if (res.data.status === "success") {
+            //リロード
+            if (success) {
+              success();
+            }
+          } else {
+            console.log(res.data.message);
+          }
+        }
       } catch (error) {
         console.log(error);
       }
-
-      //[]内入れないと変更が反映しないため挿入
     },
     [success, hash, postId, type],
   );

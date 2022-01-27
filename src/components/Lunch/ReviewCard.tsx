@@ -71,6 +71,18 @@ export const ReviewCard: FC<Props> = memo((props) => {
   };
 
   /**
+   * レビューへのいいね成功後の処理.
+   * @param reviewId - レビューのID
+   */
+  const likeReviewSuccess = useCallback(
+    (reviewId: number) => {
+      reviewsMutate(); // レビューリストを更新
+      mutate(`${JAVA_API_URL}/review/detail/${reviewId}/${hash}`); // レビュー詳細を更新
+    },
+    [mutate, reviewsMutate, hash],
+  );
+
+  /**
    * レビュー削除成功後の処理.
    */
   const deleteReviewSuccess = useCallback(() => {
@@ -127,7 +139,13 @@ export const ReviewCard: FC<Props> = memo((props) => {
               postId={id}
               target="reviews"
             />
-            <FavoBtn postId={id} favoCount={likeCount} isFavo={myLike} />
+            <FavoBtn
+              postId={id}
+              favoCount={likeCount}
+              isFavo={myLike}
+              type="レビュー"
+              success={() => likeReviewSuccess(id)}
+            />
             {Number(loginId) === userId && (
               <TrashBtn
                 postId={id}
