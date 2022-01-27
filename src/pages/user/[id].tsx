@@ -9,8 +9,9 @@ import Image from "next/image";
 import { Button } from "../../components/Button/Button";
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { loginIdContext } from "../../providers/LoginIdProvider";
-import { UserInfo } from "../../types/type";
 import { JAVA_API_URL } from "../../utils/const";
+import { Timeline, Title, UserInfo } from "../../types/type";
+
 
 
 /**
@@ -43,129 +44,6 @@ const User: NextPage = () => {
     router.push("/user/edit");
   };
 
-  //タブテストデータ
-  // eslint-disable-next-line prefer-const
-  let [categories] = useState({
-    つぶやき: [
-      {
-        id: 1,
-        title: "おはよう",
-        text: "あああああ",
-        subtext: "ううううううう",
-      },
-      {
-        id: 2,
-        title: "こんにちは",
-        text: "あああああ",
-        subtext: "ううううううう",
-      },
-      {
-        id: 3,
-        title: "おはよう",
-        text: "あああああ",
-        subtext: "ううううううう",
-      },
-      {
-        id: 4,
-        title: "こんにちは",
-        text: "あああああ",
-        subtext: "ううううううう",
-      },
-      {
-        id: 5,
-        title: "おはよう",
-        text: "あああああ",
-        subtext: "ううううううう",
-      },
-      {
-        id: 6,
-        title: "こんにちは",
-        text: "あああああ",
-        subtext: "ううううううう",
-      },
-    ],
-    投稿: [
-      {
-        id: 1,
-        title: "やあ",
-        text: "あああああ",
-        subtext: "ううううううう",
-      },
-      {
-        id: 2,
-        title: "よっ",
-        text: "あああああ",
-        subtext: "ううううううう",
-      },
-    ],
-    いいね履歴つぶやき: [
-      {
-        id: 1,
-        title: "つぶやきのいいね",
-        text: "あああああ",
-        subtext: "ううううううう",
-      },
-      {
-        id: 2,
-        title: "いいね",
-        text: "あああああ",
-        subtext: "ううううううう",
-      },
-      {
-        id: 3,
-        title: "つぶやきのいいね",
-        text: "あああああ",
-        subtext: "ううううううう",
-      },
-      {
-        id: 4,
-        title: "いいね",
-        text: "あああああ",
-        subtext: "ううううううう",
-      },
-      {
-        id: 5,
-        title: "つぶやきのいいね",
-        text: "あああああ",
-        subtext: "ううううううう",
-      },
-      {
-        id: 6,
-        title: "いいね",
-        text: "あああああ",
-        subtext: "ううううううう",
-      },
-    ],
-    いいね履歴投稿: [
-      {
-        id: 1,
-        title: "つぶやきのいいね",
-        text: "あああああ",
-        subtext: "ううううううう",
-      },
-      {
-        id: 2,
-        title: "投稿のいいね",
-        text: "あああああ",
-        subtext: "ううううううう",
-      },
-    ],
-    いいね履歴コメント: [
-      {
-        id: 1,
-        title: "つぶやきのいいね",
-        text: "あああああ",
-        subtext: "ううううううう",
-      },
-      {
-        id: 2,
-        title: "投稿のいいね",
-        text: "あああああ",
-        subtext: "ううううううう",
-      },
-    ],
-  });
-
   /**
    * 押下投稿の詳細に画面遷移.
    * @remarks IDによって遷移先をタイムラインページかレビューページに分ける
@@ -182,18 +60,45 @@ const User: NextPage = () => {
   /**
    * APIで初期表示用データ取得.
    */
-  const { data: payload, error } = useSWR(`${JAVA_API_URL}/user/${hash}`);
+  const { data: payload, error } = useSWR(
+    `${JAVA_API_URL}/user/${userId}/${hash}`,
+  );
+
   const userDatas = payload?.user;
+  const userData: UserInfo = userDatas;
 
   if (!error && !userDatas) {
     return <div>Loading...</div>;
   }
-
   if (error) {
     return <div>データを取得できませんでした</div>;
   }
 
-  const userData: UserInfo = userDatas;
+  //履歴表示のやり方例
+  // const userDataId: Array<any> = [loginId];
+  // const userDataName: Array<any> = [userData.name];
+
+  // const timelineData: Timeline = timelineDatas.TimelineList;
+  // console.dir("ああああ" + JSON.stringify(timelineData));
+  // const { data: payload, error } = useSWR(`${JAVA_API_URL}/timeline/${hash}`);
+  // const timelineDatas = payload;
+  // if (!error && !timelineDatas) {
+  //   return <div>Loading...</div>;
+  // }
+  // if (error) {
+  //   return <div>データを取得できませんでした</div>;
+  // }
+  // const time = timelineDatas.TimelineList.map((timeline: any) => timeline.id);
+  //ここまで
+
+  //タブのタイトル
+  const categories: Array<Title> = [
+    { id: 1, title: "つぶやき" },
+    { id: 2, title: "投稿" },
+    { id: 3, title: "いいね履歴つぶやき" },
+    { id: 4, title: "いいね履歴投稿" },
+    { id: 5, title: "いいね履歴コメント" },
+  ];
 
   return (
     <>
@@ -252,43 +157,35 @@ const User: NextPage = () => {
           <div className="w-full px-2 sm:px-0">
             <Tab.Group>
               <Tab.List className="flex p-1 space-x-1  rounded-xl shadow-lg ">
-                {Object.keys(categories).map((category) => (
+                {categories.map((category) => (
                   <Tab
-                    key={category}
+                    key={category.id}
                     className="w-full py-2.5 text-xs font-bold  text-bgc rounded-lg bg-text-brown focus:text-basic focus:bg-bgc hover:text-basic "
                   >
-                    {category}
+                    {category.title}
                   </Tab>
                 ))}
               </Tab.List>
 
               <Tab.Panels>
-                {Object.values(categories).map((posts, idx) => (
-                  <Tab.Panel
-                    key={idx}
-                    className="bg-bgc shadow-lg  rounded-xl p-3 focus:outline-none "
-                  >
-                    {posts.map((post) => (
+                {/* <Tab.Panel
+                  key={time.id}
+                  className="bg-bgc shadow-lg  rounded-xl p-3 focus:outline-none "
+                >
+                  <div>
+                    {timelineDatas.TimelineList.map((time: any) => (
                       <div
-                        key={post.id}
-                        className="focus:outline-none rounded-xl border border-t-1 mt-1 border-blue-100 bg-white relative p-3 hover:bg-coolGray-100 cursor-pointer hover:opacity-50"
+                        key={timelineDatas.TimelineList.id}
+                        className=" border border-t-1 mt-1 border-blue-100text-sm font-medium leading-5 focus:outline-none rounded-xl bg-white relative p-3 hover:bg-coolGray-100 cursor-pointer hover:opacity-50"
                         onClick={() => {
-                          goDetailPage(post.id);
+                          goDetailPage(timelineDatas.TimelineList.id);
                         }}
                       >
-                        <div className="text-sm font-medium leading-5">
-                          {post.title}
-                        </div>
-                        <div className="text-sm font-medium leading-5">
-                          {post.text}
-                        </div>
-                        <div className="text-sm font-medium leading-5">
-                          {post.subtext}
-                        </div>
+                        {time.sentence}
                       </div>
                     ))}
-                  </Tab.Panel>
-                ))}
+                  </div>
+                </Tab.Panel> */}
               </Tab.Panels>
             </Tab.Group>
           </div>

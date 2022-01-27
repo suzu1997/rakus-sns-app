@@ -17,10 +17,14 @@ import { JAVA_API_URL } from "../../../utils/const";
  */
 const ReviewDetail: NextPage = () => {
   const router = useRouter();
+
+  // レビューIDをURLから取得
   const reviewId = Number(router.query.id);
 
+  // ログインユーザーのハッシュ値
   const { hash } = useContext(loginIdContext);
 
+  // データ取得
   const { data, error } = useSWR(
     `${JAVA_API_URL}/review/detail/${reviewId}/${hash}`,
   );
@@ -33,6 +37,7 @@ const ReviewDetail: NextPage = () => {
     return <div>データを取得できませんでした</div>;
   }
 
+  // レビュー情報をデータから抽出
   const review: LunchReview = data.review;
 
   return (
