@@ -32,17 +32,23 @@ const Timeline: NextPage = () => {
    * 画像クリックで投稿ユーザ情報ページに飛ぶ.
    * @param userId - 投稿者ID
    */
-  const goUserPage = (userId: number) => {
-    router.push(`/user/${userId}`);
-  };
+  const goUserPage = useCallback(
+    (userId: number) => {
+      router.push(`/user/${userId}`);
+    },
+    [router],
+  );
 
   /**
    * 投稿クリックで投稿詳細ページに飛ぶ.
    * @param postId - 投稿ID
    */
-  const goDetailPage = (postId: number) => {
-    router.push(`/timeline/${postId}`);
-  };
+  const goDetailPage = useCallback(
+    (postId: number) => {
+      router.push(`/timeline/${postId}`);
+    },
+    [router],
+  );
 
   /**
    * タイムラインの情報を更新するメソッド.
@@ -119,8 +125,8 @@ const Timeline: NextPage = () => {
                     <CommentIcon
                       commentCount={timelime.commentCount}
                       postId={timelime.id}
-                      target="timeline"
                       success={updateData}
+                      title="つぶやきにコメント"
                     />
                     <FavoBtn
                       postId={timelime.id}

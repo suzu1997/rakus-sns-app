@@ -26,9 +26,9 @@ const TweetDetail: NextPage = () => {
   /**
    * 戻るボタン押下で発動.
    */
-  const backPage = () => {
+  const backPage = useCallback(() => {
     router.back();
-  };
+  }, [router]);
 
   //URLの後ろからid取得
   const postId = Number(router.query.id);
