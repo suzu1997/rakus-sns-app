@@ -22,15 +22,10 @@ export const CommentList: FC<Props> = memo((props) => {
 
   //ログインID
   const { hash } = useContext(loginIdContext);
+  const { loginId } = useContext(loginIdContext);
 
   //ルーターリンク
   const router = useRouter();
-
-  /**
-   * ごみ箱ボタン表示非表示判断のため、ログインIDをハッシュ値→通常のIDに変換.
-   */
-  const { data: userInfo } = useSWR(`${JAVA_API_URL}/user/${hash}`);
-  const [trashCheckId] = useState(userInfo?.user.id);
 
   /**
    * コメントリスト取得.
@@ -111,7 +106,7 @@ export const CommentList: FC<Props> = memo((props) => {
                   isFavo={value.myLike}
                   type="タイムラインコメント"
                 />
-                {trashCheckId === value.userId && (
+                {Number(loginId) === value.userId && (
                   <TrashBtn
                     postId={value.id}
                     success={getData}

@@ -1,14 +1,12 @@
-import { FC, memo, useContext, useState } from "react";
+import { FC, memo, useContext } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import useSWR from "swr";
 
 import { FavoBtn } from "../Button/FavoBtn";
 import { CommentIcon } from "../Button/CommentIcon";
 import { TrashBtn } from "../Button/TrashBtn";
 import { Timeline } from "../../types/type";
 import { loginIdContext } from "../../providers/LoginIdProvider";
-import { JAVA_API_URL } from "../../utils/const";
 import { getFormattedDate } from "../../utils/methods";
 
 type Props = {
@@ -23,16 +21,10 @@ export const TimelineDetailPage: FC<Props> = memo((props) => {
   const { detailData, success } = props;
 
   //ログインID
-  const { hash } = useContext(loginIdContext);
+  const { loginId } = useContext(loginIdContext);
 
   //ルーターリンク
   const router = useRouter();
-
-  /**
-   * ごみ箱ボタン表示非表示判断のため、ログインIDをハッシュ値→通常のIDに変換.
-   */
-  const { data: userInfo } = useSWR(`${JAVA_API_URL}/user/${hash}`);
-  const [trashCheckId] = useState(userInfo?.user.id);
 
   /**
    * 画像クリックで投稿ユーザ情報ページに飛ぶ.
@@ -86,7 +78,7 @@ export const TimelineDetailPage: FC<Props> = memo((props) => {
                 isFavo={detailData.myLike}
                 type="タイムライン"
               />
-              {trashCheckId === detailData.userId && (
+              {Number(loginId) === detailData.userId && (
                 <TrashBtn postId={detailData.id} type="タイムライン" />
               )}
             </div>
