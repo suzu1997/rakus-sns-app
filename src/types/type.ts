@@ -82,8 +82,7 @@ export type Timeline = {
 };
 
 //タイムラインコメント
-export type TimelineComment = [
-  {
+export type TimelineComment = {
     id: number;
     userId: number;
     accountName: string;
@@ -99,8 +98,7 @@ export type TimelineComment = [
     read: boolean;
     like: boolean;
     myLike: boolean;
-  },
-];
+  };
 
 //タグのタイトル
 export type Title = {
