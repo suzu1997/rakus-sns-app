@@ -1,14 +1,11 @@
-import { FC, memo, useState, useContext, Fragment } from "react";
+import { FC, memo, Fragment } from "react";
 import Image from "next/image";
-import useSWR from "swr";
 import { Dialog, Transition } from "@headlessui/react";
 
 import { Button } from "../Button/Button";
 import { TextArea } from "../Form/TextArea";
 import { SelectBox } from "../Form/SelectBox";
-import { JAVA_API_URL } from "../../utils/const";
 import { starOptions } from "../../utils/options";
-import { loginIdContext } from "../../providers/LoginIdProvider";
 import { usePostValue } from "../../hooks/usePostValue";
 import { useTimelinePost } from "../../hooks/useTimelinePost";
 import { useTimelineCommentPost } from "../../hooks/useTimelineCommentPost";
@@ -38,6 +35,7 @@ export const PostModal: FC<Props> = memo((props) => {
   } = props;
 
   //入力データ・入力データセット・入力データの内容をstateに格納・入力データ文字数
+  //星・set星・ユーザアイコン
   const { post, setPost, inputPost, postLength, star, setStar, userPhoto } =
     usePostValue(starOptions);
   //タイムライン投稿用
