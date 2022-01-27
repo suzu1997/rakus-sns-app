@@ -73,7 +73,14 @@ const User: NextPage = () => {
     return <div>データを取得できませんでした</div>;
   }
 
-  const userData: UserInfo = userDatas;
+  //タブのタイトル
+  const categories: Array<Title> = [
+    { id: 1, title: "つぶやき" },
+    { id: 2, title: "投稿" },
+    { id: 3, title: "いいね履歴つぶやき" },
+    { id: 4, title: "いいね履歴投稿" },
+    { id: 5, title: "いいね履歴コメント" },
+  ];
 
   return (
     <>
@@ -132,12 +139,12 @@ const User: NextPage = () => {
           <div className="w-full px-2 sm:px-0">
             <Tab.Group>
               <Tab.List className="flex p-1 space-x-1  rounded-xl shadow-lg ">
-                {Object.keys(categories).map((category) => (
+                {categories.map((category) => (
                   <Tab
-                    key={category}
+                    key={category.id}
                     className="w-full py-2.5 text-xs font-bold  text-bgc rounded-lg bg-text-brown focus:text-basic focus:bg-bgc hover:text-basic "
                   >
-                    {category}
+                    {category.title}
                   </Tab>
                 ))}
               </Tab.List>

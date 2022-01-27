@@ -101,3 +101,9 @@ export type TimelineComment = [
     myLike: boolean;
   },
 ];
+
+//タグのタイトル
+export type Title = {
+  id: number;
+  title: string;
+};
