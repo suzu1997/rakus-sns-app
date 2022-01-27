@@ -8,10 +8,11 @@ export type Props = {
   selectedOption: Option;
   select: Dispatch<SetStateAction<Option>>;
   options: Array<{ id: string; name: string }>; // 選択肢
+  fullWidth?: boolean;
 };
 
 export const SelectBox: FC<Props> = (props) => {
-  const { label, selectedOption, select, options } = props;
+  const { label, selectedOption, select, options, fullWidth = false } = props;
 
   return (
     <div>
@@ -21,7 +22,11 @@ export const SelectBox: FC<Props> = (props) => {
       </div>
       <Listbox value={selectedOption} onChange={select}>
         <div className="relative">
-          <Listbox.Button className="relative w-44 sm:w-56 h-8 sm:h-10 lg:w-64 lg:h-11 py-1 pl-3 pr-10 text-left bg-white border border-gray-200 rounded-lg shadow-md focus:outline-none text-xs sm:text-sm">
+          <Listbox.Button
+            className={`${
+              fullWidth ? "w-full" : "w-44 sm:w-56 lg:w-64"
+            } relative h-8 sm:h-10 lg:h-11 py-1 pl-3 pr-10 text-left bg-white border border-gray-200 rounded-lg shadow-md focus:outline-none text-xs sm:text-sm`}
+          >
             <span className="block truncate">{selectedOption.name}</span>
             <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
               <SelectorIcon
