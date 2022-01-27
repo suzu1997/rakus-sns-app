@@ -1,12 +1,12 @@
-import axios from "axios";
-import { title } from "process";
-import { useCallback, useContext, useState } from "react";
+import { useContext } from "react";
 import toast from "react-hot-toast";
+import axios from "axios";
+
 import { loginIdContext } from "../providers/LoginIdProvider";
 import { JAVA_API_URL } from "../utils/const";
 
 /**
- * テキストエリアデータ取得用hook.
+ * タイムラインコメントデータ投稿用hook.
  * @returns
  */
 export const useTimelineCommentPost = () => {
@@ -14,25 +14,17 @@ export const useTimelineCommentPost = () => {
   const { hash } = useContext(loginIdContext);
 
   /**
-   * タイムライン投稿用hook.
+   * タイムラインコメント投稿用hook.
+   * @param postId - 対象投稿ID
    * @param post - 投稿内容
    * @param success - 成功時にデータ更新用メソッド
-   * @returns タイムライン投稿メソッド
+   * @returns タイムラインコメント投稿メソッド
    */
   const timelineCommentPost = async (
     postId: number,
     post: string,
     success: () => void,
   ) => {
-    if (post === "") {
-      alert("入力して下さい");
-      return;
-    }
-    if (post.length > 140) {
-      alert(`${title}は140文字以内にして下さい`);
-      return;
-    }
-
     try {
       const res = await axios.post(`${JAVA_API_URL}/timeline/comment`, {
         userLogicalId: hash, //ログインユーザＩＤ

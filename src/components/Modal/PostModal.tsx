@@ -21,7 +21,8 @@ import { starOptions } from "../../utils/options";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { usePostValue } from "../../hooks/usePostValue";
 import { useTimelinePost } from "../../hooks/useTimelinePost";
-import { useTimelineCommentPost } from "../../hooks/useTimelineComment";
+import { useTimelineCommentPost } from "../../hooks/useTimelineCommentPost";
+import { useReviewPost } from "../../hooks/useReviewPost";
 
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
@@ -50,16 +51,17 @@ export const PostModal: FC<Props> = memo((props) => {
   const { post, setPost, inputPost } = usePostValue();
   const { timelinePost } = useTimelinePost();
   const { timelineCommentPost } = useTimelineCommentPost();
+  const { reviewPost } = useReviewPost();
 
   // ログイン中のユーザーidを取得
   const { hash } = useContext(loginIdContext);
   const { loginId } = useContext(loginIdContext);
 
-  //入力テキスト残り文字数
-  const [postLength, setPostLength] = useState<number>(0);
-
   // 選択した星の数を格納するstate
   const [star, setStar] = useState(starOptions[0]);
+
+  //入力テキスト残り文字数
+  const [postLength, setPostLength] = useState<number>(0);
 
   /**
    * 入力内容を投稿するメソッド.
@@ -76,31 +78,16 @@ export const PostModal: FC<Props> = memo((props) => {
       return;
     }
 
+    //レビュー投稿
     if (title === "レビュー") {
-      try {
-        // レビュー投稿
-        const res = await axios.post(`${JAVA_API_URL}/review`, {
-          userLogicalId: hash,
-          restaurantId,
-          sentence: post,
-          star: Number(star.id),
-        });
-        if (res.data.status === "success") {
-          if (success) {
-            success();
-          }
-          toast.success(
-            `${title}を投稿しました\n${title}内容: ${post}, 星の数: ${star}`,
-          );
-        } else {
-          toast.error(res.data.message);
-        }
-      } catch (e) {
-        toast.error(`${title}の投稿に失敗しました`);
-      }
-
+      reviewPost(post, star, restaurantId, success, title);
       closeModal();
-      // setPost("");
+      setPost("");
+    }
+
+    if (title === "レビューコメント") {
+      closeModal();
+      setPost("");
     }
 
     //タイムライン投稿
