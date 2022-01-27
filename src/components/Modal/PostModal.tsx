@@ -19,6 +19,7 @@ import { SelectBox } from "../Form/SelectBox";
 import { JAVA_API_URL } from "../../utils/const";
 import { starOptions } from "../../utils/options";
 import { loginIdContext } from "../../providers/LoginIdProvider";
+import { usePostValue } from "../../hooks/usePostValue";
 
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
@@ -44,18 +45,7 @@ export const PostModal: FC<Props> = memo((props) => {
     success,
   } = props;
 
-  // ログイン中のユーザーidを取得
-  const { hash } = useContext(loginIdContext);
-  const { loginId } = useContext(loginIdContext);
-
-  //入力テキストの内容を格納するstate
-  const [post, setPost] = useState<string>("");
-
-  //入力テキスト残り文字数
-  const [postLength, setPostLength] = useState<number>(0);
-
-  // 選択した星の数を格納するstate
-  const [star, setStar] = useState(starOptions[0]);
+  const { post, setPost } = usePostValue();
 
   /**
    * 入力テキストの内容をstateに格納する.
@@ -63,6 +53,16 @@ export const PostModal: FC<Props> = memo((props) => {
   const inputPost = useCallback((e) => {
     setPost(e.target.value);
   }, []);
+
+  // ログイン中のユーザーidを取得
+  const { hash } = useContext(loginIdContext);
+  const { loginId } = useContext(loginIdContext);
+
+  //入力テキスト残り文字数
+  const [postLength, setPostLength] = useState<number>(0);
+
+  // 選択した星の数を格納するstate
+  const [star, setStar] = useState(starOptions[0]);
 
   /**
    * 入力内容を投稿するメソッド.
@@ -213,6 +213,7 @@ export const PostModal: FC<Props> = memo((props) => {
                   {title}を投稿
                 </Dialog.Title>
                 {/* レビューの登録なら、星の数を選択してもらう */}
+                {post}
                 <div className="mt-2">
                   <div className="mt-10">
                     {title === "レビュー" && (
