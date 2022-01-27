@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import { useCallback, useContext, useState } from "react";
 import Image from "next/image";
 import { SubHeader } from "../../components/Layout/SubHeader";
-import { Tab, Transition } from "@headlessui/react";
+import { Tab } from "@headlessui/react";
 import { Button } from "../../components/Button/Button";
 import { useRouter } from "next/router";
 import useSWR from "swr";
@@ -12,9 +12,9 @@ import { loginIdContext } from "../../providers/LoginIdProvider";
 import { UserInfo } from "../../types/type";
 
 //タブテスト
-function classNames(...classes: unknown[]) {
-  return classes.filter(Boolean).join(" ");
-}
+// function classNames(...classes: unknown[]) {
+//   return classes.filter(Boolean).join(" ");
+// }
 
 /**
  * ユーザー情報画面
@@ -30,9 +30,6 @@ const User: NextPage = () => {
     introduction:
       "ああああああああああああああああああああああああああああああああああああああああああああ",
   });
-
-  //いいね履歴タブの表示
-  const [isOpenHis, setIsOpenHis] = useState(false);
 
   //ルーターリンク
   const router = useRouter();
@@ -51,60 +48,123 @@ const User: NextPage = () => {
 
   //タブテストデータ
   // eslint-disable-next-line prefer-const
-  let [categoriesA] = useState({
-    つぶやき履歴: [
+  let [categories] = useState({
+    つぶやき: [
       {
         id: 1,
         title: "おはよう",
+        text: "あああああ",
+        subtext: "ううううううう",
       },
       {
         id: 2,
         title: "こんにちは",
+        text: "あああああ",
+        subtext: "ううううううう",
+      },
+      {
+        id: 3,
+        title: "おはよう",
+        text: "あああああ",
+        subtext: "ううううううう",
+      },
+      {
+        id: 4,
+        title: "こんにちは",
+        text: "あああああ",
+        subtext: "ううううううう",
+      },
+      {
+        id: 5,
+        title: "おはよう",
+        text: "あああああ",
+        subtext: "ううううううう",
+      },
+      {
+        id: 6,
+        title: "こんにちは",
+        text: "あああああ",
+        subtext: "ううううううう",
       },
     ],
-    投稿履歴: [
+    投稿: [
       {
         id: 1,
         title: "やあ",
+        text: "あああああ",
+        subtext: "ううううううう",
       },
       {
         id: 2,
         title: "よっ",
+        text: "あああああ",
+        subtext: "ううううううう",
       },
     ],
-    いいね履歴: [{ id: 1, title: "履歴の詳細は以下からご覧ください" }],
-  });
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  let [categoriesB] = useState({
-    つぶやきいいね履歴: [
+    いいね履歴つぶやき: [
       {
         id: 1,
         title: "つぶやきのいいね",
+        text: "あああああ",
+        subtext: "ううううううう",
       },
       {
         id: 2,
         title: "いいね",
+        text: "あああああ",
+        subtext: "ううううううう",
+      },
+      {
+        id: 3,
+        title: "つぶやきのいいね",
+        text: "あああああ",
+        subtext: "ううううううう",
+      },
+      {
+        id: 4,
+        title: "いいね",
+        text: "あああああ",
+        subtext: "ううううううう",
+      },
+      {
+        id: 5,
+        title: "つぶやきのいいね",
+        text: "あああああ",
+        subtext: "ううううううう",
+      },
+      {
+        id: 6,
+        title: "いいね",
+        text: "あああああ",
+        subtext: "ううううううう",
       },
     ],
-    投稿いいね履歴: [
+    いいね履歴投稿: [
       {
         id: 1,
         title: "つぶやきのいいね",
+        text: "あああああ",
+        subtext: "ううううううう",
       },
       {
         id: 2,
         title: "投稿のいいね",
+        text: "あああああ",
+        subtext: "ううううううう",
       },
     ],
-    コメントいいね履歴: [
+    いいね履歴コメント: [
       {
         id: 1,
         title: "つぶやきのいいね",
+        text: "あああああ",
+        subtext: "ううううううう",
       },
       {
         id: 2,
         title: "投稿のいいね",
+        text: "あああああ",
+        subtext: "ううううううう",
       },
     ],
   });
@@ -121,14 +181,6 @@ const User: NextPage = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const tabOpen = (categories: string) => {
-    if (categories === "いいね履歴") {
-      setIsOpenHis(true);
-    } else {
-      setIsOpenHis(false);
-    }
-  };
 
   /**
    * APIで初期表示用データ取得.
@@ -202,103 +254,45 @@ const User: NextPage = () => {
           {/* タブ（履歴表示欄） */}
           <div className="w-full px-2 sm:px-0">
             <Tab.Group>
-              <Tab.List className="flex p-1 space-x-1 bg-blue-900/20 rounded-xl">
-                {Object.keys(categoriesA).map((category) => (
+              <Tab.List className="flex p-1 space-x-1  rounded-xl shadow-lg ">
+                {Object.keys(categories).map((category) => (
                   <Tab
                     key={category}
-                    className={({ selected }) =>
-                      classNames(
-                        "w-full py-2.5 text-sm font-bold leading-5 font-medium text-bgc rounded-lg",
-                        "focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60 bg-text-brown",
-                        selected
-                          ? "bg-white shadow"
-                          : "text-blue-100 hover:bg-white/[0.12] hover:text-basic",
-                      )
-                    }
+                    className="w-full py-2.5 text-xs font-bold  text-bgc rounded-lg bg-text-brown focus:text-basic focus:bg-bgc hover:text-basic "
                   >
-                    <div
-                      onClick={() => {
-                        tabOpen(category);
-                      }}
-                    >
-                      {category}
-                    </div>
+                    {category}
                   </Tab>
                 ))}
               </Tab.List>
 
-              <Tab.Panels className="mt-2">
-                {Object.values(categoriesA).map((posts, idx) => (
+              <Tab.Panels>
+                {Object.values(categories).map((posts, idx) => (
                   <Tab.Panel
                     key={idx}
-                    className="bg-bgc rounded-xl p-3 focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60"
+                    className="bg-bgc shadow-lg  rounded-xl p-3 focus:outline-none "
                   >
                     {posts.map((post) => (
                       <div
                         key={post.id}
-                        className="focus:outline-none relative p-3 rounded-md hover:bg-coolGray-100 cursor-pointer hover:opacity-50"
+                        className="focus:outline-none rounded-xl border border-t-1 mt-1 border-blue-100 bg-white relative p-3 hover:bg-coolGray-100 cursor-pointer hover:opacity-50"
                         onClick={() => {
                           goDetailPage(post.id);
                         }}
                       >
-                        <h3 className="text-sm font-medium leading-5">
+                        <div className="text-sm font-medium leading-5">
                           {post.title}
-                        </h3>
-
-                        <div className="flex space-x-1 text-xs font-normal leading-4 text-coolGray-500"></div>
+                        </div>
+                        <div className="text-sm font-medium leading-5">
+                          {post.text}
+                        </div>
+                        <div className="text-sm font-medium leading-5">
+                          {post.subtext}
+                        </div>
                       </div>
                     ))}
                   </Tab.Panel>
                 ))}
               </Tab.Panels>
-
-              {/* 2回目 */}
-              <div>
-                <Transition appear show={isOpenHis}>
-                  <Tab.List className="flex p-1 space-x-1 bg-blue-900/20 rounded-xl">
-                    {Object.keys(categoriesB).map((category) => (
-                      <Tab
-                        key={category}
-                        className={({ selected }) =>
-                          classNames(
-                            "w-full py-2.5 text-xs font-bold leading-5 font-medium text-bgc rounded-lg",
-                            "focus:outline-none focus:ring-2 ring-offset-2 ring-offset-red-400 ring-white ring-opacity-60 bg-text-brown",
-                            selected
-                              ? "bg-white shadow"
-                              : "text-blue-100 hover:bg-white/[0.12] hover:text-basic",
-                          )
-                        }
-                      >
-                        {category}
-                      </Tab>
-                    ))}
-                  </Tab.List>
-                  <Tab.Panels className="mt-2">
-                    {Object.values(categoriesB).map((posts, idx) => (
-                      <Tab.Panel
-                        key={idx}
-                        className="bg-bgc rounded-xl p-3 focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60"
-                      >
-                        {posts.map((post) => (
-                          <div
-                            key={post.id}
-                            className="focus:outline-none relative p-3 rounded-md hover:bg-coolGray-100 cursor-pointer hover:opacity-50"
-                            onClick={() => {
-                              goDetailPage(post.id);
-                            }}
-                          >
-                            <h3 className="text-sm font-medium leading-5">
-                              {post.title}
-                            </h3>
-
-                            <div className="flex mt-1 space-x-1 text-xs font-normal leading-4 text-coolGray-500"></div>
-                          </div>
-                        ))}
-                      </Tab.Panel>
-                    ))}
-                  </Tab.Panels>
-                </Transition>
-              </div>
             </Tab.Group>
           </div>
         </div>

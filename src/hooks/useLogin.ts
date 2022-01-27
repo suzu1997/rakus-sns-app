@@ -23,7 +23,7 @@ const schema = yup.object().shape({
 });
 
 /**
- * ログインページで使用する機能
+ * ログインページで使用する機能.
  * @returns
  * - register:入力したデータ
  * - handleSubmit:データを入力した際のリアルタイム更新
@@ -84,5 +84,10 @@ export const useLogin = () => {
     });
   };
 
-  return { register, handleSubmit, errors, onSubmit };
+  return {
+    register,
+    handleSubmit,
+    errors,
+    onSubmit,
+  };
 };

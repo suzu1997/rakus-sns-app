@@ -15,11 +15,11 @@ const CompPreSignUp: NextPage = () => {
         <div className="text-center text-sm mt-5">
           送信したメールより本登録をお願いします
         </div>
-        <div className="mt-10 text-sm">
+        <div className="mt-3 text-sm">
           <LinkComp
-            firstText=" しばらく待っていただいて届かない場合は"
+            firstText="しばらく待っていただいて届かない場合は"
             linkText="コチラ"
-            lastText="  から再度お手続きをお願いします"
+            lastText="から再度お手続きをお願いします"
             url="/auth/presignup"
           ></LinkComp>
         </div>
