@@ -43,6 +43,7 @@ export const ReviewCard: FC<Props> = memo((props) => {
 
   const router = useRouter();
 
+  // グローバルなmutate関数を取得
   const { mutate } = useSWRConfig();
 
   // ユーザーのハッシュ値

@@ -22,9 +22,9 @@ export const LoginIdProvider: FC<Props> = (props) => {
   //cookie
   const cookie = new Cookie();
   // cookieからハッシュ値を取得
-  const hash = cookie.get("hash");
+  const hash: string = cookie.get("hash");
   // cookieからユーザーIDを取得
-  const loginId = cookie.get("loginId");
+  const loginId: number = cookie.get("loginId");
 
   return (
     <loginIdContext.Provider value={{ hash, loginId }}>
