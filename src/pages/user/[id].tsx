@@ -62,13 +62,16 @@ const User: NextPage = () => {
   /**
    * APIで初期表示用データ取得.
    */
-  const { data: payload, error } = useSWR(`${JAVA_API_URL}/user/${hash}`);
+  const { data: payload, error } = useSWR(
+    `${JAVA_API_URL}/user/${userId}/${hash}`,
+  );
+
   const userDatas = payload?.user;
+  const userData: UserInfo = userDatas;
 
   if (!error && !userDatas) {
     return <div>Loading...</div>;
   }
-
   if (error) {
     return <div>データを取得できませんでした</div>;
   }
@@ -169,8 +172,8 @@ const User: NextPage = () => {
               <Tab.Panels>
                 {/* <Tab.Panel
                   key={time.id}
-                    className="bg-bgc shadow-lg  rounded-xl p-3 focus:outline-none "
-                  >
+                  className="bg-bgc shadow-lg  rounded-xl p-3 focus:outline-none "
+                >
                   <div>
                     {timelineDatas.TimelineList.map((time: any) => (
                       <div
