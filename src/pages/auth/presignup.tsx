@@ -1,7 +1,8 @@
+import { NextPage } from "next";
+
 import { TextInput } from "../../components/Form/TextInput";
 import { Button } from "../../components/Button/Button";
 import { SelectBox } from "../../components/Form/SelectBox";
-import { NextPage } from "next";
 import { usePreSignup } from "../../hooks/usePreSignup";
 
 /**

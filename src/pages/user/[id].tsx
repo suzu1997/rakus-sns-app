@@ -1,20 +1,17 @@
 /* eslint-disable prefer-const */
-import { NextPage } from "next";
 import { useCallback, useContext, useState } from "react";
-import Image from "next/image";
-import { SubHeader } from "../../components/Layout/SubHeader";
-import { Tab } from "@headlessui/react";
-import { Button } from "../../components/Button/Button";
+import { NextPage } from "next";
 import { useRouter } from "next/router";
+import { Tab } from "@headlessui/react";
 import useSWR from "swr";
-import { JAVA_API_URL } from "../../utils/const";
+import Image from "next/image";
+
+import { Button } from "../../components/Button/Button";
+import { SubHeader } from "../../components/Layout/SubHeader";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { UserInfo } from "../../types/type";
+import { JAVA_API_URL } from "../../utils/const";
 
-//タブテスト
-// function classNames(...classes: unknown[]) {
-//   return classes.filter(Boolean).join(" ");
-// }
 
 /**
  * ユーザー情報画面
