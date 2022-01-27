@@ -1,67 +1,28 @@
-import { FC, memo, useCallback, useContext, useEffect, useState } from "react";
+import { FC, memo, useContext } from "react";
 import Image from "next/image";
+import { useRouter } from "next/router";
+
 import { FavoBtn } from "../Button/FavoBtn";
 import { TrashBtn } from "../Button/TrashBtn";
 import { TimelineComment } from "../../types/type";
-import { useRouter } from "next/router";
-import useSWR from "swr";
-import { JAVA_API_URL } from "../../utils/const";
 import { loginIdContext } from "../../providers/LoginIdProvider";
-import axios from "axios";
 
 type Props = {
-  postId: number; //コメントリスト
+  commentList: Array<TimelineComment>; //コメントリスト
+  success: () => void; //成功したときにデータ再読み込み
 };
 
 /**
  * タイムライン詳細ページのコメントコンポーネント.
  */
 export const CommentList: FC<Props> = memo((props) => {
-  const { postId } = props;
+  const { commentList, success } = props;
 
   //ログインID
-  const { hash } = useContext(loginIdContext);
+  const { loginId } = useContext(loginIdContext);
 
   //ルーターリンク
   const router = useRouter();
-
-  /**
-   * ごみ箱ボタン表示非表示判断のため、ログインIDをハッシュ値→通常のIDに変換.
-   */
-  const { data: userInfo } = useSWR(`${JAVA_API_URL}/user/${hash}`);
-  const [trashCheckId] = useState(userInfo?.user.id);
-
-  /**
-   * コメントリスト取得.
-   */
-  const { data: timelineDetail } = useSWR(
-    `${JAVA_API_URL}/timeline/detail/${postId}/${hash}`,
-  );
-  const [commentList, setCommentList] = useState<TimelineComment>(
-    timelineDetail.commentList,
-  );
-
-  /**
-   * 投稿の読み込み直し.
-   */
-  const getData = useCallback(async () => {
-    try {
-      const res = await axios.get(
-        `${JAVA_API_URL}/timeline/detail/${postId}/${hash}`,
-      );
-      // タイムライン情報をdataから抽出
-      setCommentList(res.data.commentList);
-    } catch (error) {
-      console.log(error);
-    }
-  }, [postId, hash]);
-
-  /**
-   * リロード問題解消用.
-   */
-  useEffect(() => {
-    getData();
-  }, [getData]);
 
   /**
    * 画像クリックで投稿ユーザ情報ページに飛ぶ.
@@ -71,20 +32,11 @@ export const CommentList: FC<Props> = memo((props) => {
     router.push(`/user/${userId}`);
   };
 
-  //初期値エラー
-  if (!commentList) {
-    return (
-      <div className="flex justify-center pt-10 w-full">
-        <div className="animate-spin h-8 w-8 bg-basic rounded-xl"></div>
-      </div>
-    );
-  }
-
   return (
-    <div className="border border-t-0 border-gray-200">
+    <>
       <div>
         {commentList.map((value, key) => (
-          <div key={key} className="flex">
+          <div key={key} className="flex border border-t-0 border-gray-200 ">
             <div className="w-1/5 text-center pt-5 cursor-pointer hover:opacity-50">
               <Image
                 src={`/image/userIcon/${value.userPhotoPath}`}
@@ -106,14 +58,14 @@ export const CommentList: FC<Props> = memo((props) => {
                 <FavoBtn
                   postId={value.id}
                   favoCount={value.commentLikeCount}
-                  success={getData}
+                  success={success}
                   isFavo={value.myLike}
                   type="タイムラインコメント"
                 />
-                {trashCheckId === value.userId && (
+                {Number(loginId) === value.userId && (
                   <TrashBtn
                     postId={value.id}
-                    success={getData}
+                    success={success}
                     type="タイムラインコメント"
                   />
                 )}
@@ -122,6 +74,6 @@ export const CommentList: FC<Props> = memo((props) => {
           </div>
         ))}
       </div>
-    </div>
+    </>
   );
 });
