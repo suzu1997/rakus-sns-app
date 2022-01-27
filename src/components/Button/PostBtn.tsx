@@ -3,7 +3,7 @@ import { useModal } from "../../hooks/useModal";
 import { PostModal } from "../Modal/PostModal";
 
 type Props = {
-  success?: () => void; //投稿完了後、自動で更新したい場合は更新のメソッドを渡す
+  success: () => void; //投稿完了後、自動で更新したい場合は更新のメソッドを渡す
 };
 
 export const PostBtn: FC<Props> = memo((props) => {

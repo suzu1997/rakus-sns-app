@@ -1,6 +1,7 @@
 import { FC, memo } from "react";
-import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
+import { Dialog, Transition } from "@headlessui/react";
+
 import { Button } from "../Button/Button";
 
 type Props = {
