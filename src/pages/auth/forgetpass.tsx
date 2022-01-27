@@ -5,6 +5,7 @@ import { Button } from "../../components/Button/Button";
 import { ConfModal } from "../../components//Modal/ConfModal";
 import { useForgetPass } from "../../hooks/useForgetPass";
 
+
 /**
  * パスワードを忘れたときの画面.
  * @returns パスワードを忘れたときの画面
@@ -19,6 +20,7 @@ const ForgetPass: NextPage = () => {
     doOnButton,
     isOpen,
   } = useForgetPass();
+
 
   return (
     <>
@@ -51,7 +53,7 @@ const ForgetPass: NextPage = () => {
             </div>{" "}
           </div>{" "}
           <ConfModal
-            isOpen={isOpen}
+            isOpen={modalStatus}
             closeModal={closeModal}
             title="ご入力いただいたメールアドレス宛にメールを送信しました"
             message="送信したメールアドレスよりパスワード変更手続きをお願い致します"

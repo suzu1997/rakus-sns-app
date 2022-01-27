@@ -1,11 +1,9 @@
-import { FC, Fragment, memo, useCallback, useContext } from "react";
+import { FC, Fragment, memo, useContext } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import axios from "axios";
-import toast from "react-hot-toast";
 
 import { Button } from "../Button/Button";
-import { JAVA_API_URL } from "../../utils/const";
 import { loginIdContext } from "../../providers/LoginIdProvider";
+import { useDeletePost } from "../../hooks/useDeletePost";
 
 type Props = {
   postId: number; //投稿ID
@@ -14,7 +12,7 @@ type Props = {
     | "タイムラインコメント"
     | "レビュー"
     | "レビューコメント"; //レビューかタイムラインか
-  success?: () => void; //削除成功後にデータ再読み込み
+  success: () => void; //削除成功後にデータ再読み込み
   modalStatus: boolean; //モーダルの開閉状況
   closeModal: () => void;
 };
@@ -26,72 +24,10 @@ type Props = {
 export const DeletePostModal: FC<Props> = memo((props) => {
   const { postId, type, success, modalStatus, closeModal } = props;
   //ログインID
-  const {hash} = useContext(loginIdContext);
+  const { hash } = useContext(loginIdContext);
 
-  /**
-   * はいボタン押下で発動.(未実装)
-   */
-  const deletePost = useCallback(async () => {
-    try {
-      //タイムラインに対する削除
-      if (type === "タイムライン") {
-        const res = await axios.delete(
-          `${JAVA_API_URL}/timeline/${postId}/${hash}`,
-        );
-        if (res.data.status === "success") {
-          toast.success("削除しました");
-          //リロード
-          if (success) {
-            success();
-          }
-          closeModal();
-        } else {
-          toast.error(res.data.message);
-          closeModal();
-        }
-      }
-
-      //タイムラインコメントに対する削除
-      if (type === "タイムラインコメント") {
-        const res = await axios.delete(
-          `${JAVA_API_URL}/timeline/comment/${postId}/${hash}`,
-        );
-        if (res.data.status === "success") {
-          toast.success("削除しました");
-          //リロード
-          if (success) {
-            success();
-          }
-          closeModal();
-        } else {
-          toast.error(res.data.message);
-          closeModal();
-        }
-      }
-
-      //レビューに対する削除
-      if (type === "レビュー") {
-        const res = await axios.delete(`${JAVA_API_URL}/review/${postId}`, {
-          data: {
-            userLogicalId: hash,
-          },
-        });
-        if (res.data.status === "success") {
-          toast.success("削除しました");
-          // レビュー一覧再取得
-          if (success) {
-            success();
-          }
-          closeModal();
-        } else {
-          toast.error(res.data.message);
-          closeModal();
-        }
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }, [closeModal, hash, postId, success, type]);
+  // 投稿削除のカスタムフックを使用
+  const { deletePost } = useDeletePost(postId, type, success, hash);
 
   return (
     <>
