@@ -9,7 +9,6 @@ import Image from "next/image";
 import { Button } from "../../components/Button/Button";
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { loginIdContext } from "../../providers/LoginIdProvider";
-import { UserInfo } from "../../types/type";
 import { JAVA_API_URL } from "../../utils/const";
 import { Timeline, Title, UserInfo } from "../../types/type";
 

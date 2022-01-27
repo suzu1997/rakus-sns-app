@@ -21,7 +21,6 @@ const ForgetPass: NextPage = () => {
     isOpen,
   } = useForgetPass();
 
-
   return (
     <>
       <div className="border-solid  border-2 border-bgc-200 m-10  shadow-lg rounded-xl text-center">
