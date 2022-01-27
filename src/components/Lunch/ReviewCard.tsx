@@ -138,6 +138,7 @@ export const ReviewCard: FC<Props> = memo((props) => {
               commentCount={commentCount}
               postId={id}
               target="reviews"
+              success={() => alert("コメント成功")}
             />
             <FavoBtn
               postId={id}
