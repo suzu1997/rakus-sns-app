@@ -20,6 +20,7 @@ import { JAVA_API_URL } from "../../utils/const";
 import { starOptions } from "../../utils/options";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { usePostValue } from "../../hooks/usePostValue";
+import { useTimelinePost } from "../../hooks/useTimelinePost";
 
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
@@ -45,14 +46,8 @@ export const PostModal: FC<Props> = memo((props) => {
     success,
   } = props;
 
-  const { post, setPost } = usePostValue();
-
-  /**
-   * 入力テキストの内容をstateに格納する.
-   */
-  const inputPost = useCallback((e) => {
-    setPost(e.target.value);
-  }, []);
+  const { post, setPost, inputPost } = usePostValue();
+  const { sendTimelinePost } = useTimelinePost();
 
   // ログイン中のユーザーidを取得
   const { hash } = useContext(loginIdContext);
@@ -103,27 +98,12 @@ export const PostModal: FC<Props> = memo((props) => {
       }
 
       closeModal();
-      setPost("");
+      // setPost("");
     }
 
     //タイムライン投稿
     if (title === "つぶやき") {
-      try {
-        const res = await axios.post(`${JAVA_API_URL}/timeline`, {
-          userLogicalId: hash, //ログインユーザID
-          sentence: post, //投稿内容
-        });
-        if (res.data.status === "success") {
-          toast.success(`${title}を投稿しました\n${title}内容: ${post}`);
-          if (success) {
-            success();
-          }
-        } else {
-          toast.error(`${res.data.message}`);
-        }
-      } catch (e) {
-        toast.error(`${title}の投稿に失敗しました`);
-      }
+      sendTimelinePost(post, success);
       closeModal();
       setPost("");
     }
@@ -147,7 +127,7 @@ export const PostModal: FC<Props> = memo((props) => {
         toast.error(`${title}の投稿に失敗しました`);
       }
       closeModal();
-      setPost("");
+      // setPost("");
     }
   };
 
@@ -212,6 +192,7 @@ export const PostModal: FC<Props> = memo((props) => {
                 >
                   {title}を投稿
                 </Dialog.Title>
+                {post}
                 {/* レビューの登録なら、星の数を選択してもらう */}
                 {post}
                 <div className="mt-2">
