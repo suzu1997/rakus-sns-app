@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import { useCallback, useContext, useState } from "react";
 import Image from "next/image";
 import { SubHeader } from "../../components/Layout/SubHeader";
-import { Tab, Transition } from "@headlessui/react";
+import { Tab } from "@headlessui/react";
 import { Button } from "../../components/Button/Button";
 import { useRouter } from "next/router";
 import useSWR from "swr";
@@ -12,9 +12,9 @@ import { loginIdContext } from "../../providers/LoginIdProvider";
 import { UserInfo } from "../../types/type";
 
 //タブテスト
-function classNames(...classes: unknown[]) {
-  return classes.filter(Boolean).join(" ");
-}
+// function classNames(...classes: unknown[]) {
+//   return classes.filter(Boolean).join(" ");
+// }
 
 /**
  * ユーザー情報画面
