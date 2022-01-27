@@ -12,7 +12,7 @@ const CompUpdatePass: NextPage = () => {
         <div className="text-lg sm:text-3xl lg:text-3xl text-text-brown mt-5 font-bold ">
           パスワードの変更が完了しました
         </div>
-        <div className="mt-10">
+        <div className="mt-3">
           <LinkComp
             linkText="ログインページはコチラから"
             url="/auth/login"
