@@ -38,7 +38,7 @@ export const PostModal: FC<Props> = memo((props) => {
   } = props;
 
   //入力データ・入力データセット・入力データの内容をstateに格納・入力データ文字数
-  const { post, setPost, inputPost, postLength, star, setStar } =
+  const { post, setPost, inputPost, postLength, star, setStar, userPhoto } =
     usePostValue(starOptions);
   //タイムライン投稿用
   const { timelinePost } = useTimelinePost();
@@ -48,10 +48,6 @@ export const PostModal: FC<Props> = memo((props) => {
   const { reviewPost } = useReviewPost();
   //レビューコメント投稿用
   const { reviewCommentPost } = useReviewCommentPost();
-
-  // ログイン中のユーザーidを取得
-  const { hash } = useContext(loginIdContext);
-  const { loginId } = useContext(loginIdContext);
 
   /**
    * 入力内容を投稿するメソッド.
@@ -94,13 +90,6 @@ export const PostModal: FC<Props> = memo((props) => {
       setPost("");
     }
   };
-
-  /**
-   * APIを使用して画像データ取得.
-   */
-  const { data } = useSWR(`${JAVA_API_URL}/user/${loginId}/${hash}`);
-  // 個人情報をdataから抽出
-  const [userPhoto] = useState<string>(data?.user.userPhotoPath);
 
   return (
     <>

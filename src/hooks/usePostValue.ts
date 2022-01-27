@@ -1,4 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
+import useSWR from "swr";
+import { loginIdContext } from "../providers/LoginIdProvider";
+import { JAVA_API_URL } from "../utils/const";
 
 /**
  * テキストエリアデータ取得用hook.
@@ -14,6 +17,10 @@ export const usePostValue = (starOptions: any) => {
   // 選択した星の数を格納するstate
   const [star, setStar] = useState(starOptions[0]);
 
+  // ログイン中のユーザーidを取得
+  const { hash } = useContext(loginIdContext);
+  const { loginId } = useContext(loginIdContext);
+
   /**
    * リアルタイムに文字数をカウントしてくれる.
    */
@@ -28,5 +35,12 @@ export const usePostValue = (starOptions: any) => {
     setPost(e.target.value);
   }, []);
 
-  return { post, setPost, inputPost, postLength, star, setStar };
+  /**
+   * APIを使用して画像データ取得.
+   */
+  const { data } = useSWR(`${JAVA_API_URL}/user/${loginId}/${hash}`);
+  // 個人情報をdataから抽出
+  const [userPhoto] = useState<string>(data?.user.userPhotoPath);
+
+  return { post, setPost, inputPost, postLength, star, setStar, userPhoto };
 };
