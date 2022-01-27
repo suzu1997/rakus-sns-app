@@ -8,8 +8,8 @@ import { TimelineComment } from "../../types/type";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 
 type Props = {
-  commentList: TimelineComment;
-  success: () => void;
+  commentList: TimelineComment; //コメントリスト
+  success: () => void; //成功したときにデータ再読み込み
 };
 
 /**
