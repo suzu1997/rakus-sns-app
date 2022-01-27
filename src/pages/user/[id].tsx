@@ -31,9 +31,6 @@ const User: NextPage = () => {
       "ああああああああああああああああああああああああああああああああああああああああああああ",
   });
 
-  //いいね履歴タブの表示
-  const [isOpenHis, setIsOpenHis] = useState(false);
-
   //ルーターリンク
   const router = useRouter();
 
@@ -50,60 +47,123 @@ const User: NextPage = () => {
 
   //タブテストデータ
   // eslint-disable-next-line prefer-const
-  let [categoriesA] = useState({
-    つぶやき履歴: [
+  let [categories] = useState({
+    つぶやき: [
       {
         id: 1,
         title: "おはよう",
+        text: "あああああ",
+        subtext: "ううううううう",
       },
       {
         id: 2,
         title: "こんにちは",
+        text: "あああああ",
+        subtext: "ううううううう",
+      },
+      {
+        id: 3,
+        title: "おはよう",
+        text: "あああああ",
+        subtext: "ううううううう",
+      },
+      {
+        id: 4,
+        title: "こんにちは",
+        text: "あああああ",
+        subtext: "ううううううう",
+      },
+      {
+        id: 5,
+        title: "おはよう",
+        text: "あああああ",
+        subtext: "ううううううう",
+      },
+      {
+        id: 6,
+        title: "こんにちは",
+        text: "あああああ",
+        subtext: "ううううううう",
       },
     ],
-    投稿履歴: [
+    投稿: [
       {
         id: 1,
         title: "やあ",
+        text: "あああああ",
+        subtext: "ううううううう",
       },
       {
         id: 2,
         title: "よっ",
+        text: "あああああ",
+        subtext: "ううううううう",
       },
     ],
-    いいね履歴: [{ id: 1, title: "履歴の詳細は以下からご覧ください" }],
-  });
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  let [categoriesB] = useState({
-    つぶやきいいね履歴: [
+    いいね履歴つぶやき: [
       {
         id: 1,
         title: "つぶやきのいいね",
+        text: "あああああ",
+        subtext: "ううううううう",
       },
       {
         id: 2,
         title: "いいね",
+        text: "あああああ",
+        subtext: "ううううううう",
+      },
+      {
+        id: 3,
+        title: "つぶやきのいいね",
+        text: "あああああ",
+        subtext: "ううううううう",
+      },
+      {
+        id: 4,
+        title: "いいね",
+        text: "あああああ",
+        subtext: "ううううううう",
+      },
+      {
+        id: 5,
+        title: "つぶやきのいいね",
+        text: "あああああ",
+        subtext: "ううううううう",
+      },
+      {
+        id: 6,
+        title: "いいね",
+        text: "あああああ",
+        subtext: "ううううううう",
       },
     ],
-    投稿いいね履歴: [
+    いいね履歴投稿: [
       {
         id: 1,
         title: "つぶやきのいいね",
+        text: "あああああ",
+        subtext: "ううううううう",
       },
       {
         id: 2,
         title: "投稿のいいね",
+        text: "あああああ",
+        subtext: "ううううううう",
       },
     ],
-    コメントいいね履歴: [
+    いいね履歴コメント: [
       {
         id: 1,
         title: "つぶやきのいいね",
+        text: "あああああ",
+        subtext: "ううううううう",
       },
       {
         id: 2,
         title: "投稿のいいね",
+        text: "あああああ",
+        subtext: "ううううううう",
       },
     ],
   });
@@ -198,8 +258,8 @@ const User: NextPage = () => {
                   <Tab
                     key={category}
                     className="w-full py-2.5 text-xs font-bold  text-bgc rounded-lg bg-text-brown focus:text-basic focus:bg-bgc hover:text-basic "
-                    >
-                      {category}
+                  >
+                    {category}
                   </Tab>
                 ))}
               </Tab.List>
@@ -220,18 +280,18 @@ const User: NextPage = () => {
                       >
                         <div className="text-sm font-medium leading-5">
                           {post.title}
-                      </div>
+                        </div>
                         <div className="text-sm font-medium leading-5">
                           {post.text}
                         </div>
                         <div className="text-sm font-medium leading-5">
                           {post.subtext}
                         </div>
-                          </div>
-                        ))}
-                      </Tab.Panel>
+                      </div>
                     ))}
-                  </Tab.Panels>
+                  </Tab.Panel>
+                ))}
+              </Tab.Panels>
             </Tab.Group>
           </div>
         </div>
