@@ -11,7 +11,7 @@ import { getFormattedDate } from "../../utils/methods";
 
 type Props = {
   detailData: Timeline; //タイムライン詳細データ
-  success?: () => void; //データの更新
+  success: () => void; //データの更新
 };
 
 /**
@@ -70,6 +70,7 @@ export const TimelineDetailPage: FC<Props> = memo((props) => {
                 postId={detailData.id}
                 target="timeline"
                 success={success}
+                title="タイムラインコメント"
               />
               <FavoBtn
                 postId={detailData.id}

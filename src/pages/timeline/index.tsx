@@ -121,6 +121,7 @@ const Timeline: NextPage = () => {
                       postId={timelime.id}
                       target="timeline"
                       success={updateData}
+                      title="タイムラインコメント"
                     />
                     <FavoBtn
                       postId={timelime.id}

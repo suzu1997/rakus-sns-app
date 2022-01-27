@@ -3,10 +3,11 @@ import { PostModal } from "../Modal/PostModal";
 
 //コメント数・対象の投稿IDを受け取る
 export type Props = {
+  title: "タイムラインコメント" | "レビューコメント";
   commentCount: number;
-  postId?: number; // 対象の投稿ID
+  postId: number; // 対象の投稿ID
   target: "timeline" | "reviews"; // 対象の投稿がタイムラインかレビューか
-  success?: () => void; //投稿完了後、自動で更新したい場合は更新のメソッドを渡す
+  success: () => void; //投稿完了後、自動で更新したい場合は更新のメソッドを渡す
 };
 
 /**
@@ -14,7 +15,7 @@ export type Props = {
  * @remarks コメント数を渡してあげる
  */
 export const CommentIcon: FC<Props> = memo((props) => {
-  const { commentCount, postId = 1, target, success } = props;
+  const { commentCount, postId, target, success, title } = props;
   // コメント投稿のモーダルのオープン状態
   const [isCommentOpen, setCommentIsOpen] = useState(false);
 
@@ -40,7 +41,7 @@ export const CommentIcon: FC<Props> = memo((props) => {
       <PostModal
         isOpen={isCommentOpen}
         closeModal={closeCommentModal}
-        title={"コメント"}
+        title={title}
         postId={postId}
         target={target}
         success={success}

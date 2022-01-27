@@ -26,7 +26,7 @@ import { useTimelineCommentPost } from "../../hooks/useTimelineComment";
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
   closeModal: () => void; // モーダルを閉じるメソッド
-  title: "レビュー" | "つぶやき" | "コメント"; // レビュー/つぶやき/コメント
+  title: "レビュー" | "つぶやき" | "タイムラインコメント" | "レビューコメント"; // レビュー/つぶやき/コメント
   restaurantId?: number; // 店のID(レビュー投稿なら渡ってくる)。投稿の際にAPIに渡す。
   postId?: number; // タイムラインもしくはレビューのID(コメント投稿なら渡ってくる)。投稿の際にAPIに渡す
   target?: "timeline" | "reviews"; // 対象の投稿がタイムラインかレビューか(コメント投稿なら渡ってくる)
@@ -110,7 +110,7 @@ export const PostModal: FC<Props> = memo((props) => {
       setPost("");
     }
 
-    if (title === "コメント") {
+    if (title === "タイムラインコメント") {
       timelineCommentPost(postId, post, success);
       closeModal();
       setPost("");
