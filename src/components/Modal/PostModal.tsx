@@ -1,4 +1,4 @@
-import { FC, memo, Fragment } from "react";
+import { FC, memo, Fragment, useCallback } from "react";
 import Image from "next/image";
 import { Dialog, Transition } from "@headlessui/react";
 
@@ -52,7 +52,7 @@ export const PostModal: FC<Props> = memo((props) => {
    * @remarks API完成したらこのメソッド内で送信.
    * titleによって投稿するAPIを変える。
    */
-  const sendPost = async () => {
+  const sendPost = useCallback(() => {
     if (post === "") {
       alert("入力して下さい");
       return;
@@ -87,7 +87,20 @@ export const PostModal: FC<Props> = memo((props) => {
       closeModal();
       setPost("");
     }
-  };
+  }, [
+    closeModal,
+    post,
+    postId,
+    restaurantId,
+    reviewCommentPost,
+    reviewPost,
+    setPost,
+    star,
+    success,
+    timelineCommentPost,
+    timelinePost,
+    title,
+  ]);
 
   return (
     <>

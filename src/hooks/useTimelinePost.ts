@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useCallback, useContext } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 
@@ -19,24 +19,27 @@ export const useTimelinePost = () => {
    * @param success - 成功時にデータ更新用メソッド
    * @returns タイムライン投稿メソッド
    */
-  const timelinePost = async (post: any, success: any) => {
-    try {
-      const res = await axios.post(`${JAVA_API_URL}/timeline`, {
-        userLogicalId: hash, //ログインユーザID
-        sentence: post, //投稿内容
-      });
-      if (res.data.status === "success") {
-        toast.success("つぶやきを投稿しました");
-        if (success) {
-          success();
+  const timelinePost = useCallback(
+    async (post: string, success: () => void) => {
+      try {
+        const res = await axios.post(`${JAVA_API_URL}/timeline`, {
+          userLogicalId: hash, //ログインユーザID
+          sentence: post, //投稿内容
+        });
+        if (res.data.status === "success") {
+          toast.success("つぶやきを投稿しました");
+          if (success) {
+            success();
+          }
+        } else {
+          toast.error(`${res.data.message}`);
         }
-      } else {
-        toast.error(`${res.data.message}`);
+      } catch (e) {
+        toast.error("つぶやきの投稿に失敗しました");
       }
-    } catch (e) {
-      toast.error("つぶやきの投稿に失敗しました");
-    }
-  };
+    },
+    [hash],
+  );
 
   return { timelinePost };
 };
