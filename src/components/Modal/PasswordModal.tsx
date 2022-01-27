@@ -5,6 +5,7 @@ import { Button } from "../Button/Button";
 import { TextInput } from "../Form/TextInput";
 import { useRouter } from "next/router";
 import { loginIdContext } from "../../providers/LoginIdProvider";
+import Link from "next/link";
 
 type Props = {
   closeModal: () => void; //モーダルを閉じる
@@ -264,6 +265,13 @@ export const PasswordModal: FC<Props> = memo((props) => {
                     size="md"
                     onClick={clear}
                   />
+                </div>
+                <div>
+                  <Link href="/auth/forgetpass">
+                    <a className="flex justify-center text-text-brown mt-5 cursor-pointer hover:text-basic">
+                      パスワードを忘れた方はこちら
+                    </a>
+                  </Link>
                 </div>
               </div>
             </Transition.Child>
