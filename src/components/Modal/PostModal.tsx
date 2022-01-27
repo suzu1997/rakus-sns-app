@@ -1,17 +1,7 @@
-import {
-  FC,
-  memo,
-  useCallback,
-  useEffect,
-  useState,
-  useContext,
-  Fragment,
-} from "react";
+import { FC, memo, useEffect, useState, useContext, Fragment } from "react";
 import Image from "next/image";
 import useSWR from "swr";
-import axios from "axios";
 import { Dialog, Transition } from "@headlessui/react";
-import toast from "react-hot-toast";
 
 import { Button } from "../Button/Button";
 import { TextArea } from "../Form/TextArea";
@@ -23,6 +13,7 @@ import { usePostValue } from "../../hooks/usePostValue";
 import { useTimelinePost } from "../../hooks/useTimelinePost";
 import { useTimelineCommentPost } from "../../hooks/useTimelineCommentPost";
 import { useReviewPost } from "../../hooks/useReviewPost";
+import { useReviewCommentPost } from "../../hooks/useReviewCommentPost";
 
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
@@ -30,7 +21,6 @@ type Props = {
   title: "レビュー" | "つぶやき" | "タイムラインコメント" | "レビューコメント"; // レビュー/つぶやき/コメント
   restaurantId?: number; // 店のID(レビュー投稿なら渡ってくる)。投稿の際にAPIに渡す。
   postId?: number; // タイムラインもしくはレビューのID(コメント投稿なら渡ってくる)。投稿の際にAPIに渡す
-  target?: "timeline" | "reviews"; // 対象の投稿がタイムラインかレビューか(コメント投稿なら渡ってくる)
   success: () => void; //投稿完了後、自動で更新したい場合は更新のメソッドを渡す
 };
 
@@ -44,7 +34,6 @@ export const PostModal: FC<Props> = memo((props) => {
     title,
     restaurantId = 0,
     postId = 0,
-    target,
     success,
   } = props;
 
@@ -52,6 +41,7 @@ export const PostModal: FC<Props> = memo((props) => {
   const { timelinePost } = useTimelinePost();
   const { timelineCommentPost } = useTimelineCommentPost();
   const { reviewPost } = useReviewPost();
+  const { reviewCommentPost } = useReviewCommentPost();
 
   // ログイン中のユーザーidを取得
   const { hash } = useContext(loginIdContext);
@@ -86,6 +76,7 @@ export const PostModal: FC<Props> = memo((props) => {
     }
 
     if (title === "レビューコメント") {
+      reviewCommentPost(postId, post, success);
       closeModal();
       setPost("");
     }

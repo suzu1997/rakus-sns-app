@@ -6,21 +6,21 @@ import { loginIdContext } from "../providers/LoginIdProvider";
 import { JAVA_API_URL } from "../utils/const";
 
 /**
- * タイムラインコメント投稿用hook.
+ * レビューコメント投稿用hook.
  * @returns
  */
-export const useTimelineCommentPost = () => {
+export const useReviewCommentPost = () => {
   // ログイン中のユーザーidを取得
   const { hash } = useContext(loginIdContext);
 
   /**
-   * タイムラインコメント投稿用hook.
+   * レビューコメント投稿用hook.
    * @param postId - 対象投稿ID
    * @param post - 投稿内容
    * @param success - 成功時にデータ更新用メソッド
-   * @returns タイムラインコメント投稿メソッド
+   * @returns レビューコメント投稿メソッド
    */
-  const timelineCommentPost = async (
+  const reviewCommentPost = async (
     postId: number,
     post: string,
     success: () => void,
@@ -29,7 +29,6 @@ export const useTimelineCommentPost = () => {
       const res = await axios.post(`${JAVA_API_URL}/timeline/comment`, {
         userLogicalId: hash, //ログインユーザＩＤ
         sentence: post, //投稿内容
-        timelineId: postId, //投稿ＩＤ
       });
       if (res.data.status === "success") {
         toast.success("コメントを登録しました");
@@ -40,5 +39,5 @@ export const useTimelineCommentPost = () => {
     }
   };
 
-  return { timelineCommentPost };
+  return { reviewCommentPost };
 };
