@@ -143,19 +143,25 @@ export const AddManuallyForm: FC<Props> = memo((props) => {
         />
         {/* ジャンルのセレクトボックス */}
         <div className="flex flex-col sm:flex-row gap-3">
-          <SelectBox
-            label="ジャンル"
-            selectedOption={genre}
-            select={setGenre}
-            options={genreOptions}
-          />
+          <div className="w-full sm:w-1/2">
+            <SelectBox
+              label="ジャンル"
+              selectedOption={genre}
+              select={setGenre}
+              options={genreOptions}
+              fullWidth={true}
+            />
+          </div>
           {/* タイプのセレクトボックス */}
-          <SelectBox
-            label="タイプ"
-            selectedOption={type}
-            select={setType}
-            options={typeOptions}
-          />
+          <div className="w-full sm:w-1/2">
+            <SelectBox
+              label="タイプ"
+              selectedOption={type}
+              select={setType}
+              options={typeOptions}
+              fullWidth={true}
+            />
+          </div>
         </div>
         <div>
           {/* 郵便番号から住所を検索するテキストボックス */}

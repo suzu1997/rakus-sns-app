@@ -49,7 +49,7 @@ export const LunchSearchArea: FC = memo(() => {
   }, []);
 
   return (
-    <div className="w-full sm:w-96 p-5 rounded-lg">
+    <div className="w-5/6 md:w-96 p-5 rounded-lg">
       <div className="text-center">検索</div>
       <div className="flex flex-col gap-3">
         <SelectBox
@@ -57,18 +57,21 @@ export const LunchSearchArea: FC = memo(() => {
           options={orderOptions}
           selectedOption={order}
           select={setOrder}
+          fullWidth={true}
         />
         <SelectBox
           label="ジャンル"
           options={searchGenreOptions}
           selectedOption={genre}
           select={setGenre}
+          fullWidth={true}
         />
         <SelectBox
           label="タイプ"
           options={searchTypeOptions}
           selectedOption={type}
           select={setType}
+          fullWidth={true}
         />
         <div className="text-center">
           <Button label="検索" onClick={search} />
