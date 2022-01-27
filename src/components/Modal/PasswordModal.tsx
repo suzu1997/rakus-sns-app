@@ -6,6 +6,9 @@ import { TextInput } from "../Form/TextInput";
 import { useRouter } from "next/router";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import Link from "next/link";
+import axios from "axios";
+import { JAVA_API_URL } from "../../utils/const";
+import toast from "react-hot-toast";
 
 type Props = {
   closeModal: () => void; //モーダルを閉じる
@@ -27,10 +30,6 @@ export const PasswordModal: FC<Props> = memo((props) => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [passwordConf, setPasswordConf] = useState("");
-
-  //APIから取得するログインユーザのパスワード
-  //consoleで表示させないため、意味のない言葉に変更
-  const [a4mnjkm5vf2c] = useState("aaaAAA1234567890");
 
   //各入力フォームに入力した際に更新される
   //現在のパスワード
@@ -59,11 +58,13 @@ export const PasswordModal: FC<Props> = memo((props) => {
 
   //ルーターリンク
   const router = useRouter();
+
   //ログインID
-  const loginId = useContext(loginIdContext);
+  const { hash } = useContext(loginIdContext);
+  const { loginId } = useContext(loginIdContext);
 
   /**
-   * 入力値をclearして、モーダルを閉じる.
+   * 入力値をclear.
    */
   const clear = useCallback(async () => {
     //モーダルの入力値クリア
@@ -75,8 +76,7 @@ export const PasswordModal: FC<Props> = memo((props) => {
     setNewPasswordErrorMessage("");
     setPasswordConfErrorMessage("");
     //モーダルを閉じる
-    closeModal();
-  }, [closeModal]);
+  }, []);
 
   /**
    * 登録ボタンを押した時に呼ばれる
@@ -87,13 +87,8 @@ export const PasswordModal: FC<Props> = memo((props) => {
     setNewPasswordErrorMessage("");
     setPasswordConfErrorMessage("");
     //エラーチェック
-    if (newPassword === a4mnjkm5vf2c) {
+    if (newPassword === currentPassword) {
       setNewPasswordErrorMessage("現在のパスワードと同じです");
-    }
-    if (currentPassword != a4mnjkm5vf2c) {
-      setCurrentPasswordError(
-        "現在のパスワードが登録しているものと一致しません",
-      );
     }
     if (passwordConf != newPassword) {
       setPasswordConfErrorMessage("新しいパスワードと一致しません");
@@ -129,26 +124,25 @@ export const PasswordModal: FC<Props> = memo((props) => {
 
     //API送信データ
     const postData = {
-      id: loginId, //ログインしているユーザのID
-      password: newPassword, //新しいパスワード
+      userLogicalId: hash, //ハッシュ値
+      beforePassword: currentPassword, //現在のパスワード
+      afterPassword: newPassword, //新しいパスワード
     };
 
-    // try {
-    //   const res = await axios.post(
-    //     `${JAVA_API_URL}/user/${loginId}/password`,
-    //     postData,
-    //   );
-    //   if (res.data.status === "success") {
-    //     console.log(res.data.status);
-    //     alert("パスワードの変更が完了しました");
-    //     //更新完了でユーザ情報画面に戻る
-    //     router.push(`/user/${loginId}`);
-    //   } else {
-    //     alert(res.data.message);
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      const res = await axios.patch(`${JAVA_API_URL}/password`, postData);
+      if (res.data.status === "success") {
+        toast.success("パスワードの変更が完了しました");
+        //値の初期化
+        clear();
+        //更新完了でユーザ情報画面に戻る
+        router.push(`/user/${loginId}`);
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
 
     //[]内入れないと変更が反映されないため、入力
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -158,7 +152,6 @@ export const PasswordModal: FC<Props> = memo((props) => {
     loginId,
     newPassword,
     newPasswordErrorMessage,
-    a4mnjkm5vf2c,
     passwordConf,
     passwordConfErrorMessage,
     router,
@@ -170,7 +163,10 @@ export const PasswordModal: FC<Props> = memo((props) => {
         <Dialog
           as="div"
           className="fixed inset-0 z-10 overflow-y-auto"
-          onClose={clear}
+          onClose={() => {
+            clear();
+            closeModal();
+          }}
         >
           {/* モーダルの背景を暗くする */}
           <Dialog.Overlay className="fixed inset-0 bg-black opacity-50" />
@@ -263,7 +259,10 @@ export const PasswordModal: FC<Props> = memo((props) => {
                     backgroundColor="#f6f0ea"
                     color="#f28728"
                     size="md"
-                    onClick={clear}
+                    onClick={() => {
+                      clear();
+                      closeModal();
+                    }}
                   />
                 </div>
                 <div>
