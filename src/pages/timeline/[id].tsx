@@ -42,7 +42,7 @@ const TweetDetail: NextPage = () => {
 
   //つぶやき詳細データ
   const detailData: Timeline = data?.timeline;
-  const commentList: TimelineComment = data?.commentList;
+  const commentList: Array<TimelineComment> = data?.commentList;
 
   /**
    * 投稿の読み込み直し.

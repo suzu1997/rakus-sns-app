@@ -8,7 +8,7 @@ import { TimelineComment } from "../../types/type";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 
 type Props = {
-  commentList: TimelineComment; //コメントリスト
+  commentList: Array<TimelineComment>; //コメントリスト
   success: () => void; //成功したときにデータ再読み込み
 };
 

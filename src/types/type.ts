@@ -82,22 +82,20 @@ export type Timeline = {
 };
 
 //タイムラインコメント
-export type TimelineComment = [
-  {
-    id: number;
-    userId: number;
-    accountName: string;
-    userPhotoPath: string;
-    timelineId: number;
-    reviewId: number;
-    parentCommentId: number;
-    comment: string;
-    commentLikeCount: number;
-    actionedTime: string;
-    hasNoticed: boolean;
-    commentDeleted: boolean;
-    read: boolean;
-    like: boolean;
-    myLike: boolean;
-  },
-];
+export type TimelineComment = {
+  id: number;
+  userId: number;
+  accountName: string;
+  userPhotoPath: string;
+  timelineId: number;
+  reviewId: number;
+  parentCommentId: number;
+  comment: string;
+  commentLikeCount: number;
+  actionedTime: string;
+  hasNoticed: boolean;
+  commentDeleted: boolean;
+  read: boolean;
+  like: boolean;
+  myLike: boolean;
+};
