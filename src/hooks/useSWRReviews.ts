@@ -1,3 +1,5 @@
+import { useRouter } from "next/router";
+import { useCallback } from "react";
 import useSWRInfinite, { SWRInfiniteKeyLoader } from "swr/infinite";
 import { JAVA_API_URL } from "../utils/const";
 
@@ -14,6 +16,9 @@ const LIMIT = 50; // 50件ずつ読み込む
  * - loadMoreReviews: 次のデータを読み込むメソッド
  */
 export const useSWRReviews = (userId: string) => {
+  const router = useRouter();
+  const restaurantId = router.query.id;
+
   /**
    * 各ページのSWRのキーを取得する関数.
    *
@@ -23,20 +28,22 @@ export const useSWRReviews = (userId: string) => {
    * @param previousPageData - 前のページのデータ
    * @returns ページのキー
    */
-  const getKey: SWRInfiniteKeyLoader = (pageIndex, previousPageData) => {
+  const getKey: SWRInfiniteKeyLoader = useCallback((pageIndex, previousPageData) => {
     // 最後まで読み込んだらnullを返す
     if (previousPageData && previousPageData.reviewList.length < LIMIT) return null;
 
     // 一番最初のフェッチ
-    if (pageIndex === 0) return `${JAVA_API_URL}/review/${userId}`;
+    if (pageIndex === 0) {
+      return restaurantId === undefined ? `${JAVA_API_URL}/review/${userId}` : `${JAVA_API_URL}/review/restaurant/${restaurantId}/${userId}`;
+    }
 
     // 一番古いレビューのIDを取得
     const id = previousPageData.reviewList[previousPageData.reviewList.length - 1].id;
 
     // 「過去のレビューを見る」ボタンを押したとき
     // 一番下の投稿IDをAPIに渡す
-    return `${JAVA_API_URL}/review/old/${id}/${userId}`;
-  };
+    return restaurantId === undefined ? `${JAVA_API_URL}/review/old/${id}/${userId}` : `${JAVA_API_URL}/review/restaurant/old/${restaurantId}/${id}/${userId}`;
+  }, [restaurantId, userId]);
 
   // data: データの連想配列の配列(※ページごとの配列)
   // error: エラーの場合、エラー情報が入る
@@ -51,13 +58,13 @@ export const useSWRReviews = (userId: string) => {
    * @remarks
    * ページサイズを増やすことで、次のフェッチ処理を走らせる。
    */
-  const loadMoreReviews = () => {
+  const loadMoreReviews = useCallback(() => {
     setSize(size + 1);
-  };
+  }, [setSize, size]);
 
   // 最後まで読み込んだかどうか
   const isLast = data
-    ? data.filter((pageData) => pageData.reviewList.length < LIMIT).length > 0
+    ? data.filter((pageData) => pageData?.reviewList.length < LIMIT).length > 0
     : false;
 
   return { data, isLast, error, loadMoreReviews, reviewsMutate: mutate };
