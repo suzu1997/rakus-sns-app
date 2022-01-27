@@ -5,9 +5,9 @@ import { useForm } from "react-hook-form";
 import { TextInput } from "../../components/Form/TextInput";
 import { Button } from "../../components/Button/Button";
 import { ConfModal } from "../../components//Modal/ConfModal";
-import { useState, useCallback } from "react";
 import { JAVA_API_URL } from "../../utils/const";
 import axios from "axios";
+import { useModal } from "../../hooks/useModal";
 
 //バリデーションチェック
 const schema = yup.object().shape({
@@ -24,8 +24,8 @@ const schema = yup.object().shape({
  * @returns パスワードを忘れたときの画面
  */
 const ForgetPass: NextPage = () => {
-  // モーダルのオープン状態
-  const [isOpen, setIsOpen] = useState(false);
+  // モーダル開閉用カスタムフック呼び出し
+  const { modalStatus, setModalStatus, closeModal } = useModal();
 
   const {
     register,
@@ -55,7 +55,7 @@ const ForgetPass: NextPage = () => {
       //メール認証に成功した場合
       if (res.data.status === "success") {
         //メール認証成功したらモーダルを開ける
-        setIsOpen(true);
+        setModalStatus(true);
       } else {
         alert(res.data.message);
       }
@@ -64,16 +64,11 @@ const ForgetPass: NextPage = () => {
     }
   };
 
-  //モーダルを閉じるメソッド.
-  const closeModal = useCallback(() => {
-    setIsOpen(false);
-  }, []);
-
   //入力内容をクリアしてモーダルを閉じる
   const doOnButton = () => {
     //入力値をクリア
     clear();
-    setIsOpen(false);
+    setModalStatus(false);
   };
 
   //入力データをクリア
@@ -114,7 +109,7 @@ const ForgetPass: NextPage = () => {
             </div>{" "}
           </div>{" "}
           <ConfModal
-            isOpen={isOpen}
+            isOpen={modalStatus}
             closeModal={closeModal}
             title="ご入力いただいたメールアドレス宛にメールを送信しました"
             message="送信したメールアドレスよりパスワード変更手続きをお願い致します"

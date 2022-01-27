@@ -1,9 +1,10 @@
 import { NextPage } from "next";
-import { useCallback, useState, Fragment } from "react";
+import { useCallback, Fragment, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Button } from "../../components/Button/Button";
 import { useRouter } from "next/router";
 import Cookie from "universal-cookie";
+import { useModal } from "../../hooks/useModal";
 
 /**
  * ログアウトページ.
@@ -12,36 +13,41 @@ import Cookie from "universal-cookie";
 const Logout: NextPage = () => {
   //ルーターリンク
   const router = useRouter();
-  //cookieを使用する
-  const cookie = new Cookie();
 
-  //モーダル開け閉めフラグ
-  const [isOpen, setIsOpen] = useState(true);
+  // モーダル開閉用カスタムフック呼び出し
+  const { modalStatus, setModalStatus, closeModal } = useModal();
 
   /**
    * キャンセルボタン押下で発動.
    */
-  const closeModal = useCallback(() => {
+  const cancelLogout = useCallback(() => {
     //モーダルを閉じる
-    setIsOpen(false);
+    closeModal();
     //元のページに戻る
     router.back();
-  }, []);
+  }, [router, closeModal]);
 
   /**
    * ログアウトボタン押下で発動.
    */
   const logout = useCallback(() => {
+    //cookieを使用する
+    const cookie = new Cookie();
     //cookieからログインID削除
     cookie.remove("hash");
     cookie.remove("loginId");
     //ログインページに戻る
     router.push("/auth/login");
-  }, [cookie, router]);
+  }, [router]);
+
+  // ページ遷移時にモーダルを開く
+  useEffect(() => {
+    setModalStatus(true);
+  }, [setModalStatus]);
 
   return (
     <>
-      <Transition appear show={isOpen} as={Fragment}>
+      <Transition appear show={modalStatus} as={Fragment}>
         <Dialog
           as="div"
           className="fixed inset-0 z-10 overflow-y-auto"
@@ -95,7 +101,7 @@ const Logout: NextPage = () => {
                       backgroundColor="#f6f0ea"
                       color="#622d18"
                       label={"キャンセル"}
-                      onClick={closeModal}
+                      onClick={cancelLogout}
                     />
                   </div>
                 </div>

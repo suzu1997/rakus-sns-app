@@ -27,6 +27,7 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
 
   const { hotpepperId, cansel } = props;
 
+  // ホットペッパーから店情報を取得
   const { data, error } = useSWR(`/api/hotpepper?hotpepperId=${hotpepperId}`);
 
   // 登録する店舗のタイプ

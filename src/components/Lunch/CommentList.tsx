@@ -9,7 +9,7 @@ import { loginIdContext } from "../../providers/LoginIdProvider";
 
 type Props = {
   commentList: TimelineComment; //コメントリスト
-  success?: () => void; //データの更新
+  success: () => void; //データの更新
 };
 
 /**
