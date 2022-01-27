@@ -4,12 +4,15 @@ import { useCallback, useEffect, useState } from "react";
  * テキストエリアデータ取得用hook.
  * @returns
  */
-export const usePostValue = () => {
+export const usePostValue = (starOptions: any) => {
   //入力テキストの内容を格納するstate
   const [post, setPost] = useState<string>("");
 
   //入力テキスト残り文字数
   const [postLength, setPostLength] = useState<number>(0);
+
+  // 選択した星の数を格納するstate
+  const [star, setStar] = useState(starOptions[0]);
 
   /**
    * リアルタイムに文字数をカウントしてくれる.
@@ -25,5 +28,5 @@ export const usePostValue = () => {
     setPost(e.target.value);
   }, []);
 
-  return { post, setPost, inputPost, postLength };
+  return { post, setPost, inputPost, postLength, star, setStar };
 };

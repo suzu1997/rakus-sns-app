@@ -1,4 +1,4 @@
-import { FC, memo, useEffect, useState, useContext, Fragment } from "react";
+import { FC, memo, useState, useContext, Fragment } from "react";
 import Image from "next/image";
 import useSWR from "swr";
 import { Dialog, Transition } from "@headlessui/react";
@@ -38,7 +38,8 @@ export const PostModal: FC<Props> = memo((props) => {
   } = props;
 
   //入力データ・入力データセット・入力データの内容をstateに格納・入力データ文字数
-  const { post, setPost, inputPost, postLength } = usePostValue();
+  const { post, setPost, inputPost, postLength, star, setStar } =
+    usePostValue(starOptions);
   //タイムライン投稿用
   const { timelinePost } = useTimelinePost();
   //タイムラインコメント投稿用
@@ -51,9 +52,6 @@ export const PostModal: FC<Props> = memo((props) => {
   // ログイン中のユーザーidを取得
   const { hash } = useContext(loginIdContext);
   const { loginId } = useContext(loginIdContext);
-
-  // 選択した星の数を格納するstate
-  const [star, setStar] = useState(starOptions[0]);
 
   /**
    * 入力内容を投稿するメソッド.
