@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -66,12 +67,15 @@ export const useSignup = (userToken: any) => {
   //ルーターリンク
   const router = useRouter();
 
+  //ローディング画面表示
+  const [isLoading, setIsLoading] = useState(false);
+
   /**
    * APIで初期表示用データ取得.
    */
   const { data: payload, error } = useSWR(`${JAVA_API_URL}/mail/${userToken}`);
   const userPreData = payload?.mail;
- 
+
   const userPreTokenData: UserPreInfo = userPreData;
 
   /**
@@ -80,6 +84,9 @@ export const useSignup = (userToken: any) => {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
+    // ローディング画面表示
+    setIsLoading(true);
+
     //フォーマットを変換
     const hireDate = String(format(data.hireDate, "yyyy-MM-dd"));
     const birthDay = String(format(data.birthDay, "yyyy-MM-dd"));
@@ -103,7 +110,8 @@ export const useSignup = (userToken: any) => {
       const res = await axios.post(`${JAVA_API_URL}/signup`, postDate);
       //本登録に成功した場合
       if (res.data.status === "success") {
-        console.dir(JSON.stringify(postDate));
+        //ローディング画面の閉じる
+        setIsLoading(false);
         //会員登録に成功したら入力値をクリアして登録完了画面に遷移する;
         clear();
         router.push("/auth/signup/compsignup");
@@ -134,5 +142,6 @@ export const useSignup = (userToken: any) => {
     userPreTokenData,
     clear,
     error,
+    isLoading,
   };
 };

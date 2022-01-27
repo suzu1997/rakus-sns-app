@@ -1,10 +1,9 @@
-import { Suspense, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios from "axios";
-import ReactLoading from "react-loading";
 
 import { JAVA_API_URL } from "../utils/const";
 import { Option } from "../components/Lunch/AddByHotpepper";
@@ -62,6 +61,7 @@ export const usePreSignup = () => {
   //ルーターリンク
   const router = useRouter();
 
+  //ローディング画面表示
   const [isLoading, setIsLoading] = useState(false);
 
   /**
@@ -70,6 +70,7 @@ export const usePreSignup = () => {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
+    // ローディング画面表示
     setIsLoading(true);
 
     //APIに送るデータ
@@ -83,6 +84,7 @@ export const usePreSignup = () => {
 
       //仮登録に成功した場合
       if (res.data.status === "success") {
+        //ローディング画面の閉じる
         setIsLoading(false);
         //入力内容をクリアした後、仮登録完了画面に遷移する
         clear();
@@ -112,6 +114,6 @@ export const usePreSignup = () => {
     setSelectValue,
     selectValue,
     options,
-    isLoading
+    isLoading,
   };
 };

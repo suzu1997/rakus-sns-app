@@ -25,6 +25,7 @@ const SignUp: NextPage = () => {
     userPreTokenData,
     clear,
     error,
+    isLoading,
   } = useSignup(userToken);
 
   //API取得状況による画面初期表示
@@ -145,22 +146,28 @@ const SignUp: NextPage = () => {
                 registers={register("passwordConf")}
               />
             </div>
-            <div className="flex gap-3 mt-10 mb-10">
-              <Button
-                label="登録"
-                backgroundColor="#f28728"
-                color="white"
-                size="md"
-                onClick={handleSubmit(onSubmit)}
-              />
-              <Button
-                label="クリア"
-                backgroundColor="#f6f0ea"
-                color="#f28728"
-                size="md"
-                onClick={clear}
-              />
-            </div>{" "}
+            {isLoading ? (
+              <div className="flex justify-center mt-10 mb-10  w-full ">
+                <div className="animate-spin h-8 w-8 bg-basic rounded-xl"></div>
+              </div>
+            ) : (
+              <div className="flex gap-3 mt-10 mb-10">
+                <Button
+                  label="登録"
+                  backgroundColor="#f28728"
+                  color="white"
+                  size="md"
+                  onClick={handleSubmit(onSubmit)}
+                />
+                <Button
+                  label="クリア"
+                  backgroundColor="#f6f0ea"
+                  color="#f28728"
+                  size="md"
+                  onClick={clear}
+                />
+              </div>
+            )}
           </div>
         )}
       </div>
