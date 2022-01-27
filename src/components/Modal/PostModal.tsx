@@ -37,7 +37,7 @@ export const PostModal: FC<Props> = memo((props) => {
     success,
   } = props;
 
-  const { post, setPost, inputPost } = usePostValue();
+  const { post, setPost, inputPost, postLength } = usePostValue();
   const { timelinePost } = useTimelinePost();
   const { timelineCommentPost } = useTimelineCommentPost();
   const { reviewPost } = useReviewPost();
@@ -49,9 +49,6 @@ export const PostModal: FC<Props> = memo((props) => {
 
   // 選択した星の数を格納するstate
   const [star, setStar] = useState(starOptions[0]);
-
-  //入力テキスト残り文字数
-  const [postLength, setPostLength] = useState<number>(0);
 
   /**
    * 入力内容を投稿するメソッド.
@@ -94,13 +91,6 @@ export const PostModal: FC<Props> = memo((props) => {
       setPost("");
     }
   };
-
-  /**
-   * リアルタイムに文字数をカウントしてくれる.
-   */
-  useEffect(() => {
-    setPostLength(140 - post.length);
-  }, [post.length]);
 
   /**
    * APIを使用して画像データ取得.

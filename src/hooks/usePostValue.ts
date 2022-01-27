@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 /**
  * テキストエリアデータ取得用hook.
@@ -8,6 +8,16 @@ export const usePostValue = () => {
   //入力テキストの内容を格納するstate
   const [post, setPost] = useState<string>("");
 
+  //入力テキスト残り文字数
+  const [postLength, setPostLength] = useState<number>(0);
+
+  /**
+   * リアルタイムに文字数をカウントしてくれる.
+   */
+  useEffect(() => {
+    setPostLength(140 - post.length);
+  }, [post.length]);
+
   /**
    * 入力テキストの内容をstateに格納する.
    */
@@ -15,5 +25,5 @@ export const usePostValue = () => {
     setPost(e.target.value);
   }, []);
 
-  return { post, setPost, inputPost };
+  return { post, setPost, inputPost, postLength };
 };
