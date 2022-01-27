@@ -1,12 +1,13 @@
 import { FC, memo, useContext, useState } from "react";
-import { CommentIcon } from "../Button/CommentIcon";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import useSWR from "swr";
+
 import { FavoBtn } from "../Button/FavoBtn";
+import { CommentIcon } from "../Button/CommentIcon";
 import { TrashBtn } from "../Button/TrashBtn";
 import { Timeline } from "../../types/type";
-import { useRouter } from "next/router";
 import { loginIdContext } from "../../providers/LoginIdProvider";
-import useSWR from "swr";
 import { JAVA_API_URL } from "../../utils/const";
 import { getFormattedDate } from "../../utils/methods";
 

@@ -1,16 +1,17 @@
-import useSWR from "swr";
-import axios from "axios";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useCallback, useContext, useEffect, useState } from "react";
+import axios from "axios";
+import useSWR from "swr";
+
 import { Button } from "../../components/Button/Button";
 import { PostBtn } from "../../components/Button/PostBtn";
 import { SubHeader } from "../../components/Layout/SubHeader";
-import { JAVA_API_URL } from "../../utils/const";
-import { loginIdContext } from "../../providers/LoginIdProvider";
 import { CommentList } from "../../components/Timeline/CommentList";
 import { TimelineDetailPage } from "../../components/Timeline/TimelineDetail";
+import { loginIdContext } from "../../providers/LoginIdProvider";
 import { Timeline } from "../../types/type";
+import { JAVA_API_URL } from "../../utils/const";
 
 /**
  * つぶやき詳細画面.

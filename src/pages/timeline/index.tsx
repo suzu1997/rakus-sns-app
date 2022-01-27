@@ -1,18 +1,18 @@
 import Image from "next/image";
-import type { NextPage } from "next";
 import { useCallback, useContext, useState } from "react";
+import type { NextPage } from "next";
+import { useRouter } from "next/router";
+import useSWR from "swr";
+
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { CommentIcon } from "../../components/Button/CommentIcon";
 import { FavoBtn } from "../../components/Button/FavoBtn";
-//自分のつぶやきを消せるボタンコンポーネント(自分のつぶやきの時のみ表示させたい)
 import { TrashBtn } from "../../components/Button/TrashBtn";
-import { useRouter } from "next/router";
 import { PostBtn } from "../../components/Button/PostBtn";
-import { loginIdContext } from "../../providers/LoginIdProvider";
 import { Timeline } from "../../types/type";
+import { loginIdContext } from "../../providers/LoginIdProvider";
 import { useSWRTimeline } from "../../hooks/useSWRTimeline";
 import { JAVA_API_URL } from "../../utils/const";
-import useSWR from "swr";
 
 /**
  * タイムラインページ.

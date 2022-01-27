@@ -1,13 +1,14 @@
 import { FC, memo, useCallback, useContext, useEffect, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import useSWR from "swr";
+import axios from "axios";
+
 import { FavoBtn } from "../Button/FavoBtn";
 import { TrashBtn } from "../Button/TrashBtn";
 import { TimelineComment } from "../../types/type";
-import { useRouter } from "next/router";
-import useSWR from "swr";
 import { JAVA_API_URL } from "../../utils/const";
 import { loginIdContext } from "../../providers/LoginIdProvider";
-import axios from "axios";
 
 type Props = {
   postId: number; //コメントリスト
