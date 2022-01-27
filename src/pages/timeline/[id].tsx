@@ -1,7 +1,6 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext } from "react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import axios from "axios";
 import useSWR from "swr";
 
 import { Button } from "../../components/Button/Button";
@@ -10,7 +9,7 @@ import { SubHeader } from "../../components/Layout/SubHeader";
 import { CommentList } from "../../components/Timeline/CommentList";
 import { TimelineDetailPage } from "../../components/Timeline/TimelineDetail";
 import { loginIdContext } from "../../providers/LoginIdProvider";
-import { Timeline } from "../../types/type";
+import { Timeline, TimelineComment } from "../../types/type";
 import { JAVA_API_URL } from "../../utils/const";
 
 /**
@@ -37,34 +36,20 @@ const TweetDetail: NextPage = () => {
   /**
    * APIを使用してタイムラインデータを取得.
    */
-  const { data, error } = useSWR(
+  const { data, error, mutate } = useSWR(
     `${JAVA_API_URL}/timeline/detail/${postId}/${hash}`,
   );
 
   //つぶやき詳細データ
-  const [detailData, setDetailData] = useState<Timeline>(data?.timeline);
+  const detailData: Timeline = data?.timeline;
+  const commentList: TimelineComment = data?.commentList;
 
   /**
    * 投稿の読み込み直し.
    */
-  const getData = useCallback(async () => {
-    try {
-      const res = await axios.get(
-        `${JAVA_API_URL}/timeline/detail/${postId}/${hash}`,
-      );
-      // タイムライン情報をdataから抽出
-      setDetailData(res.data.timeline);
-    } catch (error) {
-      console.log(error);
-    }
-  }, [hash, postId]);
-
-  /**
-   * リロード問題解消用.
-   */
-  useEffect(() => {
-    getData();
-  }, [getData]);
+  const getData = useCallback(() => {
+    mutate();
+  }, [mutate]);
 
   //初期値エラー
   if (!error && !data) {
@@ -101,7 +86,9 @@ const TweetDetail: NextPage = () => {
             </div>
           </div>
           <div className="w-full">
-            {CommentList && <CommentList postId={postId} />}
+            {CommentList && (
+              <CommentList commentList={commentList} success={getData} />
+            )}
           </div>
         </>
       )}

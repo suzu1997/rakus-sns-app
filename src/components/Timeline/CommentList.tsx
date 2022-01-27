@@ -1,63 +1,28 @@
-import { FC, memo, useCallback, useContext, useEffect, useState } from "react";
+import { FC, memo, useContext } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import useSWR from "swr";
-import axios from "axios";
 
 import { FavoBtn } from "../Button/FavoBtn";
 import { TrashBtn } from "../Button/TrashBtn";
 import { TimelineComment } from "../../types/type";
-import { JAVA_API_URL } from "../../utils/const";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 
 type Props = {
-  postId: number; //コメントリスト
+  commentList: TimelineComment;
+  success: () => void;
 };
 
 /**
  * タイムライン詳細ページのコメントコンポーネント.
  */
 export const CommentList: FC<Props> = memo((props) => {
-  const { postId } = props;
+  const { commentList, success } = props;
 
   //ログインID
-  const { hash } = useContext(loginIdContext);
   const { loginId } = useContext(loginIdContext);
 
   //ルーターリンク
   const router = useRouter();
-
-  /**
-   * コメントリスト取得.
-   */
-  const { data: timelineDetail } = useSWR(
-    `${JAVA_API_URL}/timeline/detail/${postId}/${hash}`,
-  );
-  const [commentList, setCommentList] = useState<TimelineComment>(
-    timelineDetail.commentList,
-  );
-
-  /**
-   * 投稿の読み込み直し.
-   */
-  const getData = useCallback(async () => {
-    try {
-      const res = await axios.get(
-        `${JAVA_API_URL}/timeline/detail/${postId}/${hash}`,
-      );
-      // タイムライン情報をdataから抽出
-      setCommentList(res.data.commentList);
-    } catch (error) {
-      console.log(error);
-    }
-  }, [postId, hash]);
-
-  /**
-   * リロード問題解消用.
-   */
-  useEffect(() => {
-    getData();
-  }, [getData]);
 
   /**
    * 画像クリックで投稿ユーザ情報ページに飛ぶ.
@@ -66,15 +31,6 @@ export const CommentList: FC<Props> = memo((props) => {
   const goUserPage = (userId: number) => {
     router.push(`/user/${userId}`);
   };
-
-  //初期値エラー
-  if (!commentList) {
-    return (
-      <div className="flex justify-center pt-10 w-full">
-        <div className="animate-spin h-8 w-8 bg-basic rounded-xl"></div>
-      </div>
-    );
-  }
 
   return (
     <>
@@ -102,14 +58,14 @@ export const CommentList: FC<Props> = memo((props) => {
                 <FavoBtn
                   postId={value.id}
                   favoCount={value.commentLikeCount}
-                  success={getData}
+                  success={success}
                   isFavo={value.myLike}
                   type="タイムラインコメント"
                 />
                 {Number(loginId) === value.userId && (
                   <TrashBtn
                     postId={value.id}
-                    success={getData}
+                    success={success}
                     type="タイムラインコメント"
                   />
                 )}
