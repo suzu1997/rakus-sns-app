@@ -62,6 +62,22 @@ export const PasswordModal: FC<Props> = memo((props) => {
   const loginId = useContext(loginIdContext);
 
   /**
+   * 入力値をclearして、モーダルを閉じる.
+   */
+  const clear = useCallback(async () => {
+    //モーダルの入力値クリア
+    setCurrentPassword("");
+    setNewPassword("");
+    setPasswordConf("");
+    //エラーの初期化
+    setCurrentPasswordError("");
+    setNewPasswordErrorMessage("");
+    setPasswordConfErrorMessage("");
+    //モーダルを閉じる
+    closeModal();
+  }, [closeModal]);
+
+  /**
    * 登録ボタンを押した時に呼ばれる
    */
   const onSubmit = useCallback(async () => {
@@ -116,8 +132,6 @@ export const PasswordModal: FC<Props> = memo((props) => {
       password: newPassword, //新しいパスワード
     };
 
-    console.dir("送るデータ" + JSON.stringify(postData));
-
     // try {
     //   const res = await axios.post(
     //     `${JAVA_API_URL}/user/${loginId}/password`,
@@ -155,7 +169,7 @@ export const PasswordModal: FC<Props> = memo((props) => {
         <Dialog
           as="div"
           className="fixed inset-0 z-10 overflow-y-auto"
-          onClose={closeModal}
+          onClose={clear}
         >
           {/* モーダルの背景を暗くする */}
           <Dialog.Overlay className="fixed inset-0 bg-black opacity-50" />
@@ -196,67 +210,61 @@ export const PasswordModal: FC<Props> = memo((props) => {
                 >
                   パスワード変更
                 </Dialog.Title>
-                <form>
-                  <div className="mt-2">
-                    <div className="text-red-500">
-                      {currentPasswordErrorMessage}
-                    </div>
-                    <TextInput
-                      label="現在のパスワード(半角英数字)"
-                      type="password"
-                      fullWidth={true}
-                      required
-                      placeholder="8文字以上16文字以内(大文字小文字数字含む)"
-                      onChange={currentPasswordValue}
-                      value={currentPassword}
-                    />
+                <div className="mt-2">
+                  <div className="text-red-500">
+                    {currentPasswordErrorMessage}
                   </div>
-                  <div className="mt-2">
-                    <div className="text-red-500">
-                      {newPasswordErrorMessage}
-                    </div>
-                    <TextInput
-                      label="新しいパスワード(半角英数字)"
-                      type="password"
-                      fullWidth={true}
-                      required
-                      placeholder="8文字以上16文字以内(大文字小文字数字含む)"
-                      onChange={newPasswordValue}
-                      value={newPassword}
-                    />
-                  </div>
-                  <div className="mt-2">
-                    <div className="text-red-500">
-                      {passwordConfErrorMessage}
-                    </div>
-                    <TextInput
-                      label="確認用パスワード(半角英数字)"
-                      type="password"
-                      fullWidth={true}
-                      required
-                      placeholder="8文字以上16文字以内(大文字小文字数字含む)"
-                      onChange={passwordConfValue}
-                      value={passwordConf}
-                    />
-                  </div>
-                  {/* ボタン */}
-                  <div className="mt-4 flex gap-5 justify-center">
-                    <Button
-                      label="登録"
-                      backgroundColor="#f28728"
-                      color="white"
-                      size="md"
-                      onClick={onSubmit}
-                    />
-                    <Button
-                      label="キャンセル"
-                      backgroundColor="#f6f0ea"
-                      color="#f28728"
-                      size="md"
-                      onClick={closeModal}
-                    />
-                  </div>
-                </form>
+                  <TextInput
+                    label="現在のパスワード(半角英数字)"
+                    type="password"
+                    fullWidth={true}
+                    required
+                    placeholder="8文字以上16文字以内(大文字小文字数字含む)"
+                    onChange={currentPasswordValue}
+                    value={currentPassword}
+                  />
+                </div>
+                <div className="mt-2">
+                  <div className="text-red-500">{newPasswordErrorMessage}</div>
+                  <TextInput
+                    label="新しいパスワード(半角英数字)"
+                    type="password"
+                    fullWidth={true}
+                    required
+                    placeholder="8文字以上16文字以内(大文字小文字数字含む)"
+                    onChange={newPasswordValue}
+                    value={newPassword}
+                  />
+                </div>
+                <div className="mt-2">
+                  <div className="text-red-500">{passwordConfErrorMessage}</div>
+                  <TextInput
+                    label="確認用パスワード(半角英数字)"
+                    type="password"
+                    fullWidth={true}
+                    required
+                    placeholder="8文字以上16文字以内(大文字小文字数字含む)"
+                    onChange={passwordConfValue}
+                    value={passwordConf}
+                  />
+                </div>
+                {/* ボタン */}
+                <div className="mt-4 flex gap-5 justify-center">
+                  <Button
+                    label="登録"
+                    backgroundColor="#f28728"
+                    color="white"
+                    size="md"
+                    onClick={onSubmit}
+                  />
+                  <Button
+                    label="キャンセル"
+                    backgroundColor="#f6f0ea"
+                    color="#f28728"
+                    size="md"
+                    onClick={clear}
+                  />
+                </div>
               </div>
             </Transition.Child>
           </div>
