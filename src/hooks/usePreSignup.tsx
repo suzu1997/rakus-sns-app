@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { JAVA_API_URL } from "../utils/const";
-import { Option } from "../components/Lunch/AddByHotpepper";
+import { Option } from "../types/type";
 
 //バリデーションチェック
 const schema = yup.object().shape({
