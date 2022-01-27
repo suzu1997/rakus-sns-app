@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -43,12 +43,12 @@ const schema = yup.object().shape({
 });
 
 /**
- * ログインページで使用する機能
+ * ユーザ編集画面で使用する機能
  * @returns
  * - register:入力したデータ
  * - handleSubmit:データを入力した際のリアルタイム更新
  * - errors:エラー
- * - onSubmit:ログインボタンを押した時のメソッド
+ * - onSubmit:更新ボタンを押した時のメソッド
  */
 export const useUserEdit = () => {
   //ログインID
@@ -109,7 +109,7 @@ export const useUserEdit = () => {
   }, [reset, userData, formatFirstName, formatLastName, formatHireDate]);
 
   /**
-   * 登録ボタンを押した時に呼ばれる
+   * 更新ボタンを押した時に呼ばれる
    * @param data - 入力したデータ
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
