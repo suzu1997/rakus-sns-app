@@ -21,6 +21,7 @@ import { starOptions } from "../../utils/options";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { usePostValue } from "../../hooks/usePostValue";
 import { useTimelinePost } from "../../hooks/useTimelinePost";
+import { useTimelineCommentPost } from "../../hooks/useTimelineComment";
 
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
@@ -29,7 +30,7 @@ type Props = {
   restaurantId?: number; // 店のID(レビュー投稿なら渡ってくる)。投稿の際にAPIに渡す。
   postId?: number; // タイムラインもしくはレビューのID(コメント投稿なら渡ってくる)。投稿の際にAPIに渡す
   target?: "timeline" | "reviews"; // 対象の投稿がタイムラインかレビューか(コメント投稿なら渡ってくる)
-  success?: () => void; //投稿完了後、自動で更新したい場合は更新のメソッドを渡す
+  success: () => void; //投稿完了後、自動で更新したい場合は更新のメソッドを渡す
 };
 
 /**
@@ -47,7 +48,8 @@ export const PostModal: FC<Props> = memo((props) => {
   } = props;
 
   const { post, setPost, inputPost } = usePostValue();
-  const { sendTimelinePost } = useTimelinePost();
+  const { timelinePost } = useTimelinePost();
+  const { timelineCommentPost } = useTimelineCommentPost();
 
   // ログイン中のユーザーidを取得
   const { hash } = useContext(loginIdContext);
@@ -103,31 +105,15 @@ export const PostModal: FC<Props> = memo((props) => {
 
     //タイムライン投稿
     if (title === "つぶやき") {
-      sendTimelinePost(post, success);
+      timelinePost(post, success);
       closeModal();
       setPost("");
     }
 
     if (title === "コメント") {
-      try {
-        const res = await axios.post(`${JAVA_API_URL}/timeline/comment`, {
-          userLogicalId: hash, //ログインユーザＩＤ
-          sentence: post, //投稿内容
-          timelineId: postId, //投稿ＩＤ
-        });
-        if (res.data.status === "success") {
-          toast.success(
-            `id${postId}の${target}に${title}を投稿しました\n${title}内容: ${post}`,
-          );
-          if (success) {
-            success();
-          }
-        }
-      } catch {
-        toast.error(`${title}の投稿に失敗しました`);
-      }
+      timelineCommentPost(postId, post, success);
       closeModal();
-      // setPost("");
+      setPost("");
     }
   };
 
@@ -192,9 +178,7 @@ export const PostModal: FC<Props> = memo((props) => {
                 >
                   {title}を投稿
                 </Dialog.Title>
-                {post}
                 {/* レビューの登録なら、星の数を選択してもらう */}
-                {post}
                 <div className="mt-2">
                   <div className="mt-10">
                     {title === "レビュー" && (

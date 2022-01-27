@@ -9,7 +9,7 @@ import { JAVA_API_URL } from "../utils/const";
  * テキストエリアデータ取得用hook.
  * @returns
  */
-export const useTimelinePost = () => {
+export const useTimelineCommentPost = () => {
   // ログイン中のユーザーidを取得
   const { hash } = useContext(loginIdContext);
 
@@ -19,7 +19,11 @@ export const useTimelinePost = () => {
    * @param success - 成功時にデータ更新用メソッド
    * @returns タイムライン投稿メソッド
    */
-  const timelinePost = async (post: any, success: any) => {
+  const timelineCommentPost = async (
+    postId: number,
+    post: string,
+    success: () => void,
+  ) => {
     if (post === "") {
       alert("入力して下さい");
       return;
@@ -28,23 +32,21 @@ export const useTimelinePost = () => {
       alert(`${title}は140文字以内にして下さい`);
       return;
     }
+
     try {
-      const res = await axios.post(`${JAVA_API_URL}/timeline`, {
-        userLogicalId: hash, //ログインユーザID
+      const res = await axios.post(`${JAVA_API_URL}/timeline/comment`, {
+        userLogicalId: hash, //ログインユーザＩＤ
         sentence: post, //投稿内容
+        timelineId: postId, //投稿ＩＤ
       });
       if (res.data.status === "success") {
-        toast.success("つぶやきを投稿しました");
-        if (success) {
-          success();
-        }
-      } else {
-        toast.error(`${res.data.message}`);
+        toast.success("コメントを登録しました");
+        success();
       }
-    } catch (e) {
-      toast.error("つぶやきの投稿に失敗しました");
+    } catch {
+      toast.error("コメントの投稿に失敗しました");
     }
   };
 
-  return { timelinePost };
+  return { timelineCommentPost };
 };
