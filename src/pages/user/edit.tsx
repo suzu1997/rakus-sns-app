@@ -16,6 +16,7 @@ import { format } from "date-fns";
 import { JAVA_API_URL } from "../../utils/const";
 import useSWR from "swr";
 import toast from "react-hot-toast";
+import { UserInfo } from "../../types/type";
 
 //バリデーションチェック
 const schema = yup.object().shape({
@@ -43,6 +44,7 @@ const schema = yup.object().shape({
   //プロフィールのバリデーション
   introduction: yup
     .string()
+    .nullable()
     .max(140, "自己紹介は140文字以内で入力してください"),
 });
 
@@ -52,7 +54,8 @@ const schema = yup.object().shape({
  */
 const Edit: NextPage = () => {
   //ログインID
-  const loginId = useContext(loginIdContext);
+  const { hash } = useContext(loginIdContext);
+  const { loginId } = useContext(loginIdContext);
 
   //ルーターリンク
   const router = useRouter();
@@ -60,8 +63,8 @@ const Edit: NextPage = () => {
   /**
    * APIで初期表示用データ取得.
    */
-  const { data: payload } = useSWR(`${JAVA_API_URL}/user/${loginId}`);
-  const [userData, setUserData] = useState(payload?.user);
+  const { data } = useSWR(`${JAVA_API_URL}/user/${loginId}/${hash}`);
+  const userData: UserInfo = data?.user;
 
   // 年月だけ取得したい初期値は、日付を削る必要があるため
   const defaultHireDate = userData?.hireDate;
@@ -77,6 +80,7 @@ const Edit: NextPage = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -92,24 +96,17 @@ const Edit: NextPage = () => {
     },
   });
 
-  /**
-   * ユーザ情報読み込み直し.
-   */
-  const getReData = useCallback(async () => {
-    try {
-      const res = await axios.get(`${JAVA_API_URL}/user/${loginId}`);
-      setUserData(res.data.user);
-    } catch (error) {
-      console.log(error);
-    }
-  }, [loginId]);
-
-  /**
-   * リロード問題解消用.
-   */
   useEffect(() => {
-    getReData();
-  }, [getReData]);
+    reset({
+      firstName: formatFirstName,
+      lastName: formatLastName,
+      accountName: userData?.accountName,
+      hireDate: formatHireDate,
+      birthDay: userData?.birthDay,
+      serviceFk: userData?.serviceFk,
+      introduction: userData?.introduction,
+    });
+  }, [reset, userData, formatFirstName, formatLastName, formatHireDate]);
 
   /**
    * 登録ボタンを押した時に呼ばれる
@@ -137,7 +134,7 @@ const Edit: NextPage = () => {
 
     try {
       const res = await axios.patch(
-        `${JAVA_API_URL}/user/edit/${loginId}`,
+        `${JAVA_API_URL}/user/edit/${loginId}/${hash}`,
         postData,
       );
       if (res.data.status === "success") {
