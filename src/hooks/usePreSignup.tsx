@@ -91,9 +91,13 @@ export const usePreSignup = () => {
         router.push("/auth/comppresignup");
       } else {
         alert(res.data.message);
+        //ローディング画面の閉じる
+        setIsLoading(false);
       }
     } catch (error) {
       alert(error);
+      //ローディング画面の閉じる
+      setIsLoading(false);
     }
   };
 

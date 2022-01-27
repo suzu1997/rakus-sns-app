@@ -117,9 +117,13 @@ export const useSignup = (userToken: any) => {
         router.push("/auth/signup/compsignup");
       } else {
         alert(res.data.message);
+        //ローディング画面の閉じる
+        setIsLoading(false);
       }
     } catch (error) {
       alert(error);
+      //ローディング画面の閉じる
+      setIsLoading(false);
     }
   };
   //クリアボタン
