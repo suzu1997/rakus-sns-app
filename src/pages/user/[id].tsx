@@ -121,14 +121,6 @@ const User: NextPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const tabOpen = (categories: string) => {
-    if (categories === "いいね履歴") {
-      setIsOpenHis(true);
-    } else {
-      setIsOpenHis(false);
-    }
-  };
-
   /**
    * APIで初期表示用データ取得.
    */
@@ -201,103 +193,45 @@ const User: NextPage = () => {
           {/* タブ（履歴表示欄） */}
           <div className="w-full px-2 sm:px-0">
             <Tab.Group>
-              <Tab.List className="flex p-1 space-x-1 bg-blue-900/20 rounded-xl">
-                {Object.keys(categoriesA).map((category) => (
+              <Tab.List className="flex p-1 space-x-1  rounded-xl shadow-lg ">
+                {Object.keys(categories).map((category) => (
                   <Tab
                     key={category}
-                    className={({ selected }) =>
-                      classNames(
-                        "w-full py-2.5 text-sm font-bold leading-5 font-medium text-bgc rounded-lg",
-                        "focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60 bg-text-brown",
-                        selected
-                          ? "bg-white shadow"
-                          : "text-blue-100 hover:bg-white/[0.12] hover:text-basic",
-                      )
-                    }
-                  >
-                    <div
-                      onClick={() => {
-                        tabOpen(category);
-                      }}
+                    className="w-full py-2.5 text-xs font-bold  text-bgc rounded-lg bg-text-brown focus:text-basic focus:bg-bgc hover:text-basic "
                     >
                       {category}
-                    </div>
                   </Tab>
                 ))}
               </Tab.List>
 
-              <Tab.Panels className="mt-2">
-                {Object.values(categoriesA).map((posts, idx) => (
+              <Tab.Panels>
+                {Object.values(categories).map((posts, idx) => (
                   <Tab.Panel
                     key={idx}
-                    className="bg-bgc rounded-xl p-3 focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60"
+                    className="bg-bgc shadow-lg  rounded-xl p-3 focus:outline-none "
                   >
                     {posts.map((post) => (
                       <div
                         key={post.id}
-                        className="focus:outline-none relative p-3 rounded-md hover:bg-coolGray-100 cursor-pointer hover:opacity-50"
+                        className="focus:outline-none rounded-xl border border-t-1 mt-1 border-blue-100 bg-white relative p-3 hover:bg-coolGray-100 cursor-pointer hover:opacity-50"
                         onClick={() => {
                           goDetailPage(post.id);
                         }}
                       >
-                        <h3 className="text-sm font-medium leading-5">
+                        <div className="text-sm font-medium leading-5">
                           {post.title}
-                        </h3>
-
-                        <div className="flex space-x-1 text-xs font-normal leading-4 text-coolGray-500"></div>
                       </div>
-                    ))}
-                  </Tab.Panel>
-                ))}
-              </Tab.Panels>
-
-              {/* 2回目 */}
-              <div>
-                <Transition appear show={isOpenHis}>
-                  <Tab.List className="flex p-1 space-x-1 bg-blue-900/20 rounded-xl">
-                    {Object.keys(categoriesB).map((category) => (
-                      <Tab
-                        key={category}
-                        className={({ selected }) =>
-                          classNames(
-                            "w-full py-2.5 text-xs font-bold leading-5 font-medium text-bgc rounded-lg",
-                            "focus:outline-none focus:ring-2 ring-offset-2 ring-offset-red-400 ring-white ring-opacity-60 bg-text-brown",
-                            selected
-                              ? "bg-white shadow"
-                              : "text-blue-100 hover:bg-white/[0.12] hover:text-basic",
-                          )
-                        }
-                      >
-                        {category}
-                      </Tab>
-                    ))}
-                  </Tab.List>
-                  <Tab.Panels className="mt-2">
-                    {Object.values(categoriesB).map((posts, idx) => (
-                      <Tab.Panel
-                        key={idx}
-                        className="bg-bgc rounded-xl p-3 focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60"
-                      >
-                        {posts.map((post) => (
-                          <div
-                            key={post.id}
-                            className="focus:outline-none relative p-3 rounded-md hover:bg-coolGray-100 cursor-pointer hover:opacity-50"
-                            onClick={() => {
-                              goDetailPage(post.id);
-                            }}
-                          >
-                            <h3 className="text-sm font-medium leading-5">
-                              {post.title}
-                            </h3>
-
-                            <div className="flex mt-1 space-x-1 text-xs font-normal leading-4 text-coolGray-500"></div>
+                        <div className="text-sm font-medium leading-5">
+                          {post.text}
+                        </div>
+                        <div className="text-sm font-medium leading-5">
+                          {post.subtext}
+                        </div>
                           </div>
                         ))}
                       </Tab.Panel>
                     ))}
                   </Tab.Panels>
-                </Transition>
-              </div>
             </Tab.Group>
           </div>
         </div>
