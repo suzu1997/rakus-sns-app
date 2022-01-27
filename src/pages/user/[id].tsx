@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import { JAVA_API_URL } from "../../utils/const";
 import { loginIdContext } from "../../providers/LoginIdProvider";
-import { UserInfo } from "../../types/type";
+import { Timeline, Title, UserInfo } from "../../types/type";
 
 //タブテスト
 // function classNames(...classes: unknown[]) {
@@ -72,6 +72,23 @@ const User: NextPage = () => {
   if (error) {
     return <div>データを取得できませんでした</div>;
   }
+
+  //履歴表示のやり方例
+  // const userDataId: Array<any> = [loginId];
+  // const userDataName: Array<any> = [userData.name];
+
+  // const timelineData: Timeline = timelineDatas.TimelineList;
+  // console.dir("ああああ" + JSON.stringify(timelineData));
+  // const { data: payload, error } = useSWR(`${JAVA_API_URL}/timeline/${hash}`);
+  // const timelineDatas = payload;
+  // if (!error && !timelineDatas) {
+  //   return <div>Loading...</div>;
+  // }
+  // if (error) {
+  //   return <div>データを取得できませんでした</div>;
+  // }
+  // const time = timelineDatas.TimelineList.map((timeline: any) => timeline.id);
+  //ここまで
 
   //タブのタイトル
   const categories: Array<Title> = [
@@ -150,32 +167,24 @@ const User: NextPage = () => {
               </Tab.List>
 
               <Tab.Panels>
-                {Object.values(categories).map((posts, idx) => (
-                  <Tab.Panel
-                    key={idx}
+                {/* <Tab.Panel
+                  key={time.id}
                     className="bg-bgc shadow-lg  rounded-xl p-3 focus:outline-none "
                   >
-                    {posts.map((post) => (
+                  <div>
+                    {timelineDatas.TimelineList.map((time: any) => (
                       <div
-                        key={post.id}
-                        className="focus:outline-none rounded-xl border border-t-1 mt-1 border-blue-100 bg-white relative p-3 hover:bg-coolGray-100 cursor-pointer hover:opacity-50"
+                        key={timelineDatas.TimelineList.id}
+                        className=" border border-t-1 mt-1 border-blue-100text-sm font-medium leading-5 focus:outline-none rounded-xl bg-white relative p-3 hover:bg-coolGray-100 cursor-pointer hover:opacity-50"
                         onClick={() => {
-                          goDetailPage(post.id);
+                          goDetailPage(timelineDatas.TimelineList.id);
                         }}
                       >
-                        <div className="text-sm font-medium leading-5">
-                          {post.title}
-                        </div>
-                        <div className="text-sm font-medium leading-5">
-                          {post.text}
-                        </div>
-                        <div className="text-sm font-medium leading-5">
-                          {post.subtext}
-                        </div>
+                        {time.sentence}
                       </div>
                     ))}
-                  </Tab.Panel>
-                ))}
+                  </div>
+                </Tab.Panel> */}
               </Tab.Panels>
             </Tab.Group>
           </div>
