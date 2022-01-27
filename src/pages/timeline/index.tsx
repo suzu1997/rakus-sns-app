@@ -1,18 +1,16 @@
 import Image from "next/image";
+import { useCallback, useContext } from "react";
 import type { NextPage } from "next";
-import { useCallback, useContext, useState } from "react";
+import { useRouter } from "next/router";
+
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { CommentIcon } from "../../components/Button/CommentIcon";
 import { FavoBtn } from "../../components/Button/FavoBtn";
-//自分のつぶやきを消せるボタンコンポーネント(自分のつぶやきの時のみ表示させたい)
 import { TrashBtn } from "../../components/Button/TrashBtn";
-import { useRouter } from "next/router";
 import { PostBtn } from "../../components/Button/PostBtn";
-import { loginIdContext } from "../../providers/LoginIdProvider";
 import { Timeline } from "../../types/type";
+import { loginIdContext } from "../../providers/LoginIdProvider";
 import { useSWRTimeline } from "../../hooks/useSWRTimeline";
-import { JAVA_API_URL } from "../../utils/const";
-import useSWR from "swr";
 
 /**
  * タイムラインページ.
@@ -21,6 +19,7 @@ import useSWR from "swr";
 const Timeline: NextPage = () => {
   //ログインID
   const { hash } = useContext(loginIdContext);
+  const { loginId } = useContext(loginIdContext);
 
   //ルーターリンク
   const router = useRouter();
@@ -28,12 +27,6 @@ const Timeline: NextPage = () => {
   // 投稿一覧を再検証・再取得する関数をhooksから取得
   const { data, error, loadMoreTimeline, timelineMutate, isLast } =
     useSWRTimeline(hash);
-
-  /**
-   * ごみ箱ボタン表示非表示判断のため、ログインIDをハッシュ値→通常のIDに変換.
-   */
-  const { data: userInfo } = useSWR(`${JAVA_API_URL}/user/${hash}`);
-  const [trashCheckId] = useState(userInfo?.user.id);
 
   /**
    * 画像クリックで投稿ユーザ情報ページに飛ぶ.
@@ -136,7 +129,7 @@ const Timeline: NextPage = () => {
                       type="タイムライン"
                       success={updateData}
                     />
-                    {trashCheckId === timelime.userId && (
+                    {Number(loginId) === timelime.userId && (
                       <TrashBtn
                         postId={timelime.id}
                         type="タイムライン"

@@ -1,22 +1,25 @@
-import { FC, memo, useCallback, useContext, useState } from "react";
+import { FC, memo, useCallback, useContext, useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment } from "react";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import axios from "axios";
+import toast from "react-hot-toast";
+
 import { Button } from "../Button/Button";
 import { TextInput } from "../Form/TextInput";
-import { useRouter } from "next/router";
 import { loginIdContext } from "../../providers/LoginIdProvider";
-import axios from "axios";
 import { JAVA_API_URL } from "../../utils/const";
 
 type Props = {
-  isOpen: boolean; // モーダルが開いているかどうか
+  closeModal: () => void; //モーダルを閉じる
+  modalStatus: boolean; //モーダル開閉状態
 };
 
 /**
  * パスワード変更のためのモーダルのコンポーネント.
  */
 export const PasswordModal: FC<Props> = memo((props) => {
-  const { isOpen } = props;
+  const { closeModal, modalStatus } = props;
 
   //エラーメッセージ
   const [currentPasswordErrorMessage, setCurrentPasswordError] = useState("");
@@ -27,10 +30,6 @@ export const PasswordModal: FC<Props> = memo((props) => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [passwordConf, setPasswordConf] = useState("");
-
-  //APIから取得するログインユーザのパスワード
-  //consoleで表示させないため、意味のない言葉に変更
-  const [a4mnjkm5vf2c] = useState("aaaAAA1234567890");
 
   //各入力フォームに入力した際に更新される
   //現在のパスワード
@@ -59,8 +58,25 @@ export const PasswordModal: FC<Props> = memo((props) => {
 
   //ルーターリンク
   const router = useRouter();
+
   //ログインID
-  const loginId = useContext(loginIdContext);
+  const { hash } = useContext(loginIdContext);
+  const { loginId } = useContext(loginIdContext);
+
+  /**
+   * 入力値をclear.
+   */
+  const clear = useCallback(async () => {
+    //モーダルの入力値クリア
+    setCurrentPassword("");
+    setNewPassword("");
+    setPasswordConf("");
+    //エラーの初期化
+    setCurrentPasswordError("");
+    setNewPasswordErrorMessage("");
+    setPasswordConfErrorMessage("");
+    //モーダルを閉じる
+  }, []);
 
   /**
    * 登録ボタンを押した時に呼ばれる
@@ -71,13 +87,8 @@ export const PasswordModal: FC<Props> = memo((props) => {
     setNewPasswordErrorMessage("");
     setPasswordConfErrorMessage("");
     //エラーチェック
-    if (newPassword === a4mnjkm5vf2c) {
+    if (newPassword === currentPassword) {
       setNewPasswordErrorMessage("現在のパスワードと同じです");
-    }
-    if (currentPassword != a4mnjkm5vf2c) {
-      setCurrentPasswordError(
-        "現在のパスワードが登録しているものと一致しません",
-      );
     }
     if (passwordConf != newPassword) {
       setPasswordConfErrorMessage("新しいパスワードと一致しません");
@@ -113,28 +124,25 @@ export const PasswordModal: FC<Props> = memo((props) => {
 
     //API送信データ
     const postData = {
-      id: loginId, //ログインしているユーザのID
-      password: newPassword, //新しいパスワード
+      userLogicalId: hash, //ハッシュ値
+      beforePassword: currentPassword, //現在のパスワード
+      afterPassword: newPassword, //新しいパスワード
     };
 
-    console.dir("送るデータ" + JSON.stringify(postData));
-
-    // try {
-    //   const res = await axios.post(
-    //     `${JAVA_API_URL}/user/${loginId}/password`,
-    //     postData,
-    //   );
-    //   if (res.data.status === "success") {
-    //     console.log(res.data.status);
-    //     alert("パスワードの変更が完了しました");
-    //     //更新完了でユーザ情報画面に戻る
-    //     router.push(`/user/${loginId}`);
-    //   } else {
-    //     alert(res.data.message);
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      const res = await axios.patch(`${JAVA_API_URL}/password`, postData);
+      if (res.data.status === "success") {
+        toast.success("パスワードの変更が完了しました");
+        //値の初期化
+        clear();
+        //更新完了でユーザ情報画面に戻る
+        router.push(`/user/${loginId}`);
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
 
     //[]内入れないと変更が反映されないため、入力
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -144,26 +152,21 @@ export const PasswordModal: FC<Props> = memo((props) => {
     loginId,
     newPassword,
     newPasswordErrorMessage,
-    a4mnjkm5vf2c,
     passwordConf,
     passwordConfErrorMessage,
     router,
   ]);
 
-  /**
-   * キャンセルボタンを押した時に呼ばれる
-   */
-  const cancel = () => {
-    router.push(`/user/${loginId}`);
-  };
-
   return (
     <>
-      <Transition appear show={isOpen} as={Fragment}>
+      <Transition appear show={modalStatus} as={Fragment}>
         <Dialog
           as="div"
           className="fixed inset-0 z-10 overflow-y-auto"
-          onClose={() => null}
+          onClose={() => {
+            clear();
+            closeModal();
+          }}
         >
           {/* モーダルの背景を暗くする */}
           <Dialog.Overlay className="fixed inset-0 bg-black opacity-50" />
@@ -204,67 +207,71 @@ export const PasswordModal: FC<Props> = memo((props) => {
                 >
                   パスワード変更
                 </Dialog.Title>
-                <form>
-                  <div className="mt-2">
-                    <div className="text-red-500">
-                      {currentPasswordErrorMessage}
-                    </div>
-                    <TextInput
-                      label="現在のパスワード(半角英数字)"
-                      type="password"
-                      fullWidth={true}
-                      required
-                      placeholder="8文字以上16文字以内(大文字小文字数字含む)"
-                      onChange={currentPasswordValue}
-                      value={currentPassword}
-                    />
+                <div className="mt-2">
+                  <div className="text-red-500">
+                    {currentPasswordErrorMessage}
                   </div>
-                  <div className="mt-2">
-                    <div className="text-red-500">
-                      {newPasswordErrorMessage}
-                    </div>
-                    <TextInput
-                      label="新しいパスワード(半角英数字)"
-                      type="password"
-                      fullWidth={true}
-                      required
-                      placeholder="8文字以上16文字以内(大文字小文字数字含む)"
-                      onChange={newPasswordValue}
-                      value={newPassword}
-                    />
-                  </div>
-                  <div className="mt-2">
-                    <div className="text-red-500">
-                      {passwordConfErrorMessage}
-                    </div>
-                    <TextInput
-                      label="確認用パスワード(半角英数字)"
-                      type="password"
-                      fullWidth={true}
-                      required
-                      placeholder="8文字以上16文字以内(大文字小文字数字含む)"
-                      onChange={passwordConfValue}
-                      value={passwordConf}
-                    />
-                  </div>
-                  {/* ボタン */}
-                  <div className="mt-4 flex gap-5 justify-center">
-                    <Button
-                      label="登録"
-                      backgroundColor="#f28728"
-                      color="white"
-                      size="md"
-                      onClick={onSubmit}
-                    />
-                    <Button
-                      label="キャンセル"
-                      backgroundColor="#f6f0ea"
-                      color="#f28728"
-                      size="md"
-                      onClick={cancel}
-                    />
-                  </div>
-                </form>
+                  <TextInput
+                    label="現在のパスワード(半角英数字)"
+                    type="password"
+                    fullWidth={true}
+                    required
+                    placeholder="8文字以上16文字以内(大文字小文字数字含む)"
+                    onChange={currentPasswordValue}
+                    value={currentPassword}
+                  />
+                </div>
+                <div className="mt-2">
+                  <div className="text-red-500">{newPasswordErrorMessage}</div>
+                  <TextInput
+                    label="新しいパスワード(半角英数字)"
+                    type="password"
+                    fullWidth={true}
+                    required
+                    placeholder="8文字以上16文字以内(大文字小文字数字含む)"
+                    onChange={newPasswordValue}
+                    value={newPassword}
+                  />
+                </div>
+                <div className="mt-2">
+                  <div className="text-red-500">{passwordConfErrorMessage}</div>
+                  <TextInput
+                    label="確認用パスワード(半角英数字)"
+                    type="password"
+                    fullWidth={true}
+                    required
+                    placeholder="8文字以上16文字以内(大文字小文字数字含む)"
+                    onChange={passwordConfValue}
+                    value={passwordConf}
+                  />
+                </div>
+                {/* ボタン */}
+                <div className="mt-4 flex gap-5 justify-center">
+                  <Button
+                    label="登録"
+                    backgroundColor="#f28728"
+                    color="white"
+                    size="md"
+                    onClick={onSubmit}
+                  />
+                  <Button
+                    label="キャンセル"
+                    backgroundColor="#f6f0ea"
+                    color="#f28728"
+                    size="md"
+                    onClick={() => {
+                      clear();
+                      closeModal();
+                    }}
+                  />
+                </div>
+                <div>
+                  <Link href="/auth/forgetpass">
+                    <a className="flex justify-center text-text-brown mt-5 cursor-pointer hover:text-basic">
+                      パスワードを忘れた方はこちら
+                    </a>
+                  </Link>
+                </div>
               </div>
             </Transition.Child>
           </div>

@@ -1,175 +1,28 @@
 import { NextPage } from "next";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import { TextInput } from "../../components/Form/TextInput";
 import { Button } from "../../components/Button/Button";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { Radio } from "../../components/Form/Radio";
-import { useForm } from "react-hook-form";
 import { TextArea } from "../../components/Form/TextArea";
 import { PasswordModal } from "../../components/Modal/PasswordModal";
-import { useCallback, useContext, useEffect, useState } from "react";
-import { loginIdContext } from "../../providers/LoginIdProvider";
-import axios from "axios";
-import { format } from "date-fns";
-import { JAVA_API_URL } from "../../utils/const";
-import useSWR from "swr";
-import toast from "react-hot-toast";
-import { UserInfo } from "../../types/type";
-
-//バリデーションチェック
-const schema = yup.object().shape({
-  //姓のバリデーション
-  firstName: yup
-    .string()
-    .required("姓名を入力してください")
-    .max(15, "姓名は15文字以内で入力してください"),
-  //名のバリデーション
-  lastName: yup
-    .string()
-    .required("名前を入力してください")
-    .max(15, "名前は15文字以内で入力してください"),
-  //アカウント名のバリデーション
-  accountName: yup
-    .string()
-    .required("アカウント名を入力してください")
-    .max(30, "アカウント名は30文字以内で入力してください"),
-  //入社年のバリデーション
-  hireDate: yup.date().max(new Date(), "入社日は現在よりも前に設定して下さい"),
-  //誕生日のバリデーション
-  birthDay: yup.date().max(new Date(), "誕生日は現在よりも前に設定して下さい"),
-  //職種のバリデーション
-  serviceFk: yup.string(),
-  //プロフィールのバリデーション
-  introduction: yup
-    .string()
-    .nullable()
-    .max(140, "自己紹介は140文字以内で入力してください"),
-});
+import { useUserEdit } from "../../hooks/useUserEdit";
+import { useModal } from "../../hooks/useModal";
 
 /**
  * ユーザー情報編集画面
  * @returns ユーザー情報を編集するためのページ
  */
 const Edit: NextPage = () => {
-  //ログインID
-  const { hash } = useContext(loginIdContext);
-  const { loginId } = useContext(loginIdContext);
+  const { handleSubmit, cancel, register, errors, onSubmit, userData } =
+    useUserEdit();
 
-  //ルーターリンク
-  const router = useRouter();
-
-  /**
-   * APIで初期表示用データ取得.
-   */
-  const { data } = useSWR(`${JAVA_API_URL}/user/${loginId}/${hash}`);
-  const userData: UserInfo = data?.user;
-
-  // 年月だけ取得したい初期値は、日付を削る必要があるため
-  const defaultHireDate = userData?.hireDate;
-  const formatHireDate = defaultHireDate?.slice(0, 7);
-
-  //名前を姓名に分ける
-  const fullName = userData?.name;
-  const nameArray = fullName?.split(" ");
-  const formatFirstName = nameArray?.[0];
-  const formatLastName = nameArray?.[1];
-
-  // バリデーション機能を呼び出し
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-    //初期値はログインしている人のデータを入れる
-    defaultValues: {
-      firstName: formatFirstName,
-      lastName: formatLastName,
-      accountName: userData?.accountName,
-      hireDate: formatHireDate,
-      birthDay: userData?.birthDay,
-      serviceFk: userData?.serviceFk,
-      introduction: userData?.introduction,
-    },
-  });
-
-  useEffect(() => {
-    reset({
-      firstName: formatFirstName,
-      lastName: formatLastName,
-      accountName: userData?.accountName,
-      hireDate: formatHireDate,
-      birthDay: userData?.birthDay,
-      serviceFk: userData?.serviceFk,
-      introduction: userData?.introduction,
-    });
-  }, [reset, userData, formatFirstName, formatLastName, formatHireDate]);
-
-  /**
-   * 登録ボタンを押した時に呼ばれる
-   * @param data - 入力したデータ
-   */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = async (data: any) => {
-    //名前：姓＋名
-    const name = data.firstName + " " + data.lastName;
-    //入社月のフォーマット変更
-    const hireDate = String(format(data.hireDate, "yyyy-MM-dd"));
-    //誕生日のフォーマット変更
-    const birthDay = String(format(data.birthDay, "yyyy-MM-dd"));
-
-    //APIに送るデータ
-    const postData = {
-      id: loginId, //ログインユーザID
-      accountName: data.accountName, //アカウント名
-      name: name, //名前
-      hireDate: hireDate, //入社月
-      serviceFk: data.serviceFk, //職種
-      birthDay: birthDay, //誕生日
-      introduction: data.introduction, //自己紹介
-    };
-
-    try {
-      const res = await axios.patch(
-        `${JAVA_API_URL}/user/edit/${loginId}/${hash}`,
-        postData,
-      );
-      if (res.data.status === "success") {
-        toast.success(res.data.message);
-        //更新完了でユーザ情報画面に戻る
-        router.push(`/user/${loginId}`);
-      } else {
-        toast.error("エラー" + res.data.message);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  //パスワード用モーダル開閉
-  const [openModal, serOpenModal] = useState(false);
-
-  /**
-   * パスワード変更モーダルを開けるメソッド.
-   */
-  const openPasswordModal = () => {
-    serOpenModal(true);
-  };
-
-  /**
-   * キャンセルボタンを押した時に呼ばれる
-   */
-  const cancel = () => {
-    router.push(`/user/${loginId}`);
-  };
+  const modalStore = useModal();
+  const { modalStatus, openModal, closeModal } = modalStore;
 
   return (
     <>
       <div>
-        <PasswordModal isOpen={openModal} />
+        <PasswordModal modalStatus={modalStatus} closeModal={closeModal} />
         <div className="text-center bg-bgc border-solid  border-2 border-bgc-200 m-10 shadow-lg rounded-md">
           <div className="flex flex-col items-center">
             <div className="mt-3 text-3xl font-extrabold">ユーザー情報編集</div>
@@ -188,7 +41,7 @@ const Edit: NextPage = () => {
               )}
             </div>
             <div
-              onClick={openPasswordModal}
+              onClick={openModal}
               className="text-text-brown my-5 cursor-pointer hover:text-basic"
             >
               パスワード変更はこちら
@@ -247,13 +100,13 @@ const Edit: NextPage = () => {
               </div>
               {/* 職種のラジオボタン */}
               <div className="mt-3">職種を選択してください</div>
+              <div className="text-red-500">{errors.serviceFk?.message}</div>
               <div className="flex gap-5">
                 <Radio
                   id="FR"
                   value="1"
                   name="serviceFk"
                   registers={register("serviceFk")}
-                  defaultChecked
                 />
                 <Radio
                   id="Java"
