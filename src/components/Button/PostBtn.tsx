@@ -1,4 +1,5 @@
-import { memo, FC, useCallback, useState } from "react";
+import { memo, FC } from "react";
+import { useModal } from "../../hooks/useModal";
 import { PostModal } from "../Modal/PostModal";
 
 type Props = {
@@ -8,29 +9,15 @@ type Props = {
 export const PostBtn: FC<Props> = memo((props) => {
   const { success } = props;
 
-  // レビュー投稿のモーダルのオープン状態
-  const [isPostOpen, setPostIsOpen] = useState(false);
-
-  /**
-   * モーダルを開けるメソッド.
-   */
-  const openPostModal = useCallback(() => {
-    setPostIsOpen(true);
-  }, []);
-
-  /**
-   * モーダルを閉じるメソッド.
-   */
-  const closePostModal = useCallback(() => {
-    setPostIsOpen(false);
-  }, []);
+  // モーダル開閉用カスタムフック呼び出し
+  const { modalStatus, openModal, closeModal } = useModal();
 
   return (
     <>
-      {isPostOpen ? (
+      {modalStatus ? (
         <PostModal
-          isOpen={isPostOpen}
-          closeModal={closePostModal}
+          isOpen={modalStatus}
+          closeModal={closeModal}
           title={"つぶやき"}
           success={success}
         />
@@ -39,7 +26,7 @@ export const PostBtn: FC<Props> = memo((props) => {
           <button
             type="button"
             className="rounded-full text-white bg-basic w-10 h-10 shadow-lg"
-            onClick={openPostModal}
+            onClick={openModal}
           >
             <i className="fas fa-plus"></i>
           </button>
