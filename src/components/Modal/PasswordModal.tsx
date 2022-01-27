@@ -5,18 +5,17 @@ import { Button } from "../Button/Button";
 import { TextInput } from "../Form/TextInput";
 import { useRouter } from "next/router";
 import { loginIdContext } from "../../providers/LoginIdProvider";
-import axios from "axios";
-import { JAVA_API_URL } from "../../utils/const";
 
 type Props = {
-  isOpen: boolean; // モーダルが開いているかどうか
+  closeModal: () => void; //モーダルを閉じる
+  modalStatus: boolean; //モーダル開閉状態
 };
 
 /**
  * パスワード変更のためのモーダルのコンポーネント.
  */
 export const PasswordModal: FC<Props> = memo((props) => {
-  const { isOpen } = props;
+  const { closeModal, modalStatus } = props;
 
   //エラーメッセージ
   const [currentPasswordErrorMessage, setCurrentPasswordError] = useState("");
@@ -150,20 +149,13 @@ export const PasswordModal: FC<Props> = memo((props) => {
     router,
   ]);
 
-  /**
-   * キャンセルボタンを押した時に呼ばれる
-   */
-  const cancel = () => {
-    router.push(`/user/${loginId}`);
-  };
-
   return (
     <>
-      <Transition appear show={isOpen} as={Fragment}>
+      <Transition appear show={modalStatus} as={Fragment}>
         <Dialog
           as="div"
           className="fixed inset-0 z-10 overflow-y-auto"
-          onClose={() => null}
+          onClose={closeModal}
         >
           {/* モーダルの背景を暗くする */}
           <Dialog.Overlay className="fixed inset-0 bg-black opacity-50" />
@@ -261,7 +253,7 @@ export const PasswordModal: FC<Props> = memo((props) => {
                       backgroundColor="#f6f0ea"
                       color="#f28728"
                       size="md"
-                      onClick={cancel}
+                      onClick={closeModal}
                     />
                   </div>
                 </form>

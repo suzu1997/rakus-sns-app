@@ -149,16 +149,6 @@ export const useUserEdit = () => {
     }
   };
 
-  //パスワード用モーダル開閉
-  const [openModal, serOpenModal] = useState(false);
-
-  /**
-   * パスワード変更モーダルを開けるメソッド.
-   */
-  const openPasswordModal = () => {
-    serOpenModal(true);
-  };
-
   /**
    * キャンセルボタンを押した時に呼ばれる
    */
@@ -168,11 +158,9 @@ export const useUserEdit = () => {
 
   return {
     handleSubmit,
+    cancel,
     register,
     errors,
-    cancel,
-    openPasswordModal,
-    openModal,
     onSubmit,
     userData,
   };

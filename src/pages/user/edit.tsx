@@ -6,27 +6,23 @@ import { Radio } from "../../components/Form/Radio";
 import { TextArea } from "../../components/Form/TextArea";
 import { PasswordModal } from "../../components/Modal/PasswordModal";
 import { useUserEdit } from "../../hooks/useUserEdit";
+import { useModal } from "../../hooks/useModal";
 
 /**
  * ユーザー情報編集画面
  * @returns ユーザー情報を編集するためのページ
  */
 const Edit: NextPage = () => {
-  const {
-    handleSubmit,
-    register,
-    errors,
-    cancel,
-    openPasswordModal,
-    openModal,
-    onSubmit,
-    userData,
-  } = useUserEdit();
+  const { handleSubmit, cancel, register, errors, onSubmit, userData } =
+    useUserEdit();
+
+  const modalStore = useModal();
+  const { modalStatus, openModal, closeModal } = modalStore;
 
   return (
     <>
       <div>
-        <PasswordModal isOpen={openModal} />
+        <PasswordModal modalStatus={modalStatus} closeModal={closeModal} />
         <div className="text-center bg-bgc border-solid  border-2 border-bgc-200 m-10 shadow-lg rounded-md">
           <div className="flex flex-col items-center">
             <div className="mt-3 text-3xl font-extrabold">ユーザー情報編集</div>
@@ -45,7 +41,7 @@ const Edit: NextPage = () => {
               )}
             </div>
             <div
-              onClick={openPasswordModal}
+              onClick={openModal}
               className="text-text-brown my-5 cursor-pointer hover:text-basic"
             >
               パスワード変更はこちら
