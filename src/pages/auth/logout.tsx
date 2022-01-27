@@ -12,8 +12,6 @@ import Cookie from "universal-cookie";
 const Logout: NextPage = () => {
   //ルーターリンク
   const router = useRouter();
-  //cookieを使用する
-  const cookie = new Cookie();
 
   //モーダル開け閉めフラグ
   const [isOpen, setIsOpen] = useState(true);
@@ -26,18 +24,20 @@ const Logout: NextPage = () => {
     setIsOpen(false);
     //元のページに戻る
     router.back();
-  }, []);
+  }, [router]);
 
   /**
    * ログアウトボタン押下で発動.
    */
   const logout = useCallback(() => {
+    //cookieを使用する
+    const cookie = new Cookie();
     //cookieからログインID削除
     cookie.remove("hash");
     cookie.remove("loginId");
     //ログインページに戻る
     router.push("/auth/login");
-  }, [cookie, router]);
+  }, [router]);
 
   return (
     <>
