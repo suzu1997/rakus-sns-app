@@ -1,14 +1,14 @@
-import { FC, memo, useCallback, useContext, useState } from "react";
+import { FC, memo, useCallback, useContext, useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment } from "react";
-import { Button } from "../Button/Button";
-import { TextInput } from "../Form/TextInput";
 import { useRouter } from "next/router";
-import { loginIdContext } from "../../providers/LoginIdProvider";
 import Link from "next/link";
 import axios from "axios";
-import { JAVA_API_URL } from "../../utils/const";
 import toast from "react-hot-toast";
+
+import { Button } from "../Button/Button";
+import { TextInput } from "../Form/TextInput";
+import { loginIdContext } from "../../providers/LoginIdProvider";
+import { JAVA_API_URL } from "../../utils/const";
 
 type Props = {
   closeModal: () => void; //モーダルを閉じる
