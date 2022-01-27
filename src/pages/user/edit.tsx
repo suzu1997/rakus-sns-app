@@ -9,7 +9,7 @@ import { Radio } from "../../components/Form/Radio";
 import { useForm } from "react-hook-form";
 import { TextArea } from "../../components/Form/TextArea";
 import { PasswordModal } from "../../components/Modal/PasswordModal";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import axios from "axios";
 import { format } from "date-fns";
@@ -40,7 +40,7 @@ const schema = yup.object().shape({
   //誕生日のバリデーション
   birthDay: yup.date().max(new Date(), "誕生日は現在よりも前に設定して下さい"),
   //職種のバリデーション
-  serviceFk: yup.string(),
+  serviceFk: yup.string().required("職種を入力して下さい"),
   //プロフィールのバリデーション
   introduction: yup
     .string()
@@ -91,7 +91,8 @@ const Edit: NextPage = () => {
       accountName: userData?.accountName,
       hireDate: formatHireDate,
       birthDay: userData?.birthDay,
-      serviceFk: userData?.serviceFk,
+      // serviceFk: userData?.serviceFk,
+      serviceFk: "",
       introduction: userData?.introduction,
     },
   });
@@ -103,7 +104,8 @@ const Edit: NextPage = () => {
       accountName: userData?.accountName,
       hireDate: formatHireDate,
       birthDay: userData?.birthDay,
-      serviceFk: userData?.serviceFk,
+      // serviceFk: userData?.serviceFk,
+      serviceFk: "",
       introduction: userData?.introduction,
     });
   }, [reset, userData, formatFirstName, formatLastName, formatHireDate]);
@@ -247,13 +249,13 @@ const Edit: NextPage = () => {
               </div>
               {/* 職種のラジオボタン */}
               <div className="mt-3">職種を選択してください</div>
+              <div className="text-red-500">{errors.serviceFk?.message}</div>
               <div className="flex gap-5">
                 <Radio
                   id="FR"
                   value="1"
                   name="serviceFk"
                   registers={register("serviceFk")}
-                  defaultChecked
                 />
                 <Radio
                   id="Java"
