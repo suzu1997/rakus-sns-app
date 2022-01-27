@@ -81,10 +81,10 @@ export const CommentList: FC<Props> = memo((props) => {
   }
 
   return (
-    <div className="border border-t-0 border-gray-200">
+    <>
       <div>
         {commentList.map((value, key) => (
-          <div key={key} className="flex">
+          <div key={key} className="flex border border-t-0 border-gray-200 ">
             <div className="w-1/5 text-center pt-5 cursor-pointer hover:opacity-50">
               <Image
                 src={`/image/userIcon/${value.userPhotoPath}`}
@@ -122,6 +122,6 @@ export const CommentList: FC<Props> = memo((props) => {
           </div>
         ))}
       </div>
-    </div>
+    </>
   );
 });
