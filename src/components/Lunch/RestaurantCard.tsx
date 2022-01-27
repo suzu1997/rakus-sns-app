@@ -1,10 +1,14 @@
+import { FC, memo } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { FC, memo } from "react";
+
+import { Star } from "./Star";
 import { Restaurant } from "../../types/type";
 import { getRestaurantPhotoPath } from "../../utils/methods";
-import { Star } from "./Star";
 
+/**
+ * レストラン一覧用のカード.
+ */
 export const RestaurantCard: FC<Restaurant> = memo((props) => {
   const { id, name, genreValue, star, type, photoPath } = props;
   const router = useRouter();
@@ -41,11 +45,11 @@ export const RestaurantCard: FC<Restaurant> = memo((props) => {
         </p>
         <div className="xl:ml-10">ジャンル: {genreValue}</div>
         <div className="xl:ml-10">タイプ: {typeValue()}</div>
-        {star > 0 && (
+        {star > 0 ? (
           <div className="xl:ml-10">
             評価(平均): <Star starCount={star} />
           </div>
-        )}
+        ): <div className="xl:ml-10 mt-2">(レビューがありません)</div>}
       </div>
       <div className="mx-6 mt-3">
         <Image

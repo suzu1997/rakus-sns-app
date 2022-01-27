@@ -2,7 +2,7 @@ import { memo, FC } from "react";
 import Link from "next/link";
 
 /**
- * footer.
+ * フッター.
  */
 export const Footer: FC = memo(() => {
   return (

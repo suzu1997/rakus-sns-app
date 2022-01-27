@@ -1,3 +1,10 @@
+// セレクトボックスのオプション
+export type Option = {
+  id: string;
+  name: string;
+};
+
+// レビュー
 export type LunchReview = {
   id: number;
   userId: number;
@@ -16,6 +23,7 @@ export type LunchReview = {
   myLike: boolean;
 };
 
+// レストラン情報
 export type Restaurant = {
   id: number;
   name: string;
@@ -59,24 +67,7 @@ export type UpdatePassInfo = {
 };
 
 //タイムライン
-export type Timeline = [
-  {
-    id: number;
-    userId: number;
-    accountName: string;
-    userPhotoPath: string;
-    sentence: string;
-    likeCount: number;
-    commentCount: number;
-    updatedTime: string;
-    postedTime: string;
-    deleted: boolean;
-    myLike: boolean;
-  },
-];
-
-//タイムライン詳細
-export type TimelineDetail = {
+export type Timeline = {
   id: number;
   userId: number;
   accountName: string;

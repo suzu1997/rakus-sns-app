@@ -1,14 +1,17 @@
-import { FC, memo, useContext } from "react";
+import { FC, memo, useContext, useState } from "react";
 import { CommentIcon } from "../Button/CommentIcon";
 import Image from "next/image";
 import { FavoBtn } from "../Button/FavoBtn";
 import { TrashBtn } from "../Button/TrashBtn";
-import { TimelineDetail } from "../../types/type";
+import { Timeline } from "../../types/type";
 import { useRouter } from "next/router";
 import { loginIdContext } from "../../providers/LoginIdProvider";
+import useSWR from "swr";
+import { JAVA_API_URL } from "../../utils/const";
+import { getFormattedDate } from "../../utils/methods";
 
 type Props = {
-  detailData: TimelineDetail; //タイムライン詳細データ
+  detailData: Timeline; //タイムライン詳細データ
   success?: () => void; //データの更新
 };
 
@@ -19,10 +22,16 @@ export const TimelineDetailPage: FC<Props> = memo((props) => {
   const { detailData, success } = props;
 
   //ログインID
-  const loginId = useContext(loginIdContext);
+  const { hash } = useContext(loginIdContext);
 
   //ルーターリンク
   const router = useRouter();
+
+  /**
+   * ごみ箱ボタン表示非表示判断のため、ログインIDをハッシュ値→通常のIDに変換.
+   */
+  const { data: userInfo } = useSWR(`${JAVA_API_URL}/user/${hash}`);
+  const [trashCheckId] = useState(userInfo?.user.id);
 
   /**
    * 画像クリックで投稿ユーザ情報ページに飛ぶ.
@@ -58,12 +67,16 @@ export const TimelineDetailPage: FC<Props> = memo((props) => {
 
         <div className="text-right pb-5">
           <div className="flex flex-col items-end gap-3 sm:flex-row justify-end mr-5 mt-5">
-            <div className="mr-5">投稿日時：{detailData.postedTime}</div>
+            <div className="mr-5">
+              投稿日時： {getFormattedDate(new Date(detailData.postedTime))}
+            </div>
+
             <div>
               <CommentIcon
                 commentCount={detailData.commentCount}
                 postId={detailData.id}
                 target="timeline"
+                success={success}
               />
               <FavoBtn
                 postId={detailData.id}
@@ -72,7 +85,9 @@ export const TimelineDetailPage: FC<Props> = memo((props) => {
                 isFavo={detailData.myLike}
                 type="タイムライン"
               />
-              <TrashBtn postId={detailData.id} type="タイムライン" />
+              {trashCheckId === detailData.userId && (
+                <TrashBtn postId={detailData.id} type="タイムライン" />
+              )}
             </div>
           </div>
         </div>

@@ -1,15 +1,15 @@
+import React, { useEffect } from "react";
 import { AppProps } from "next/app";
-import "../styles/globals.css";
-import "tailwindcss/tailwind.css";
-import { Layout } from "../components/Layout/Layout";
 import Head from "next/head";
 import { SWRConfig } from "swr";
 import { Toaster } from "react-hot-toast";
-import { fetcher } from "../utils/fetcher";
 import nprogress from "nprogress"; // NProgressインポート
 import "nprogress/nprogress.css"; // バーのデフォルトスタイルのインポート
-import "../styles/globals.css";
-import React, { useEffect } from "react";
+import "tailwindcss/tailwind.css";
+
+import { Layout } from "../components/Layout/Layout";
+import { fetcher } from "../utils/fetcher";
+
 
 // バーの設定
 //    showSpinner: バーと一緒にローディングスピナーを表示するかどうか

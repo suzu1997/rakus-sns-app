@@ -5,45 +5,37 @@ const LIMIT = 50; // 50件ずつ読み込む
 
 /**
  * レビューのリストを取得するカスタムフック.
- *
- * @param loginId ログイン中のユーザーのハッシュ値
+ * 
+ * @param userId ログイン中のユーザーのハッシュ値
  * @returns
  * - data: データ
  * - isLast: 最後まで読み込んだかどうか
  * - error: エラー
  * - loadMoreReviews: 次のデータを読み込むメソッド
  */
-export const useSWRTimeline = (loginId: string) => {
+export const useSWRReviews = (userId: string) => {
   /**
    * 各ページのSWRのキーを取得する関数.
    *
    * @remarks
    * useSWRInfiniteからデータをフェッチする際に呼び出される。
    * @param pageIndex - ページインデックス
-   * @param previousPageData -
+   * @param previousPageData - 前のページのデータ
    * @returns ページのキー
    */
   const getKey: SWRInfiniteKeyLoader = (pageIndex, previousPageData) => {
-    console.log(pageIndex);
-    console.log(previousPageData);
-    // console.log(previousPageData.timelineList);
-    
     // 最後まで読み込んだらnullを返す
-    if (previousPageData && previousPageData.TimelineList.length < LIMIT) return null;
+    if (previousPageData && previousPageData.reviewList.length < LIMIT) return null;
 
     // 一番最初のフェッチ
-    //まだデータが0件なら、普通にAPI呼ぶ
-    if (pageIndex === 0) return `${JAVA_API_URL}/timeline/${loginId}`;
+    if (pageIndex === 0) return `${JAVA_API_URL}/review/${userId}`;
 
     // 一番古いレビューのIDを取得
-    const id =
-      previousPageData.TimelineList[previousPageData?.TimelineList.length - 1].id;
-    console.log(id);
-    console.log(previousPageData.TimelineList[previousPageData.TimelineList.length - 1]);
-    
-    // 「過去の投稿を見る」ボタンを押したとき
+    const id = previousPageData.reviewList[previousPageData.reviewList.length - 1].id;
+
+    // 「過去のレビューを見る」ボタンを押したとき
     // 一番下の投稿IDをAPIに渡す
-    return `${JAVA_API_URL}/timeline/old/${id}/${loginId}`;
+    return `${JAVA_API_URL}/reviews/old/${id}/${userId}`;
   };
 
   // data: データの連想配列の配列(※ページごとの配列)
@@ -54,19 +46,19 @@ export const useSWRTimeline = (loginId: string) => {
   const { data, error, size, setSize, mutate } = useSWRInfinite(getKey);
 
   /**
-   * 投稿を追加読み込みする.
+   * レビューを追加読み込みする.
    *
    * @remarks
    * ページサイズを増やすことで、次のフェッチ処理を走らせる。
    */
-  const loadMoreTimeline = () => {
+  const loadMoreReviews = () => {
     setSize(size + 1);
   };
 
   // 最後まで読み込んだかどうか
-  const isLast = data;
-  // ? data.filter((pageData) => pageData.timelineList.length < LIMIT).length > 0
-  // : false;
+  const isLast = data
+    ? data.filter((pageData) => pageData.reviewList.length < LIMIT).length > 0
+    : false;
 
-  return { data, isLast, error, loadMoreTimeline, timelineMutate: mutate };
+  return { data, isLast, error, loadMoreReviews, reviewsMutate: mutate };
 };

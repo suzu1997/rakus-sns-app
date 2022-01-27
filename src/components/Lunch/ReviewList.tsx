@@ -1,14 +1,18 @@
-import { useRouter } from "next/router";
 import { FC, memo, useContext, useEffect, useState } from "react";
+import { useRouter } from "next/router";
+
+import { ReviewCard } from "./ReviewCard";
+import { LunchReview } from "../../types/type";
 import { useSWRReviews } from "../../hooks/useSWRReviews";
 import { loginIdContext } from "../../providers/LoginIdProvider";
-import { LunchReview } from "../../types/type";
-import { ReviewCard } from "./ReviewCard";
 
 type Props = {
   restaurantId?: number;
 };
 
+/**
+ * レビュー一覧を表示するコンポーネント.
+ */
 export const ReviewList: FC<Props> = memo((props) => {
   const { restaurantId } = props;
 
@@ -16,9 +20,10 @@ export const ReviewList: FC<Props> = memo((props) => {
   const [hasRestaurantInfo, setHasRestaurantInfo] = useState<boolean>(true);
   const router = useRouter();
 
-  const userId = useContext(loginIdContext);
+  // ユーザーのハッシュ値
+  const { hash } = useContext(loginIdContext);
 
-  const { data, isLast, error, loadMoreReviews } = useSWRReviews(userId);
+  const { data, isLast, error, loadMoreReviews } = useSWRReviews(hash);
 
   // pathにrestaurantが含まれている(店詳細ページにいる)場合はfalseにする
   // レビューページにいるときだけ店詳細ページへのリンクを付けたい
@@ -77,12 +82,16 @@ export const ReviewList: FC<Props> = memo((props) => {
           }),
         )}
       {/* 最後まで読み込んでいれば過去のレビューを見るボタンを表示しない */}
-      {isLast === false && (
+      {isLast === false ? (
         <div
           className="text-text-brown text-center my-5 cursor-pointer hover:text-basic"
           onClick={loadMoreReviews}
         >
           過去のレビューを見る…
+        </div>
+      ) : (
+        <div className="text-text-brown text-center my-5 ">
+          最後まで読み込みました
         </div>
       )}
     </div>

@@ -2,9 +2,12 @@ import { FC, memo, useContext, useState } from "react";
 import Link from "next/link";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 
+/**
+ * メニューバーコンポーネント.
+ */
 export const MenuBar: FC = memo(() => {
   //ログインID
-  const loginId = useContext(loginIdContext);
+  const { loginId } = useContext(loginIdContext);
 
   //ユーザ情報のリンクをログインユーザ先にする
   const [myInfo] = useState(`/user/${loginId}`);
@@ -36,7 +39,7 @@ export const MenuBar: FC = memo(() => {
               ラーセン内情報
             </a>
           </Link>
-          <Link href="/lunch/review">
+          <Link href="/lunch">
             <a className="flex items-center opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
               ランチ情報
             </a>
