@@ -24,5 +24,5 @@ export const useModal = () => {
     setModalStatus(false);
   }, []);
 
-  return { modalStatus, openModal, closeModal };
+  return { modalStatus, setModalStatus, openModal, closeModal };
 };

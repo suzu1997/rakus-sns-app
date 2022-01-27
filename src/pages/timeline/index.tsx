@@ -119,9 +119,8 @@ const Timeline: NextPage = () => {
                     <CommentIcon
                       commentCount={timelime.commentCount}
                       postId={timelime.id}
-                      target="timeline"
                       success={updateData}
-                      title="タイムラインコメント"
+                      title="つぶやきにコメント"
                     />
                     <FavoBtn
                       postId={timelime.id}

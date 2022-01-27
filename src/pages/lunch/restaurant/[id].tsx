@@ -1,4 +1,4 @@
-import { useState, useCallback, useContext } from "react";
+import { useCallback, useContext } from "react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import useSWR from "swr";
@@ -28,11 +28,13 @@ const RestaurantDetail: NextPage = () => {
   // レビュー一覧を再検証・再取得する関数をhooksから取得
   const { reviewsMutate } = useSWRReviews(hash);
 
+  // モーダルを開閉するカスタムフックを使用
   const { modalStatus, openModal, closeModal } = useModal();
 
   // idをURLから取得
   const restaurantId = Number(router.query.id);
 
+  // データを取得
   const { data, error, mutate } = useSWR(
     `${JAVA_API_URL}/restaurant/${restaurantId}`,
   );

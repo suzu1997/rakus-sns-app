@@ -9,6 +9,7 @@ type Props = {
 export const PostBtn: FC<Props> = memo((props) => {
   const { success } = props;
 
+  // モーダル開閉用カスタムフック呼び出し
   const { modalStatus, openModal, closeModal } = useModal();
 
   return (

@@ -13,7 +13,7 @@ type Props = {
 };
 
 /**
- * レビューを投稿するためのモーダルのコンポーネント.
+ * お知らせ用のモーダルのコンポーネント.
  */
 export const ConfModal: FC<Props> = memo((props) => {
   const { isOpen, closeModal, title, message, button, doOnButton } = props;

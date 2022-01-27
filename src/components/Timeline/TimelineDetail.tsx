@@ -68,9 +68,8 @@ export const TimelineDetailPage: FC<Props> = memo((props) => {
               <CommentIcon
                 commentCount={detailData.commentCount}
                 postId={detailData.id}
-                target="timeline"
                 success={success}
-                title="タイムラインコメント"
+                title="つぶやきにコメント"
               />
               <FavoBtn
                 postId={detailData.id}
