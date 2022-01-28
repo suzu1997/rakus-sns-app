@@ -66,21 +66,23 @@ export const ReviewList: FC<Props> = memo((props) => {
 
   return (
     <div className="w-full">
-      {data &&
-        // dataはページごとの連想配列の配列
-        data.map((pageData) =>
-          pageData.reviewList.map((review: LunchReview) => {
-            return (
-              <div key={review.id}>
-                <ReviewCard
-                  {...review}
-                  type="一覧"
-                  hasRestaurantInfo={hasRestaurantInfo}
-                />
-              </div>
-            );
-          }),
-        )}
+      <div className="overflow-y-auto h-screen">
+        {data &&
+          // dataはページごとの連想配列の配列
+          data.map((pageData) =>
+            pageData.reviewList.map((review: LunchReview) => {
+              return (
+                <div key={review.id}>
+                  <ReviewCard
+                    {...review}
+                    type="一覧"
+                    hasRestaurantInfo={hasRestaurantInfo}
+                  />
+                </div>
+              );
+            }),
+          )}
+      </div>
       {/* 最後まで読み込んでいれば過去のレビューを見るボタンを表示しない */}
       {isLast === false ? (
         <div
