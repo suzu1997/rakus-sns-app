@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -6,6 +6,7 @@ import axios from "axios";
 
 import { JAVA_API_URL } from "../utils/const";
 import { useModal } from "./useModal";
+import { UpdatePassInfo } from "../types/type";
 
 //バリデーションチェック
 const schema = yup.object().shape({
@@ -51,55 +52,53 @@ export const useForgetPass = () => {
    * @param data 入力したデータ
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = async (data: any) => {
-    // ローディング画面表示
-    setIsLoading(true);
+  const onSubmit = useCallback(
+    async (data: UpdatePassInfo) => {
+      // ローディング画面表示
+      setIsLoading(true);
 
-    //APIに送るデータ
-    const postDate = {
-      email: data.email,
-    };
+      //APIに送るデータ
+      const postDate = {
+        email: data.email,
+      };
 
-    try {
-      const res = await axios.post(
-        `${JAVA_API_URL}/password/sendMail`,
-        postDate,
-      );
-      //メール認証に成功した場合
-      if (res.data.status === "success") {
-        //ローディング画面の閉じる
-        setIsLoading(false);
-        //メール認証成功したらモーダルを開ける
-        setModalStatus(true);
-      } else {
-        alert(res.data.message);
+      try {
+        const res = await axios.post(
+          `${JAVA_API_URL}/password/sendMail`,
+          postDate,
+        );
+        //メール認証に成功した場合
+        if (res.data.status === "success") {
+          //ローディング画面の閉じる
+          setIsLoading(false);
+          //メール認証成功したらモーダルを開ける
+          setModalStatus(true);
+        } else {
+          alert(res.data.message);
+          //ローディング画面の閉じる
+          setIsLoading(false);
+        }
+      } catch (error) {
+        alert(error);
         //ローディング画面の閉じる
         setIsLoading(false);
       }
-    } catch (error) {
-      alert(error);
-      //ローディング画面の閉じる
-      setIsLoading(false);
-    }
-  };
+    },
+    [setIsLoading, setModalStatus],
+  );
 
   /**
    * 入力内容をクリアしてモーダルを閉じる.
    */
-  const doOnButton = () => {
+  const doOnButton = useCallback(() => {
     //入力値をクリア
-    clear();
-    setModalStatus(false);
-  };
-
-  /**
-   * 入力データをクリア.
-   */
-  const clear = () => {
     reset({
       email: "",
     });
-  };
+
+    //モーダルを閉じる
+    setModalStatus(false);
+  }, [reset, setModalStatus]);
 
   return {
     register,

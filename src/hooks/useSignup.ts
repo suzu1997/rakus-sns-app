@@ -8,7 +8,7 @@ import axios from "axios";
 import useSWR from "swr";
 
 import { JAVA_API_URL } from "../utils/const";
-import { UserPreInfo } from "../types/type";
+import { UserPreInfo, UserSignupInfo } from "../types/type";
 
 //現在の日時取得
 const nowDate = new Date();
@@ -95,7 +95,7 @@ export const useSignup = (userToken: string) => {
    * @param data 入力したデータ
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: UserSignupInfo) => {
     // ローディング画面表示
     setIsLoading(true);
 
@@ -125,7 +125,14 @@ export const useSignup = (userToken: string) => {
       //本登録に成功した場合
       if (res.data.status === "success") {
         //会員登録に成功したら入力値をクリアして登録完了画面に遷移する;
-        clear();
+        reset({
+          accountName: "",
+          hireDate: "",
+          birthDay: "",
+          password: "",
+          passwordConf: "",
+        });
+
         //ローディング画面の閉じる
         setIsLoading(false);
         router.push("/auth/signup/compsignup");
@@ -140,7 +147,7 @@ export const useSignup = (userToken: string) => {
       setIsLoading(false);
     }
   };
-
+  
   /**
    * クリアボタン
    */
