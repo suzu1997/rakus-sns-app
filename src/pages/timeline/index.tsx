@@ -16,7 +16,7 @@ import { useSWRTimeline } from "../../hooks/useSWRTimeline";
  * タイムラインページ.
  * @returns つぶやきの一覧が流れてくるページ
  */
-const Timeline: NextPage = () => {
+const TimelinePage: NextPage = () => {
   //ログインID
   const { hash } = useContext(loginIdContext);
   const { loginId } = useContext(loginIdContext);
@@ -169,4 +169,4 @@ const Timeline: NextPage = () => {
   );
 };
 
-export default Timeline;
+export default TimelinePage;

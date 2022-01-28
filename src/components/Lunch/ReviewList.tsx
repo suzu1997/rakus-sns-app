@@ -6,16 +6,10 @@ import { LunchReview } from "../../types/type";
 import { useSWRReviews } from "../../hooks/useSWRReviews";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 
-type Props = {
-  restaurantId?: number;
-};
-
 /**
  * レビュー一覧を表示するコンポーネント.
  */
-export const ReviewList: FC<Props> = memo((props) => {
-  const { restaurantId } = props;
-
+export const ReviewList: FC = memo(() => {
   // レビューカードがレストラン情報を持つかどうか
   const [hasRestaurantInfo, setHasRestaurantInfo] = useState<boolean>(true);
   const router = useRouter();
@@ -23,7 +17,7 @@ export const ReviewList: FC<Props> = memo((props) => {
   // ユーザーのハッシュ値
   const { hash } = useContext(loginIdContext);
 
-  const { data, isLast, error, loadMoreReviews } = useSWRReviews(hash);
+  const { data, isLast, error, loadMoreReviews, reviewsMutate } = useSWRReviews(hash);
 
   // pathにrestaurantが含まれている(店詳細ページにいる)場合はfalseにする
   // レビューページにいるときだけ店詳細ページへのリンクを付けたい
@@ -76,6 +70,7 @@ export const ReviewList: FC<Props> = memo((props) => {
                   {...review}
                   type="一覧"
                   hasRestaurantInfo={hasRestaurantInfo}
+                  reviewsMutate={reviewsMutate}
                 />
               </div>
             );

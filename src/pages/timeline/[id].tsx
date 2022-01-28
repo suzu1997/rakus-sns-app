@@ -9,7 +9,7 @@ import { SubHeader } from "../../components/Layout/SubHeader";
 import { CommentList } from "../../components/Timeline/CommentList";
 import { TimelineDetailPage } from "../../components/Timeline/TimelineDetail";
 import { loginIdContext } from "../../providers/LoginIdProvider";
-import { Timeline, TimelineComment } from "../../types/type";
+import { Timeline, Comment } from "../../types/type";
 import { JAVA_API_URL } from "../../utils/const";
 
 /**
@@ -42,7 +42,7 @@ const TweetDetail: NextPage = () => {
 
   //つぶやき詳細データ
   const detailData: Timeline = data?.timeline;
-  const commentList: Array<TimelineComment> = data?.commentList;
+  const commentList: Array<Comment> = data?.commentList;
 
   /**
    * 投稿の読み込み直し.
