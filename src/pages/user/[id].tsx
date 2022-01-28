@@ -78,9 +78,7 @@ const User: NextPage = () => {
   }, [mutate]);
 
   //ユーザー情報格納
-  const userDatas = payload?.user;
-  //型定義
-  const userData: UserInfo = userDatas;
+  const userData: UserInfo = payload?.user;
 
   //つぶやき履歴格納
   const timelineHisDatas = payload;
