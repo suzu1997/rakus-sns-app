@@ -1,10 +1,11 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios from "axios";
 
 import { JAVA_API_URL } from "../utils/const";
+import { useModal } from "./useModal";
 
 //バリデーションチェック
 const schema = yup.object().shape({
@@ -28,8 +29,8 @@ const schema = yup.object().shape({
  *  - isOpen:モーダルのオープン状態
  */
 export const useForgetPass = () => {
-  // モーダルのオープン状態
-  const [isOpen, setIsOpen] = useState(false);
+  //モーダルの開閉カスタムフック
+  const { modalStatus, setModalStatus, closeModal } = useModal();
 
   const {
     register,
@@ -59,7 +60,7 @@ export const useForgetPass = () => {
       //メール認証に成功した場合
       if (res.data.status === "success") {
         //メール認証成功したらモーダルを開ける
-        setIsOpen(true);
+        setModalStatus(true);
       } else {
         alert(res.data.message);
       }
@@ -67,10 +68,6 @@ export const useForgetPass = () => {
       alert(error);
     }
   };
-  //モーダルを閉じるメソッド.
-  const closeModal = useCallback(() => {
-    setIsOpen(false);
-  }, []);
 
   /**
    * 入力内容をクリアしてモーダルを閉じる.
@@ -78,7 +75,7 @@ export const useForgetPass = () => {
   const doOnButton = () => {
     //入力値をクリア
     clear();
-    setIsOpen(false);
+    setModalStatus(false);
   };
 
   /**
@@ -95,6 +92,8 @@ export const useForgetPass = () => {
     handleSubmit,
     errors,
     onSubmit,
+    doOnButton,
+    modalStatus,
     closeModal,
     doOnButton,
     isOpen,
