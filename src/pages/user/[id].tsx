@@ -53,10 +53,15 @@ const User: NextPage = () => {
     `${JAVA_API_URL}/user/${userId}/${hash}`,
   );
 
+  //ユーザー情報格納
   const userDatas = payload?.user;
+  //型定義
   const userData: UserInfo = userDatas;
 
-  if (!error && !userDatas) {
+  //つぶやき履歴格納
+  const timelineHisDatas = payload;
+
+  if (!error && !payload) {
     return <div>Loading...</div>;
   }
   if (error) {
