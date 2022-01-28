@@ -82,7 +82,7 @@ export type Timeline = {
 };
 
 //タイムラインコメント
-export type TimelineComment = {
+export type Comment = {
     id: number;
     userId: number;
     accountName: string;

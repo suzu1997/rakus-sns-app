@@ -4,11 +4,11 @@ import { useRouter } from "next/router";
 
 import { FavoBtn } from "../Button/FavoBtn";
 import { TrashBtn } from "../Button/TrashBtn";
-import { TimelineComment } from "../../types/type";
+import { Comment } from "../../types/type";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 
 type Props = {
-  commentList: Array<TimelineComment>; //コメントリスト
+  commentList: Array<Comment>; //コメントリスト
   success: () => void; //成功したときにデータ再読み込み
 };
 
