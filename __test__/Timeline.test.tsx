@@ -45,7 +45,20 @@ describe("Timeline Page Test", () => {
     // ダミーのpropsを渡してコンポーネントをレンダー
     render(<TimelineDetailPage {...dummyProps} />);
     // expectで検証したい内容を記述
-    expect(screen.getByText("佐藤")).toBeInTheDocument();
-    expect(screen.getByText("テスト投稿")).toBeInTheDocument();
+    expect(
+      screen.getByText(dummyProps.detailData.accountName),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(dummyProps.detailData.sentence),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(dummyProps.detailData.likeCount),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(dummyProps.detailData.commentCount),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(dummyProps.detailData.sentence),
+    ).toBeInTheDocument();
   });
 });
