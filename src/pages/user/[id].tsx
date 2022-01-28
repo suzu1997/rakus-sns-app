@@ -84,7 +84,7 @@ const User: NextPage = () => {
         <div className="w-full">
           <SubHeader title="ユーザー情報" />
           <div className="border-solid  border-2 border-bgc-200 m-3 shadow-lg rounded-md">
-            {userData && (
+            {payload && (
               <div className=" text-center">
                 <div className="mt-1 text-xl font-bold">
                   アカウント名:{userData.accountName}
@@ -101,9 +101,9 @@ const User: NextPage = () => {
                 <div>
                   <div>名前:{userData.name}</div>
                   <div>入社日:{userData.hireDate}</div>
-                  <div>職種:{userData.serviceFk}</div>
+                  <div>職種:{userData.serviceName}</div>
                   <div>誕生日:{userData.birthDay}</div>
-                  <div>自己紹介:{datas.introduction}</div>
+                  <div>自己紹介:{userData.introduction}</div>
                 </div>
               </div>
             )}
