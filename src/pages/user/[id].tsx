@@ -46,16 +46,15 @@ const User: NextPage = () => {
 
   /**
    * 押下投稿の詳細に画面遷移.
-   * @remarks IDによって遷移先をタイムラインページかレビューページに分ける
+   * @remarks 受け取った記事IDの詳細画面に遷移
    */
-  const goDetailPage = useCallback((postId: number) => {
-    if (postId > 100) {
+  const goDetailTimelinePage = useCallback(
+    (postId: number) => {
       router.push(`/timeline/${postId}`);
-    } else {
-      router.push(`/lunch/review/${postId}`);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+      // router.push(`/lunch/review/${postId}`);
+    },
+    [router],
+  );
 
   /**
    * APIで初期表示用データ取得.
