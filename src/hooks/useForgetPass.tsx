@@ -32,6 +32,10 @@ export const useForgetPass = () => {
   //モーダルの開閉カスタムフック
   const { modalStatus, setModalStatus, closeModal } = useModal();
 
+  //ローディング画面表示
+  const [isLoading, setIsLoading] = useState(false);
+
+  //useFormから使用するメソッド呼び出し
   const {
     register,
     handleSubmit,
@@ -48,10 +52,14 @@ export const useForgetPass = () => {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
+    // ローディング画面表示
+    setIsLoading(true);
+
     //APIに送るデータ
     const postDate = {
       email: data.email,
     };
+
     try {
       const res = await axios.post(
         `${JAVA_API_URL}/password/sendMail`,
@@ -59,13 +67,19 @@ export const useForgetPass = () => {
       );
       //メール認証に成功した場合
       if (res.data.status === "success") {
+        //ローディング画面の閉じる
+        setIsLoading(false);
         //メール認証成功したらモーダルを開ける
         setModalStatus(true);
       } else {
         alert(res.data.message);
+        //ローディング画面の閉じる
+        setIsLoading(false);
       }
     } catch (error) {
       alert(error);
+      //ローディング画面の閉じる
+      setIsLoading(false);
     }
   };
 
@@ -95,7 +109,6 @@ export const useForgetPass = () => {
     doOnButton,
     modalStatus,
     closeModal,
-    doOnButton,
-    isOpen,
+    isLoading,
   };
 };
