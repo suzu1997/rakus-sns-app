@@ -2,6 +2,7 @@ import { useCallback, useContext } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 
+import { Option } from "../types/type";
 import { loginIdContext } from "../providers/LoginIdProvider";
 import { JAVA_API_URL } from "../utils/const";
 
@@ -24,7 +25,7 @@ export const useReviewPost = () => {
   const reviewPost = useCallback(
     async (
       post: string,
-      star: any,
+      star: Option,
       restaurantId: number,
       success: () => void,
     ) => {

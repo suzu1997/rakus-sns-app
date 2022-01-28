@@ -1,6 +1,7 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import useSWR from "swr";
 
+import { Option } from "../types/type";
 import { loginIdContext } from "../providers/LoginIdProvider";
 import { JAVA_API_URL } from "../utils/const";
 
@@ -8,7 +9,7 @@ import { JAVA_API_URL } from "../utils/const";
  * テキストエリアデータ取得用hook.
  * @returns
  */
-export const usePostValue = (starOptions: any) => {
+export const usePostValue = (starOptions: Array<Option>) => {
   //入力テキストの内容を格納するstate
   const [post, setPost] = useState<string>("");
 
@@ -16,7 +17,7 @@ export const usePostValue = (starOptions: any) => {
   const [postLength, setPostLength] = useState<number>(0);
 
   // 選択した星の数を格納するstate
-  const [star, setStar] = useState(starOptions[0]);
+  const [star, setStar] = useState<Option>(starOptions[0]);
 
   // ログイン中のユーザーidを取得
   const { hash } = useContext(loginIdContext);
