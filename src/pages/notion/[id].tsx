@@ -83,7 +83,7 @@ const Notion: NextPage = () => {
     } else {
       router.push(`/lunch/review/${postId}`);
     }
-  }, []);
+  }, [router]);
 
   // const loginUserId = Number(router.query.id);
   // const { data: notionData, error } = useSWR<Notion>(
