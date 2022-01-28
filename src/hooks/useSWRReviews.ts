@@ -1,6 +1,7 @@
-import { useRouter } from "next/router";
 import { useCallback } from "react";
+import { useRouter } from "next/router";
 import useSWRInfinite, { SWRInfiniteKeyLoader } from "swr/infinite";
+
 import { JAVA_API_URL } from "../utils/const";
 
 const LIMIT = 50; // 50件ずつ読み込む
@@ -64,7 +65,7 @@ export const useSWRReviews = (userId: string) => {
 
   // 最後まで読み込んだかどうか
   const isLast = data
-    ? data.filter((pageData) => pageData?.reviewList.length < LIMIT).length > 0
+    ? data.filter((pageData) => pageData?.reviewList?.length < LIMIT).length > 0
     : false;
 
   return { data, isLast, error, loadMoreReviews, reviewsMutate: mutate };
