@@ -1,14 +1,15 @@
 import { NextPage } from "next";
-import * as yup from "yup";
+import { useRouter } from "next/router";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import useSWR from "swr";
+import axios from "axios";
+
 import { TextInput } from "../../../components/Form/TextInput";
 import { Button } from "../../../components/Button/Button";
-import { useRouter } from "next/router";
 import { JAVA_API_URL } from "../../../utils/const";
-import useSWR from "swr";
 import { UpdatePassInfo } from "../../../types/type";
-import axios from "axios";
 
 //バリデーションチェック
 const schema = yup.object().shape({
@@ -42,9 +43,11 @@ const schema = yup.object().shape({
 const UpdatePass: NextPage = () => {
   //ルーターリンク
   const router = useRouter();
+
   //URLの後ろからtoken取得
   const passToken = String(router.query.token);
 
+  //useFormから使用するメソッド呼び出し
   const {
     register,
     handleSubmit,

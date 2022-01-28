@@ -1,11 +1,13 @@
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import Cookie from "universal-cookie";
-import axios from "axios";
-import { JAVA_API_URL } from "../utils/const";
-import toast from "react-hot-toast";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/router";
+import toast from "react-hot-toast";
+import Cookie from "universal-cookie";
+import * as yup from "yup";
+import axios from "axios";
+
+import { JAVA_API_URL } from "../utils/const";
+import { useCallback } from "react";
 
 //バリデーションチェック
 const schema = yup.object().shape({
@@ -31,6 +33,7 @@ const schema = yup.object().shape({
  * - onSubmit:ログインボタンを押した時のメソッド
  */
 export const useLogin = () => {
+  //useFormから使用するメソッド呼び出し
   const {
     register,
     handleSubmit,
@@ -51,7 +54,7 @@ export const useLogin = () => {
    * @param data 入力したデータ
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = async (data: any) => {
+  const onSubmit = useCallback(async (data: any) => {
     try {
       const res = await axios.post(`${JAVA_API_URL}/login`, {
         email: data.email,
@@ -62,8 +65,13 @@ export const useLogin = () => {
         //ログインに成功したらクッキーにログイン情報をセット
         cookie.set("hash", res.data.user.logicalId, { path: "/" });
         cookie.set("loginId", res.data.user.id, { path: "/" });
+
         //ログインと同時に入力内容をクリア
-        clear();
+        reset({
+          email: "",
+          password: "",
+        });
+
         toast.success("ログインしました");
         //タイムライン画面に遷移する;
         router.push("/timeline");
@@ -74,15 +82,9 @@ export const useLogin = () => {
     } catch (error) {
       alert(error);
     }
-  };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reset, router]);
 
-  //入力データをクリア
-  const clear = () => {
-    reset({
-      email: "",
-      password: "",
-    });
-  };
 
   return {
     register,

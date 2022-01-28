@@ -1,3 +1,4 @@
+import { useCallback, useState } from "react";
 import useSWRInfinite, { SWRInfiniteKeyLoader } from "swr/infinite";
 import { JAVA_API_URL } from "../utils/const";
 
@@ -23,26 +24,29 @@ export const useSWRTimeline = (loginId: string) => {
    * @param previousPageData -
    * @returns ページのキー
    */
-  const getKey: SWRInfiniteKeyLoader = (pageIndex, previousPageData) => {
-    // console.log(previousPageData.timelineList);
+  const getKey: SWRInfiniteKeyLoader = useCallback(
+    (pageIndex, previousPageData) => {
+      // console.log(previousPageData.timelineList);
 
-    // 最後まで読み込んだらnullを返す
-    if (previousPageData && previousPageData.TimelineList.length < LIMIT)
-      return null;
+      // 最後まで読み込んだらnullを返す
+      if (previousPageData && previousPageData.TimelineList.length < LIMIT)
+        return null;
 
-    // 一番最初のフェッチ
-    //まだデータが0件なら、普通にAPI呼ぶ
-    if (pageIndex === 0) return `${JAVA_API_URL}/timeline/${loginId}`;
+      // 一番最初のフェッチ
+      //まだデータが0件なら、普通にAPI呼ぶ
+      if (pageIndex === 0) return `${JAVA_API_URL}/timeline/${loginId}`;
 
-    // 一番古いレビューのIDを取得
-    const id =
-      previousPageData.TimelineList[previousPageData?.TimelineList.length - 1]
-        .id;
+      // 一番古いレビューのIDを取得
+      const id =
+        previousPageData.TimelineList[previousPageData?.TimelineList.length - 1]
+          .id;
 
-    // 「過去の投稿を見る」ボタンを押したとき
-    // 一番下の投稿IDをAPIに渡す
-    return `${JAVA_API_URL}/timeline/old/${id}/${loginId}`;
-  };
+      // 「過去の投稿を見る」ボタンを押したとき
+      // 一番下の投稿IDをAPIに渡す
+      return `${JAVA_API_URL}/timeline/old/${id}/${loginId}`;
+    },
+    [loginId],
+  );
 
   // data: データの連想配列の配列(※ページごとの配列)
   // error: エラーの場合、エラー情報が入る
@@ -57,9 +61,9 @@ export const useSWRTimeline = (loginId: string) => {
    * @remarks
    * ページサイズを増やすことで、次のフェッチ処理を走らせる。
    */
-  const loadMoreTimeline = () => {
+  const loadMoreTimeline = useCallback(() => {
     setSize(size + 1);
-  };
+  }, [setSize, size]);
 
   // 最後まで読み込んだかどうか
   const isLast = data

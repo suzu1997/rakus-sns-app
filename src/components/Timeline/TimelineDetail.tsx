@@ -1,4 +1,4 @@
-import { FC, memo, useContext } from "react";
+import { FC, memo, useCallback, useContext } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
@@ -11,7 +11,7 @@ import { getFormattedDate } from "../../utils/methods";
 
 type Props = {
   detailData: Timeline; //タイムライン詳細データ
-  success?: () => void; //データの更新
+  success: () => void; //データの更新
 };
 
 /**
@@ -30,9 +30,12 @@ export const TimelineDetailPage: FC<Props> = memo((props) => {
    * 画像クリックで投稿ユーザ情報ページに飛ぶ.
    * @param userId - 投稿者ID
    */
-  const goUserPage = (userId: number) => {
-    router.push(`/user/${userId}`);
-  };
+  const goUserPage = useCallback(
+    (userId: number) => {
+      router.push(`/user/${userId}`);
+    },
+    [router],
+  );
 
   return (
     <>
@@ -68,8 +71,8 @@ export const TimelineDetailPage: FC<Props> = memo((props) => {
               <CommentIcon
                 commentCount={detailData.commentCount}
                 postId={detailData.id}
-                target="timeline"
                 success={success}
+                title="つぶやきにコメント"
               />
               <FavoBtn
                 postId={detailData.id}

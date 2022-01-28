@@ -1,6 +1,7 @@
+import { NextPage } from "next";
+
 import { TextInput } from "../../components/Form/TextInput";
 import { Button } from "../../components/Button/Button";
-import { NextPage } from "next";
 import { LinkComp } from "../../components/Form/LinkComp";
 import { useLogin } from "../../hooks/useLogin";
 
@@ -10,6 +11,8 @@ import { useLogin } from "../../hooks/useLogin";
  * @returns ログインするためのページ
  */
 const Login: NextPage = () => {
+
+  //フックスからログイン時の関数を取得
   const { register, handleSubmit, errors, onSubmit } = useLogin();
 
 
