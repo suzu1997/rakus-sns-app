@@ -11,8 +11,10 @@ import { SubHeader } from "../../components/Layout/SubHeader";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { JAVA_API_URL } from "../../utils/const";
 import { Timeline, Title, UserInfo } from "../../types/type";
-
-
+import { getFormattedDate } from "../../utils/methods";
+import { CommentIcon } from "../../components/Button/CommentIcon";
+import { FavoBtn } from "../../components/Button/FavoBtn";
+import { TrashBtn } from "../../components/Button/TrashBtn";
 
 /**
  * ユーザー情報画面
