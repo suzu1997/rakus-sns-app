@@ -55,9 +55,26 @@ export type UserInfo = {
   userPhotoPath: string;
 };
 
+//ユーザ本登録時のユーザー情報
+export type UserSignupInfo = {
+  name: string;
+  hireDate: number;
+  serviceFk: string;
+  accountName: string;
+  birthDay: number;
+  password: string;
+};
+
 //ユーザ本登録画面
 export type UserPreInfo = {
   name: string;
+  email: string;
+};
+
+//ユーザー仮登録
+export type UserTestInfo = {
+  firstName: string;
+  lastName: string;
   email: string;
 };
 
@@ -83,22 +100,22 @@ export type Timeline = {
 
 //タイムラインコメント
 export type TimelineComment = {
-    id: number;
-    userId: number;
-    accountName: string;
-    userPhotoPath: string;
-    timelineId: number;
-    reviewId: number;
-    parentCommentId: number;
-    comment: string;
-    commentLikeCount: number;
-    actionedTime: string;
-    hasNoticed: boolean;
-    commentDeleted: boolean;
-    read: boolean;
-    like: boolean;
-    myLike: boolean;
-  };
+  id: number;
+  userId: number;
+  accountName: string;
+  userPhotoPath: string;
+  timelineId: number;
+  reviewId: number;
+  parentCommentId: number;
+  comment: string;
+  commentLikeCount: number;
+  actionedTime: string;
+  hasNoticed: boolean;
+  commentDeleted: boolean;
+  read: boolean;
+  like: boolean;
+  myLike: boolean;
+};
 
 //タグのタイトル
 export type Title = {
