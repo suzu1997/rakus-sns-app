@@ -175,7 +175,7 @@ const User: NextPage = () => {
                     {payload &&
                       timelineHisDatas.postedTimelineList.map(
                         (timeline: Timeline) => (
-                      <div
+                          <div
                             key={timeline.id}
                             className=" border border-t-1 mt-1 border-blue-100text-sm font-medium leading-5 focus:outline-none rounded-xl bg-white relative p-3 "
                           >
@@ -212,10 +212,10 @@ const User: NextPage = () => {
                               </span>
                               <span
                                 className="p-10 w-8/12 hover:bg-coolGray-100 cursor-pointer hover:opacity-50"
-                        onClick={() => {
+                                onClick={() => {
                                   goDetailTimelinePage(timeline.id);
-                        }}
-                      >
+                                }}
+                              >
                                 {timeline.sentence}
                               </span>
                             </div>
@@ -241,11 +241,32 @@ const User: NextPage = () => {
                                 />
                               )}
                             </div>
-                      </div>
+                          </div>
                         ),
                       )}
                   </div>
                 </Tab.Panel>
+                {/* つぶやき履歴表示ここまで */}
+                {/* 投稿履歴 */}
+                <Tab.Panel className="bg-bgc shadow-lg  rounded-xl p-3 focus:outline-none ">
+                  APIできたら実装
+                </Tab.Panel>
+                {/* 投稿履歴ここまで */}
+                {/* いいね履歴つぶやき */}
+                <Tab.Panel className="bg-bgc shadow-lg  rounded-xl p-3 focus:outline-none ">
+                  APIできたら実装
+                </Tab.Panel>
+                {/* いいね履歴つぶやきここまで */}
+                {/* いいね履歴投稿 */}
+                <Tab.Panel className="bg-bgc shadow-lg  rounded-xl p-3 focus:outline-none ">
+                  APIできたら実装
+                </Tab.Panel>
+                {/* いいね履歴投稿ここまで */}
+                {/* いいね履歴コメント */}
+                <Tab.Panel className="bg-bgc shadow-lg  rounded-xl p-3 focus:outline-none ">
+                  APIできたら実装
+                </Tab.Panel>
+                {/* いいね履歴コメントここまで */}
               </Tab.Panels>
             </Tab.Group>
           </div>
