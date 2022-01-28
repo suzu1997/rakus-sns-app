@@ -32,6 +32,8 @@ const schema = yup.object().shape({
  * - onSubmit:ログインボタンを押した時のメソッド
  */
 export const useLogin = () => {
+
+  //useFormから使用するメソッド呼び出し
   const {
     register,
     handleSubmit,
@@ -77,7 +79,9 @@ export const useLogin = () => {
     }
   };
 
-  //入力データをクリア
+  /**
+   * 入力データをクリア
+   */
   const clear = () => {
     reset({
       email: "",

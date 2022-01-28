@@ -10,6 +10,8 @@ import { usePreSignup } from "../../hooks/usePreSignup";
  * @returns 仮登録するためのページ
  */
 const PreSignUp: NextPage = () => {
+  
+  //フックスから仮登録時の関数を取得
   const {
     register,
     handleSubmit,

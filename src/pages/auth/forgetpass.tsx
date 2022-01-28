@@ -11,6 +11,8 @@ import { useForgetPass } from "../../hooks/useForgetPass";
  * @returns パスワードを忘れたときの画面
  */
 const ForgetPass: NextPage = () => {
+  
+  //フックスからメール送信時の関数を取得
   const {
     register,
     handleSubmit,

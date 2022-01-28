@@ -52,7 +52,20 @@ const schema = yup.object().shape({
     .oneOf([yup.ref("password"), null], "確認用パスワードが一致していません"),
 });
 
-export const useSignup = (userToken: any) => {
+/**
+ *本登録する際のメソッド.
+ * @param userToken - ユーザーのトークン値
+ * @returns
+ * - register:入力したデータ
+ * - handleSubmit:データを入力した際のリアルタイム更新
+ * - errors:バリデーションチェックのエラー
+ * - onSubmit:登録ボタンを押した時のメソッド
+ * - userPreTokenData:トークンから取得したデータ
+ * - clear:入力値をリセットするメソッド
+ * - error:API取得状況のエラー
+ * - isLoading:ローディングアイコン表示
+ */
+export const useSignup = (userToken: string) => {
   //useFormから使用するメソッド呼び出し
   const {
     register,
@@ -91,6 +104,7 @@ export const useSignup = (userToken: any) => {
     const hireDate = String(format(data.hireDate, "yyyy-MM-dd"));
     const birthDay = String(format(data.birthDay, "yyyy-MM-dd"));
 
+    //取得したデータを変数に格納
     const preName = userPreTokenData.name;
     const preEmail = userPreTokenData.email;
 
@@ -126,7 +140,10 @@ export const useSignup = (userToken: any) => {
       setIsLoading(false);
     }
   };
-  //クリアボタン
+
+  /**
+   * クリアボタン
+   */
   const clear = () => {
     reset({
       accountName: "",

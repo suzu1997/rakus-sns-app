@@ -16,6 +16,17 @@ const schema = yup.object().shape({
     .max(255, "メールアドレスは255文字以内で入力してください"),
 });
 
+/**
+ * パスワード忘れた場合のメール送信のカスタムフック.
+ * @returns
+ *  - register:入力したデータ
+ *  - handleSubmit:データを入力した際のリアルタイム更新
+ *  - errors:エラー
+ *  - onSubmit:送信ボタンを押した時のメソッド
+ *  - closeModal:モーダルを閉じるメソッド
+ *  - doOnButton:入力内容をクリアしてモーダルを閉じるメソッド
+ *  - isOpen:モーダルのオープン状態
+ */
 export const useForgetPass = () => {
   // モーダルのオープン状態
   const [isOpen, setIsOpen] = useState(false);
@@ -61,14 +72,18 @@ export const useForgetPass = () => {
     setIsOpen(false);
   }, []);
 
-  //入力内容をクリアしてモーダルを閉じる
+  /**
+   * 入力内容をクリアしてモーダルを閉じる.
+   */
   const doOnButton = () => {
     //入力値をクリア
     clear();
     setIsOpen(false);
   };
 
-  //入力データをクリア
+  /**
+   * 入力データをクリア.
+   */
   const clear = () => {
     reset({
       email: "",

@@ -39,6 +39,8 @@ const schema = yup.object().shape({
  * - options:セレクトボックスの選択肢
  */
 export const usePreSignup = () => {
+
+  //useFormから使用するメソッド呼び出し
   const {
     register,
     handleSubmit,
@@ -101,7 +103,9 @@ export const usePreSignup = () => {
     }
   };
 
-  //入力データをクリア
+  /**
+   * 入力データをクリア
+   */
   const clear = () => {
     reset({
       firstName: "",

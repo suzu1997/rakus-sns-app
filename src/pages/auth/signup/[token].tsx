@@ -16,6 +16,7 @@ const SignUp: NextPage = () => {
   //URLの後ろからtoken取得
   const userToken = String(router.query.token);
 
+  //useFormから使用するメソッド呼び出し
   const {
     register,
     handleSubmit,

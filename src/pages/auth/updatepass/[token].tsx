@@ -43,9 +43,11 @@ const schema = yup.object().shape({
 const UpdatePass: NextPage = () => {
   //ルーターリンク
   const router = useRouter();
+
   //URLの後ろからtoken取得
   const passToken = String(router.query.token);
 
+  //useFormから使用するメソッド呼び出し
   const {
     register,
     handleSubmit,
