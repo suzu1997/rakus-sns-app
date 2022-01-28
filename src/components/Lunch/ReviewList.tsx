@@ -17,7 +17,7 @@ export const ReviewList: FC = memo(() => {
   // ユーザーのハッシュ値
   const { hash } = useContext(loginIdContext);
 
-  const { data, isLast, error, loadMoreReviews } = useSWRReviews(hash);
+  const { data, isLast, error, loadMoreReviews, reviewsMutate } = useSWRReviews(hash);
 
   // pathにrestaurantが含まれている(店詳細ページにいる)場合はfalseにする
   // レビューページにいるときだけ店詳細ページへのリンクを付けたい
@@ -70,6 +70,7 @@ export const ReviewList: FC = memo(() => {
                   {...review}
                   type="一覧"
                   hasRestaurantInfo={hasRestaurantInfo}
+                  reviewsMutate={reviewsMutate}
                 />
               </div>
             );

@@ -9,6 +9,7 @@ import { SubHeader } from "../../../components/Layout/SubHeader";
 import { LunchReview } from "../../../types/type";
 import { loginIdContext } from "../../../providers/LoginIdProvider";
 import { JAVA_API_URL } from "../../../utils/const";
+import { useSWRReviews } from "../../../hooks/useSWRReviews";
 
 /**
  * レビュー詳細を表示するページ.
@@ -23,6 +24,8 @@ const ReviewDetail: NextPage = () => {
 
   // ログインユーザーのハッシュ値
   const { hash } = useContext(loginIdContext);
+
+  const { reviewsMutate } = useSWRReviews(hash);
 
   // データ取得
   const { data, error, mutate } = useSWR(
@@ -57,7 +60,12 @@ const ReviewDetail: NextPage = () => {
         </div>
         {review && (
           <>
-            <ReviewCard {...review} type="詳細" hasRestaurantInfo={true} />
+            <ReviewCard
+              {...review}
+              type="詳細"
+              hasRestaurantInfo={true}
+              reviewsMutate={reviewsMutate}
+            />
             {/* コメント部分 */}
             <div className="w-full">
               <CommentList commentList={commentList} success={mutate} />
