@@ -1,5 +1,5 @@
 /* eslint-disable prefer-const */
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useContext } from "react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { Tab } from "@headlessui/react";
@@ -19,25 +19,14 @@ import { Timeline, Title, UserInfo } from "../../types/type";
  * @returns ユーザー情報を表示するページ
  */
 const User: NextPage = () => {
-  // テストデータ
-  const [datas] = useState({
-    // name: "ランチックス",
-    // hireDate: "2021年10月",
-    img: "/usakus.jpg",
-    // jobtype: "FR",
-    introduction:
-      "ああああああああああああああああああああああああああああああああああああああああああああ",
-  });
-
+  //ログインID
+  const { loginId } = useContext(loginIdContext);
+  const { hash } = useContext(loginIdContext);
   //ルーターリンク
   const router = useRouter();
 
   //URLの後ろからid取得
   const userId = Number(router.query.id);
-
-  //ログインID
-  const { loginId } = useContext(loginIdContext);
-  const { hash } = useContext(loginIdContext);
 
   //編集ボタンを押した時に呼ばれる
   const editInfo = () => {
@@ -73,23 +62,6 @@ const User: NextPage = () => {
   if (error) {
     return <div>データを取得できませんでした</div>;
   }
-
-  //履歴表示のやり方例
-  // const userDataId: Array<any> = [loginId];
-  // const userDataName: Array<any> = [userData.name];
-
-  // const timelineData: Timeline = timelineDatas.TimelineList;
-  // console.dir("ああああ" + JSON.stringify(timelineData));
-  // const { data: payload, error } = useSWR(`${JAVA_API_URL}/timeline/${hash}`);
-  // const timelineDatas = payload;
-  // if (!error && !timelineDatas) {
-  //   return <div>Loading...</div>;
-  // }
-  // if (error) {
-  //   return <div>データを取得できませんでした</div>;
-  // }
-  // const time = timelineDatas.TimelineList.map((timeline: any) => timeline.id);
-  //ここまで
 
   //タブのタイトル
   const categories: Array<Title> = [
