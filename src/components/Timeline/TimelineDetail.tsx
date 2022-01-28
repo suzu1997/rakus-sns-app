@@ -82,7 +82,14 @@ export const TimelineDetailPage: FC<Props> = memo((props) => {
                 type="タイムライン"
               />
               {Number(loginId) === detailData.userId && (
-                <TrashBtn postId={detailData.id} type="タイムライン" />
+                <TrashBtn
+                  postId={detailData.id}
+                  type="タイムライン"
+                  success={() => {
+                    success();
+                    router.push("/timeline");
+                  }}
+                />
               )}
             </div>
           </div>
