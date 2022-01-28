@@ -6,16 +6,10 @@ import { LunchReview } from "../../types/type";
 import { useSWRReviews } from "../../hooks/useSWRReviews";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 
-type Props = {
-  restaurantId?: number;
-};
-
 /**
  * レビュー一覧を表示するコンポーネント.
  */
-export const ReviewList: FC<Props> = memo((props) => {
-  const { restaurantId } = props;
-
+export const ReviewList: FC = memo(() => {
   // レビューカードがレストラン情報を持つかどうか
   const [hasRestaurantInfo, setHasRestaurantInfo] = useState<boolean>(true);
   const router = useRouter();
