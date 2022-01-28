@@ -76,8 +76,24 @@ export const useDeletePost = (postId: number, type: string, success: () => void,
           closeModal();
         }
       }
+
+      if (type === "レビューコメント") {
+        const res = await axios.delete(`${JAVA_API_URL}/review/comment/${postId}/${hash}`);
+        if (res.data.status === "success") {
+          closeModal();
+          toast.success("削除しました");
+          // レビュー一覧再取得
+          if (success) {
+            success();
+          }
+        } else {
+          toast.error(res.data.message);
+          closeModal();
+        }
+      }
     } catch (error) {
-      console.log(error);
+      toast.error("削除に失敗しました");
+      closeModal();
     }
   }, [closeModal, hash, postId, success, type]);
 

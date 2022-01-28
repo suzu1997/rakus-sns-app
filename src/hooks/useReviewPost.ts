@@ -2,6 +2,7 @@ import { useCallback, useContext } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 
+import { Option } from "../types/type";
 import { loginIdContext } from "../providers/LoginIdProvider";
 import { JAVA_API_URL } from "../utils/const";
 
@@ -24,10 +25,9 @@ export const useReviewPost = () => {
   const reviewPost = useCallback(
     async (
       post: string,
-      star: any,
+      star: Option,
       restaurantId: number,
       success: () => void,
-      title: string,
     ) => {
       try {
         // レビュー投稿
@@ -42,13 +42,13 @@ export const useReviewPost = () => {
             success();
           }
           toast.success(
-            `${title}を投稿しました\n${title}内容: ${post}, 星の数: ${star}`,
+            "レビューを投稿しました",
           );
         } else {
           toast.error(res.data.message);
         }
       } catch (e) {
-        toast.error(`${title}の投稿に失敗しました`);
+        toast.error("レビューの投稿に失敗しました");
       }
     },
     [hash],

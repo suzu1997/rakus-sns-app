@@ -97,7 +97,7 @@ const RestaurantDetail: NextPage = () => {
             </span>
           </div>
           <HiddenScrollBar className="overflow-auto h-screen">
-            <ReviewList restaurantId={restaurantId} />
+            <ReviewList />
           </HiddenScrollBar>
           <PostModal
             isOpen={modalStatus}

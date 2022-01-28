@@ -64,7 +64,7 @@ export const PostModal: FC<Props> = memo((props) => {
 
     //レビュー投稿
     if (title === "レビュー") {
-      reviewPost(post, star, restaurantId, success, title);
+      reviewPost(post, star, restaurantId, success);
       closeModal();
       setPost("");
     }

@@ -4,12 +4,13 @@ import { useRouter } from "next/router";
 
 import { FavoBtn } from "../Button/FavoBtn";
 import { TrashBtn } from "../Button/TrashBtn";
-import { TimelineComment } from "../../types/type";
+import { Comment } from "../../types/type";
 import { loginIdContext } from "../../providers/LoginIdProvider";
+import { getFormattedDate } from "../../utils/methods";
 
 type Props = {
-  commentList: TimelineComment; //コメントリスト
-  success: () => void; //データの更新
+  commentList: Array<Comment>; //コメントリスト
+  success: () => void; // レビュー詳細の更新mutate
 };
 
 /**
@@ -17,6 +18,7 @@ type Props = {
  */
 export const CommentList: FC<Props> = memo((props) => {
   const { commentList, success } = props;
+
   //ルーターリンク
   const router = useRouter();
 
@@ -35,37 +37,41 @@ export const CommentList: FC<Props> = memo((props) => {
     <div className="border border-t-0 border-gray-200">
       {commentList?.length > 0 ? (
         <div>
-          {commentList.map((value, key) => (
-            <div key={key} className="flex">
+          {commentList.map((comment: Comment) => (
+            <div key={comment.id} className="flex">
               <div className="w-1/5 text-center pt-5 cursor-pointer hover:opacity-50">
                 <Image
-                  src={`/image/userIcon/${value.userPhotoPath}`}
+                  src={`/image/userIcon/${comment.userPhotoPath}`}
                   width={100}
                   height={100}
                   alt="icon"
                   onClick={() => {
-                    goUserPage(value.userId);
+                    goUserPage(comment.userId);
                   }}
                   className="rounded-full"
                 />
               </div>
               <div className="w-4/5">
                 <div className="text-xl font-extrabold py-3 ml-3">
-                  {value.accountName}
+                  {comment.accountName}
                 </div>
-                <div className="pt-5 pb-5 pl-5 w-8/12">{value.comment}</div>
+                <div className="pt-5 pb-5 pl-5 w-8/12">{comment.comment}</div>
                 <div className="w-full text-right py-3 pr-5">
+                  <span className="mr-7">
+                    コメント日時：
+                    {getFormattedDate(new Date(comment.actionedTime))}
+                  </span>
                   <FavoBtn
-                    postId={value.id}
-                    favoCount={value.commentLikeCount}
-                    success={success}
-                    isFavo={value.myLike}
+                    postId={comment.id}
+                    favoCount={comment.commentLikeCount}
+                    success={success} // レビュー詳細の更新mutate
+                    isFavo={comment.myLike}
                     type="レビューコメント"
                   />
-                  {Number(loginId) === value.userId && (
+                  {Number(loginId) === comment.userId && (
                     <TrashBtn
-                      postId={value.id}
-                      success={success}
+                      postId={comment.id}
+                      success={success} // レビュー詳細の更新mutate
                       type="レビューコメント"
                     />
                   )}
