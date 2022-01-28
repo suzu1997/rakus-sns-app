@@ -74,7 +74,7 @@ export const ReviewCard: FC<Props> = memo((props) => {
    * レビューへのいいね成功後の処理.
    * @param reviewId - レビューのID
    */
-  const likeReviewSuccess = useCallback(
+  const updateReview = useCallback(
     (reviewId: number) => {
       reviewsMutate(); // レビューリストを更新
       mutate(`${JAVA_API_URL}/review/detail/${reviewId}/${hash}`); // レビュー詳細を更新
@@ -137,8 +137,8 @@ export const ReviewCard: FC<Props> = memo((props) => {
             <CommentIcon
               commentCount={commentCount}
               postId={id}
-              target="reviews"
-              success={() => alert("コメント成功")}
+              title="レビューコメント"
+              success={() => updateReview(id)}
             />
             <FavoBtn
               postId={id}
