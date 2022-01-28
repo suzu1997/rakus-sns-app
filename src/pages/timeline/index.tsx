@@ -93,7 +93,7 @@ const TimelinePage: NextPage = () => {
                 className="flex border border-t-0 border-gray-200"
               >
                 <div
-                  className="rounded-full w-1/5 text-center pt-5 cursor-pointer hover:opacity-50"
+                  className="rounded-full w-1/5 text-center ml-5 pt-5 cursor-pointer hover:opacity-50"
                   onClick={() => {
                     goUserPage(timelime.userId);
                   }}
@@ -113,7 +113,7 @@ const TimelinePage: NextPage = () => {
                       goDetailPage(timelime.id);
                     }}
                   >
-                    <div className="text-xl font-extrabold pt-3 pb-3">
+                    <div className="text-xl font-extrabold pt-10 pl-3">
                       {timelime.accountName}
                     </div>
                     <div className="pt-5 pb-5 pl-5 w-8/12">
