@@ -66,7 +66,7 @@ export const ReviewList: FC<Props> = memo((props) => {
 
   return (
     <div className="w-full">
-      <div className="overflow-y-auto h-screen">
+      <div>
         {data &&
           // dataはページごとの連想配列の配列
           data.map((pageData) =>

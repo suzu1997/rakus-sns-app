@@ -2,6 +2,7 @@ import { useCallback, useContext } from "react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import useSWR from "swr";
+import styled from "styled-components";
 
 import { Button } from "../../../components/Button/Button";
 import { PostModal } from "../../../components/Modal/PostModal";
@@ -38,6 +39,12 @@ const RestaurantDetail: NextPage = () => {
   const { data, error, mutate } = useSWR(
     `${JAVA_API_URL}/restaurant/${restaurantId}`,
   );
+
+  const HiddenScrollBar = styled.div`
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  `;
 
   /**
    * 店詳細の情報を更新するメソッド.
@@ -88,7 +95,9 @@ const RestaurantDetail: NextPage = () => {
               <Button label={"レビュー投稿"} size="sm" onClick={openModal} />
             </span>
           </div>
-          <ReviewList restaurantId={restaurantId} />
+          <HiddenScrollBar className="overflow-auto h-screen">
+            <ReviewList restaurantId={restaurantId} />
+          </HiddenScrollBar>
           <PostModal
             isOpen={modalStatus}
             closeModal={closeModal}
