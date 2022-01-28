@@ -88,7 +88,6 @@ export const useSignup = (userToken: string) => {
    */
   const { data: payload, error } = useSWR(`${JAVA_API_URL}/mail/${userToken}`);
   const userPreData = payload?.mail;
-
   const userPreTokenData: UserPreInfo = userPreData;
 
   /**
@@ -122,12 +121,13 @@ export const useSignup = (userToken: string) => {
     try {
       //APIにユーザー登録情報を送信する
       const res = await axios.post(`${JAVA_API_URL}/signup`, postDate);
+
       //本登録に成功した場合
       if (res.data.status === "success") {
-        //ローディング画面の閉じる
-        setIsLoading(false);
         //会員登録に成功したら入力値をクリアして登録完了画面に遷移する;
         clear();
+        //ローディング画面の閉じる
+        setIsLoading(false);
         router.push("/auth/signup/compsignup");
       } else {
         alert(res.data.message);
@@ -159,7 +159,6 @@ export const useSignup = (userToken: string) => {
     handleSubmit,
     errors,
     onSubmit,
-    userPreData,
     userPreTokenData,
     clear,
     error,

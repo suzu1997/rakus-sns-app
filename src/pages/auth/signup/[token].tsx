@@ -22,7 +22,6 @@ const SignUp: NextPage = () => {
     handleSubmit,
     errors,
     onSubmit,
-    userPreData,
     userPreTokenData,
     clear,
     error,
@@ -30,7 +29,7 @@ const SignUp: NextPage = () => {
   } = useSignup(userToken);
 
   //API取得状況による画面初期表示
-  if (!error && !userPreData) {
+  if (!error && !userPreTokenData) {
     return <div>Loading...</div>;
   }
   if (error) {
@@ -43,7 +42,7 @@ const SignUp: NextPage = () => {
         <div className="text-3xl text-text-brown mt-5 font-bold ">
           本登録フォーム
         </div>
-        {userPreData && (
+        {userPreTokenData && (
           <div className="flex flex-col items-center mt-10 mr-3 ml-3">
             {/* トークンから名前とアドレス情報を取得 */}
             <div className="text-xl mt-3">名前:{userPreTokenData.name}</div>
