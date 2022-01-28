@@ -195,11 +195,33 @@ const User: NextPage = () => {
                                 {timeline.sentence}
                               </span>
                             </div>
+                            <div className="w-full text-right py-3">
+                              <CommentIcon
+                                commentCount={timeline.commentCount}
+                                postId={timeline.id}
+                                success={updateData}
+                                title="つぶやきにコメント"
+                              />
+                              <FavoBtn
+                                postId={timeline.id}
+                                favoCount={timeline.likeCount}
+                                isFavo={timeline.myLike}
+                                type="タイムライン"
+                                success={updateData}
+                              />
+                              {Number(loginId) === timeline.userId && (
+                                <TrashBtn
+                                  postId={timeline.id}
+                                  type="タイムライン"
+                                  success={updateData}
+                                />
+                              )}
+                            </div>
                       </div>
                         ),
                       )}
                   </div>
-                </Tab.Panel> */}
+                </Tab.Panel>
               </Tab.Panels>
             </Tab.Group>
           </div>
