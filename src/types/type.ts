@@ -17,9 +17,9 @@ export type LunchReview = {
   sentence: string;
   likeCount: number;
   commentCount: number;
-  updatedTime: Date | null;
+  updatedTime?: Date | null;
   postedTime: Date;
-  deleted: boolean;
+  deleted?: boolean;
   myLike: boolean;
 };
 

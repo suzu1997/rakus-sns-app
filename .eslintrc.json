@@ -3,7 +3,8 @@
   "env": {
     "browser": true,
     "es2021": true,
-    "node": true //node.jsの文法をプロジェクト内で使う場合
+    "node": true, //node.jsの文法をプロジェクト内で使う場合
+    "jest/globals": true // jestのグローバル変数を使う場合
   },
   "extends": [
     "eslint:recommended",
@@ -23,7 +24,7 @@
     "ecmaVersion": 2021,
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint", "react"],
+  "plugins": ["@typescript-eslint", "react", "jest"],
   "rules": {
     "semi": [2, "always"],
     "no-extra-semi": "warn",
