@@ -145,7 +145,7 @@ export const ReviewCard: FC<Props> = memo((props) => {
               favoCount={likeCount}
               isFavo={myLike}
               type="レビュー"
-              success={() => likeReviewSuccess(id)}
+              success={() => updateReview(id)}
             />
             {Number(loginId) === userId && (
               <TrashBtn

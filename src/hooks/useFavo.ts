@@ -65,6 +65,21 @@ export const useFavo = (postId: number, type: string, success: () => void, hash:
             console.log(res.data.message);
           }
         }
+
+        if (type === "レビューコメント") {
+          const res = await axios.post(`${JAVA_API_URL}/review/comment/like`, {
+            commentId: postId, //投稿ID
+            userLogicalId: hash, //ログインユーザID
+          });
+          if (res.data.status === "success") {
+            //リロード
+            if (success) {
+              success();
+            }
+          } else {
+            console.log(res.data.message);
+          }
+        }
       } catch (error) {
         console.log(error);
       }
