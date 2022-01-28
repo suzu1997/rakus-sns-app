@@ -1,5 +1,5 @@
 /* eslint-disable prefer-const */
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useContext } from "react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { Tab } from "@headlessui/react";
@@ -11,33 +11,24 @@ import { SubHeader } from "../../components/Layout/SubHeader";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { JAVA_API_URL } from "../../utils/const";
 import { Timeline, Title, UserInfo } from "../../types/type";
-
-
+import { getFormattedDate } from "../../utils/methods";
+import { CommentIcon } from "../../components/Button/CommentIcon";
+import { FavoBtn } from "../../components/Button/FavoBtn";
+import { TrashBtn } from "../../components/Button/TrashBtn";
 
 /**
  * ユーザー情報画面
  * @returns ユーザー情報を表示するページ
  */
 const User: NextPage = () => {
-  // テストデータ
-  const [datas] = useState({
-    // name: "ランチックス",
-    // hireDate: "2021年10月",
-    img: "/usakus.jpg",
-    // jobtype: "FR",
-    introduction:
-      "ああああああああああああああああああああああああああああああああああああああああああああ",
-  });
-
+  //ログインID
+  const { loginId } = useContext(loginIdContext);
+  const { hash } = useContext(loginIdContext);
   //ルーターリンク
   const router = useRouter();
 
   //URLの後ろからid取得
   const userId = Number(router.query.id);
-
-  //ログインID
-  const { loginId } = useContext(loginIdContext);
-  const { hash } = useContext(loginIdContext);
 
   //編集ボタンを押した時に呼ばれる
   const editInfo = () => {
@@ -45,51 +36,59 @@ const User: NextPage = () => {
   };
 
   /**
-   * 押下投稿の詳細に画面遷移.
-   * @remarks IDによって遷移先をタイムラインページかレビューページに分ける
+   * 画像クリックで投稿ユーザ情報ページに飛ぶ.
+   * @param userId - 投稿者ID
    */
-  const goDetailPage = useCallback((postId: number) => {
-    if (postId > 100) {
+  const goUserPage = useCallback(
+    (userId: number) => {
+      router.push(`/user/${userId}`);
+    },
+    [router],
+  );
+
+  /**
+   * 押下投稿の詳細に画面遷移.
+   * @remarks 受け取った記事IDの詳細画面に遷移
+   */
+  const goDetailTimelinePage = useCallback(
+    (postId: number) => {
       router.push(`/timeline/${postId}`);
-    } else {
-      router.push(`/lunch/review/${postId}`);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+      // router.push(`/lunch/review/${postId}`);
+    },
+    [router],
+  );
 
   /**
    * APIで初期表示用データ取得.
    */
-  const { data: payload, error } = useSWR(
-    `${JAVA_API_URL}/user/${userId}/${hash}`,
-  );
+  const {
+    data: payload,
+    error,
+    mutate,
+  } = useSWR(`${JAVA_API_URL}/user/${userId}/${hash}`);
 
-  const userDatas = payload?.user;
-  const userData: UserInfo = userDatas;
+  /**
+   * 履歴表示一覧の情報を更新するメソッド.
+   *
+   * @remarks
+   * 成功すると呼ばれる。
+   */
+  const updateData = useCallback(() => {
+    mutate(); // 履歴一覧を再検証・再取得する
+  }, [mutate]);
 
-  if (!error && !userDatas) {
+  //ユーザー情報格納
+  const userData: UserInfo = payload?.user;
+
+  //つぶやき履歴格納
+  const timelineHisDatas = payload;
+
+  if (!error && !payload) {
     return <div>Loading...</div>;
   }
   if (error) {
     return <div>データを取得できませんでした</div>;
   }
-
-  //履歴表示のやり方例
-  // const userDataId: Array<any> = [loginId];
-  // const userDataName: Array<any> = [userData.name];
-
-  // const timelineData: Timeline = timelineDatas.TimelineList;
-  // console.dir("ああああ" + JSON.stringify(timelineData));
-  // const { data: payload, error } = useSWR(`${JAVA_API_URL}/timeline/${hash}`);
-  // const timelineDatas = payload;
-  // if (!error && !timelineDatas) {
-  //   return <div>Loading...</div>;
-  // }
-  // if (error) {
-  //   return <div>データを取得できませんでした</div>;
-  // }
-  // const time = timelineDatas.TimelineList.map((timeline: any) => timeline.id);
-  //ここまで
 
   //タブのタイトル
   const categories: Array<Title> = [
@@ -107,7 +106,7 @@ const User: NextPage = () => {
         <div className="w-full">
           <SubHeader title="ユーザー情報" />
           <div className="border-solid  border-2 border-bgc-200 m-3 shadow-lg rounded-md">
-            {userData && (
+            {payload && (
               <div className=" text-center">
                 <div className="mt-1 text-xl font-bold">
                   アカウント名:{userData.accountName}
@@ -124,9 +123,9 @@ const User: NextPage = () => {
                 <div>
                   <div>名前:{userData.name}</div>
                   <div>入社日:{userData.hireDate}</div>
-                  <div>職種:{userData.serviceFk}</div>
+                  <div>職種:{userData.serviceName}</div>
                   <div>誕生日:{userData.birthDay}</div>
-                  <div>自己紹介:{datas.introduction}</div>
+                  <div>自己紹介:{userData.introduction}</div>
                 </div>
               </div>
             )}
@@ -168,24 +167,104 @@ const User: NextPage = () => {
               </Tab.List>
 
               <Tab.Panels>
-                {/* <Tab.Panel
-                  key={time.id}
-                  className="bg-bgc shadow-lg  rounded-xl p-3 focus:outline-none "
-                >
+                {/* つぶやき履歴表示 */}
+                <Tab.Panel className="bg-bgc shadow-lg  rounded-xl p-3 focus:outline-none ">
                   <div>
-                    {timelineDatas.TimelineList.map((time: any) => (
-                      <div
-                        key={timelineDatas.TimelineList.id}
-                        className=" border border-t-1 mt-1 border-blue-100text-sm font-medium leading-5 focus:outline-none rounded-xl bg-white relative p-3 hover:bg-coolGray-100 cursor-pointer hover:opacity-50"
-                        onClick={() => {
-                          goDetailPage(timelineDatas.TimelineList.id);
-                        }}
-                      >
-                        {time.sentence}
-                      </div>
-                    ))}
+                    {payload &&
+                      timelineHisDatas.postedTimelineList.map(
+                        (timeline: Timeline) => (
+                          <div
+                            key={timeline.id}
+                            className=" border border-t-1 mt-1 border-blue-100text-sm font-medium leading-5 focus:outline-none rounded-xl bg-white relative p-3 "
+                          >
+                            <div
+                              className="hover:bg-coolGray-100 cursor-pointer hover:opacity-50"
+                              onClick={() => {
+                                goDetailTimelinePage(timeline.id);
+                              }}
+                            >
+                              <span className="text-xl font-extrabold pt-3 pb-3">
+                                {timeline.accountName}
+                              </span>
+                              <span className="ml-7">
+                                つぶやき日時:
+                                {getFormattedDate(
+                                  new Date(timeline.postedTime),
+                                )}
+                              </span>
+                            </div>
+                            <div className="flex">
+                              <span
+                                className="rounded-full  pt-5 cursor-pointer hover:opacity-50"
+                                onClick={() => {
+                                  goUserPage(timeline.userId);
+                                }}
+                              >
+                                <Image
+                                  src={`/image/userIcon/${timeline.userPhotoPath}`}
+                                  width={100}
+                                  height={100}
+                                  alt="icon"
+                                  className="rounded-full"
+                                />
+                              </span>
+                              <span
+                                className="p-10 w-8/12 hover:bg-coolGray-100 cursor-pointer hover:opacity-50"
+                                onClick={() => {
+                                  goDetailTimelinePage(timeline.id);
+                                }}
+                              >
+                                {timeline.sentence}
+                              </span>
+                            </div>
+                            <div className="w-full text-right py-3">
+                              <CommentIcon
+                                commentCount={timeline.commentCount}
+                                postId={timeline.id}
+                                success={updateData}
+                                title="つぶやきにコメント"
+                              />
+                              <FavoBtn
+                                postId={timeline.id}
+                                favoCount={timeline.likeCount}
+                                isFavo={timeline.myLike}
+                                type="タイムライン"
+                                success={updateData}
+                              />
+                              {Number(loginId) === timeline.userId && (
+                                <TrashBtn
+                                  postId={timeline.id}
+                                  type="タイムライン"
+                                  success={updateData}
+                                />
+                              )}
+                            </div>
+                          </div>
+                        ),
+                      )}
                   </div>
-                </Tab.Panel> */}
+                </Tab.Panel>
+                {/* つぶやき履歴表示ここまで */}
+                {/* 投稿履歴 */}
+                <Tab.Panel className="bg-bgc shadow-lg  rounded-xl p-3 focus:outline-none ">
+                  APIできたら実装
+                </Tab.Panel>
+                {/* 投稿履歴ここまで */}
+                {/* いいね履歴つぶやき */}
+                <Tab.Panel className="bg-bgc shadow-lg  rounded-xl p-3 focus:outline-none ">
+                  APIできたら実装
+                </Tab.Panel>
+                {/* いいね履歴つぶやきここまで */}
+                {/* いいね履歴投稿 */}
+                <Tab.Panel className="bg-bgc shadow-lg  rounded-xl p-3 focus:outline-none ">
+                  APIできたら実装
+                </Tab.Panel>
+                {/* いいね履歴投稿ここまで */}
+                {/* いいね履歴コメント */}
+                <Tab.Panel className="bg-bgc shadow-lg  rounded-xl p-3 focus:outline-none ">
+                  APIできたら実装
+                </Tab.Panel>
+                {/* いいね履歴コメントここまで */}
               </Tab.Panels>
             </Tab.Group>
           </div>

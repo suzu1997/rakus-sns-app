@@ -49,6 +49,7 @@ export type UserInfo = {
   name: string;
   hireDate: string;
   serviceFk: string;
+  serviceName: string;
   accountName: string;
   birthDay: string;
   introduction: string;
@@ -99,22 +100,22 @@ export type Timeline = {
 };
 
 export type Comment = {
-    id: number;
-    userId: number;
-    accountName: string;
-    userPhotoPath: string;
-    timelineId: number;
-    reviewId: number;
-    parentCommentId: number;
-    comment: string;
-    commentLikeCount: number;
-    actionedTime: string;
-    hasNoticed: boolean;
-    commentDeleted: boolean;
-    read: boolean;
-    like: boolean;
-    myLike: boolean;
-  };
+  id: number;
+  userId: number;
+  accountName: string;
+  userPhotoPath: string;
+  timelineId: number;
+  reviewId: number;
+  parentCommentId: number;
+  comment: string;
+  commentLikeCount: number;
+  actionedTime: string;
+  hasNoticed: boolean;
+  commentDeleted: boolean;
+  read: boolean;
+  like: boolean;
+  myLike: boolean;
+};
 
 //タグのタイトル
 export type Title = {
