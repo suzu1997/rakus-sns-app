@@ -11,6 +11,8 @@ import { useLogin } from "../../hooks/useLogin";
  * @returns ログインするためのページ
  */
 const Login: NextPage = () => {
+
+  //フックスからログイン時の関数を取得
   const { register, handleSubmit, errors, onSubmit } = useLogin();
 
 

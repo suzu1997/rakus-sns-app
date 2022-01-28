@@ -8,7 +8,7 @@ import axios from "axios";
 import useSWR from "swr";
 
 import { JAVA_API_URL } from "../utils/const";
-import { UserPreInfo } from "../types/type";
+import { UserPreInfo, UserSignupInfo } from "../types/type";
 
 //現在の日時取得
 const nowDate = new Date();
@@ -52,7 +52,20 @@ const schema = yup.object().shape({
     .oneOf([yup.ref("password"), null], "確認用パスワードが一致していません"),
 });
 
-export const useSignup = (userToken: any) => {
+/**
+ *本登録する際のメソッド.
+ * @param userToken - ユーザーのトークン値
+ * @returns
+ * - register:入力したデータ
+ * - handleSubmit:データを入力した際のリアルタイム更新
+ * - errors:バリデーションチェックのエラー
+ * - onSubmit:登録ボタンを押した時のメソッド
+ * - userPreTokenData:トークンから取得したデータ
+ * - clear:入力値をリセットするメソッド
+ * - error:API取得状況のエラー
+ * - isLoading:ローディングアイコン表示
+ */
+export const useSignup = (userToken: string) => {
   //useFormから使用するメソッド呼び出し
   const {
     register,
@@ -75,7 +88,6 @@ export const useSignup = (userToken: any) => {
    */
   const { data: payload, error } = useSWR(`${JAVA_API_URL}/mail/${userToken}`);
   const userPreData = payload?.mail;
-
   const userPreTokenData: UserPreInfo = userPreData;
 
   /**
@@ -83,7 +95,7 @@ export const useSignup = (userToken: any) => {
    * @param data 入力したデータ
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: UserSignupInfo) => {
     // ローディング画面表示
     setIsLoading(true);
 
@@ -91,6 +103,7 @@ export const useSignup = (userToken: any) => {
     const hireDate = String(format(data.hireDate, "yyyy-MM-dd"));
     const birthDay = String(format(data.birthDay, "yyyy-MM-dd"));
 
+    //取得したデータを変数に格納
     const preName = userPreTokenData.name;
     const preEmail = userPreTokenData.email;
 
@@ -108,12 +121,20 @@ export const useSignup = (userToken: any) => {
     try {
       //APIにユーザー登録情報を送信する
       const res = await axios.post(`${JAVA_API_URL}/signup`, postDate);
+
       //本登録に成功した場合
       if (res.data.status === "success") {
+        //会員登録に成功したら入力値をクリアして登録完了画面に遷移する;
+        reset({
+          accountName: "",
+          hireDate: "",
+          birthDay: "",
+          password: "",
+          passwordConf: "",
+        });
+
         //ローディング画面の閉じる
         setIsLoading(false);
-        //会員登録に成功したら入力値をクリアして登録完了画面に遷移する;
-        clear();
         router.push("/auth/signup/compsignup");
       } else {
         alert(res.data.message);
@@ -126,7 +147,10 @@ export const useSignup = (userToken: any) => {
       setIsLoading(false);
     }
   };
-  //クリアボタン
+  
+  /**
+   * クリアボタン
+   */
   const clear = () => {
     reset({
       accountName: "",
@@ -142,7 +166,6 @@ export const useSignup = (userToken: any) => {
     handleSubmit,
     errors,
     onSubmit,
-    userPreData,
     userPreTokenData,
     clear,
     error,
