@@ -25,7 +25,7 @@ const ReviewDetail: NextPage = () => {
   const { hash } = useContext(loginIdContext);
 
   // データ取得
-  const { data, error } = useSWR(
+  const { data, error, mutate } = useSWR(
     `${JAVA_API_URL}/review/detail/${reviewId}/${hash}`,
   );
 
@@ -39,6 +39,9 @@ const ReviewDetail: NextPage = () => {
 
   // レビュー情報をデータから抽出
   const review: LunchReview = data.review;
+
+  // レビューに対するコメント一覧をデータから抽出
+  const commentList = data.commentList;
 
   return (
     <div className="flex">
@@ -57,7 +60,7 @@ const ReviewDetail: NextPage = () => {
             <ReviewCard {...review} type="詳細" hasRestaurantInfo={true} />
             {/* コメント部分 */}
             <div className="w-full">
-              <CommentList commentList={data.commentList} />
+              <CommentList commentList={commentList} success={mutate} />
             </div>
           </>
         )}
