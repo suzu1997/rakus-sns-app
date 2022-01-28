@@ -98,24 +98,23 @@ export type Timeline = {
   myLike: boolean;
 };
 
-//タイムラインコメント
-export type TimelineComment = {
-  id: number;
-  userId: number;
-  accountName: string;
-  userPhotoPath: string;
-  timelineId: number;
-  reviewId: number;
-  parentCommentId: number;
-  comment: string;
-  commentLikeCount: number;
-  actionedTime: string;
-  hasNoticed: boolean;
-  commentDeleted: boolean;
-  read: boolean;
-  like: boolean;
-  myLike: boolean;
-};
+export type Comment = {
+    id: number;
+    userId: number;
+    accountName: string;
+    userPhotoPath: string;
+    timelineId: number;
+    reviewId: number;
+    parentCommentId: number;
+    comment: string;
+    commentLikeCount: number;
+    actionedTime: string;
+    hasNoticed: boolean;
+    commentDeleted: boolean;
+    read: boolean;
+    like: boolean;
+    myLike: boolean;
+  };
 
 //タグのタイトル
 export type Title = {
