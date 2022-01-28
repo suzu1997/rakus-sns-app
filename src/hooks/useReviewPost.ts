@@ -27,7 +27,6 @@ export const useReviewPost = () => {
       star: any,
       restaurantId: number,
       success: () => void,
-      title: string,
     ) => {
       try {
         // レビュー投稿
@@ -42,13 +41,13 @@ export const useReviewPost = () => {
             success();
           }
           toast.success(
-            `${title}を投稿しました\n${title}内容: ${post}, 星の数: ${star}`,
+            "レビューを投稿しました",
           );
         } else {
           toast.error(res.data.message);
         }
       } catch (e) {
-        toast.error(`${title}の投稿に失敗しました`);
+        toast.error("レビューの投稿に失敗しました");
       }
     },
     [hash],
