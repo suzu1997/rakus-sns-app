@@ -89,8 +89,7 @@ export const useUserEdit = () => {
       accountName: userData?.accountName,
       hireDate: formatHireDate,
       birthDay: userData?.birthDay,
-      // serviceFk: userData?.serviceFk,
-      serviceFk: "",
+      serviceFk: String(userData?.serviceFk),
       introduction: userData?.introduction,
     },
   });
@@ -102,8 +101,7 @@ export const useUserEdit = () => {
       accountName: userData?.accountName,
       hireDate: formatHireDate,
       birthDay: userData?.birthDay,
-      // serviceFk: userData?.serviceFk,
-      serviceFk: "",
+      serviceFk: String(userData?.serviceFk),
       introduction: userData?.introduction,
     });
   }, [reset, userData, formatFirstName, formatLastName, formatHireDate]);
