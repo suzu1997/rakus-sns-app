@@ -40,6 +40,7 @@ const RestaurantDetail: NextPage = () => {
     `${JAVA_API_URL}/restaurant/${restaurantId}`,
   );
 
+  //スクロールバーを隠すCSS
   const HiddenScrollBar = styled.div`
     ::-webkit-scrollbar {
       display: none;
