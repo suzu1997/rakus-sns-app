@@ -5,7 +5,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios from "axios";
 
-import { Option } from "../types/type";
 import { JAVA_API_URL } from "../utils/const";
 import { Option, UserTestInfo } from "../types/type";
 
