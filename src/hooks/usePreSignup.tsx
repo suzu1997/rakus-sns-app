@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -7,6 +7,7 @@ import axios from "axios";
 
 import { Option } from "../types/type";
 import { JAVA_API_URL } from "../utils/const";
+import { Option, UserTestInfo } from "../types/type";
 
 //バリデーションチェック
 const schema = yup.object().shape({
@@ -39,6 +40,7 @@ const schema = yup.object().shape({
  * - options:セレクトボックスの選択肢
  */
 export const usePreSignup = () => {
+  //useFormから使用するメソッド呼び出し
   const {
     register,
     handleSubmit,
@@ -69,46 +71,46 @@ export const usePreSignup = () => {
    * @param data 入力データ
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = async (data: any) => {
-    // ローディング画面表示
-    setIsLoading(true);
+  const onSubmit = useCallback(
+    async (data:UserTestInfo) => {
+      // ローディング画面表示
+      setIsLoading(true);
 
-    //APIに送るデータ
-    const postDate = {
-      name: data.firstName + " " + data.lastName,
-      email: data.email + selectValue.name,
-    };
-    try {
-      const res = await axios.post(`${JAVA_API_URL}/presignup`, postDate);
-      //初期値エラー
+      //APIに送るデータ
+      const postDate = {
+        name: data.firstName + " " + data.lastName,
+        email: data.email + selectValue.name,
+      };
+      try {
+        const res = await axios.post(`${JAVA_API_URL}/presignup`, postDate);
+        //初期値エラー
 
-      //仮登録に成功した場合
-      if (res.data.status === "success") {
-        //ローディング画面の閉じる
-        setIsLoading(false);
-        //入力内容をクリアした後、仮登録完了画面に遷移する
-        clear();
-        router.push("/auth/comppresignup");
-      } else {
-        alert(res.data.message);
+        //仮登録に成功した場合
+        if (res.data.status === "success") {
+          //ローディング画面の閉じる
+          setIsLoading(false);
+
+          //入力内容をクリアした後、仮登録完了画面に遷移する
+          reset({
+            firstName: "",
+            lastName: "",
+            email: "",
+          });
+
+          router.push("/auth/comppresignup");
+        } else {
+          alert(res.data.message);
+          //ローディング画面の閉じる
+          setIsLoading(false);
+        }
+      } catch (error) {
+        alert(error);
         //ローディング画面の閉じる
         setIsLoading(false);
       }
-    } catch (error) {
-      alert(error);
-      //ローディング画面の閉じる
-      setIsLoading(false);
-    }
-  };
-
-  //入力データをクリア
-  const clear = () => {
-    reset({
-      firstName: "",
-      lastName: "",
-      email: "",
-    });
-  };
+    },
+    [reset, router, selectValue.name],
+  );
 
   return {
     register,
