@@ -86,7 +86,7 @@ export const TimelineDetailPage: FC<Props> = memo((props) => {
                   postId={detailData.id}
                   type="タイムライン"
                   success={() => {
-                    success();
+                    success;
                     router.push("/timeline");
                   }}
                 />
