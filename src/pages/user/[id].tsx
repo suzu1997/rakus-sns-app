@@ -59,9 +59,21 @@ const User: NextPage = () => {
   /**
    * APIで初期表示用データ取得.
    */
-  const { data: payload, error } = useSWR(
-    `${JAVA_API_URL}/user/${userId}/${hash}`,
-  );
+  const {
+    data: payload,
+    error,
+    mutate,
+  } = useSWR(`${JAVA_API_URL}/user/${userId}/${hash}`);
+
+  /**
+   * 履歴表示一覧の情報を更新するメソッド.
+   *
+   * @remarks
+   * 成功すると呼ばれる。
+   */
+  const updateData = useCallback(() => {
+    mutate(); // 履歴一覧を再検証・再取得する
+  }, [mutate]);
 
   //ユーザー情報格納
   const userDatas = payload?.user;
