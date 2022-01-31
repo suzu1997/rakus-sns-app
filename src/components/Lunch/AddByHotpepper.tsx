@@ -116,8 +116,28 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
       <p className="sm:ml-10 mt-2">▶︎交通アクセス: {restaurant.access}</p>
       <p className="sm:ml-10 mt-2">
         ▶︎店舗URL:{" "}
-        <a href={restaurant.urls.pc} className="underline hover:text-text-brown">
+        <a
+          href={restaurant.urls.pc}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline hover:text-text-brown"
+        >
           {restaurant.urls.pc}
+          {/* 外部リンクアイコン */}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5 inline ml-1"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+            />
+          </svg>
         </a>
       </p>
       <p className="sm:ml-10 mt-2">▶︎禁煙席: {restaurant.non_smoking}</p>
