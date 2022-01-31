@@ -1,17 +1,15 @@
-import { NextPage } from "next";
+import type { NextPage } from "next";
 
 import { TextInput } from "../../components/Form/TextInput";
 import { Button } from "../../components/Button/Button";
 import { ConfModal } from "../../components//Modal/ConfModal";
 import { useForgetPass } from "../../hooks/useForgetPass";
 
-
 /**
  * パスワードを忘れたときの画面.
  * @returns パスワードを忘れたときの画面
  */
 const ForgetPass: NextPage = () => {
-
   //フックスからメール送信時の関数を取得
   const {
     register,

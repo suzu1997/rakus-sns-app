@@ -8,7 +8,7 @@ import axios from "axios";
 import useSWR from "swr";
 
 import { JAVA_API_URL } from "../utils/const";
-import { UserPreInfo, UserSignupInfo } from "../types/type";
+import type { UserPreInfo, UserSignupInfo } from "../types/type";
 
 //現在の日時取得
 const nowDate = new Date();
@@ -147,7 +147,7 @@ export const useSignup = (userToken: string) => {
       setIsLoading(false);
     }
   };
-  
+
   /**
    * クリアボタン
    */

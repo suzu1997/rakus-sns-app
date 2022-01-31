@@ -1,4 +1,4 @@
-import { NextPage } from "next";
+import type { NextPage } from "next";
 
 import { TextInput } from "../../components/Form/TextInput";
 import { Button } from "../../components/Button/Button";
@@ -10,7 +10,6 @@ import { usePreSignup } from "../../hooks/usePreSignup";
  * @returns 仮登録するためのページ
  */
 const PreSignUp: NextPage = () => {
-  
   //フックスから仮登録時の関数を取得
   const {
     register,

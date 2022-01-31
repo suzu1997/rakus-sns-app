@@ -1,4 +1,4 @@
-import { NextPage } from "next";
+import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -9,7 +9,7 @@ import axios from "axios";
 import { TextInput } from "../../../components/Form/TextInput";
 import { Button } from "../../../components/Button/Button";
 import { JAVA_API_URL } from "../../../utils/const";
-import { UpdatePassInfo } from "../../../types/type";
+import type { LoginUser, UpdatePassInfo } from "../../../types/type";
 
 //バリデーションチェック
 const schema = yup.object().shape({

@@ -1,6 +1,6 @@
 /* eslint-disable prefer-const */
 import { useCallback, useContext } from "react";
-import { NextPage } from "next";
+import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { Tab } from "@headlessui/react";
 import useSWR from "swr";
@@ -10,7 +10,7 @@ import { Button } from "../../components/Button/Button";
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { JAVA_API_URL } from "../../utils/const";
-import { Timeline, Title, UserInfo } from "../../types/type";
+import type { Timeline, Title, UserInfo } from "../../types/type";
 import { getFormattedDate } from "../../utils/methods";
 import { CommentIcon } from "../../components/Button/CommentIcon";
 import { FavoBtn } from "../../components/Button/FavoBtn";

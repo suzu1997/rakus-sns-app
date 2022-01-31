@@ -1,20 +1,17 @@
-import { NextPage } from "next";
+import type { NextPage } from "next";
 
 import { TextInput } from "../../components/Form/TextInput";
 import { Button } from "../../components/Button/Button";
 import { LinkComp } from "../../components/Form/LinkComp";
 import { useLogin } from "../../hooks/useLogin";
 
-
 /**
  * ログインページ.
  * @returns ログインするためのページ
  */
 const Login: NextPage = () => {
-
   //フックスからログイン時の関数を取得
   const { register, handleSubmit, errors, onSubmit } = useLogin();
-
 
   return (
     <div className="flex flex-col items-center mt-10">
