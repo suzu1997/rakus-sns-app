@@ -6,7 +6,7 @@ import * as yup from "yup";
 import axios from "axios";
 
 import { JAVA_API_URL } from "../utils/const";
-import { Option, UserTestInfo } from "../types/type";
+import type { Option, UserTestInfo } from "../types/type";
 
 //バリデーションチェック
 const schema = yup.object().shape({
@@ -71,7 +71,7 @@ export const usePreSignup = () => {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = useCallback(
-    async (data:UserTestInfo) => {
+    async (data: UserTestInfo) => {
       // ローディング画面表示
       setIsLoading(true);
 

@@ -79,6 +79,12 @@ export type UserTestInfo = {
   email: string;
 };
 
+//ログインユーザー
+export type LoginUser = {
+  email: string;
+  password: string;
+};
+
 //パスワード変更画面
 export type UpdatePassInfo = {
   email: string;

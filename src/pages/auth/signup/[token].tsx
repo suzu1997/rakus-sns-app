@@ -1,4 +1,4 @@
-import { NextPage } from "next";
+import type { NextPage } from "next";
 import { useRouter } from "next/router";
 
 import { Button } from "../../../components/Button/Button";
@@ -16,7 +16,7 @@ const SignUp: NextPage = () => {
   //URLの後ろからtoken取得
   const userToken = String(router.query.token);
 
-  //useFormから使用するメソッド呼び出し
+  //フックスから本登録時に使用する関数を呼び出し
   const {
     register,
     handleSubmit,

@@ -6,7 +6,7 @@ import axios from "axios";
 
 import { JAVA_API_URL } from "../utils/const";
 import { useModal } from "./useModal";
-import { UpdatePassInfo } from "../types/type";
+import type { UpdatePassInfo } from "../types/type";
 
 //バリデーションチェック
 const schema = yup.object().shape({

@@ -1,40 +1,9 @@
-import { NextPage } from "next";
+import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
-import * as yup from "yup";
-import useSWR from "swr";
-import axios from "axios";
 
 import { TextInput } from "../../../components/Form/TextInput";
 import { Button } from "../../../components/Button/Button";
-import { JAVA_API_URL } from "../../../utils/const";
-import { UpdatePassInfo } from "../../../types/type";
-
-//バリデーションチェック
-const schema = yup.object().shape({
-  //パスワードのバリデーション
-  password: yup
-    .string()
-    .required("パスワードを入力してください")
-    .matches(
-      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]+$/,
-      "アルファベット（大文字小文字混在）と数字とを組み合わせて入力してください",
-    )
-    .max(16, "16文字以内で入力してください")
-    .min(8, "8文字以上で入力してください"),
-  //確認用パスワードのバリデーション
-  passwordConf: yup
-    .string()
-    .required("確認用パスワードを入力してください")
-    .matches(
-      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]+$/,
-      "アルファベット（大文字小文字混在）と数字とを組み合わせて入力してください",
-    )
-    .max(16, "16文字以内で入力してください")
-    .min(8, "8文字以上で入力してください")
-    .oneOf([yup.ref("password"), null], "確認用パスワードが一致していません"),
-});
+import { userUpdatePass } from "../../../hooks/userUpdatePass";
 
 /**
  * パスワードを忘れたときの画面.
@@ -47,22 +16,15 @@ const UpdatePass: NextPage = () => {
   //URLの後ろからtoken取得
   const passToken = String(router.query.token);
 
-  //useFormから使用するメソッド呼び出し
+  //フックスからパスワード変更時に使用する関数を呼び出し
   const {
     register,
     handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm({
-    //バリデーション機能を呼び出し
-    resolver: yupResolver(schema),
-  });
-
-  /**
-   * APIで初期表示用データ取得.
-   */
-  const { data: payload, error } = useSWR(`${JAVA_API_URL}/mail/${passToken}`);
-  const updatePassData = payload?.mail;
+    errors,
+    onSubmit,
+    error,
+    updatePassData,
+  } = userUpdatePass(passToken);
 
   if (!error && !updatePassData) {
     return <div>Loading...</div>;
@@ -70,48 +32,6 @@ const UpdatePass: NextPage = () => {
   if (error) {
     return <div>データを取得できませんでした</div>;
   }
-  const updatePassTokenData: UpdatePassInfo = updatePassData;
-
-  /**
-   * 送信ボタンを押した時に呼ばれるメソッド.
-   * @param data 入力したデータ
-   */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = async (data: any) => {
-    const preEmail = updatePassTokenData.email;
-
-    const postData = {
-      email: preEmail,
-      password: data.password,
-    };
-
-    try {
-      //APIに変更するユーザーのアドレスと新しいパスを送信する
-      const res = await axios.patch(
-        `${JAVA_API_URL}/password/${passToken}`,
-        postData,
-      );
-      //パス変更に成功した場合
-      if (res.data.status === "success") {
-        //入力情報をクリア
-        clear();
-        //パスワード変更完了したら画面遷移
-        router.push("/auth/compupdatepass");
-      } else {
-        alert(res.data.message);
-      }
-    } catch (error) {
-      alert(error);
-    }
-  };
-
-  //入力データをクリア
-  const clear = () => {
-    reset({
-      password: "",
-      passwordConf: "",
-    });
-  };
 
   return (
     <>
@@ -122,7 +42,7 @@ const UpdatePass: NextPage = () => {
         {updatePassData && (
           <div className="flex flex-col items-center mt-5">
             <div className="mt-3">
-              メールアドレス:{updatePassTokenData.email}
+              メールアドレス:{updatePassData.email}
             </div>
             <div className="w-3/4 sm:w-2/4 mt-3">
               {/* パスワードのテキストフォーム */}
