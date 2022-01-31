@@ -1,4 +1,4 @@
-import { ChangeEventHandler, FC } from "react";
+import { ChangeEventHandler, FC, memo } from "react";
 
 export type Props = {
   label?: string;
@@ -18,7 +18,7 @@ export type Props = {
 /**
  * 汎用的なテキスト入力コンポーネント.
  */
-export const TextInput: FC<Props> = (props) => {
+export const TextInput: FC<Props> = memo((props) => {
   const {
     label,
     value,
@@ -65,4 +65,4 @@ export const TextInput: FC<Props> = (props) => {
       />
     </div>
   );
-};
+});
