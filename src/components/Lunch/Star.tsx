@@ -11,14 +11,12 @@ export const Star: FC<Props> = memo((props) => {
   //受け取った星の数
   const { starCount } = props;
   //星の数の少数切捨て
-  const [mathNum] = useState(Math.floor(starCount));
+  const mathNum = Math.floor(starCount);
   //星を入れる配列
   const [starArray, setStarArray] = useState<string[]>([]);
 
-  /**
-   * 星の配列を作成.
-   */
-  const makeStarArray = () => {
+  // 星の配列を作成.
+  useEffect(() => {
     const array = [];
     //星の配列を空に
     setStarArray([]);
@@ -41,13 +39,7 @@ export const Star: FC<Props> = memo((props) => {
       }
     }
     setStarArray(array);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  };
-
-  useEffect(() => {
-    makeStarArray();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [mathNum, starCount]);
 
   return (
     <>
