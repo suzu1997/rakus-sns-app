@@ -15,6 +15,13 @@ import { loginIdContext } from "../../../providers/LoginIdProvider";
 import { useSWRReviews } from "../../../hooks/useSWRReviews";
 import { useModal } from "../../../hooks/useModal";
 
+//スクロールバーを隠すCSS
+const HiddenScrollBar = styled.div`
+  ::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
 /**
  * お店情報の詳細を表示するページ.
  *
@@ -39,13 +46,6 @@ const RestaurantDetail: NextPage = () => {
   const { data, error, mutate } = useSWR(
     `${JAVA_API_URL}/restaurant/${restaurantId}`,
   );
-
-  //スクロールバーを隠すCSS
-  const HiddenScrollBar = styled.div`
-    ::-webkit-scrollbar {
-      display: none;
-    }
-  `;
 
   /**
    * 店詳細の情報を更新するメソッド.
