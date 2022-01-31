@@ -53,8 +53,8 @@ export const useLogin = () => {
    * ログインボタンを押した時のメソッド.
    * @param data 入力したデータ
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = useCallback(async (data: any) => {
+  const onSubmit = useCallback(
+    async (data: LoginUser) => {
     try {
       const res = await axios.post(`${JAVA_API_URL}/login`, {
         email: data.email,
@@ -83,8 +83,9 @@ export const useLogin = () => {
       alert(error);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reset, router]);
-
+    },
+    [reset, router],
+  );
 
   return {
     register,
