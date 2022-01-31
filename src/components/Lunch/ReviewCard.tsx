@@ -54,13 +54,6 @@ export const ReviewCard: FC<Props> = memo((props) => {
   const { loginId } = useContext(loginIdContext);
 
   /**
-   * レビュー詳細ページへ遷移するメソッド.
-   */
-  const goReviewDetail = () => {
-    router.push(`/lunch/review/${id}`);
-  };
-
-  /**
    * 画像クリックで投稿ユーザ情報ページに飛ぶ.
    */
   const goUserPage = (e: MouseEvent<HTMLInputElement>) => {
@@ -97,7 +90,6 @@ export const ReviewCard: FC<Props> = memo((props) => {
   return (
     <div
       className="flex flex-col w-full p-3 relative h-auto border border-t-0 border-gray-200 cursor-pointer"
-      onClick={goReviewDetail}
     >
       <div className="flex">
         <div className="mr-6" onClick={goUserPage}>
