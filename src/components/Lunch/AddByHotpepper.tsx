@@ -61,7 +61,7 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
         });
         if (res.data.status === "success") {
           toast.success("お店を登録しました");
-          router.push(`/lunch/restaurant/${res.data.restaurant.id}`);
+          router.replace(`/lunch/restaurant/${res.data.restaurant.id}`);
         } else {
           toast.error(res.data.message);
         }
