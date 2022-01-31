@@ -33,11 +33,19 @@ const ReviewDetail: NextPage = () => {
   );
 
   if (!error && !data) {
-    return <div>Loading...</div>;
+    return (
+      <div className="w-full flex justify-center pt-10">
+        <div className="animate-spin h-8 w-8 bg-basic rounded-xl"></div>
+      </div>
+    );
   }
 
   if (error) {
-    return <div>データを取得できませんでした</div>;
+    return (
+      <div className="w-full p-10 text-center">
+        データを取得できませんでした
+      </div>
+    );
   }
 
   // レビュー情報をデータから抽出
