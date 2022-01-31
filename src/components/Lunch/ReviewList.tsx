@@ -5,6 +5,7 @@ import { ReviewCard } from "./ReviewCard";
 import type { LunchReview } from "../../types/type";
 import { useSWRReviews } from "../../hooks/useSWRReviews";
 import { loginIdContext } from "../../providers/LoginIdProvider";
+import Link from "next/link";
 
 /**
  * レビュー一覧を表示するコンポーネント.
@@ -66,14 +67,20 @@ export const ReviewList: FC = memo(() => {
         data.map((pageData) =>
           pageData.reviewList.map((review: LunchReview) => {
             return (
-              <div key={review.id}>
-                <ReviewCard
-                  {...review}
-                  type="一覧"
-                  hasRestaurantInfo={hasRestaurantInfo}
-                  reviewsMutate={reviewsMutate}
-                />
-              </div>
+              <Link
+                href={`/lunch/review/${review.id}`}
+                prefetch={false}
+                key={review.id}
+              >
+                <a>
+                  <ReviewCard
+                    {...review}
+                    type="一覧"
+                    hasRestaurantInfo={hasRestaurantInfo}
+                    reviewsMutate={reviewsMutate}
+                  />
+                </a>
+              </Link>
             );
           }),
         )}
