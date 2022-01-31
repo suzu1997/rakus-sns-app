@@ -75,7 +75,7 @@ export const RestaurantDetailContainer: FC<Props> = memo((props) => {
       {restaurant.url && (
         <p className="my-10 break-all">
           参考URL:
-          <a href={restaurant.url}>{restaurant.url}</a>
+          <a href={restaurant.url} className="underline hover:text-text-brown"> {restaurant.url}</a>
         </p>
       )}
     </div>
