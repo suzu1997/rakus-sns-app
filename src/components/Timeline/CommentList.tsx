@@ -6,7 +6,7 @@ import { FavoBtn } from "../Button/FavoBtn";
 import { TrashBtn } from "../Button/TrashBtn";
 import type { Comment } from "../../types/type";
 import { loginIdContext } from "../../providers/LoginIdProvider";
-import { getFormattedDate } from "../../utils/methods";
+import { getFormattedDate, returnCodeToBr } from "../../utils/methods";
 
 type Props = {
   commentList: Array<Comment>; //コメントリスト
@@ -43,7 +43,10 @@ export const CommentList: FC<Props> = memo((props) => {
             <div className="text-xl font-extrabold py-3 ml-3">
               {value.accountName}
             </div>
-            <div className="pt-5 pb-5 pl-5 w-8/12">{value.comment}</div>
+            <div className="pt-5 pb-5 pl-5 w-8/12">
+              {" "}
+              {returnCodeToBr(value.comment)}
+            </div>
             <div className="text-right pb-5">
               <div className="flex flex-col items-end gap-3 sm:flex-row justify-end mr-10 mt-5">
                 <div className="mr-5">

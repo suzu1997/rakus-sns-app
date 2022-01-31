@@ -11,6 +11,7 @@ import { PostBtn } from "../../components/Button/PostBtn";
 import type { Timeline } from "../../types/type";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { useSWRTimeline } from "../../hooks/useSWRTimeline";
+import { returnCodeToBr } from "../../utils/methods";
 
 /**
  * タイムラインページ.
@@ -88,7 +89,7 @@ const TimelinePage: NextPage = () => {
                           {timelime.accountName}
                         </div>
                         <div className="pt-5 pb-5 pl-5 w-8/12">
-                          {timelime.sentence}
+                          {returnCodeToBr(timelime.sentence)}
                         </div>
                       </a>
                     </Link>

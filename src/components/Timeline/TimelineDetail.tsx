@@ -8,7 +8,7 @@ import { CommentIcon } from "../Button/CommentIcon";
 import { TrashBtn } from "../Button/TrashBtn";
 import type { Timeline } from "../../types/type";
 import { loginIdContext } from "../../providers/LoginIdProvider";
-import { getFormattedDate } from "../../utils/methods";
+import { getFormattedDate, returnCodeToBr } from "../../utils/methods";
 
 type Props = {
   detailData: Timeline; //タイムライン詳細データ
@@ -48,8 +48,8 @@ export const TimelineDetailPage: FC<Props> = memo((props) => {
             <div className="text-xl font-extrabold py-3 ml-3">
               {detailData.accountName}
             </div>
-            <div className="w-8/12 lg:mt-10 lg:ml-10 md:mt-3 ml-5">
-              {detailData.sentence}
+            <div className="w-8/12 lg:ml-10 ml-5">
+              {returnCodeToBr(detailData.sentence)}
             </div>
           </div>
         </div>
