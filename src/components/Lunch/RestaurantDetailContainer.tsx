@@ -4,7 +4,7 @@ import Image from "next/image";
 import { GoogleMap } from "./GoogleMap";
 import { Star } from "./Star";
 import type { Restaurant } from "../../types/type";
-import { getRestaurantPhotoPath } from "../../utils/methods";
+import { getRestaurantPhotoPath, returnCodeToBr } from "../../utils/methods";
 
 type Props = {
   restaurant: Restaurant;
@@ -52,7 +52,7 @@ export const RestaurantDetailContainer: FC<Props> = memo((props) => {
           />
         </div>
         {restaurant.description && (
-          <div className="mt-10">{restaurant.description}</div>
+          <div className="mt-10">{returnCodeToBr(restaurant.description)}</div>
         )}
         {restaurant.smoking && (
           <div className="mt-10">禁煙席: {restaurant.smoking}</div>

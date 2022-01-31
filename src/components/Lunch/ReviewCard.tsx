@@ -10,7 +10,11 @@ import { Star } from "./Star";
 import { LinkToRestaurant } from "./LinkToRestaurat";
 import type { LunchReview } from "../../types/type";
 import { loginIdContext } from "../../providers/LoginIdProvider";
-import { getFormattedDate, getRestaurantPhotoPath } from "../../utils/methods";
+import {
+  getFormattedDate,
+  getRestaurantPhotoPath,
+  returnCodeToBr,
+} from "../../utils/methods";
 import { JAVA_API_URL } from "../../utils/const";
 
 type Props = LunchReview & {
@@ -106,7 +110,7 @@ export const ReviewCard: FC<Props> = memo((props) => {
           <div>
             <Star starCount={star} />
           </div>
-          <div className="pt-5 pb-5 pr-1">{sentence}</div>
+          <div className="pt-5 pb-5 pr-1">{returnCodeToBr(sentence)}</div>
         </div>
       </div>
       <div>

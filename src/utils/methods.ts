@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import HTMLReactParser from "html-react-parser";
 
 /**
  * 日時データをフォーマットして返すメソッド.
@@ -10,6 +11,23 @@ export const getFormattedDate = (date: Date) => {
   const formattedDate = format(date, "yyyy/MM/dd HH:mm");
 
   return formattedDate;
+};
+
+/**
+   * テキストをHTMLに変換するメソッド.
+   *
+   * @remarks
+   * 改行はbrタグに変換する。
+   *
+   * @param text - HTMLに変換するテキスト
+   * @returns textが空文字列の場合は空文字列。そうでなければHTMLに変換した文字列。
+   */
+ export const returnCodeToBr = (text: string) => {
+  if (text === "") {
+    return text;
+  } else {
+    return HTMLReactParser(text.replace(/\r?\n/g, "<br />"));
+  }
 };
 
 /**
