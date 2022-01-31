@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useCallback, useContext } from "react";
 import type { NextPage } from "next";
+import Link from "next/link";
 
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { CommentIcon } from "../../components/Button/CommentIcon";
@@ -10,7 +11,6 @@ import { PostBtn } from "../../components/Button/PostBtn";
 import type { Timeline } from "../../types/type";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { useSWRTimeline } from "../../hooks/useSWRTimeline";
-import Link from "next/link";
 
 /**
  * タイムラインページ.

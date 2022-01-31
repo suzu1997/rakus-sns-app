@@ -1,6 +1,7 @@
-import { FC, memo, useCallback, useContext } from "react";
+import { FC, memo, useContext } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 import { FavoBtn } from "../Button/FavoBtn";
 import { CommentIcon } from "../Button/CommentIcon";
@@ -26,32 +27,22 @@ export const TimelineDetailPage: FC<Props> = memo((props) => {
   //ルーターリンク
   const router = useRouter();
 
-  /**
-   * 画像クリックで投稿ユーザ情報ページに飛ぶ.
-   * @param userId - 投稿者ID
-   */
-  const goUserPage = useCallback(
-    (userId: number) => {
-      router.push(`/user/${userId}`);
-    },
-    [router],
-  );
-
   return (
     <>
       <div>
         <div className="px-3 flex">
           <div className="w-3/12 cursor-pointer hover:opacity-50">
-            <Image
-              src={`/image/userIcon/${detailData.userPhotoPath}`}
-              width={200}
-              height={200}
-              alt="icon"
-              onClick={() => {
-                goUserPage(detailData.userId);
-              }}
-              className="rounded-full"
-            />
+            <Link href={`/user/${detailData.userId}`}>
+              <a>
+                <Image
+                  src={`/image/userIcon/${detailData.userPhotoPath}`}
+                  width={200}
+                  height={200}
+                  alt="icon"
+                  className="rounded-full"
+                />
+              </a>
+            </Link>
           </div>
           <div className="w-9/12">
             <div className="text-xl font-extrabold py-3 ml-3">
