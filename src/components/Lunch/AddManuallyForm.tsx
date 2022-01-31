@@ -10,7 +10,7 @@ import { Button } from "../Button/Button";
 import { SelectBox } from "../Form/SelectBox";
 import { TextArea } from "../Form/TextArea";
 import { TextInput } from "../Form/TextInput";
-import { Option } from "../../types/type";
+import type { Option } from "../../types/type";
 import { JAVA_API_URL } from "../../utils/const";
 import { genreOptions, typeOptions } from "../../utils/options";
 import { useGetAddress } from "../../hooks/useGetAddress";
@@ -115,7 +115,8 @@ export const AddManuallyForm: FC<Props> = memo((props) => {
       if (res.data.status === "success") {
         toast.success("お店を登録しました");
         //登録した店の詳細画面に遷移する;
-        router.push(`/lunch/restaurant/${res.data.restaurant.id}`);
+        // replaceを用いることで、遷移後に戻るボタンでここに戻ってくることを防ぐ
+        router.replace(`/lunch/restaurant/${res.data.restaurant.id}`);
       } else {
         //登録に失敗した場合
         toast.error(res.data.message);

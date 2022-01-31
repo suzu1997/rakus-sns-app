@@ -1,5 +1,10 @@
 import { useCallback, useContext } from "react";
-import { NextPage } from "next";
+import type {
+  GetServerSideProps,
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+  NextPage,
+} from "next";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import styled from "styled-components";
@@ -9,18 +14,29 @@ import { PostModal } from "../../../components/Modal/PostModal";
 import { ReviewList } from "../../../components/Lunch/ReviewList";
 import { RestaurantDetailContainer } from "../../../components/Lunch/RestaurantDetailContainer";
 import { SubHeader } from "../../../components/Layout/SubHeader";
-import { Restaurant } from "../../../types/type";
+import type { Restaurant } from "../../../types/type";
 import { JAVA_API_URL } from "../../../utils/const";
+import { fetcher } from "../../../utils/fetcher";
 import { loginIdContext } from "../../../providers/LoginIdProvider";
 import { useSWRReviews } from "../../../hooks/useSWRReviews";
 import { useModal } from "../../../hooks/useModal";
+
+//スクロールバーを隠すCSS
+const HiddenScrollBar = styled.div`
+  ::-webkit-scrollbar {
+    display: none;
+  }
+`;
 
 /**
  * お店情報の詳細を表示するページ.
  *
  * @returns お店情報の詳細を表示する画面
  */
-const RestaurantDetail: NextPage = () => {
+const RestaurantDetail: NextPage<
+  InferGetServerSidePropsType<typeof getServerSideProps>
+> = (props) => {
+  const { fallbackData } = props;
   const router = useRouter();
 
   // ログインユーザーのハッシュ値
@@ -38,14 +54,9 @@ const RestaurantDetail: NextPage = () => {
   // データを取得
   const { data, error, mutate } = useSWR(
     `${JAVA_API_URL}/restaurant/${restaurantId}`,
+    fetcher,
+    { fallbackData },
   );
-
-  //スクロールバーを隠すCSS
-  const HiddenScrollBar = styled.div`
-    ::-webkit-scrollbar {
-      display: none;
-    }
-  `;
 
   /**
    * 店詳細の情報を更新するメソッド.
@@ -110,6 +121,21 @@ const RestaurantDetail: NextPage = () => {
       </div>
     </>
   );
+};
+
+// SSR
+export const getServerSideProps: GetServerSideProps = async (
+  ctx: GetServerSidePropsContext,
+) => {
+  const restaurantId = Number(ctx.query.id);
+  const res = await fetch(`${JAVA_API_URL}/restaurant/${restaurantId}`);
+  const data: Restaurant = await res.json();
+
+  return {
+    props: {
+      fallbackData: data,
+    },
+  };
 };
 
 export default RestaurantDetail;

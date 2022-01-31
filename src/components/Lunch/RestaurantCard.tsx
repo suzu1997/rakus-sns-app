@@ -1,17 +1,15 @@
 import { FC, memo } from "react";
 import Image from "next/image";
-import { useRouter } from "next/router";
 
 import { Star } from "./Star";
-import { Restaurant } from "../../types/type";
+import type { Restaurant } from "../../types/type";
 import { getRestaurantPhotoPath } from "../../utils/methods";
 
 /**
  * レストラン一覧用のカード.
  */
 export const RestaurantCard: FC<Restaurant> = memo((props) => {
-  const { id, name, genreValue, star, type, photoPath } = props;
-  const router = useRouter();
+  const { name, genreValue, star, type, photoPath } = props;
 
   /**
    * タイプのidから文字列に変換する.
@@ -27,16 +25,8 @@ export const RestaurantCard: FC<Restaurant> = memo((props) => {
     }
   };
 
-  /**
-   * 個別の店情報ページへ遷移するメソッド.
-   */
-  const goRestaurantDetail = () => {
-    router.push(`/lunch/restaurant/${id}`);
-  };
-
   return (
     <div
-      onClick={goRestaurantDetail}
       className="flex flex-col xl:flex-row justify-between w-full px-10 py-5 relative h-auto border border-t-0 border-gray-200 cursor-pointer"
     >
       <div className="relative">

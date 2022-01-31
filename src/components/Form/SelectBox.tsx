@@ -1,8 +1,8 @@
-import { Dispatch, FC, Fragment, SetStateAction } from "react";
+import { Dispatch, FC, Fragment, memo, SetStateAction } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { SelectorIcon } from "@heroicons/react/solid";
 
-import { Option } from "../../types/type";
+import type { Option } from "../../types/type";
 
 export type Props = {
   label?: string;
@@ -12,7 +12,7 @@ export type Props = {
   fullWidth?: boolean;
 };
 
-export const SelectBox: FC<Props> = (props) => {
+export const SelectBox: FC<Props> = memo((props) => {
   const { label, selectedOption, select, options, fullWidth = false } = props;
 
   return (
@@ -71,4 +71,4 @@ export const SelectBox: FC<Props> = (props) => {
       </Listbox>
     </div>
   );
-};
+});

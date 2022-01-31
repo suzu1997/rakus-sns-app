@@ -1,6 +1,6 @@
 import { FC, memo } from "react";
 import { useRouter } from "next/router";
-import { Restaurant } from "../../types/type";
+import type { Restaurant } from "../../types/type";
 
 type Props = {
   restautrantsInDB: Array<Restaurant>;

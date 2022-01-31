@@ -1,5 +1,5 @@
 // jsonp形式のデータをfetchするパッケージ
-import { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import { HOTPEPPER_URL } from "../../utils/const";
 
 /**

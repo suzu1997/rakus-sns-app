@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 
 import { FavoBtn } from "../Button/FavoBtn";
 import { TrashBtn } from "../Button/TrashBtn";
-import { Comment } from "../../types/type";
+import type { Comment } from "../../types/type";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { getFormattedDate } from "../../utils/methods";
 

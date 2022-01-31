@@ -1,24 +1,20 @@
 import { FC, memo } from "react";
 
 import { RestaurantCard } from "./RestaurantCard";
-import { Restaurant } from "../../types/type";
+import type { Restaurant } from "../../types/type";
 import { useSWRRestaurant } from "../../hooks/useSWRRestaurant";
+import Link from "next/link";
 
 /**
  * レストラン一覧用コンポーネント.
  */
 export const RestaurantList: FC = memo(() => {
-  const {
-    data,
-    isLast,
-    error,
-    loadMoreReviews,
-  } = useSWRRestaurant();
+  const { data, isLast, error, loadMoreReviews } = useSWRRestaurant();
 
   // ローディング処理
   if (!error && !data) {
     return (
-      <div className="flex justify-center pt-10">
+      <div className="w-full flex justify-center pt-10">
         <div className="animate-spin h-8 w-8 bg-basic rounded-xl"></div>
       </div>
     );
@@ -50,9 +46,15 @@ export const RestaurantList: FC = memo(() => {
         data.map((pageData) =>
           pageData.restaurant.map((restaurant: Restaurant) => {
             return (
-              <div key={restaurant.id}>
-                <RestaurantCard {...restaurant} />
-              </div>
+              <Link
+                href={`/lunch/restaurant/${restaurant.id}`}
+                key={restaurant.id}
+                prefetch={false} // prefetchをfalseにすることで、ホバー時にプリフェッチする
+              >
+                <a>
+                  <RestaurantCard {...restaurant} />
+                </a>
+              </Link>
             );
           }),
         )}

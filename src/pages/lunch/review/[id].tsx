@@ -1,12 +1,12 @@
 import { useContext } from "react";
-import { NextPage } from "next";
+import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 
 import { ReviewCard } from "../../../components/Lunch/ReviewCard";
 import { CommentList } from "../../../components/Lunch/CommentList";
 import { SubHeader } from "../../../components/Layout/SubHeader";
-import { LunchReview } from "../../../types/type";
+import type { LunchReview } from "../../../types/type";
 import { loginIdContext } from "../../../providers/LoginIdProvider";
 import { JAVA_API_URL } from "../../../utils/const";
 import { useSWRReviews } from "../../../hooks/useSWRReviews";
@@ -33,11 +33,19 @@ const ReviewDetail: NextPage = () => {
   );
 
   if (!error && !data) {
-    return <div>Loading...</div>;
+    return (
+      <div className="w-full flex justify-center pt-10">
+        <div className="animate-spin h-8 w-8 bg-basic rounded-xl"></div>
+      </div>
+    );
   }
 
   if (error) {
-    return <div>データを取得できませんでした</div>;
+    return (
+      <div className="w-full p-10 text-center">
+        データを取得できませんでした
+      </div>
+    );
   }
 
   // レビュー情報をデータから抽出

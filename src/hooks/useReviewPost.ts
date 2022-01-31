@@ -2,7 +2,7 @@ import { useCallback, useContext } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 
-import { Option } from "../types/type";
+import type { Option } from "../types/type";
 import { loginIdContext } from "../providers/LoginIdProvider";
 import { JAVA_API_URL } from "../utils/const";
 

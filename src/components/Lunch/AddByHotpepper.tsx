@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 
 import { Button } from "../Button/Button";
 import { SelectBox } from "../Form/SelectBox";
-import { Option } from "../../types/type";
+import type { Option } from "../../types/type";
 import { JAVA_API_URL } from "../../utils/const";
 import { typeOptions } from "../../utils/options";
 
@@ -61,7 +61,7 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
         });
         if (res.data.status === "success") {
           toast.success("お店を登録しました");
-          router.push(`/lunch/restaurant/${res.data.restaurant.id}`);
+          router.replace(`/lunch/restaurant/${res.data.restaurant.id}`);
         } else {
           toast.error(res.data.message);
         }
@@ -108,13 +108,36 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
         />
       </div>
       <p className="sm:ml-10">▶︎ジャンル: {restaurant.genre.name}</p>
-      <p className="sm:ml-10 mt-2">▶︎お店キャッチ: {restaurant.catch}</p>
+      <p className="sm:ml-10 mt-2">
+        ▶︎お店キャッチ:{" "}
+        {restaurant.catch ? restaurant.catch : restaurant.genre.catch}
+      </p>
       <p className="sm:ml-10 mt-2">▶︎住所: {restaurant.address}</p>
       <p className="sm:ml-10 mt-2">▶︎交通アクセス: {restaurant.access}</p>
       <p className="sm:ml-10 mt-2">
         ▶︎店舗URL:{" "}
-        <a href={restaurant.urls.pc} className="hover:text-blue-700">
+        <a
+          href={restaurant.urls.pc}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline hover:text-text-brown"
+        >
           {restaurant.urls.pc}
+          {/* 外部リンクアイコン */}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5 inline ml-1"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+            />
+          </svg>
         </a>
       </p>
       <p className="sm:ml-10 mt-2">▶︎禁煙席: {restaurant.non_smoking}</p>

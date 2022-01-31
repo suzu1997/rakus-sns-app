@@ -2,7 +2,7 @@ import { FC, memo } from "react";
 import { useRouter } from "next/router";
 
 import { Button } from "../Button/Button";
-import { Restaurant } from "../../types/type";
+import type { Restaurant } from "../../types/type";
 
 type Props = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
