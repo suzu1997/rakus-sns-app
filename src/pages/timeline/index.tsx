@@ -8,7 +8,7 @@ import { CommentIcon } from "../../components/Button/CommentIcon";
 import { FavoBtn } from "../../components/Button/FavoBtn";
 import { TrashBtn } from "../../components/Button/TrashBtn";
 import { PostBtn } from "../../components/Button/PostBtn";
-import { Timeline } from "../../types/type";
+import type { Timeline } from "../../types/type";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { useSWRTimeline } from "../../hooks/useSWRTimeline";
 

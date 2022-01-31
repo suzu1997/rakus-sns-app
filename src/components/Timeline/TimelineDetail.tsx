@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { FavoBtn } from "../Button/FavoBtn";
 import { CommentIcon } from "../Button/CommentIcon";
 import { TrashBtn } from "../Button/TrashBtn";
-import { Timeline } from "../../types/type";
+import type { Timeline } from "../../types/type";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { getFormattedDate } from "../../utils/methods";
 

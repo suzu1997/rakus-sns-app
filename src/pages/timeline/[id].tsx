@@ -9,7 +9,7 @@ import { SubHeader } from "../../components/Layout/SubHeader";
 import { CommentList } from "../../components/Timeline/CommentList";
 import { TimelineDetailPage } from "../../components/Timeline/TimelineDetail";
 import { loginIdContext } from "../../providers/LoginIdProvider";
-import { Timeline, Comment } from "../../types/type";
+import type { Timeline, Comment } from "../../types/type";
 import { JAVA_API_URL } from "../../utils/const";
 
 /**
