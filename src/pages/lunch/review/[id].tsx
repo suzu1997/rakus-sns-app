@@ -1,12 +1,12 @@
 import { useContext } from "react";
-import { NextPage } from "next";
+import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 
 import { ReviewCard } from "../../../components/Lunch/ReviewCard";
 import { CommentList } from "../../../components/Lunch/CommentList";
 import { SubHeader } from "../../../components/Layout/SubHeader";
-import { LunchReview } from "../../../types/type";
+import type { LunchReview } from "../../../types/type";
 import { loginIdContext } from "../../../providers/LoginIdProvider";
 import { JAVA_API_URL } from "../../../utils/const";
 import { useSWRReviews } from "../../../hooks/useSWRReviews";

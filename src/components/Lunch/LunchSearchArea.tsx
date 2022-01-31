@@ -2,7 +2,7 @@ import { FC, memo, useCallback, useState } from "react";
 
 import { Button } from "../Button/Button";
 import { SelectBox } from "../Form/SelectBox";
-import { Option } from "../../types/type";
+import type { Option } from "../../types/type";
 import { genreOptions, typeOptions } from "../../utils/options";
 
 /**

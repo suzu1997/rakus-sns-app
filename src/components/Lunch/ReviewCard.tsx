@@ -8,7 +8,7 @@ import { FavoBtn } from "../Button/FavoBtn";
 import { TrashBtn } from "../Button/TrashBtn";
 import { Star } from "./Star";
 import { LinkToRestaurant } from "./LinkToRestaurat";
-import { LunchReview } from "../../types/type";
+import type { LunchReview } from "../../types/type";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { getFormattedDate, getRestaurantPhotoPath } from "../../utils/methods";
 import { JAVA_API_URL } from "../../utils/const";

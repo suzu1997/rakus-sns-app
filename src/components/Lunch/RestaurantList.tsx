@@ -1,7 +1,7 @@
 import { FC, memo } from "react";
 
 import { RestaurantCard } from "./RestaurantCard";
-import { Restaurant } from "../../types/type";
+import type { Restaurant } from "../../types/type";
 import { useSWRRestaurant } from "../../hooks/useSWRRestaurant";
 
 /**

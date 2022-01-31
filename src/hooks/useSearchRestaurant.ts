@@ -2,7 +2,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import toast from "react-hot-toast";
-import { Restaurant } from "../types/type";
+import type { Restaurant } from "../types/type";
 import { JAVA_API_URL } from "../utils/const";
 
 /**

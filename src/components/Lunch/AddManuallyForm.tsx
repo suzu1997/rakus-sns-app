@@ -10,7 +10,7 @@ import { Button } from "../Button/Button";
 import { SelectBox } from "../Form/SelectBox";
 import { TextArea } from "../Form/TextArea";
 import { TextInput } from "../Form/TextInput";
-import { Option } from "../../types/type";
+import type { Option } from "../../types/type";
 import { JAVA_API_URL } from "../../utils/const";
 import { genreOptions, typeOptions } from "../../utils/options";
 import { useGetAddress } from "../../hooks/useGetAddress";

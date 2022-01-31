@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 
 import { Star } from "./Star";
-import { Restaurant } from "../../types/type";
+import type { Restaurant } from "../../types/type";
 import { getRestaurantPhotoPath } from "../../utils/methods";
 
 /**

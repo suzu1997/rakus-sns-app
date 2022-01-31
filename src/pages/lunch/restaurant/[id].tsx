@@ -1,5 +1,5 @@
 import { useCallback, useContext } from "react";
-import { NextPage } from "next";
+import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import styled from "styled-components";
@@ -9,7 +9,7 @@ import { PostModal } from "../../../components/Modal/PostModal";
 import { ReviewList } from "../../../components/Lunch/ReviewList";
 import { RestaurantDetailContainer } from "../../../components/Lunch/RestaurantDetailContainer";
 import { SubHeader } from "../../../components/Layout/SubHeader";
-import { Restaurant } from "../../../types/type";
+import type { Restaurant } from "../../../types/type";
 import { JAVA_API_URL } from "../../../utils/const";
 import { loginIdContext } from "../../../providers/LoginIdProvider";
 import { useSWRReviews } from "../../../hooks/useSWRReviews";

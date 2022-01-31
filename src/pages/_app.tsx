@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { AppProps } from "next/app";
+import type { AppProps } from "next/app";
 import Head from "next/head";
 import { SWRConfig } from "swr";
 import { Toaster } from "react-hot-toast";

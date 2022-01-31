@@ -1,4 +1,4 @@
-import { NextPage } from "next";
+import type { NextPage } from "next";
 
 import { Button } from "../../../components/Button/Button";
 import { TextInput } from "../../../components/Form/TextInput";

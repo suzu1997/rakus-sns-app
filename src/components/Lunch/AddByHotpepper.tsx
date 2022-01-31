@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 
 import { Button } from "../Button/Button";
 import { SelectBox } from "../Form/SelectBox";
-import { Option } from "../../types/type";
+import type { Option } from "../../types/type";
 import { JAVA_API_URL } from "../../utils/const";
 import { typeOptions } from "../../utils/options";
 
