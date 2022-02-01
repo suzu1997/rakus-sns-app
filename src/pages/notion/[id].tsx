@@ -1,11 +1,12 @@
 import Image from "next/image";
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { NextPage } from "next";
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { useRouter } from "next/router";
 import { Button } from "../../components/Button/Button";
 import useSWR from "swr";
 import { JAVA_API_URL } from "../../utils/const";
+import { loginIdContext } from "../../providers/LoginIdProvider";
 
 /**
  * 通知ページ.
@@ -13,6 +14,9 @@ import { JAVA_API_URL } from "../../utils/const";
  * @returns 通知が見れるページ
  */
 const Notion: NextPage = () => {
+  //ログインID
+  const { hash } = useContext(loginIdContext);
+
   //テストデータ
   //反応した人の名前／アイコン／いいねかコメントか／対象の投稿(レビューに対してか／つぶやきに対してかも表示？)
   const [notionData] = useState([
@@ -77,26 +81,28 @@ const Notion: NextPage = () => {
    * 投稿クリックで投稿詳細ページに飛ぶ.
    * @param postId - 投稿ID
    */
-  const goDetailPage = useCallback((postId: number) => {
-    if (postId > 100) {
-      router.push(`/timeline/${postId}`);
-    } else {
-      router.push(`/lunch/review/${postId}`);
-    }
-  }, [router]);
+  const goDetailPage = useCallback(
+    (postId: number) => {
+      if (postId > 100) {
+        router.push(`/timeline/${postId}`);
+      } else {
+        router.push(`/lunch/review/${postId}`);
+      }
+    },
+    [router],
+  );
 
-  // const loginUserId = Number(router.query.id);
-  // const { data: notionData, error } = useSWR<Notion>(
-  //   `${JAVA_API_URL}/notion/${loginUserId}`,
-  // );
+  const { data, error } = useSWR(`${JAVA_API_URL}/notifications/${hash}`);
 
-  // if (!error && !notionData) {
-  //   return <div>Loading...</div>;
-  // }
+  console.dir("通知" + JSON.stringify(data));
 
-  // if (error) {
-  //   return <div>データを取得できませんでした</div>;
-  // }
+  if (!error && !notionData) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>データを取得できませんでした</div>;
+  }
 
   return (
     <>
