@@ -19,14 +19,9 @@ export type Props = {
 export const CommentNotion: FC<Props> = (props) => {
   const { notification, type, url } = props;
 
-  //1人1人のつぶやきの下に入る線
-  const style = {
-    borderBottom: "solid 1px black",
-  };
-
   return (
     <>
-      <div className="p-5 ml-10" style={style}>
+      <div className="p-5 ml-10">
         <div className="flex">
           <span className="text-3xl text-yellow-600 mt-10">
             <i className="fas fa-comment"></i>

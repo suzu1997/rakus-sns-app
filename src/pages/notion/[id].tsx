@@ -50,7 +50,7 @@ const Notion: NextPage = () => {
         data.map((pageData) =>
           pageData?.notificationList.map((value: notion) => {
             return (
-              <div key={value.id}>
+              <div key={value.id} className="border border-t-0 border-gray-200">
                 {/* タイムラインに対する反応 */}
                 {value.timelineId != null && (
                   <TimelineNotion notification={value} />

@@ -21,15 +21,10 @@ export type Props = {
 export const LikeNotion: FC<Props> = (props) => {
   const { notification, type, sentence, url } = props;
 
-  //1人1人のつぶやきの下に入る線
-  const style = {
-    borderBottom: "solid 1px black",
-  };
-
   //いいねを表示
   return (
     <>
-      <div className="p-5 ml-10" style={style}>
+      <div className="p-5 ml-10">
         <div className="flex">
           <span className="text-3xl text-red-500">
             <i className="fas fa-heart"></i>
