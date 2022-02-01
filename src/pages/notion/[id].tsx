@@ -1,6 +1,5 @@
-import { useContext } from "react";
+import { useCallback, useContext } from "react";
 import { NextPage } from "next";
-import useSWR from "swr";
 
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { Button } from "../../components/Button/Button";
@@ -8,8 +7,8 @@ import { LikeNotion } from "../../components/Notion/LikeNotion";
 import { ReviewNotion } from "../../components/Notion/ReviewNotion";
 import { TimelineNotion } from "../../components/Notion/TimelineNotion";
 import { loginIdContext } from "../../providers/LoginIdProvider";
-import { JAVA_API_URL } from "../../utils/const";
 import { notion } from "../../types/type";
+import { useSWRNotion } from "../../hooks/useSWRNotion";
 
 /**
  * 通知ページ.
@@ -20,14 +19,21 @@ const Notion: NextPage = () => {
   //ログインID
   const { hash } = useContext(loginIdContext);
 
-  /**
-   * APIで通知データを取得.
-   */
-  const { data, error } = useSWR(`${JAVA_API_URL}/notifications/${hash}`);
-  //通知データの配列
-  const notificationList: Array<notion> = data?.notificationList;
+  // 投稿一覧を再検証・再取得する関数をhooksから取得
+  const { data, error, loadMoreNotion, notionMutate, isLast } =
+    useSWRNotion(hash);
 
-  if (!error && !notificationList) {
+  /**
+   * タイムラインの情報を更新するメソッド.
+   *
+   * @remarks
+   * 投稿が成功すると呼ばれる。
+   */
+  const updateData = useCallback(() => {
+    notionMutate(); // タイムライン一覧を再検証・再取得する
+  }, [notionMutate]);
+
+  if (!error && !data) {
     return <div>Loading...</div>;
   }
 
@@ -51,35 +57,42 @@ const Notion: NextPage = () => {
       </div>
 
       {/* タイムラインゾーン */}
-      {notificationList &&
-        notificationList.map((value) => (
-          <div key={value.id}>
-            {/* タイムラインに対する反応 */}
-            {value.timelineId != null && (
-              <TimelineNotion notification={value} />
-            )}
-            {/* レビューに対する反応 */}
-            {value.reviewId && <ReviewNotion notification={value} />}
-            {/* コメントに対する反応 */}
-            {value.parentCommentId != null && (
-              <LikeNotion
-                notification={value}
-                type="コメント"
-                sentence={value.parentCommentSentence}
-                url={`/timeline/${value.parentCommentId}`}
-              />
-            )}
-          </div>
-        ))}
-
-      <div
-        className="text-text-brown text-center my-5 cursor-pointer hover:text-basic"
-        onClick={() => {
-          alert("過去の通知読み込み");
-        }}
-      >
-        過去の通知を見る…
-      </div>
+      {data &&
+        data.map((pageData) =>
+          pageData?.notificationList.map((value: notion) => {
+            return (
+              <div key={value.id}>
+                {/* タイムラインに対する反応 */}
+                {value.timelineId != null && (
+                  <TimelineNotion notification={value} />
+                )}
+                {/* レビューに対する反応 */}
+                {value.reviewId && <ReviewNotion notification={value} />}
+                {/* コメントに対する反応 */}
+                {value.parentCommentId != null && (
+                  <LikeNotion
+                    notification={value}
+                    type="コメント"
+                    sentence={value.parentCommentSentence}
+                    url={`/timeline/${value.parentCommentId}`}
+                  />
+                )}
+              </div>
+            );
+          }),
+        )}
+      {!isLast ? (
+        <div
+          className="text-text-brown text-center my-5 cursor-pointer hover:text-basic"
+          onClick={loadMoreNotion}
+        >
+          過去の投稿を見る…
+        </div>
+      ) : (
+        <div className="text-text-brown text-center my-5 ">
+          最後まで読み込みました
+        </div>
+      )}
     </>
   );
 };
