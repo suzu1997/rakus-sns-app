@@ -12,9 +12,6 @@ export const MenuBar: FC = memo(() => {
   //ユーザ情報のリンクをログインユーザ先にする
   const [myInfo] = useState(`/user/${loginId}`);
 
-  //通知のリンクをログインユーザ先にする
-  const [myNotion] = useState(`/notion/${loginId}`);
-
   return (
     <>
       <aside className="bg-bgc h-full w-64 shadow-xl">
@@ -29,7 +26,7 @@ export const MenuBar: FC = memo(() => {
               プロフィール
             </a>
           </Link>
-          <Link href={myNotion}>
+          <Link href="/notion">
             <a className="flex items-center opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
               通知
             </a>
