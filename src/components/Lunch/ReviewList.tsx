@@ -1,11 +1,10 @@
-import { FC, memo, useContext, useEffect, useState } from "react";
+import { FC, memo, useCallback, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 import { ReviewCard } from "./ReviewCard";
 import type { LunchReview } from "../../types/type";
 import { useSWRReviews } from "../../hooks/useSWRReviews";
 import { loginIdContext } from "../../providers/LoginIdProvider";
-import Link from "next/link";
 
 /**
  * レビュー一覧を表示するコンポーネント.
@@ -31,6 +30,17 @@ export const ReviewList: FC = memo(() => {
       setHasRestaurantInfo(true);
     }
   }, [router.pathname]);
+
+  /**
+   * 投稿クリックでレビュー詳細ページに飛ぶ.
+   * @param reviewId - レビューID
+   */
+  const goDetailPage = useCallback(
+    (reviewId: number) => {
+      router.push(`/lunch/review/${reviewId}`);
+    },
+    [router],
+  );
 
   // ローディング処理
   if (!error && !data) {
@@ -67,20 +77,14 @@ export const ReviewList: FC = memo(() => {
         data.map((pageData) =>
           pageData.reviewList.map((review: LunchReview) => {
             return (
-              <Link
-                href={`/lunch/review/${review.id}`}
-                prefetch={false}
-                key={review.id}
-              >
-                <a>
-                  <ReviewCard
-                    {...review}
-                    type="一覧"
-                    hasRestaurantInfo={hasRestaurantInfo}
-                    reviewsMutate={reviewsMutate}
-                  />
-                </a>
-              </Link>
+              <div key={review.id} onClick={() => goDetailPage(review.id)}>
+                <ReviewCard
+                  {...review}
+                  type="一覧"
+                  hasRestaurantInfo={hasRestaurantInfo}
+                  reviewsMutate={reviewsMutate}
+                />
+              </div>
             );
           }),
         )}

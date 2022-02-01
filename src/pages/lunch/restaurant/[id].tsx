@@ -100,7 +100,7 @@ const RestaurantDetail: NextPage<
         <RestaurantDetailContainer restaurant={restaurant} />
 
         {/* レビューエリア */}
-        <div className="lg:w-1/3 mt-10 sm:ml-auto">
+        <div className="w-full lg:w-1/3 mt-10 sm:ml-auto">
           <div className="font-bold ml-3">
             この店へのレビュー
             <span className="ml-5">
