@@ -61,8 +61,11 @@ export const ReviewCard: FC<Props> = memo((props) => {
    * 画像クリックで投稿ユーザ情報ページに飛ぶ.
    */
   const goUserPage = (e: MouseEvent<HTMLInputElement>) => {
+    console.log("goUserPage");
+    
     // 親要素へのイベントの伝搬を止める
     e.stopPropagation();
+    // e.nativeEvent.stopImmediatePropagation();
     router.push(`/user/${userId}`);
   };
 
@@ -96,7 +99,7 @@ export const ReviewCard: FC<Props> = memo((props) => {
       className="flex flex-col w-full p-3 relative h-auto border border-t-0 border-gray-200 cursor-pointer"
     >
       <div className="flex">
-        <div className="mr-6" onClick={goUserPage}>
+        <div className="mr-6 w-1/5" onClick={goUserPage}>
           <Image
             src={`/image/userIcon/${userPhotoPath}`}
             width={type === "詳細" ? 200 : 100}
