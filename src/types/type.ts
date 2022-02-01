@@ -131,19 +131,19 @@ export type Title = {
 
 //通知
 export type notion = {
-  id: number;
-  userId: number;
-  accountName: string;
-  userPhotoPath: string;
-  comment: string | null;
-  timelineId: number | null;
-  timelineSentence: string;
-  reviewId: number | null;
-  reviewSentence: string | null;
-  parentCommentId: number | null;
-  parentCommentSentence: string | null;
+  id: number; //通知ID
+  userId: number; //反応してきたユーザID
+  accountName: string; //反応してきたユーザの名前
+  userPhotoPath: string; //反応してきたユーザの画像
+  comment: string | null; //コメント
+  like: boolean; //いいね
+  timelineId: number | null; //タイムライン→元投稿ＩＤ
+  timelineSentence: string; //タイムライン→元投稿内容
+  reviewId: number | null; //レビュー→元投稿ID
+  reviewSentence: string | null; //レビュー→元投稿内容
+  parentCommentId: number | null; //親コメントID？
+  parentCommentSentence: string | null; //親コメント内容？
   actionedTime: Date;
-  hasNoticed: boolean;
-  read: boolean;
-  like: boolean;
+  hasNoticed: boolean; //
+  read: boolean; //既読か否か
 };
