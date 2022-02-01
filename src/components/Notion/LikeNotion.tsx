@@ -24,13 +24,12 @@ export const LikeNotion: FC<Props> = (props) => {
   //いいねを表示
   return (
     <>
-      <div className="p-5 ml-10">
+      <div className="p-5 lg:ml-5">
         <div className="flex">
-          <span className="text-3xl text-red-500">
+          <span className="text-3xl mt-2 text-red-500">
             <i className="fas fa-heart"></i>
           </span>
-
-          <span className="ml-3 cursor-pointer hover:opacity-50">
+          <span className="lg:ml-5 ml-3 cursor-pointer hover:opacity-50">
             <Link href={`/user/${notification.userId}`}>
               <a>
                 <Image
@@ -44,7 +43,7 @@ export const LikeNotion: FC<Props> = (props) => {
             </Link>
           </span>
         </div>
-        <div className="text-xl pt-3 pb-3 ml-16 cursor-pointer hover:opacity-50">
+        <div className="lg:text-xl text-base pt-3 pb-3 ml-16 cursor-pointer hover:opacity-50">
           <Link href={url}>
             <a>
               {notification.accountName}
