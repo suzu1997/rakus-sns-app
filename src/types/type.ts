@@ -136,7 +136,7 @@ export type notion = {
   accountName: string;
   userPhotoPath: string;
   comment: string | null;
-  timelineId: number;
+  timelineId: number | null;
   timelineSentence: string;
   reviewId: number | null;
   reviewSentence: string | null;

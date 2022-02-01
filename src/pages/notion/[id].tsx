@@ -7,6 +7,7 @@ import { Button } from "../../components/Button/Button";
 import useSWR from "swr";
 import { JAVA_API_URL } from "../../utils/const";
 import { loginIdContext } from "../../providers/LoginIdProvider";
+import { notion } from "../../types/type";
 
 /**
  * 通知ページ.
@@ -16,51 +17,6 @@ import { loginIdContext } from "../../providers/LoginIdProvider";
 const Notion: NextPage = () => {
   //ログインID
   const { hash } = useContext(loginIdContext);
-
-  //テストデータ
-  //反応した人の名前／アイコン／いいねかコメントか／対象の投稿(レビューに対してか／つぶやきに対してかも表示？)
-  const [notionData] = useState([
-    {
-      id: 1,
-      name: "佐藤花子",
-      action: "お気に入り",
-      img: "/image/userIcon/user6.jpeg",
-      postId: 500,
-      post: "あああ",
-    },
-    {
-      id: 1,
-      name: "佐藤花子",
-      action: "コメント",
-      img: "/image/userIcon/user5.jpeg",
-      postId: 400,
-      post: "いいい",
-    },
-    {
-      id: 2,
-      name: "三角次郎",
-      action: "お気に入り",
-      img: "/image/userIcon/user4.jpeg",
-      postId: 300,
-      post: "あああ",
-    },
-    {
-      id: 3,
-      name: "山田太郎",
-      action: "コメント",
-      img: "/image/userIcon/user2.jpeg",
-      postId: 200,
-      post: "うおお",
-    },
-    {
-      id: 1,
-      name: "佐藤花子",
-      action: "お気に入り",
-      img: "/image/userIcon/user1.jpeg",
-      postId: 100,
-      post: "良い気持ち",
-    },
-  ]);
 
   //1人1人のつぶやきの下に入る線
   const style = {
@@ -93,10 +49,11 @@ const Notion: NextPage = () => {
   );
 
   const { data, error } = useSWR(`${JAVA_API_URL}/notifications/${hash}`);
+  const notificationList: Array<notion> = data?.notificationList;
 
-  console.dir("通知" + JSON.stringify(data));
+  console.dir("通知" + JSON.stringify(data.notificationList[0]));
 
-  if (!error && !notionData) {
+  if (!error && !data) {
     return <div>Loading...</div>;
   }
 
@@ -120,21 +77,21 @@ const Notion: NextPage = () => {
       </div>
 
       {/* タイムラインゾーン */}
-      {notionData.map((value, key) => (
+      {notificationList.map((value, key) => (
         <div style={style} key={key}>
           <div
             className="p-5 ml-10"
             onClick={() => {
-              goDetailPage(value.postId);
+              goDetailPage(value.id);
             }}
           >
             <div className="flex">
-              {value.action === "お気に入り" && (
+              {value.like && (
                 <span className="text-2xl text-red-500 mt-10">
                   <i className="fas fa-heart"></i>
                 </span>
               )}
-              {value.action === "コメント" && (
+              {value.comment && (
                 <span className="text-3xl text-yellow-600 mt-10">
                   <i className="fas fa-comment"></i>
                 </span>
@@ -142,11 +99,11 @@ const Notion: NextPage = () => {
               <span
                 className="ml-3 cursor-pointer hover:opacity-50"
                 onClick={() => {
-                  goUserPage(value.id);
+                  goUserPage(value.userId);
                 }}
               >
                 <Image
-                  src={value.img}
+                  src={`/image/userIcon/${value.userPhotoPath}`}
                   width={100}
                   height={100}
                   alt="icon"
@@ -156,10 +113,10 @@ const Notion: NextPage = () => {
             </div>
             <div className=" cursor-pointer hover:opacity-50">
               <div className="text-xl pt-3 pb-3 ml-16">
-                {value.name}さんがあなたの投稿に{value.action}しました
+                {value.accountName}さんがあなたの投稿にいいねしました
               </div>
               <div className="pt-5 pb-5 pl-5 w-8/12 ml-20 text-text-brown">
-                {value.post}
+                {value.timelineSentence}
               </div>
             </div>
           </div>
