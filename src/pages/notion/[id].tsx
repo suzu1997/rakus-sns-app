@@ -1,17 +1,15 @@
-import Image from "next/image";
-import { useCallback, useContext, useState } from "react";
+import { useContext } from "react";
 import { NextPage } from "next";
-import { SubHeader } from "../../components/Layout/SubHeader";
-import { useRouter } from "next/router";
-import { Button } from "../../components/Button/Button";
 import useSWR from "swr";
-import { JAVA_API_URL } from "../../utils/const";
-import { loginIdContext } from "../../providers/LoginIdProvider";
-import { notion } from "../../types/type";
-import Link from "next/link";
+
+import { SubHeader } from "../../components/Layout/SubHeader";
+import { Button } from "../../components/Button/Button";
 import { LikeNotion } from "../../components/Notion/LikeNotion";
 import { ReviewNotion } from "../../components/Notion/ReviewNotion";
 import { TimelineNotion } from "../../components/Notion/TimelineNotion";
+import { loginIdContext } from "../../providers/LoginIdProvider";
+import { JAVA_API_URL } from "../../utils/const";
+import { notion } from "../../types/type";
 
 /**
  * 通知ページ.
@@ -22,12 +20,11 @@ const Notion: NextPage = () => {
   //ログインID
   const { hash } = useContext(loginIdContext);
 
-  //1人1人のつぶやきの下に入る線
-  const style = {
-    borderBottom: "solid 1px black",
-  };
-
+  /**
+   * APIで通知データを取得.
+   */
   const { data, error } = useSWR(`${JAVA_API_URL}/notifications/${hash}`);
+  //通知データの配列
   const notificationList: Array<notion> = data?.notificationList;
 
   if (!error && !notificationList) {
@@ -57,10 +54,13 @@ const Notion: NextPage = () => {
       {notificationList &&
         notificationList.map((value) => (
           <div key={value.id}>
+            {/* タイムラインに対する反応 */}
             {value.timelineId != null && (
               <TimelineNotion notification={value} />
             )}
+            {/* レビューに対する反応 */}
             {value.reviewId && <ReviewNotion notification={value} />}
+            {/* コメントに対する反応 */}
             {value.parentCommentId != null && (
               <LikeNotion
                 notification={value}

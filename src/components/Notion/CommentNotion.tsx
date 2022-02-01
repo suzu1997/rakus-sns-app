@@ -1,14 +1,19 @@
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import Link from "next/link";
-import { notion } from "../../types/type";
 import Image from "next/image";
 
-//コメント数・対象の投稿IDを受け取る
+import { notion } from "../../types/type";
+
 export type Props = {
-  notification: notion;
-  type: string;
+  notification: notion; //通知内容
+  type: "つぶやき" | "レビュー" | "コメント"; //タイプ
 };
 
+/**
+ * コメント通知用コンポーネント.
+ * @param props - props
+ * @returns ユーザがコメントしてきた際の通知を表示
+ */
 export const CommentNotion: FC<Props> = (props) => {
   const { notification, type } = props;
 
@@ -17,7 +22,6 @@ export const CommentNotion: FC<Props> = (props) => {
     borderBottom: "solid 1px black",
   };
 
-  //コメントを表示
   return (
     <>
       <div className="p-5 ml-10" style={style}>

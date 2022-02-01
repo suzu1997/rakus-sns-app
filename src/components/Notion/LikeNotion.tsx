@@ -1,15 +1,20 @@
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import Link from "next/link";
 import { notion } from "../../types/type";
 import Image from "next/image";
 
 //コメント数・対象の投稿IDを受け取る
 export type Props = {
-  notification: notion;
-  type: string;
-  sentence: string | null;
+  notification: notion; //通知内容
+  type: "つぶやき" | "レビュー" | "コメント"; //タイプ
+  sentence: string | null; //ユーザが反応した投稿の内容
 };
 
+/**
+ * いいね通知用コンポーネント.
+ * @param props - props
+ * @returns ユーザがいいねしてきた際の通知を表示
+ */
 export const LikeNotion: FC<Props> = (props) => {
   const { notification, type, sentence } = props;
 
