@@ -6,22 +6,12 @@ import Image from "next/image";
 //コメント数・対象の投稿IDを受け取る
 export type Props = {
   notification: notion;
+  type: string;
+  sentence: string | null;
 };
 
 export const LikeNotion: FC<Props> = (props) => {
-  const { notification } = props;
-
-  const [type, setType] = useState("");
-
-  useEffect(() => {
-    if (notification.timelineId != null) {
-      setType("タイムライン");
-    } else if (notification.reviewId != null) {
-      setType("レビュー");
-    } else {
-      setType("コメント");
-    }
-  }, [notification.reviewId, notification.timelineId]);
+  const { notification, type, sentence } = props;
 
   //1人1人のつぶやきの下に入る線
   const style = {
@@ -35,7 +25,7 @@ export const LikeNotion: FC<Props> = (props) => {
         <Link href={`/user/${notification.userId}`}>
           <a>
             <div className="flex">
-              <span className="text-3xl text-red-500 mt-10">
+              <span className="text-3xl text-red-500">
                 <i className="fas fa-heart"></i>
               </span>
 
@@ -52,13 +42,11 @@ export const LikeNotion: FC<Props> = (props) => {
                   </a>
                 </Link>
               </span>
-              <div className="text-xl pt-3 pb-3 ml-16 cursor-pointer hover:opacity-50">
-                {notification.accountName}
-                さんがあなたの{type}投稿にいいねしました
-                <div className="py-5 w-8/12 ml-5 opacity-60">
-                  {notification.timelineSentence}
-                </div>
-              </div>
+            </div>
+            <div className="text-xl pt-3 pb-3 ml-16 cursor-pointer hover:opacity-50">
+              {notification.accountName}
+              さんがあなたの{type}投稿にいいねしました
+              <div className="py-5 w-8/12 opacity-60">{sentence}</div>
             </div>
           </a>
         </Link>

@@ -9,7 +9,7 @@ import { JAVA_API_URL } from "../../utils/const";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { notion } from "../../types/type";
 import Link from "next/link";
-import { CommentNotion } from "../../components/Notion/CommentNotion";
+import { LikeNotion } from "../../components/Notion/LikeNotion";
 import { ReviewNotion } from "../../components/Notion/ReviewNotion";
 import { TimelineNotion } from "../../components/Notion/TimelineNotion";
 
@@ -62,7 +62,11 @@ const Notion: NextPage = () => {
             )}
             {value.reviewId && <ReviewNotion notification={value} />}
             {value.parentCommentId != null && (
-              <CommentNotion notification={value} />
+              <LikeNotion
+                notification={value}
+                type="コメント"
+                sentence={value.parentCommentSentence}
+              />
             )}
           </div>
         ))}

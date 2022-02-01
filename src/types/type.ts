@@ -138,7 +138,7 @@ export type notion = {
   comment: string | null; //コメント
   like: boolean; //いいね
   timelineId: number | null; //タイムライン→元投稿ＩＤ
-  timelineSentence: string; //タイムライン→元投稿内容
+  timelineSentence: string | null; //タイムライン→元投稿内容
   reviewId: number | null; //レビュー→元投稿ID
   reviewSentence: string | null; //レビュー→元投稿内容
   parentCommentId: number | null; //親コメントID？

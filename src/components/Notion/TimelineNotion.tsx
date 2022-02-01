@@ -21,8 +21,16 @@ export const TimelineNotion: FC<Props> = (props) => {
   //タイムライン→コメント／いいねを表示
   return (
     <>
-      {notification.like && <LikeNotion notification={notification} />}
-      {notification.comment && <CommentNotion notification={notification} />}
+      {notification.like && (
+        <LikeNotion
+          notification={notification}
+          type="タイムライン"
+          sentence={notification.timelineSentence}
+        />
+      )}
+      {notification.comment && (
+        <CommentNotion notification={notification} type="タイムライン" />
+      )}
     </>
   );
 };
