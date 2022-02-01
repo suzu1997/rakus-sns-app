@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+
 import useSWRInfinite, { SWRInfiniteKeyLoader } from "swr/infinite";
 import { JAVA_API_URL } from "../utils/const";
 

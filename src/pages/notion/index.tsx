@@ -2,7 +2,6 @@ import { useContext } from "react";
 import { NextPage } from "next";
 
 import { SubHeader } from "../../components/Layout/SubHeader";
-import { Button } from "../../components/Button/Button";
 import { LikeNotion } from "../../components/Notion/LikeNotion";
 import { ReviewNotion } from "../../components/Notion/ReviewNotion";
 import { TimelineNotion } from "../../components/Notion/TimelineNotion";

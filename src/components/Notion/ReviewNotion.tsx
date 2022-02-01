@@ -2,7 +2,7 @@ import { FC } from "react";
 
 import { CommentNotion } from "./CommentNotion";
 import { LikeNotion } from "./LikeNotion";
-import { notion } from "../../types/type";
+import type { notion } from "../../types/type";
 
 export type Props = {
   notification: notion; //通知の内容
