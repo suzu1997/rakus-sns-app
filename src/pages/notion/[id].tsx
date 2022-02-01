@@ -52,9 +52,7 @@ const Notion: NextPage = () => {
   const { data, error } = useSWR(`${JAVA_API_URL}/notifications/${hash}`);
   const notificationList: Array<notion> = data?.notificationList;
 
-  console.dir("通知" + JSON.stringify(data.notificationList[0]));
-
-  if (!error && !data) {
+  if (!error && !notificationList) {
     return <div>Loading...</div>;
   }
 
@@ -78,47 +76,64 @@ const Notion: NextPage = () => {
       </div>
 
       {/* タイムラインゾーン */}
-      {notificationList.map((value, key) => (
-        <div style={style} key={key} className="p-5 ml-10">
-          <Link href={`/user/${value.id}`}>
-            <a>
-              <div className="flex">
-                {value.like && (
-                  <span className="text-2xl text-red-500 mt-10">
-                    <i className="fas fa-heart"></i>
+      {notificationList &&
+        notificationList.map((value, key) => (
+          <div style={style} key={key} className="p-5 ml-10">
+            <Link href={`/user/${value.id}`}>
+              <a>
+                <div className="flex">
+                  {/* いいねの場合ハートを表示 */}
+                  {value.like && (
+                    <span className="text-2xl text-red-500 mt-10">
+                      <i className="fas fa-heart"></i>
+                    </span>
+                  )}
+                  {/* コメントの場合ふきだしを表示 */}
+                  {value.comment && (
+                    <span className="text-3xl text-yellow-600 mt-10">
+                      <i className="fas fa-comment"></i>
+                    </span>
+                  )}
+                  <span className="ml-3 cursor-pointer hover:opacity-50">
+                    <Link href={`/user/${value.userId}`}>
+                      <a>
+                        <Image
+                          src={`/image/userIcon/${value.userPhotoPath}`}
+                          width={100}
+                          height={100}
+                          alt="icon"
+                          className="rounded-full"
+                        />
+                      </a>
+                    </Link>
                   </span>
-                )}
-                {value.comment && (
-                  <span className="text-3xl text-yellow-600 mt-10">
-                    <i className="fas fa-comment"></i>
-                  </span>
-                )}
-                <span className="ml-3 cursor-pointer hover:opacity-50">
-                  <Link href={`/user/${value.userId}`}>
-                    <a>
-                      <Image
-                        src={`/image/userIcon/${value.userPhotoPath}`}
-                        width={100}
-                        height={100}
-                        alt="icon"
-                        className="rounded-full"
-                      />
-                    </a>
-                  </Link>
-                </span>
-              </div>
-              <div className=" cursor-pointer hover:opacity-50">
-                <div className="text-xl pt-3 pb-3 ml-16">
-                  {value.accountName}さんがあなたの投稿にいいねしました
                 </div>
-                <div className="pt-5 pb-5 pl-5 w-8/12 ml-20 text-text-brown">
-                  {value.timelineSentence}
+                <div className=" cursor-pointer hover:opacity-50">
+                  <div className="text-xl pt-3 pb-3 ml-16">
+                    {value.like && (
+                      <>
+                        {value.accountName}さんがあなたの投稿にいいねしました
+                        <div className="pt-5 pb-5 pl-5 w-8/12 ml-20 text-text-brown">
+                          {value.reviewSentence}
+                          {value.timelineSentence}
+                        </div>
+                      </>
+                    )}
+                    {value.comment && (
+                      <>
+                        {value.accountName}さんがあなたの投稿にコメントしました
+                        <div className="py-5 w-8/12 ml-20 text-text-brown">
+                          {value.comment}
+                        </div>
+                      </>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </a>
-          </Link>
-        </div>
-      ))}
+              </a>
+            </Link>
+          </div>
+        ))}
+
       <div
         className="text-text-brown text-center my-5 cursor-pointer hover:text-basic"
         onClick={() => {
