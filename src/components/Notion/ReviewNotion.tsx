@@ -25,7 +25,7 @@ export const ReviewNotion: FC<Props> = (props) => {
             <div className="flex">
               {/* いいねの場合ハートを表示 */}
               {notification.like && (
-                <span className="text-2xl text-red-500 mt-10">
+                <span className="text-3xl text-red-500 mt-10">
                   <i className="fas fa-heart"></i>
                 </span>
               )}
@@ -48,27 +48,28 @@ export const ReviewNotion: FC<Props> = (props) => {
                   </a>
                 </Link>
               </span>
-            </div>
-            <div className=" cursor-pointer hover:opacity-50">
-              <div className="text-xl pt-3 pb-3 ml-16">
-                {notification.like && (
-                  <>
-                    {notification.accountName}
-                    さんがあなたのレビュー投稿にいいねしました
-                    <div className="py-5 w-8/12 ml-5 opacity-70">
-                      {notification.reviewSentence}
-                    </div>
-                  </>
-                )}
-                {notification.comment && (
-                  <>
-                    {notification.accountName}
-                    さんがあなたのレビュー投稿にコメントしました
-                    <div className="py-5 w-8/12 ml-20 text-text-brown">
-                      {notification.comment}
-                    </div>
-                  </>
-                )}
+
+              <div className=" cursor-pointer hover:opacity-50">
+                <div className="text-xl pt-3 pb-3 ml-16">
+                  {notification.like && (
+                    <>
+                      {notification.accountName}
+                      さんがあなたのレビュー投稿にいいねしました
+                      <div className="py-5 w-8/12 ml-5 opacity-70">
+                        {notification.reviewSentence}
+                      </div>
+                    </>
+                  )}
+                  {notification.comment && (
+                    <>
+                      {notification.accountName}
+                      さんがあなたのレビュー投稿にコメントしました
+                      <div className="py-5 w-8/12 ml-5 text-text-brown">
+                        {notification.comment}
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </a>

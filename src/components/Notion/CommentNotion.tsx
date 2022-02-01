@@ -39,16 +39,17 @@ export const CommentNotion: FC<Props> = (props) => {
                   </a>
                 </Link>
               </span>
-            </div>
-            <div className=" cursor-pointer hover:opacity-50">
-              <div className="text-xl pt-3 pb-3 ml-16">
-                <>
-                  {notification.accountName}
-                  さんがあなたのコメントにいいねしました
-                  <div className="py-5 w-8/12 ml-5 opacity-70">
-                    {notification.parentCommentSentence}
-                  </div>
-                </>
+
+              <div className=" cursor-pointer hover:opacity-50">
+                <div className="text-xl pt-3 pb-3 ml-16">
+                  <>
+                    {notification.accountName}
+                    さんがあなたのコメントにいいねしました
+                    <div className="py-5 w-8/12 ml-5 opacity-70">
+                      {notification.parentCommentSentence}
+                    </div>
+                  </>
+                </div>
               </div>
             </div>
           </a>
