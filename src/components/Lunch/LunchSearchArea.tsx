@@ -23,7 +23,7 @@ export const LunchSearchArea: FC = memo(() => {
   // ランチのジャンルのオプション
   const searchGenreOptions = [
     {
-      id: "all",
+      id: "G000",
       name: "すべて",
     },
     ...genreOptions,
@@ -31,7 +31,7 @@ export const LunchSearchArea: FC = memo(() => {
   // タイプ(店内かお弁当か)のオプション
   const searchTypeOptions = [
     {
-      id: "all",
+      id: "0",
       name: "すべて",
     },
     ...typeOptions,
@@ -45,7 +45,7 @@ export const LunchSearchArea: FC = memo(() => {
   const [type, setType] = useState<Option>(searchTypeOptions[0]);
 
   const search = useCallback(() => {
-    alert("検索");
+   
   }, []);
 
   return (
