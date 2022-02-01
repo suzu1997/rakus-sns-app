@@ -32,7 +32,7 @@ export const LikeNotion: FC<Props> = (props) => {
   return (
     <>
       <div className="p-5 ml-10" style={style}>
-        <Link href={`/user/${notification.id}`}>
+        <Link href={`/user/${notification.userId}`}>
           <a>
             <div className="flex">
               <span className="text-3xl text-red-500 mt-10">

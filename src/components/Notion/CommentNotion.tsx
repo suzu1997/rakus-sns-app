@@ -32,13 +32,12 @@ export const CommentNotion: FC<Props> = (props) => {
   return (
     <>
       <div className="p-5 ml-10" style={style}>
-        <Link href={`/user/${notification.id}`}>
+        <Link href={`/user/${notification.userId}`}>
           <a>
             <div className="flex">
               <span className="text-3xl text-yellow-600 mt-10">
                 <i className="fas fa-comment"></i>
               </span>
-
               <span className="ml-3 cursor-pointer hover:opacity-50">
                 <Link href={`/user/${notification.userId}`}>
                   <a>
