@@ -36,23 +36,15 @@ const Notion: NextPage = () => {
     <>
       {/* サブヘッダー */}
       <SubHeader title="通知" />
-
-      <div className="text-center my-10">
-        <Button
-          label="新しい通知を読み込む"
-          size="lg"
-          onClick={() => {
-            alert("新しい通知読み込み");
-          }}
-        />
-      </div>
-
       {/* タイムラインゾーン */}
       {data &&
         data.map((pageData) =>
           pageData?.notificationList.map((value: notion) => {
             return (
               <div key={value.id} className="border border-t-0 border-gray-200">
+                {!value.read && (
+                  <div className="text-red-500 ml-10 mt-5 text-lg">New!</div>
+                )}
                 {/* タイムラインに対する反応 */}
                 {value.timelineId != null && (
                   <TimelineNotion notification={value} />
