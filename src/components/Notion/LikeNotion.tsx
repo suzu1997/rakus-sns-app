@@ -54,7 +54,7 @@ export const LikeNotion: FC<Props> = (props) => {
             <a>
               {notification.accountName}
               さんがあなたの{type}投稿にいいねしました
-              <div className="py-5 w-8/12 opacity-60">
+              <div className="text-base py-5 w-8/12 opacity-60">
                 {returnCodeToBr(sentence)}
               </div>
             </a>
