@@ -55,7 +55,7 @@ export const TimelineNotion: FC<Props> = (props) => {
                   <>
                     {notification.accountName}
                     さんがあなたのつぶやき投稿にいいねしました
-                    <div className="pt-5 pb-5 pl-5 w-8/12 ml-20 text-text-brown">
+                    <div className="py-5 w-8/12 ml-5 opacity-70">
                       {notification.timelineSentence}
                     </div>
                   </>
@@ -63,7 +63,7 @@ export const TimelineNotion: FC<Props> = (props) => {
                 {notification.comment && (
                   <>
                     {notification.accountName}
-                    さんがあなたの投稿にコメントしました
+                    さんがあなたのつぶやき投稿にコメントしました
                     <div className="py-5 w-8/12 ml-20 text-text-brown">
                       {notification.comment}
                     </div>

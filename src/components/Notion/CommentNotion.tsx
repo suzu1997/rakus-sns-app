@@ -45,7 +45,7 @@ export const CommentNotion: FC<Props> = (props) => {
                 <>
                   {notification.accountName}
                   さんがあなたのコメントにいいねしました
-                  <div className="pt-5 pb-5 pl-5 w-8/12 ml-20 text-text-brown">
+                  <div className="py-5 w-8/12 ml-5 opacity-70">
                     {notification.parentCommentSentence}
                   </div>
                 </>
