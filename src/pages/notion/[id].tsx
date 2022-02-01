@@ -66,6 +66,7 @@ const Notion: NextPage = () => {
                 notification={value}
                 type="コメント"
                 sentence={value.parentCommentSentence}
+                url={`/timeline/${value.parentCommentId}`}
               />
             )}
           </div>

@@ -8,6 +8,7 @@ export type Props = {
   notification: notion; //通知内容
   type: "つぶやき" | "レビュー" | "コメント"; //タイプ
   sentence: string | null; //ユーザが反応した投稿の内容
+  url: string; //投稿詳細URL
 };
 
 /**
@@ -16,7 +17,7 @@ export type Props = {
  * @returns ユーザがいいねしてきた際の通知を表示
  */
 export const LikeNotion: FC<Props> = (props) => {
-  const { notification, type, sentence } = props;
+  const { notification, type, sentence, url } = props;
 
   //1人1人のつぶやきの下に入る線
   const style = {
@@ -27,34 +28,34 @@ export const LikeNotion: FC<Props> = (props) => {
   return (
     <>
       <div className="p-5 ml-10" style={style}>
-        <Link href={`/user/${notification.userId}`}>
-          <a>
-            <div className="flex">
-              <span className="text-3xl text-red-500">
-                <i className="fas fa-heart"></i>
-              </span>
+        <div className="flex">
+          <span className="text-3xl text-red-500">
+            <i className="fas fa-heart"></i>
+          </span>
 
-              <span className="ml-3 cursor-pointer hover:opacity-50">
-                <Link href={`/user/${notification.userId}`}>
-                  <a>
-                    <Image
-                      src={`/image/userIcon/${notification.userPhotoPath}`}
-                      width={50}
-                      height={50}
-                      alt="icon"
-                      className="rounded-full"
-                    />
-                  </a>
-                </Link>
-              </span>
-            </div>
-            <div className="text-xl pt-3 pb-3 ml-16 cursor-pointer hover:opacity-50">
+          <span className="ml-3 cursor-pointer hover:opacity-50">
+            <Link href={`/user/${notification.userId}`}>
+              <a>
+                <Image
+                  src={`/image/userIcon/${notification.userPhotoPath}`}
+                  width={50}
+                  height={50}
+                  alt="icon"
+                  className="rounded-full"
+                />
+              </a>
+            </Link>
+          </span>
+        </div>
+        <div className="text-xl pt-3 pb-3 ml-16 cursor-pointer hover:opacity-50">
+          <Link href={url}>
+            <a>
               {notification.accountName}
               さんがあなたの{type}投稿にいいねしました
               <div className="py-5 w-8/12 opacity-60">{sentence}</div>
-            </div>
-          </a>
-        </Link>
+            </a>
+          </Link>
+        </div>
       </div>
     </>
   );

@@ -23,10 +23,15 @@ export const TimelineNotion: FC<Props> = (props) => {
           notification={notification}
           type="つぶやき"
           sentence={notification.timelineSentence}
+          url={`/timeline/${notification.timelineId}`}
         />
       )}
       {notification.comment && (
-        <CommentNotion notification={notification} type="つぶやき" />
+        <CommentNotion
+          notification={notification}
+          type="つぶやき"
+          url={`/timeline/${notification.timelineId}`}
+        />
       )}
     </>
   );
