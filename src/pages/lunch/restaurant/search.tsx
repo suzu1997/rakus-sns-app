@@ -41,6 +41,9 @@ const RestaurantSearch: NextPage = () => {
             onKeyUp={searchInDB}
           />
           <Button label="店名で検索" onClick={searchByNameIn2km} />
+          <span className="font-normal text-sm">
+            ※第2ラーセンから半径2km以内で検索
+          </span>
         </div>
         {/* データベースに登録済みの店をオートコンプリートに表示する部分 */}
         {restautrantsInDB.length > 0 && (
