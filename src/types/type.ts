@@ -128,3 +128,22 @@ export type Title = {
   id: number;
   title: string;
 };
+
+//通知
+export type notion = {
+  id: number;
+  userId: number;
+  accountName: string;
+  userPhotoPath: string;
+  comment: string | null;
+  timelineId: number;
+  timelineSentence: string;
+  reviewId: number | null;
+  reviewSentence: string | null;
+  parentCommentId: number | null;
+  parentCommentSentence: string | null;
+  actionedTime: Date;
+  hasNoticed: boolean;
+  read: boolean;
+  like: boolean;
+};
