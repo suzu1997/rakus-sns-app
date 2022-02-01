@@ -30,7 +30,7 @@ export const RestaurantCard: FC<Restaurant> = memo((props) => {
       className="flex flex-col xl:flex-row justify-between w-full px-10 py-5 relative h-auto border border-t-0 border-gray-200 cursor-pointer"
     >
       <div className="relative">
-        <p className="text-xl font-extrabold border-l-8 border-basic mb-5 lg:mb-10 hover:underline">
+        <p className="text-xl font-extrabold border-l-8 border-basic mb-5 lg:mb-10 hover:text-text-brown">
           {name}
         </p>
         <div className="xl:ml-10">ジャンル: {genreValue}</div>
@@ -41,7 +41,7 @@ export const RestaurantCard: FC<Restaurant> = memo((props) => {
           </div>
         ): <div className="xl:ml-10 mt-2">(レビューがありません)</div>}
       </div>
-      <div className="mx-6 mt-3">
+      <div className="mx-6 mt-3 hover:opacity-80">
         <Image
           src={getRestaurantPhotoPath(photoPath)}
           width={300}

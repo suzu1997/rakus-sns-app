@@ -107,7 +107,7 @@ export const ReviewCard: FC<Props> = memo((props) => {
           />
         </div>
         <div className="flex flex-col w-full">
-          <div className="text-xl font-extrabold pt-3 pb-3">{accountName}</div>
+          <div className="text-xl font-extrabold pt-3 pb-3 hover:text-text-brown">{accountName}</div>
           <div>
             <Star starCount={star} />
           </div>
