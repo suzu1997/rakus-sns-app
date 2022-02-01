@@ -8,6 +8,7 @@ import useSWR from "swr";
 import { JAVA_API_URL } from "../../utils/const";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { notion } from "../../types/type";
+import Link from "next/link";
 
 /**
  * 通知ページ.
@@ -78,48 +79,44 @@ const Notion: NextPage = () => {
 
       {/* タイムラインゾーン */}
       {notificationList.map((value, key) => (
-        <div style={style} key={key}>
-          <div
-            className="p-5 ml-10"
-            onClick={() => {
-              goDetailPage(value.id);
-            }}
-          >
-            <div className="flex">
-              {value.like && (
-                <span className="text-2xl text-red-500 mt-10">
-                  <i className="fas fa-heart"></i>
+        <div style={style} key={key} className="p-5 ml-10">
+          <Link href={`/user/${value.id}`}>
+            <a>
+              <div className="flex">
+                {value.like && (
+                  <span className="text-2xl text-red-500 mt-10">
+                    <i className="fas fa-heart"></i>
+                  </span>
+                )}
+                {value.comment && (
+                  <span className="text-3xl text-yellow-600 mt-10">
+                    <i className="fas fa-comment"></i>
+                  </span>
+                )}
+                <span className="ml-3 cursor-pointer hover:opacity-50">
+                  <Link href={`/user/${value.userId}`}>
+                    <a>
+                      <Image
+                        src={`/image/userIcon/${value.userPhotoPath}`}
+                        width={100}
+                        height={100}
+                        alt="icon"
+                        className="rounded-full"
+                      />
+                    </a>
+                  </Link>
                 </span>
-              )}
-              {value.comment && (
-                <span className="text-3xl text-yellow-600 mt-10">
-                  <i className="fas fa-comment"></i>
-                </span>
-              )}
-              <span
-                className="ml-3 cursor-pointer hover:opacity-50"
-                onClick={() => {
-                  goUserPage(value.userId);
-                }}
-              >
-                <Image
-                  src={`/image/userIcon/${value.userPhotoPath}`}
-                  width={100}
-                  height={100}
-                  alt="icon"
-                  className="rounded-full"
-                />
-              </span>
-            </div>
-            <div className=" cursor-pointer hover:opacity-50">
-              <div className="text-xl pt-3 pb-3 ml-16">
-                {value.accountName}さんがあなたの投稿にいいねしました
               </div>
-              <div className="pt-5 pb-5 pl-5 w-8/12 ml-20 text-text-brown">
-                {value.timelineSentence}
+              <div className=" cursor-pointer hover:opacity-50">
+                <div className="text-xl pt-3 pb-3 ml-16">
+                  {value.accountName}さんがあなたの投稿にいいねしました
+                </div>
+                <div className="pt-5 pb-5 pl-5 w-8/12 ml-20 text-text-brown">
+                  {value.timelineSentence}
+                </div>
               </div>
-            </div>
-          </div>
+            </a>
+          </Link>
         </div>
       ))}
       <div
