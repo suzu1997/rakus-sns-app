@@ -135,14 +135,14 @@ export type notion = {
   userId: number; //反応してきたユーザID
   accountName: string; //反応してきたユーザの名前
   userPhotoPath: string; //反応してきたユーザの画像
-  comment: string | null; //コメント
+  comment: string; //コメント
   like: boolean; //いいね
-  timelineId: number | null; //タイムライン→元投稿ＩＤ
-  timelineSentence: string | null; //タイムライン→元投稿内容
-  reviewId: number | null; //レビュー→元投稿ID
-  reviewSentence: string | null; //レビュー→元投稿内容
-  parentCommentId: number | null; //親コメントID？
-  parentCommentSentence: string | null; //親コメント内容？
+  timelineId: number; //タイムライン→元投稿ＩＤ
+  timelineSentence: string; //タイムライン→元投稿内容
+  reviewId: number; //レビュー→元投稿ID
+  reviewSentence: string; //レビュー→元投稿内容
+  parentCommentId: number; //親コメントID？
+  parentCommentSentence: string; //親コメント内容？
   actionedTime: Date;
   hasNoticed: boolean; //
   read: boolean; //既読か否か
