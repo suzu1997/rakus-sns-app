@@ -8,7 +8,7 @@ export type Props = {
   notificationList: Array<notion>;
 };
 
-export const TimelineNotion: FC<Props> = (props) => {
+export const CommentNotion: FC<Props> = (props) => {
   const { notificationList } = props;
 
   //1人1人のつぶやきの下に入る線
@@ -16,7 +16,7 @@ export const TimelineNotion: FC<Props> = (props) => {
     borderBottom: "solid 1px black",
   };
 
-  //タイムライン→コメント／いいねを表示
+  //コメント→いいねを表示
   return (
     <>
       {notificationList.map((value, key) => (
@@ -24,18 +24,9 @@ export const TimelineNotion: FC<Props> = (props) => {
           <Link href={`/user/${value.id}`}>
             <a>
               <div className="flex">
-                {/* いいねの場合ハートを表示 */}
-                {value.like && (
-                  <span className="text-2xl text-red-500 mt-10">
-                    <i className="fas fa-heart"></i>
-                  </span>
-                )}
-                {/* コメントの場合ふきだしを表示 */}
-                {value.comment && (
-                  <span className="text-3xl text-yellow-600 mt-10">
-                    <i className="fas fa-comment"></i>
-                  </span>
-                )}
+                <span className="text-2xl text-red-500 mt-10">
+                  <i className="fas fa-heart"></i>
+                </span>
                 <span className="ml-3 cursor-pointer hover:opacity-50">
                   <Link href={`/user/${value.userId}`}>
                     <a>
@@ -52,23 +43,12 @@ export const TimelineNotion: FC<Props> = (props) => {
               </div>
               <div className=" cursor-pointer hover:opacity-50">
                 <div className="text-xl pt-3 pb-3 ml-16">
-                  {value.like && (
-                    <>
-                      {value.accountName}
-                      さんがあなたのつぶやき投稿にいいねしました
-                      <div className="pt-5 pb-5 pl-5 w-8/12 ml-20 text-text-brown">
-                        {value.timelineSentence}
-                      </div>
-                    </>
-                  )}
-                  {value.comment && (
-                    <>
-                      {value.accountName}さんがあなたの投稿にコメントしました
-                      <div className="py-5 w-8/12 ml-20 text-text-brown">
-                        {value.comment}
-                      </div>
-                    </>
-                  )}
+                  <>
+                    {value.accountName}さんがあなたのコメントにいいねしました
+                    <div className="pt-5 pb-5 pl-5 w-8/12 ml-20 text-text-brown">
+                      {value.parentCommentSentence}
+                    </div>
+                  </>
                 </div>
               </div>
             </a>
