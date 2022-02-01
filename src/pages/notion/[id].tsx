@@ -1,4 +1,4 @@
-import { useCallback, useContext } from "react";
+import { useContext } from "react";
 import { NextPage } from "next";
 
 import { SubHeader } from "../../components/Layout/SubHeader";
@@ -7,7 +7,7 @@ import { LikeNotion } from "../../components/Notion/LikeNotion";
 import { ReviewNotion } from "../../components/Notion/ReviewNotion";
 import { TimelineNotion } from "../../components/Notion/TimelineNotion";
 import { loginIdContext } from "../../providers/LoginIdProvider";
-import { notion } from "../../types/type";
+import type { notion } from "../../types/type";
 import { useSWRNotion } from "../../hooks/useSWRNotion";
 
 /**
@@ -20,18 +20,7 @@ const Notion: NextPage = () => {
   const { hash } = useContext(loginIdContext);
 
   // 投稿一覧を再検証・再取得する関数をhooksから取得
-  const { data, error, loadMoreNotion, notionMutate, isLast } =
-    useSWRNotion(hash);
-
-  /**
-   * タイムラインの情報を更新するメソッド.
-   *
-   * @remarks
-   * 投稿が成功すると呼ばれる。
-   */
-  const updateData = useCallback(() => {
-    notionMutate(); // タイムライン一覧を再検証・再取得する
-  }, [notionMutate]);
+  const { data, error, loadMoreNotion, isLast } = useSWRNotion(hash);
 
   if (!error && !data) {
     return <div>Loading...</div>;

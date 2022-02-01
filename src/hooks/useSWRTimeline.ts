@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import useSWRInfinite, { SWRInfiniteKeyLoader } from "swr/infinite";
+
 import { JAVA_API_URL } from "../utils/const";
 
 const LIMIT = 50; // 50件ずつ読み込む

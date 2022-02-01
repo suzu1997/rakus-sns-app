@@ -2,7 +2,8 @@ import { FC } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-import { notion } from "../../types/type";
+import type { notion } from "../../types/type";
+import { returnCodeToBr } from "../../utils/methods";
 
 export type Props = {
   notification: notion; //通知内容
@@ -49,7 +50,7 @@ export const CommentNotion: FC<Props> = (props) => {
                 {notification.accountName}
                 さんがあなたの{type}投稿にコメントしました
                 <div className="py-5 w-8/12 text-text-brown">
-                  {notification.comment}
+                  {returnCodeToBr(notification.comment)}
                 </div>
               </a>
             </Link>

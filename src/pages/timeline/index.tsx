@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { useCallback, useContext } from "react";
 import type { NextPage } from "next";
+import Image from "next/image";
 import Link from "next/link";
 
 import { SubHeader } from "../../components/Layout/SubHeader";

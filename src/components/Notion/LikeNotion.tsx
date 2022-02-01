@@ -1,13 +1,15 @@
 import { FC } from "react";
 import Link from "next/link";
-import { notion } from "../../types/type";
 import Image from "next/image";
+
+import type { notion } from "../../types/type";
+import { returnCodeToBr } from "../../utils/methods";
 
 //コメント数・対象の投稿IDを受け取る
 export type Props = {
   notification: notion; //通知内容
   type: "つぶやき" | "レビュー" | "コメント"; //タイプ
-  sentence: string | null; //ユーザが反応した投稿の内容
+  sentence: string; //ユーザが反応した投稿の内容
   url: string; //投稿詳細URL
 };
 
@@ -52,7 +54,9 @@ export const LikeNotion: FC<Props> = (props) => {
             <a>
               {notification.accountName}
               さんがあなたの{type}投稿にいいねしました
-              <div className="py-5 w-8/12 opacity-60">{sentence}</div>
+              <div className="py-5 w-8/12 opacity-60">
+                {returnCodeToBr(sentence)}
+              </div>
             </a>
           </Link>
         </div>
