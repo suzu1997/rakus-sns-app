@@ -8,7 +8,7 @@ export type Props = {
   notification: notion;
 };
 
-export const TimelineNotion: FC<Props> = (props) => {
+export const LikeNotion: FC<Props> = (props) => {
   const { notification } = props;
 
   const [type, setType] = useState("");
@@ -28,14 +28,13 @@ export const TimelineNotion: FC<Props> = (props) => {
     borderBottom: "solid 1px black",
   };
 
-  //タイムライン→コメント／いいねを表示
+  //いいねを表示
   return (
     <>
       <div className="p-5 ml-10" style={style}>
         <Link href={`/user/${notification.id}`}>
           <a>
             <div className="flex">
-              {/* いいねの場合ハートを表示 */}
               <span className="text-3xl text-red-500 mt-10">
                 <i className="fas fa-heart"></i>
               </span>
@@ -54,13 +53,11 @@ export const TimelineNotion: FC<Props> = (props) => {
                 </Link>
               </span>
               <div className="text-xl pt-3 pb-3 ml-16 cursor-pointer hover:opacity-50">
-                <>
-                  {notification.accountName}
-                  さんがあなたの{type}投稿にいいねしました
-                  <div className="py-5 w-8/12 ml-5 opacity-60">
-                    {notification.timelineSentence}
-                  </div>
-                </>
+                {notification.accountName}
+                さんがあなたの{type}投稿にいいねしました
+                <div className="py-5 w-8/12 ml-5 opacity-60">
+                  {notification.timelineSentence}
+                </div>
               </div>
             </div>
           </a>

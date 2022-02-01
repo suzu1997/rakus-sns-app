@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import Link from "next/link";
 import { notion } from "../../types/type";
 import Image from "next/image";
@@ -11,21 +11,34 @@ export type Props = {
 export const CommentNotion: FC<Props> = (props) => {
   const { notification } = props;
 
+  const [type, setType] = useState("");
+
+  useEffect(() => {
+    if (notification.timelineId != null) {
+      setType("タイムライン");
+    } else if (notification.reviewId != null) {
+      setType("レビュー");
+    } else {
+      setType("コメント");
+    }
+  }, [notification.reviewId, notification.timelineId]);
+
   //1人1人のつぶやきの下に入る線
   const style = {
     borderBottom: "solid 1px black",
   };
 
-  //コメント→いいねを表示
+  //コメントを表示
   return (
     <>
-      <div style={style} className="p-5 ml-10">
+      <div className="p-5 ml-10" style={style}>
         <Link href={`/user/${notification.id}`}>
           <a>
             <div className="flex">
-              <span className="text-2xl text-red-500 mt-10">
-                <i className="fas fa-heart"></i>
+              <span className="text-3xl text-yellow-600 mt-10">
+                <i className="fas fa-comment"></i>
               </span>
+
               <span className="ml-3 cursor-pointer hover:opacity-50">
                 <Link href={`/user/${notification.userId}`}>
                   <a>
@@ -39,16 +52,11 @@ export const CommentNotion: FC<Props> = (props) => {
                   </a>
                 </Link>
               </span>
-
-              <div className=" cursor-pointer hover:opacity-50">
-                <div className="text-xl pt-3 pb-3 ml-16">
-                  <>
-                    {notification.accountName}
-                    さんがあなたのコメントにいいねしました
-                    <div className="py-5 w-8/12 ml-5 opacity-70">
-                      {notification.parentCommentSentence}
-                    </div>
-                  </>
+              <div className="text-xl pt-3 pb-3 ml-16 cursor-pointer hover:opacity-50">
+                {notification.accountName}
+                さんがあなたの{type}投稿にコメントしました
+                <div className="py-5 w-8/12 ml-5 text-text-brown">
+                  {notification.comment}
                 </div>
               </div>
             </div>
