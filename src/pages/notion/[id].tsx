@@ -23,7 +23,9 @@ const Notion: NextPage = () => {
   const { data, error, loadMoreNotion, isLast } = useSWRNotion(hash);
 
   if (!error && !data) {
-    return <div>Loading...</div>;
+    <div className="flex justify-center pt-10 w-full">
+      <div className="animate-spin h-8 w-8 bg-basic rounded-xl"></div>
+    </div>;
   }
 
   if (error) {
