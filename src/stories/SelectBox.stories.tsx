@@ -1,14 +1,14 @@
-import { Meta, Story } from "@storybook/react";
-import { SelectBox, Props } from "../components/Form/SelectBox";
+import type { ComponentStory, ComponentMeta } from "@storybook/react";
+import { SelectBox } from "../components/Form/SelectBox";
 
 export default {
   title: "SelectBox",
   component: SelectBox,
-} as Meta;
+} as ComponentMeta<typeof SelectBox>;
 
-const Template: Story<Props> = (args) => <SelectBox {...args} />;
+const Template: ComponentStory<typeof SelectBox> = (args) => <SelectBox {...args} />;
 
-export const Default: Story<Props> = Template.bind({});
+export const Default: ComponentStory<typeof SelectBox> = Template.bind({});
 Default.args = {
   label: "Default",
   selectedOption: { id: "1", name: "テスト1" },

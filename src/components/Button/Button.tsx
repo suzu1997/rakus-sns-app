@@ -1,6 +1,6 @@
 import { MouseEventHandler, memo, FC } from "react";
 
-export type Props = {
+type Props = {
   label: string;
   backgroundColor?: string;
   color?: string;

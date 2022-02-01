@@ -1,6 +1,6 @@
 import { ChangeEventHandler, FC, memo } from "react";
 
-export type Props = {
+type Props = {
   label?: string;
   value?: string;
   type: string;

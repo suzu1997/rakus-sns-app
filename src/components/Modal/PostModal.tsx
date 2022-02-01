@@ -12,7 +12,7 @@ import { useTimelineCommentPost } from "../../hooks/useTimelineCommentPost";
 import { useReviewPost } from "../../hooks/useReviewPost";
 import { useReviewCommentPost } from "../../hooks/useReviewCommentPost";
 
-export type Props = {
+type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
   closeModal: () => void; // モーダルを閉じるメソッド
   title: "レビュー" | "つぶやき" | "つぶやきにコメント" | "レビューコメント"; // レビュー/つぶやき/コメント

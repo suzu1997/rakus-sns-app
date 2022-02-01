@@ -1,5 +1,5 @@
-import { Meta, Story } from "@storybook/react";
-import { Button, Props } from "../components/Button/Button";
+import type { ComponentStory, ComponentMeta } from "@storybook/react";
+import { Button } from "../components/Button/Button";
 
 export default {
   /* 👇 The title prop is optional.
@@ -8,47 +8,44 @@ export default {
    */
   title: "Button",
   component: Button,
-} as Meta;
+} as ComponentMeta<typeof Button>;
 
 /// 1. Storybookで描画するためのコンポーネントの雛形を用意しておく
-const Template: Story<Props> = (args) => <Button {...args} />;
+const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />;
 
 // 2. bindを用いて雛形を元にしたコピーを作成
 // 名前付きエクスポートはデフォルトでストーリーオブジェクトを表す
-export const Default: Story<Props> = Template.bind({});
+export const Default: ComponentStory<typeof Button> = Template.bind({});
 // 3. Propsに値を設定しない
 Default.args = {
   label: "Default",
+  onClick: () => {
+    alert("クリック");
+  },
 };
 
-export const SubButton: Story<Props> = Template.bind({});
+export const SubButton: ComponentStory<typeof Button> = Template.bind({});
 SubButton.args = {
   label: "SubButton",
   backgroundColor: "#f6f0ea",
   color: "#622d18",
 };
 
-export const Small: Story<Props> = Template.bind({});
+export const Small: ComponentStory<typeof Button> = Template.bind({});
 Small.args = {
   label: "Small",
   size: "sm",
 };
-export const Large: Story<Props> = Template.bind({});
+export const Large: ComponentStory<typeof Button> = Template.bind({});
 Large.args = {
   label: "Large",
   size: "lg",
 };
-export const Tiny: Story<Props> = Template.bind({});
-Large.args = {
-  label: "Tiny",
-  size: "xs",
-};
 
-export const SubSmall: Story<Props> = Template.bind({});
+export const SubSmall: ComponentStory<typeof Button> = Template.bind({});
 SubSmall.args = {
   label: "SubSmall",
   backgroundColor: "#f6f0ea",
   color: "#622d18",
   size: "sm",
 };
-

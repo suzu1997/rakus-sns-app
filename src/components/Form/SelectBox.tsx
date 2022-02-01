@@ -4,7 +4,7 @@ import { SelectorIcon } from "@heroicons/react/solid";
 
 import type { Option } from "../../types/type";
 
-export type Props = {
+type Props = {
   label?: string;
   selectedOption: Option;
   select: Dispatch<SetStateAction<Option>>;
