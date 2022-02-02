@@ -142,7 +142,7 @@ const User: NextPage = () => {
             )}
           </div>
 
-          <div className="w-full text-center mb-2">
+          {/* <div className="w-full text-center mb-2">
             <Button
               label="投稿を再読み込み"
               size="lg"
@@ -150,7 +150,7 @@ const User: NextPage = () => {
                 alert("新しいつぶやき読み込み");
               }}
             />
-          </div>
+          </div> */}
 
           {/* タブ（履歴表示欄） */}
           <div className="w-full px-2 sm:px-0">
