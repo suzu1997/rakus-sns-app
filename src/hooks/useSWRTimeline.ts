@@ -66,7 +66,8 @@ export const useSWRTimeline = (hash: string) => {
 
   // 最後まで読み込んだかどうか
   const isLast = data
-    ? data.filter((pageData) => pageData.TimelineList.length < LIMIT).length > 0
+    ? data.filter((pageData) => pageData?.TimelineList?.length < LIMIT).length >
+      0
     : false;
 
   return { data, isLast, error, loadMoreTimeline, timelineMutate: mutate };
