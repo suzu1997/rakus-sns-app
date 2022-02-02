@@ -19,7 +19,7 @@ export const ReviewNotion: FC<Props> = (props) => {
   return (
     <>
       <>
-        {notification.like && (
+        {!notification.comment && (
           <LikeNotion
             notification={notification}
             type="レビュー"

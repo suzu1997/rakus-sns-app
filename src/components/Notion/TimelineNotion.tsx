@@ -18,7 +18,7 @@ export const TimelineNotion: FC<Props> = (props) => {
 
   return (
     <>
-      {notification.like && (
+      {!notification.comment && (
         <LikeNotion
           notification={notification}
           type="つぶやき"
