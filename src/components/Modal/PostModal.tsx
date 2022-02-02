@@ -11,6 +11,7 @@ import { useTimelinePost } from "../../hooks/useTimelinePost";
 import { useTimelineCommentPost } from "../../hooks/useTimelineCommentPost";
 import { useReviewPost } from "../../hooks/useReviewPost";
 import { useReviewCommentPost } from "../../hooks/useReviewCommentPost";
+import toast from "react-hot-toast";
 
 export type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
@@ -54,11 +55,11 @@ export const PostModal: FC<Props> = memo((props) => {
    */
   const sendPost = useCallback(() => {
     if (post === "") {
-      alert("入力して下さい");
+      toast.error("入力して下さい");
       return;
     }
     if (post.length > 140) {
-      alert(`${title}は140文字以内にして下さい`);
+      toast.error(`${title}は140文字以内にして下さい`);
       return;
     }
 
