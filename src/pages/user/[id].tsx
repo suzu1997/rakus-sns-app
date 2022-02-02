@@ -93,9 +93,9 @@ const User: NextPage = () => {
   //タブのタイトル
   const categories: Array<Title> = [
     { id: 1, title: "つぶやき" },
-    { id: 2, title: "投稿" },
+    { id: 2, title: "レビュー" },
     { id: 3, title: "いいね履歴つぶやき" },
-    { id: 4, title: "いいね履歴投稿" },
+    { id: 4, title: "いいね履歴レビュー" },
     { id: 5, title: "いいね履歴コメント" },
   ];
 
