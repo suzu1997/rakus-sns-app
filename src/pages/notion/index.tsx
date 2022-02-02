@@ -67,7 +67,7 @@ const Notion: NextPage = () => {
           className="text-text-brown text-center my-5 cursor-pointer hover:text-basic"
           onClick={loadMoreNotion}
         >
-          過去の投稿を見る…
+          過去の通知を見る…
         </div>
       ) : (
         <div className="text-text-brown text-center my-5 ">
