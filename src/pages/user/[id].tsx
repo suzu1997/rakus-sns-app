@@ -62,7 +62,7 @@ const User: NextPage = () => {
    * APIで初期表示用データ取得.
    */
   const {
-    data: payload,
+    data: userInfo,
     error,
     mutate,
   } = useSWR(`${JAVA_API_URL}/user/${userId}/${hash}`);
@@ -106,7 +106,7 @@ const User: NextPage = () => {
         <div className="w-full">
           <SubHeader title="ユーザー情報" />
           <div className="border-solid  border-2 border-bgc-200 m-3 shadow-lg rounded-md">
-            {payload && (
+            {userInfo && (
               <div className=" text-center">
                 <div className="mt-1 text-xl font-bold">
                   アカウント名:{userData.accountName}
