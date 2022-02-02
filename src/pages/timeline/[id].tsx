@@ -1,7 +1,8 @@
-import { useCallback, useContext } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import useSWR from "swr";
+import toast from "react-hot-toast";
 
 import { Button } from "../../components/Button/Button";
 import { PostBtn } from "../../components/Button/PostBtn";
@@ -39,6 +40,16 @@ const TweetDetail: NextPage = () => {
   const { data, error, mutate } = useSWR(
     `${JAVA_API_URL}/timeline/detail/${postId}/${hash}`,
   );
+
+  /**
+   * 通知画面から削除された投稿に遷移した場合のメソッド.
+   */
+  useEffect(() => {
+    if (data.message === "つぶやきが存在しません") {
+      toast.error("投稿が削除された可能性があります");
+      router.back();
+    }
+  }, [data.message, router]);
 
   //つぶやき詳細データ
   const detailData: Timeline = data?.timeline;
