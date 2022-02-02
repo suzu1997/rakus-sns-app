@@ -197,7 +197,17 @@ const User: NextPage = () => {
                 {/* 投稿履歴ここまで */}
                 {/* いいね履歴つぶやき */}
                 <Tab.Panel className="bg-bgc shadow-lg  rounded-xl p-3 focus:outline-none ">
-                  APIできたら実装
+                  <div>
+                    {userInfo &&
+                      userInfo.likedTimelineList.map(
+                        (likedTimelineHis: Timeline) => (
+                          <TimelineHisCard
+                            {...likedTimelineHis}
+                            type="いいね履歴つぶやき"
+                          />
+                        ),
+                      )}
+                  </div>
                 </Tab.Panel>
                 {/* いいね履歴つぶやきここまで */}
                 {/* いいね履歴投稿 */}
