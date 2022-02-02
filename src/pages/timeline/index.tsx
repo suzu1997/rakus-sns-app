@@ -57,7 +57,7 @@ const TimelinePage: NextPage = () => {
   return (
     <>
       {/* サブヘッダー */}
-      <SubHeader title="タイムライン" />
+      <SubHeader title="つぶやき一覧" />
       {/* タイムラインゾーン */}
       {data &&
         // dataはページごとの連想配列の配列
@@ -100,7 +100,7 @@ const TimelinePage: NextPage = () => {
                       commentCount={timelime.commentCount}
                       postId={timelime.id}
                       success={updateData}
-                      title="つぶやきにコメント"
+                      title="つぶやきへのコメント"
                     />
                     <FavoBtn
                       postId={timelime.id}

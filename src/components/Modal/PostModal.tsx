@@ -15,7 +15,7 @@ import { useReviewCommentPost } from "../../hooks/useReviewCommentPost";
 export type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
   closeModal: () => void; // モーダルを閉じるメソッド
-  title: "レビュー" | "つぶやき" | "つぶやきにコメント" | "レビューコメント"; // レビュー/つぶやき/コメント
+  title: "レビュー" | "つぶやき" | "つぶやきへのコメント" | "レビューコメント"; // レビュー/つぶやき/コメント
   restaurantId?: number; // 店のID(レビュー投稿なら渡ってくる)。投稿の際にAPIに渡す。
   postId?: number; // タイムラインもしくはレビューのID(コメント投稿なら渡ってくる)。投稿の際にAPIに渡す
   success: () => void; //投稿完了後、自動で更新したい場合は更新のメソッドを渡す
@@ -82,7 +82,7 @@ export const PostModal: FC<Props> = memo((props) => {
       setPost("");
     }
 
-    if (title === "つぶやきにコメント") {
+    if (title === "つぶやきへのコメント") {
       timelineCommentPost(postId, post, success);
       closeModal();
       setPost("");
