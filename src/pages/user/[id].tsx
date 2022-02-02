@@ -190,11 +190,22 @@ const User: NextPage = () => {
                   </div>
                 </Tab.Panel>
                 {/* つぶやき履歴表示ここまで */}
-                {/* 投稿履歴 */}
+
+                {/* レビュー履歴 */}
                 <Tab.Panel className="bg-bgc shadow-lg  rounded-xl p-3 focus:outline-none ">
-                  APIできたら実装
+                  <div className="bg-white">
+                    {userInfo &&
+                      userInfo.postedReviewList.map((review: LunchReview) => (
+                        <ReviewCard
+                          {...review}
+                          type="詳細"
+                          hasRestaurantInfo={true}
+                          reviewsMutate={mutate}
+                        />
+                      ))}
+                  </div>
                 </Tab.Panel>
-                {/* 投稿履歴ここまで */}
+                {/* レビュー履歴ここまで */}
                 {/* いいね履歴つぶやき */}
                 <Tab.Panel className="bg-bgc shadow-lg  rounded-xl p-3 focus:outline-none ">
                   <div>
@@ -210,11 +221,23 @@ const User: NextPage = () => {
                   </div>
                 </Tab.Panel>
                 {/* いいね履歴つぶやきここまで */}
-                {/* いいね履歴投稿 */}
+                {/* いいね履歴レビュー */}
                 <Tab.Panel className="bg-bgc shadow-lg  rounded-xl p-3 focus:outline-none ">
-                  APIできたら実装
+                  <div className="bg-white">
+                    {userInfo &&
+                      userInfo.likedReviewList.map(
+                        (likedReview: LunchReview) => (
+                          <ReviewCard
+                            {...likedReview}
+                            type="詳細"
+                            hasRestaurantInfo={true}
+                            reviewsMutate={mutate}
+                          />
+                        ),
+                      )}
+                  </div>
                 </Tab.Panel>
-                {/* いいね履歴投稿ここまで */}
+                {/* いいね履歴レビューここまで */}
                 {/* いいね履歴コメント */}
                 <Tab.Panel className="bg-bgc shadow-lg  rounded-xl p-3 focus:outline-none ">
                   APIできたら実装
