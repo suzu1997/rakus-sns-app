@@ -178,76 +178,13 @@ const User: NextPage = () => {
                 {/* つぶやき履歴表示 */}
                 <Tab.Panel className="bg-bgc shadow-lg  rounded-xl p-3 focus:outline-none ">
                   <div>
-                    {payload &&
-                      timelineHisDatas.postedTimelineList.map(
-                        (timeline: Timeline) => (
-                          <div
-                            key={timeline.id}
-                            className=" border border-t-1 mt-1 border-blue-100text-sm font-medium leading-5 focus:outline-none rounded-xl bg-white relative p-3 "
-                          >
-                            <div
-                              className="hover:bg-coolGray-100 cursor-pointer hover:opacity-50"
-                              onClick={() => {
-                                goDetailTimelinePage(timeline.id);
-                              }}
-                            >
-                              <span className="text-xl font-extrabold pt-3 pb-3">
-                                {timeline.accountName}
-                              </span>
-                              <span className="ml-7">
-                                つぶやき日時:
-                                {getFormattedDate(
-                                  new Date(timeline.postedTime),
-                                )}
-                              </span>
-                            </div>
-                            <div className="flex">
-                              <span
-                                className="rounded-full  pt-5 cursor-pointer hover:opacity-50"
-                                onClick={() => {
-                                  goUserPage(timeline.userId);
-                                }}
-                              >
-                                <Image
-                                  src={`/image/userIcon/${timeline.userPhotoPath}`}
-                                  width={100}
-                                  height={100}
-                                  alt="icon"
-                                  className="rounded-full"
+                    {userInfo &&
+                      userInfo.postedTimelineList.map(
+                        (timelineHis: Timeline) => (
+                          <TimelineHisCard
+                            {...timelineHis}
+                            type="つぶやき履歴"
                                 />
-                              </span>
-                              <span
-                                className="p-10 w-8/12 hover:bg-coolGray-100 cursor-pointer hover:opacity-50"
-                                onClick={() => {
-                                  goDetailTimelinePage(timeline.id);
-                                }}
-                              >
-                                {timeline.sentence}
-                              </span>
-                            </div>
-                            <div className="w-full text-right py-3">
-                              <CommentIcon
-                                commentCount={timeline.commentCount}
-                                postId={timeline.id}
-                                success={updateData}
-                                title="つぶやきにコメント"
-                              />
-                              <FavoBtn
-                                postId={timeline.id}
-                                favoCount={timeline.likeCount}
-                                isFavo={timeline.myLike}
-                                type="タイムライン"
-                                success={updateData}
-                              />
-                              {Number(loginId) === timeline.userId && (
-                                <TrashBtn
-                                  postId={timeline.id}
-                                  type="タイムライン"
-                                  success={updateData}
-                                />
-                              )}
-                            </div>
-                          </div>
                         ),
                       )}
                   </div>
