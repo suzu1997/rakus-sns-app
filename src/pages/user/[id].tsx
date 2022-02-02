@@ -159,7 +159,15 @@ const User: NextPage = () => {
                 {categories.map((category) => (
                   <Tab
                     key={category.id}
-                    className="w-full py-2.5 text-xs font-bold  text-bgc rounded-lg bg-text-brown focus:text-basic focus:bg-bgc hover:text-basic "
+                    className={({ selected }) =>
+                      classNames(
+                        "w-full py-2.5 text-xs font-bold text-basic rounded-lg",
+                        "focus:outline-none focus:ring-2 ring-offset-2 ring-white ring-opacity-60",
+                        selected
+                          ? "bg-white shadow border-4 border-basic"
+                          : "text-bgc bg-text-brown hover:text-basic hover:bg-white hover:bg-opacity-60 ",
+                      )
+                    }
                   >
                     {category.title}
                   </Tab>
