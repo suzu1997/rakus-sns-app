@@ -1,5 +1,5 @@
 /* eslint-disable prefer-const */
-import { useCallback, useContext } from "react";
+import { useContext } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { Tab } from "@headlessui/react";
@@ -10,12 +10,13 @@ import { Button } from "../../components/Button/Button";
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { JAVA_API_URL } from "../../utils/const";
-import type { Timeline, Title, UserInfo } from "../../types/type";
-import { getFormattedDate } from "../../utils/methods";
-import { CommentIcon } from "../../components/Button/CommentIcon";
-import { FavoBtn } from "../../components/Button/FavoBtn";
-import { TrashBtn } from "../../components/Button/TrashBtn";
+import type { LunchReview, Timeline, Title, UserInfo } from "../../types/type";
+import { ReviewCard } from "../../components/lunch/ReviewCard";
+import { TimelineHisCard } from "../../components/User/TimelineHisCard";
 
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(" ");
+}
 /**
  * ユーザー情報画面
  * @returns ユーザー情報を表示するページ
@@ -24,6 +25,7 @@ const User: NextPage = () => {
   //ログインID
   const { loginId } = useContext(loginIdContext);
   const { hash } = useContext(loginIdContext);
+
   //ルーターリンク
   const router = useRouter();
 
@@ -36,29 +38,6 @@ const User: NextPage = () => {
   };
 
   /**
-   * 画像クリックで投稿ユーザ情報ページに飛ぶ.
-   * @param userId - 投稿者ID
-   */
-  const goUserPage = useCallback(
-    (userId: number) => {
-      router.push(`/user/${userId}`);
-    },
-    [router],
-  );
-
-  /**
-   * 押下投稿の詳細に画面遷移.
-   * @remarks 受け取った記事IDの詳細画面に遷移
-   */
-  const goDetailTimelinePage = useCallback(
-    (postId: number) => {
-      router.push(`/timeline/${postId}`);
-      // router.push(`/lunch/review/${postId}`);
-    },
-    [router],
-  );
-
-  /**
    * APIで初期表示用データ取得.
    */
   const {
@@ -67,23 +46,10 @@ const User: NextPage = () => {
     mutate,
   } = useSWR(`${JAVA_API_URL}/user/${userId}/${hash}`);
 
-  /**
-   * 履歴表示一覧の情報を更新するメソッド.
-   *
-   * @remarks
-   * 成功すると呼ばれる。
-   */
-  const updateData = useCallback(() => {
-    mutate(); // 履歴一覧を再検証・再取得する
-  }, [mutate]);
-
   //ユーザー情報格納
-  const userData: UserInfo = payload?.user;
+  const userData: UserInfo = userInfo?.user;
 
-  //つぶやき履歴格納
-  const timelineHisDatas = payload;
-
-  if (!error && !payload) {
+  if (!error && !userInfo) {
     return <div>Loading...</div>;
   }
   if (error) {
@@ -184,7 +150,7 @@ const User: NextPage = () => {
                           <TimelineHisCard
                             {...timelineHis}
                             type="つぶやき履歴"
-                                />
+                          />
                         ),
                       )}
                   </div>
