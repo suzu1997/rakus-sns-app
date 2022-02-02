@@ -27,11 +27,7 @@ export const TimelineNotion: FC<Props> = (props) => {
         />
       )}
       {notification.comment && (
-        <CommentNotion
-          notification={notification}
-          type="つぶやき"
-          url={`/timeline/${notification.timelineId}`}
-        />
+        <CommentNotion notification={notification} type="つぶやき" />
       )}
     </>
   );

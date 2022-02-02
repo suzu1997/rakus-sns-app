@@ -28,11 +28,7 @@ export const ReviewNotion: FC<Props> = (props) => {
           />
         )}
         {notification.comment && (
-          <CommentNotion
-            notification={notification}
-            type="レビュー"
-            url={`/lunch/review/${notification.reviewId}`}
-          />
+          <CommentNotion notification={notification} type="レビュー" />
         )}
       </>
     </>

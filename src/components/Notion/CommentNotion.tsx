@@ -1,14 +1,18 @@
-import { FC } from "react";
+import { FC, useCallback, useContext } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
 import type { notion } from "../../types/type";
 import { returnCodeToBr } from "../../utils/methods";
+import axios from "axios";
+import router from "next/router";
+import toast from "react-hot-toast";
+import { JAVA_API_URL } from "../../utils/const";
+import { loginIdContext } from "../../providers/LoginIdProvider";
 
 export type Props = {
   notification: notion; //通知内容
   type: "つぶやき" | "レビュー" | "コメント"; //タイプ
-  url: string; //投稿詳細URL
 };
 
 /**
@@ -17,7 +21,43 @@ export type Props = {
  * @returns ユーザがコメントしてきた際の通知を表示
  */
 export const CommentNotion: FC<Props> = (props) => {
-  const { notification, type, url } = props;
+  const { notification, type } = props;
+
+  //ログインID
+  const { hash } = useContext(loginIdContext);
+
+  /**
+   * コメントされた投稿の詳細画面に遷移.
+   * @param id - コメントID入る
+   */
+  const goDetailPage = useCallback(
+    async (id: number) => {
+      //投稿にコメントした場合もURLで遷移先を決定
+      try {
+        const res = await axios.get(`${JAVA_API_URL}/comment/${id}/${hash}`);
+        //メッセージ内容
+        const responseMessage = res.data.message;
+        //タイムラインのコメントに対するいいね
+        if (
+          responseMessage ===
+          "このコメントがあるタイムライン詳細の検索に成功しました"
+        ) {
+          router.push(`/timeline/${res.data.timeline.id}`);
+        } else if (
+          //レビューのコメントに対するいいね
+          responseMessage ===
+          "このコメントがあるレビュー詳細の検索に成功しました"
+        ) {
+          router.push(`/lunch/review/${res.data.review.id}`);
+        } else {
+          toast.error(responseMessage);
+        }
+      } catch (e) {
+        toast.error("コメントが消された可能性があります");
+      }
+    },
+    [hash],
+  );
 
   return (
     <>
@@ -39,16 +79,15 @@ export const CommentNotion: FC<Props> = (props) => {
               </a>
             </Link>
           </span>
-          <div className="lg:text-xl text-base py-3 lg:ml-7 ml-3 cursor-pointer hover:opacity-50">
-            <Link href={url}>
-              <a>
-                {notification.accountName}
-                さんがあなたの{type}投稿にコメントしました
-                <div className="text-base py-5 w-8/12 text-text-brown">
-                  {returnCodeToBr(notification.comment)}
-                </div>
-              </a>
-            </Link>
+          <div
+            className="lg:text-xl text-base py-3 lg:ml-7 ml-3 cursor-pointer hover:opacity-50"
+            onClick={() => goDetailPage(notification.id)}
+          >
+            {notification.accountName}
+            さんがあなたの{type}投稿にコメントしました
+            <div className="text-base py-5 w-8/12 text-text-brown">
+              {returnCodeToBr(notification.comment)}
+            </div>
           </div>
         </div>
       </div>
