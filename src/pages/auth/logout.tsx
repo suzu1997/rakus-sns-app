@@ -51,7 +51,9 @@ const Logout: NextPage = () => {
         <Dialog
           as="div"
           className="fixed inset-0 z-10 overflow-y-auto"
-          onClose={closeModal}
+          onClose={() => {
+            router.back();
+          }}
         >
           {/* モーダルの背景を暗くする */}
           <Dialog.Overlay className="fixed inset-0 bg-black opacity-50" />
