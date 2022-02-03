@@ -75,8 +75,9 @@ const RestaurantDetail: NextPage<
     // 店を追加後の遷移時のみ、モーダルを自動で開く
     if (cookie.get("addFlag") === "true") {
       setModalStatus(true);
+      cookie.remove("addFlag");
     }
-    cookie.remove("addFlag");
+    // setModalStatus(false);
   }, [setModalStatus]);
 
   if (!error && !data) {
