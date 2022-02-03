@@ -150,6 +150,7 @@ const User: NextPage = () => {
                           <TimelineHisCard
                             {...timelineHis}
                             type="つぶやき履歴"
+                            key={timelineHis.id}
                           />
                         ),
                       )}
@@ -167,6 +168,7 @@ const User: NextPage = () => {
                           type="詳細"
                           hasRestaurantInfo={true}
                           reviewsMutate={mutate}
+                          key={review.id}
                         />
                       ))}
                   </div>
@@ -181,6 +183,7 @@ const User: NextPage = () => {
                           <TimelineHisCard
                             {...likedTimelineHis}
                             type="いいね履歴つぶやき"
+                            key={likedTimelineHis.id}
                           />
                         ),
                       )}
@@ -198,6 +201,7 @@ const User: NextPage = () => {
                             type="詳細"
                             hasRestaurantInfo={true}
                             reviewsMutate={mutate}
+                            key={likedReview.id}
                           />
                         ),
                       )}
