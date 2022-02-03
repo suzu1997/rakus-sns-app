@@ -64,5 +64,5 @@ export const searchTypeOptions = [
 export const defaultSearchParams = {
   orderParam: orderOptions[0].name,
   genreParam: searchGenreOptions[0].id,
-  typeParam: searchTypeOptions[0].id,
+  typeParam: Number(searchTypeOptions[0].id),
 };
