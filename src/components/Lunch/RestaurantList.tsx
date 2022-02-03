@@ -1,15 +1,26 @@
-import { FC, memo } from "react";
+import { FC, memo, useContext, useEffect } from "react";
 
 import { RestaurantCard } from "./RestaurantCard";
 import type { Restaurant } from "../../types/type";
-import { useSWRRestaurant } from "../../hooks/useSWRRestaurant";
 import Link from "next/link";
+import { RestaurantListContext } from "../../providers/RestaurantListProvider";
+import { defaultSearchParams } from "../../utils/options";
+import { useSWRRestaurant } from "../../hooks/useSWRRestaurant";
 
 /**
  * レストラン一覧用コンポーネント.
  */
 export const RestaurantList: FC = memo(() => {
-  const { data, isLast, error, loadMoreReviews } = useSWRRestaurant();
+  // カスタムフックからデータを取得
+  const { data, error } = useSWRRestaurant();
+
+  // 検索paramsの更新関数
+  const { setParams } = useContext(RestaurantListContext);
+
+  // マウント時にparamsを初期化
+  useEffect(() => {
+    setParams(defaultSearchParams);
+  }, [setParams]);
 
   // ローディング処理
   if (!error && !data) {
@@ -19,6 +30,7 @@ export const RestaurantList: FC = memo(() => {
       </div>
     );
   }
+
   // エラー処理
   if (error) {
     return (
@@ -28,10 +40,7 @@ export const RestaurantList: FC = memo(() => {
     );
   }
 
-  if (
-    data !== undefined &&
-    data[0].message === "レストランが1件も登録されていません"
-  ) {
+  if (data.message === "レストランが1件も登録されていません") {
     return (
       <div className="w-full p-10 text-center">
         お店が1件も登録されていません🙇‍♀️
@@ -39,38 +48,24 @@ export const RestaurantList: FC = memo(() => {
     );
   }
 
+  const restaurantList: Array<Restaurant> = data.restaurant;
+
   return (
     <div className="w-full">
-      {data &&
-        // dataはページごとの連想配列の配列
-        data.map((pageData) =>
-          pageData.restaurant.map((restaurant: Restaurant) => {
-            return (
-              <Link
-                href={`/lunch/restaurant/${restaurant.id}`}
-                key={restaurant.id}
-                prefetch={false} // prefetchをfalseにすることで、ホバー時にプリフェッチする
-              >
-                <a>
-                  <RestaurantCard {...restaurant} />
-                </a>
-              </Link>
-            );
-          }),
-        )}
-      {/* 最後まで読み込んでいればさらに読み込むボタンを表示しない */}
-      {isLast === false ? (
-        <div
-          className="text-text-brown text-center my-5 cursor-pointer hover:text-basic"
-          onClick={loadMoreReviews}
-        >
-          さらに読み込む
-        </div>
-      ) : (
-        <div className="text-text-brown text-center my-5 ">
-          最後まで読み込みました
-        </div>
-      )}
+      {restaurantList &&
+        restaurantList.map((restaurant: Restaurant) => {
+          return (
+            <Link
+              href={`/lunch/restaurant/${restaurant.id}`}
+              key={restaurant.id}
+              prefetch={false} // prefetchをfalseにすることで、ホバー時にプリフェッチする
+            >
+              <a>
+                <RestaurantCard {...restaurant} />
+              </a>
+            </Link>
+          );
+        })}
     </div>
   );
 });
