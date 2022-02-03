@@ -53,7 +53,7 @@ export const CommentNotion: FC<Props> = (props) => {
           toast.error(responseMessage);
         }
       } catch (e) {
-        toast.error("コメントが消された可能性があります");
+        toast.error("コメントが削除された可能性があります");
       }
     },
     [hash],
