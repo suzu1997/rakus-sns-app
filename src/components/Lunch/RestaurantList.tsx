@@ -1,6 +1,7 @@
-import { FC, memo, useContext, useEffect } from "react";
+import { FC, memo, useContext, useEffect, useState } from "react";
 
 import { RestaurantCard } from "./RestaurantCard";
+import { Pagination } from "../Pagination";
 import type { Restaurant } from "../../types/type";
 import Link from "next/link";
 import { RestaurantListContext } from "../../providers/RestaurantListProvider";
@@ -21,6 +22,12 @@ export const RestaurantList: FC = memo(() => {
   useEffect(() => {
     setParams(defaultSearchParams);
   }, [setParams]);
+
+  // ページング
+  // ページあたりの件数
+  const perPage = 10;
+  // 現在のページ
+  const [pageIndex, setPageIndex] = useState(1);
 
   // ローディング処理
   if (!error && !data) {
@@ -52,20 +59,32 @@ export const RestaurantList: FC = memo(() => {
 
   return (
     <div className="w-full">
-      {restaurantList &&
-        restaurantList.map((restaurant: Restaurant) => {
-          return (
-            <Link
-              href={`/lunch/restaurant/${restaurant.id}`}
-              key={restaurant.id}
-              prefetch={false} // prefetchをfalseにすることで、ホバー時にプリフェッチする
-            >
-              <a>
-                <RestaurantCard {...restaurant} />
-              </a>
-            </Link>
-          );
-        })}
+      {restaurantList && (
+        <>
+          {restaurantList
+            // 10件ずつにページング
+            .slice(pageIndex * perPage - perPage, pageIndex * perPage)
+            .map((restaurant: Restaurant) => {
+              return (
+                <Link
+                  href={`/lunch/restaurant/${restaurant.id}`}
+                  key={restaurant.id}
+                  prefetch={false} // prefetchをfalseにすることで、ホバー時にプリフェッチする
+                >
+                  <a>
+                    <RestaurantCard {...restaurant} />
+                  </a>
+                </Link>
+              );
+            })}
+          <Pagination
+            perPage={perPage}
+            totalCount={restaurantList.length}
+            pageIndex={pageIndex}
+            setPageIndex={setPageIndex}
+          />
+        </>
+      )}
     </div>
   );
 });
