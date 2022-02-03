@@ -1,52 +1,27 @@
-import { FC, memo, useCallback, useState } from "react";
+import { FC, memo } from "react";
 
 import { Button } from "../Button/Button";
 import { SelectBox } from "../Form/SelectBox";
-import type { Option } from "../../types/type";
-import { genreOptions, typeOptions } from "../../utils/options";
+import {
+  orderOptions,
+  searchGenreOptions,
+  searchTypeOptions,
+} from "../../utils/options";
+import { useSWRRestaurant } from "../../hooks/useSWRRestaurant";
 
 /**
  * ランチの並び替えと絞り込みを行うエリア.
  */
 export const LunchSearchArea: FC = memo(() => {
-  // 並び替えのオプション
-  const orderOptions = [
-    {
-      id: "1",
-      name: "最新順",
-    },
-    {
-      id: "2",
-      name: "評価順",
-    },
-  ];
-  // ランチのジャンルのオプション
-  const searchGenreOptions = [
-    {
-      id: "G000",
-      name: "すべて",
-    },
-    ...genreOptions,
-  ];
-  // タイプ(店内かお弁当か)のオプション
-  const searchTypeOptions = [
-    {
-      id: "0",
-      name: "すべて",
-    },
-    ...typeOptions,
-  ];
-
-  // 選択中の並び替え
-  const [order, setOrder] = useState<Option>(orderOptions[0]);
-  // 選択中のジャンル
-  const [genre, setGenre] = useState<Option>(searchGenreOptions[0]);
-  // 選択中のタイプ
-  const [type, setType] = useState<Option>(searchTypeOptions[0]);
-
-  const search = useCallback(() => {
-   
-  }, []);
+  const { 
+    order,
+    setOrder,
+    genre,
+    setGenre,
+    type,
+    setType,
+    onClickSetParams
+   } = useSWRRestaurant();
 
   return (
     <div className="w-5/6 md:w-96 p-5 rounded-lg">
@@ -74,7 +49,7 @@ export const LunchSearchArea: FC = memo(() => {
           fullWidth={true}
         />
         <div className="text-center">
-          <Button label="検索" onClick={search} />
+          <Button label="検索" onClick={onClickSetParams} />
         </div>
       </div>
     </div>
