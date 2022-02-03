@@ -11,7 +11,7 @@ import { SubHeader } from "../../components/Layout/SubHeader";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { JAVA_API_URL } from "../../utils/const";
 import type { LunchReview, Timeline, Title, UserInfo } from "../../types/type";
-import { ReviewCard } from "../../components/lunch/ReviewCard";
+import { ReviewCard } from "../../components/Lunch/ReviewCard";
 import { TimelineHisCard } from "../../components/User/TimelineHisCard";
 
 function classNames(...classes: string[]) {
