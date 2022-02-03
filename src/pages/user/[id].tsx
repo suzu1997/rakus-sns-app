@@ -1,5 +1,5 @@
 /* eslint-disable prefer-const */
-import { useCallback, useContext } from "react";
+import { useContext } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { Tab } from "@headlessui/react";
@@ -10,12 +10,13 @@ import { Button } from "../../components/Button/Button";
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { JAVA_API_URL } from "../../utils/const";
-import type { Timeline, Title, UserInfo } from "../../types/type";
-import { getFormattedDate } from "../../utils/methods";
-import { CommentIcon } from "../../components/Button/CommentIcon";
-import { FavoBtn } from "../../components/Button/FavoBtn";
-import { TrashBtn } from "../../components/Button/TrashBtn";
+import type { LunchReview, Timeline, Title, UserInfo } from "../../types/type";
+import { ReviewCard } from "../../components/lunch/ReviewCard";
+import { TimelineHisCard } from "../../components/User/TimelineHisCard";
 
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(" ");
+}
 /**
  * ユーザー情報画面
  * @returns ユーザー情報を表示するページ
@@ -24,6 +25,7 @@ const User: NextPage = () => {
   //ログインID
   const { loginId } = useContext(loginIdContext);
   const { hash } = useContext(loginIdContext);
+
   //ルーターリンク
   const router = useRouter();
 
@@ -36,54 +38,18 @@ const User: NextPage = () => {
   };
 
   /**
-   * 画像クリックで投稿ユーザ情報ページに飛ぶ.
-   * @param userId - 投稿者ID
-   */
-  const goUserPage = useCallback(
-    (userId: number) => {
-      router.push(`/user/${userId}`);
-    },
-    [router],
-  );
-
-  /**
-   * 押下投稿の詳細に画面遷移.
-   * @remarks 受け取った記事IDの詳細画面に遷移
-   */
-  const goDetailTimelinePage = useCallback(
-    (postId: number) => {
-      router.push(`/timeline/${postId}`);
-      // router.push(`/lunch/review/${postId}`);
-    },
-    [router],
-  );
-
-  /**
    * APIで初期表示用データ取得.
    */
   const {
-    data: payload,
+    data: userInfo,
     error,
     mutate,
   } = useSWR(`${JAVA_API_URL}/user/${userId}/${hash}`);
 
-  /**
-   * 履歴表示一覧の情報を更新するメソッド.
-   *
-   * @remarks
-   * 成功すると呼ばれる。
-   */
-  const updateData = useCallback(() => {
-    mutate(); // 履歴一覧を再検証・再取得する
-  }, [mutate]);
-
   //ユーザー情報格納
-  const userData: UserInfo = payload?.user;
+  const userData: UserInfo = userInfo?.user;
 
-  //つぶやき履歴格納
-  const timelineHisDatas = payload;
-
-  if (!error && !payload) {
+  if (!error && !userInfo) {
     return <div>Loading...</div>;
   }
   if (error) {
@@ -93,9 +59,9 @@ const User: NextPage = () => {
   //タブのタイトル
   const categories: Array<Title> = [
     { id: 1, title: "つぶやき" },
-    { id: 2, title: "投稿" },
+    { id: 2, title: "レビュー" },
     { id: 3, title: "いいね履歴つぶやき" },
-    { id: 4, title: "いいね履歴投稿" },
+    { id: 4, title: "いいね履歴レビュー" },
     { id: 5, title: "いいね履歴コメント" },
   ];
 
@@ -106,7 +72,7 @@ const User: NextPage = () => {
         <div className="w-full">
           <SubHeader title="ユーザー情報" />
           <div className="border-solid  border-2 border-bgc-200 m-3 shadow-lg rounded-md">
-            {payload && (
+            {userInfo && (
               <div className=" text-center">
                 <div className="mt-1 text-xl font-bold">
                   アカウント名:{userData.accountName}
@@ -142,7 +108,7 @@ const User: NextPage = () => {
             )}
           </div>
 
-          <div className="w-full text-center mb-2">
+          {/* <div className="w-full text-center mb-2">
             <Button
               label="投稿を再読み込み"
               size="lg"
@@ -150,7 +116,7 @@ const User: NextPage = () => {
                 alert("新しいつぶやき読み込み");
               }}
             />
-          </div>
+          </div> */}
 
           {/* タブ（履歴表示欄） */}
           <div className="w-full px-2 sm:px-0">
@@ -159,7 +125,15 @@ const User: NextPage = () => {
                 {categories.map((category) => (
                   <Tab
                     key={category.id}
-                    className="w-full py-2.5 text-xs font-bold  text-bgc rounded-lg bg-text-brown focus:text-basic focus:bg-bgc hover:text-basic "
+                    className={({ selected }) =>
+                      classNames(
+                        "w-full py-2.5 text-xs font-bold text-basic rounded-lg",
+                        "focus:outline-none focus:ring-2 ring-offset-2 ring-white ring-opacity-60",
+                        selected
+                          ? "bg-white shadow border-4 border-basic"
+                          : "text-bgc bg-text-brown hover:text-basic hover:bg-white hover:bg-opacity-60 ",
+                      )
+                    }
                   >
                     {category.title}
                   </Tab>
@@ -170,96 +144,66 @@ const User: NextPage = () => {
                 {/* つぶやき履歴表示 */}
                 <Tab.Panel className="bg-bgc shadow-lg  rounded-xl p-3 focus:outline-none ">
                   <div>
-                    {payload &&
-                      timelineHisDatas.postedTimelineList.map(
-                        (timeline: Timeline) => (
-                          <div
-                            key={timeline.id}
-                            className=" border border-t-1 mt-1 border-blue-100text-sm font-medium leading-5 focus:outline-none rounded-xl bg-white relative p-3 "
-                          >
-                            <div
-                              className="hover:bg-coolGray-100 cursor-pointer hover:opacity-50"
-                              onClick={() => {
-                                goDetailTimelinePage(timeline.id);
-                              }}
-                            >
-                              <span className="text-xl font-extrabold pt-3 pb-3">
-                                {timeline.accountName}
-                              </span>
-                              <span className="ml-7">
-                                つぶやき日時:
-                                {getFormattedDate(
-                                  new Date(timeline.postedTime),
-                                )}
-                              </span>
-                            </div>
-                            <div className="flex">
-                              <span
-                                className="rounded-full  pt-5 cursor-pointer hover:opacity-50"
-                                onClick={() => {
-                                  goUserPage(timeline.userId);
-                                }}
-                              >
-                                <Image
-                                  src={`/image/userIcon/${timeline.userPhotoPath}`}
-                                  width={100}
-                                  height={100}
-                                  alt="icon"
-                                  className="rounded-full"
-                                />
-                              </span>
-                              <span
-                                className="p-10 w-8/12 hover:bg-coolGray-100 cursor-pointer hover:opacity-50"
-                                onClick={() => {
-                                  goDetailTimelinePage(timeline.id);
-                                }}
-                              >
-                                {timeline.sentence}
-                              </span>
-                            </div>
-                            <div className="w-full text-right py-3">
-                              <CommentIcon
-                                commentCount={timeline.commentCount}
-                                postId={timeline.id}
-                                success={updateData}
-                                title="つぶやきにコメント"
-                              />
-                              <FavoBtn
-                                postId={timeline.id}
-                                favoCount={timeline.likeCount}
-                                isFavo={timeline.myLike}
-                                type="タイムライン"
-                                success={updateData}
-                              />
-                              {Number(loginId) === timeline.userId && (
-                                <TrashBtn
-                                  postId={timeline.id}
-                                  type="タイムライン"
-                                  success={updateData}
-                                />
-                              )}
-                            </div>
-                          </div>
+                    {userInfo &&
+                      userInfo.postedTimelineList.map(
+                        (timelineHis: Timeline) => (
+                          <TimelineHisCard
+                            {...timelineHis}
+                            type="つぶやき履歴"
+                          />
                         ),
                       )}
                   </div>
                 </Tab.Panel>
                 {/* つぶやき履歴表示ここまで */}
-                {/* 投稿履歴 */}
+
+                {/* レビュー履歴 */}
                 <Tab.Panel className="bg-bgc shadow-lg  rounded-xl p-3 focus:outline-none ">
-                  APIできたら実装
+                  <div className="bg-white">
+                    {userInfo &&
+                      userInfo.postedReviewList.map((review: LunchReview) => (
+                        <ReviewCard
+                          {...review}
+                          type="詳細"
+                          hasRestaurantInfo={true}
+                          reviewsMutate={mutate}
+                        />
+                      ))}
+                  </div>
                 </Tab.Panel>
-                {/* 投稿履歴ここまで */}
+                {/* レビュー履歴ここまで */}
                 {/* いいね履歴つぶやき */}
                 <Tab.Panel className="bg-bgc shadow-lg  rounded-xl p-3 focus:outline-none ">
-                  APIできたら実装
+                  <div>
+                    {userInfo &&
+                      userInfo.likedTimelineList.map(
+                        (likedTimelineHis: Timeline) => (
+                          <TimelineHisCard
+                            {...likedTimelineHis}
+                            type="いいね履歴つぶやき"
+                          />
+                        ),
+                      )}
+                  </div>
                 </Tab.Panel>
                 {/* いいね履歴つぶやきここまで */}
-                {/* いいね履歴投稿 */}
+                {/* いいね履歴レビュー */}
                 <Tab.Panel className="bg-bgc shadow-lg  rounded-xl p-3 focus:outline-none ">
-                  APIできたら実装
+                  <div className="bg-white">
+                    {userInfo &&
+                      userInfo.likedReviewList.map(
+                        (likedReview: LunchReview) => (
+                          <ReviewCard
+                            {...likedReview}
+                            type="詳細"
+                            hasRestaurantInfo={true}
+                            reviewsMutate={mutate}
+                          />
+                        ),
+                      )}
+                  </div>
                 </Tab.Panel>
-                {/* いいね履歴投稿ここまで */}
+                {/* いいね履歴レビューここまで */}
                 {/* いいね履歴コメント */}
                 <Tab.Panel className="bg-bgc shadow-lg  rounded-xl p-3 focus:outline-none ">
                   APIできたら実装

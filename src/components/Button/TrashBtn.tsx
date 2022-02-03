@@ -32,7 +32,11 @@ export const TrashBtn: FC<Props> = memo((props) => {
         success={success}
         closeModal={closeModal}
       />
-      <button type="button" className="pr-10 outline none" onClick={openModal}>
+      <button
+        type="button"
+        className="pr-10 focus:outline-none"
+        onClick={openModal}
+      >
         <i className="fas fa-trash-alt text-gray-500 hover:text-blue-500"></i>
       </button>
     </>

@@ -4,7 +4,7 @@ import { useModal } from "../../hooks/useModal";
 
 //コメント数・対象の投稿IDを受け取る
 export type Props = {
-  title: "つぶやきにコメント" | "レビューコメント";
+  title: "つぶやきへのコメント" | "レビューコメント";
   commentCount: number;
   postId: number; // 対象の投稿ID
   success: () => void; //投稿完了後、自動で更新したい場合は更新のメソッドを渡す
@@ -30,7 +30,11 @@ export const CommentIcon: FC<Props> = memo((props) => {
         postId={postId}
         success={success}
       />
-      <button type="button" className="pr-10 outline none" onClick={openModal}>
+      <button
+        type="button"
+        className="pr-10 focus:outline-none"
+        onClick={openModal}
+      >
         <i className="fas fa-comment text-gray-500 hover:text-yellow-600"></i>
         <span className="pl-1">{commentCount}</span>
       </button>

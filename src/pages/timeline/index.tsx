@@ -1,16 +1,17 @@
-import Image from "next/image";
 import { useCallback, useContext } from "react";
 import type { NextPage } from "next";
-import { useRouter } from "next/router";
+import Image from "next/image";
+import Link from "next/link";
 
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { CommentIcon } from "../../components/Button/CommentIcon";
 import { FavoBtn } from "../../components/Button/FavoBtn";
 import { TrashBtn } from "../../components/Button/TrashBtn";
 import { PostBtn } from "../../components/Button/PostBtn";
-import { Timeline } from "../../types/type";
+import type { Timeline } from "../../types/type";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { useSWRTimeline } from "../../hooks/useSWRTimeline";
+import { returnCodeToBr } from "../../utils/methods";
 
 /**
  * タイムラインページ.
@@ -21,34 +22,9 @@ const TimelinePage: NextPage = () => {
   const { hash } = useContext(loginIdContext);
   const { loginId } = useContext(loginIdContext);
 
-  //ルーターリンク
-  const router = useRouter();
-
   // 投稿一覧を再検証・再取得する関数をhooksから取得
   const { data, error, loadMoreTimeline, timelineMutate, isLast } =
     useSWRTimeline(hash);
-
-  /**
-   * 画像クリックで投稿ユーザ情報ページに飛ぶ.
-   * @param userId - 投稿者ID
-   */
-  const goUserPage = useCallback(
-    (userId: number) => {
-      router.push(`/user/${userId}`);
-    },
-    [router],
-  );
-
-  /**
-   * 投稿クリックで投稿詳細ページに飛ぶ.
-   * @param postId - 投稿ID
-   */
-  const goDetailPage = useCallback(
-    (postId: number) => {
-      router.push(`/timeline/${postId}`);
-    },
-    [router],
-  );
 
   /**
    * タイムラインの情報を更新するメソッド.
@@ -81,7 +57,7 @@ const TimelinePage: NextPage = () => {
   return (
     <>
       {/* サブヘッダー */}
-      <SubHeader title="タイムライン" />
+      <SubHeader title="つぶやき一覧" />
       {/* タイムラインゾーン */}
       {data &&
         // dataはページごとの連想配列の配列
@@ -92,33 +68,31 @@ const TimelinePage: NextPage = () => {
                 key={timelime.id}
                 className="flex border border-t-0 border-gray-200"
               >
-                <div
-                  className="rounded-full w-1/5 text-center ml-5 pt-10 cursor-pointer hover:opacity-50"
-                  onClick={() => {
-                    goUserPage(timelime.userId);
-                  }}
-                >
-                  <Image
-                    src={`/image/userIcon/${timelime.userPhotoPath}`}
-                    width={100}
-                    height={100}
-                    alt="icon"
-                    className="rounded-full"
-                  />
+                <div className="rounded-full w-1/5 text-center ml-5 pt-10 cursor-pointer hover:opacity-50">
+                  <Link href={`/user/${timelime.userId}`}>
+                    <a>
+                      <Image
+                        src={`/image/userIcon/${timelime.userPhotoPath}`}
+                        width={100}
+                        height={100}
+                        alt="icon"
+                        className="rounded-full"
+                      />
+                    </a>
+                  </Link>
                 </div>
                 <div className="w-4/5">
-                  <div
-                    className="cursor-pointer hover:opacity-50"
-                    onClick={() => {
-                      goDetailPage(timelime.id);
-                    }}
-                  >
-                    <div className="text-xl font-extrabold pt-10 pl-3">
-                      {timelime.accountName}
-                    </div>
-                    <div className="pt-5 pb-5 pl-5 w-8/12">
-                      {timelime.sentence}
-                    </div>
+                  <div className="cursor-pointer hover:opacity-50">
+                    <Link href={`timeline/${timelime.id}`}>
+                      <a>
+                        <div className="text-xl font-extrabold pt-10 pl-3">
+                          {timelime.accountName}
+                        </div>
+                        <div className="pt-5 pb-5 pl-5 w-8/12">
+                          {returnCodeToBr(timelime.sentence)}
+                        </div>
+                      </a>
+                    </Link>
                   </div>
 
                   <div className="w-full text-right py-3">
@@ -126,7 +100,7 @@ const TimelinePage: NextPage = () => {
                       commentCount={timelime.commentCount}
                       postId={timelime.id}
                       success={updateData}
-                      title="つぶやきにコメント"
+                      title="つぶやきへのコメント"
                     />
                     <FavoBtn
                       postId={timelime.id}
