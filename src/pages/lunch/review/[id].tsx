@@ -37,7 +37,7 @@ const ReviewDetail: NextPage = () => {
    * 通知画面から削除された投稿に遷移した場合のメソッド.
    */
   useEffect(() => {
-    if (data?.message === "つぶやきが存在しません") {
+    if (data?.message === "そのレビューは存在しません") {
       toast.error("投稿が削除された可能性があります");
       router.back();
     } else {
@@ -60,6 +60,8 @@ const ReviewDetail: NextPage = () => {
       </div>
     );
   }
+  console.log(data);
+  
 
   // レビュー情報をデータから抽出
   const review: LunchReview = data.review;
