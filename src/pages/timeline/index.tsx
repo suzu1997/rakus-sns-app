@@ -53,6 +53,18 @@ const TimelinePage: NextPage = () => {
     );
   }
 
+  //つぶやき0件の場合
+  if (data?.[0].TimelineList?.[0] === undefined) {
+    return (
+      <div className="w-full p-10 text-center">
+        つぶやきが1件もありません🙇‍♀️
+        <div>
+          <PostBtn success={updateData} />
+        </div>
+      </div>
+    );
+  }
+
   //HTMLコーナー
   return (
     <>
