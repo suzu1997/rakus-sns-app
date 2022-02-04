@@ -39,7 +39,7 @@ export const RestaurantCard: FC<Restaurant> = memo((props) => {
           <div className="xl:ml-10">
             評価(平均): <Star starCount={star} />
           </div>
-        ): <div className="xl:ml-10 mt-2">(レビューがありません)</div>}
+        ): <div className="xl:ml-10 mt-2">(レビュー0件)</div>}
       </div>
       <div className="mx-6 mt-3 hover:opacity-80">
         <Image
