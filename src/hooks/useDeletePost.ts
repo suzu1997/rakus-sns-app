@@ -2,7 +2,6 @@ import axios from "axios";
 import { useCallback } from "react";
 import toast from "react-hot-toast";
 import { JAVA_API_URL } from "../utils/const";
-import { useModal } from "./useModal";
 
 /**
  * 投稿を削除するためのカスタムフック.
@@ -14,8 +13,7 @@ import { useModal } from "./useModal";
  * @returns 
  * 投稿を削除するメソッド。
  */
-export const useDeletePost = (postId: number, type: string, success: () => void, hash: string) => {
-  const { closeModal } = useModal();
+export const useDeletePost = (postId: number, type: string, success: () => void, hash: string, closeModal: () => void) => {
   /**
    * 削除モーダルのはいボタン押下で発動.
    */
@@ -65,12 +63,13 @@ export const useDeletePost = (postId: number, type: string, success: () => void,
           },
         });
         if (res.data.status === "success") {
+          closeModal();
+
           toast.success("削除しました");
           // レビュー一覧再取得
           if (success) {
             success();
           }
-          closeModal();
         } else {
           toast.error(res.data.message);
           closeModal();
