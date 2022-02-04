@@ -113,10 +113,10 @@ export const useUserEdit = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
     //入力内容から空欄を除いたもの
-    const noAccountName = data.accountName.replace(/\s+/g, "");
-    const noSpaceFirstName = data.firstName.replace(/\s+/g, "");
-    const noSpaceLastName = data.lastName.replace(/\s+/g, "");
-    const noSpaceIntroduction = data.introduction?.replace(/\s+/g, "");
+    const noAccountName = data.accountName.trim();
+    const noSpaceFirstName = data.firstName.trim();
+    const noSpaceLastName = data.lastName.trim();
+    const noSpaceIntroduction = data.introduction?.trim();
     //もし下記項目がスペースのみで送信していたらエラーで弾く
     if (
       !noAccountName ||
