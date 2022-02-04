@@ -48,7 +48,7 @@ export const Star: FC<Props> = memo((props) => {
           <i className={value}></i>
         </span>
       ))}
-      ({starCount > 0 ? starCount : "まだレビューがありません"})
+      ({starCount > 0 ? starCount : "レビュー0件"})
     </>
   );
 });

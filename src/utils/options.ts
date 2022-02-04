@@ -31,3 +31,38 @@ export const starOptions = [
   { id: "2", name: "2" },
   { id: "1", name: "1" },
 ];
+
+// 店舗の並び替えのオプション
+export const orderOptions = [
+  {
+    id: "1",
+    name: "最新順",
+  },
+  {
+    id: "2",
+    name: "評価順",
+  },
+];
+// 店舗のジャンルの選択肢(検索用)
+export const searchGenreOptions = [
+  {
+    id: "G000",
+    name: "すべて",
+  },
+  ...genreOptions,
+];
+// 店舗のタイプの選択肢(検索用)
+export const searchTypeOptions = [
+  {
+    id: "0",
+    name: "すべて",
+  },
+  ...typeOptions,
+];
+
+// 店の並び替え&絞り込みの初期値
+export const defaultSearchParams = {
+  orderParam: orderOptions[0].name,
+  genreParam: searchGenreOptions[0].id,
+  typeParam: Number(searchTypeOptions[0].id),
+};

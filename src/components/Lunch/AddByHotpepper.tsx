@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import axios from "axios";
 import toast from "react-hot-toast";
+import Cookie from "universal-cookie";
 
 import { Button } from "../Button/Button";
 import { SelectBox } from "../Form/SelectBox";
@@ -38,6 +39,7 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
    */
   const register = useCallback(
     async (restaurant) => {
+      const cookie = new Cookie();
       try {
         // 店の説明は、restaurant.catchがあればそれ、無ければrestaurant.genre.catchを設定
         const description = restaurant.catch
@@ -62,6 +64,7 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
         if (res.data.status === "success") {
           toast.success("お店を登録しました");
           router.replace(`/lunch/restaurant/${res.data.restaurant.id}`);
+          cookie.set("addFlag", "true");
         } else {
           toast.error(res.data.message);
         }

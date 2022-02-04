@@ -1,4 +1,4 @@
-import { useCallback, useContext } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import type {
   GetServerSideProps,
   GetServerSidePropsContext,
@@ -8,6 +8,7 @@ import type {
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import styled from "styled-components";
+import Cookie from "universal-cookie";
 
 import { Button } from "../../../components/Button/Button";
 import { PostModal } from "../../../components/Modal/PostModal";
@@ -46,7 +47,7 @@ const RestaurantDetail: NextPage<
   const { reviewsMutate } = useSWRReviews(hash);
 
   // モーダルを開閉するカスタムフックを使用
-  const { modalStatus, openModal, closeModal } = useModal();
+  const { modalStatus, setModalStatus, openModal, closeModal } = useModal();
 
   // idをURLから取得
   const restaurantId = Number(router.query.id);
@@ -68,6 +69,16 @@ const RestaurantDetail: NextPage<
     reviewsMutate(); // レビュー一覧を再検証・再取得する
     mutate(); // レストラン情報を再検証・再取得する
   }, [mutate, reviewsMutate]);
+
+  useEffect(() => {
+    const cookie = new Cookie();
+    // 店を追加後の遷移時のみ、モーダルを自動で開く
+    if (cookie.get("addFlag") === "true") {
+      setModalStatus(true);
+      cookie.remove("addFlag");
+    }
+    // setModalStatus(false);
+  }, [setModalStatus]);
 
   if (!error && !data) {
     return (

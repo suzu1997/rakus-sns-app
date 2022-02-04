@@ -24,9 +24,9 @@ export const HotpepperResult: FC<Props> = memo((props) => {
       {hotpeppers.length > 0 ? (
         // 検索結果があれば表示する
         <>
-          <p className="my-5 font-bold">検索結果(Hotppepperより検索)</p>
+          <p className="my-5 font-bold">検索結果(Hotpepperより検索)</p>
           <ul>
-             {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
             {hotpeppers.map((hotpepper: any) => {
               return (
                 <li key={hotpepper.id} className="flex items-center mb-3">

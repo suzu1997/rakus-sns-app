@@ -5,7 +5,7 @@ import { useCallback, useState } from "react";
  * @returns 開閉状況／モーダルを開ける／モーダルを閉じる
  */
 export const useModal = () => {
-  // レビュー投稿のモーダルのオープン状態
+  // モーダルのオープン状態
   const [modalStatus, setModalStatus] = useState(false);
 
   /**
