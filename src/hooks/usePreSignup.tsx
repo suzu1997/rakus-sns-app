@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 import { JAVA_API_URL } from "../utils/const";
 import type { Option, UserTestInfo } from "../types/type";
@@ -101,7 +102,7 @@ export const usePreSignup = () => {
           //ローディング画面の閉じる
           setIsLoading(false);
         } else {
-          alert(res.data.message);
+          toast.error(res.data.message);
           //ローディング画面の閉じる
           setIsLoading(false);
         }

@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import useSWR from "swr";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 import { JAVA_API_URL } from "../utils/const";
 import type { LoginUser, UpdatePassInfo } from "../types/type";
@@ -81,7 +82,7 @@ export const userUpdatePass = (passToken: string) => {
         //パスワード変更完了したら画面遷移
         router.push("/auth/compupdatepass");
       } else {
-        alert(res.data.message);
+        toast.error(res.data.message);
       }
     } catch (error) {
       alert(error);

@@ -78,7 +78,7 @@ export const useLogin = () => {
           router.push("/timeline");
         } else {
           //ログインに失敗した場合、エラーメッセージアラートを表示
-          alert(res.data.message);
+          toast.error(res.data.message);
         }
       } catch (error) {
         alert(error);

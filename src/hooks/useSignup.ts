@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import * as yup from "yup";
 import axios from "axios";
 import useSWR from "swr";
+import toast from "react-hot-toast";
 
 import { JAVA_API_URL } from "../utils/const";
 import type { UserPreInfo, UserSignupInfo } from "../types/type";
@@ -137,7 +138,7 @@ export const useSignup = (userToken: string) => {
         //ローディング画面の閉じる
         setIsLoading(false);
       } else {
-        alert(res.data.message);
+        toast.error(res.data.message);
         //ローディング画面の閉じる
         setIsLoading(false);
       }
