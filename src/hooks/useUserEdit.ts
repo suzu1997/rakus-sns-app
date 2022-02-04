@@ -112,6 +112,22 @@ export const useUserEdit = () => {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
+    //入力内容から空欄を除いたもの
+    const noAccountName = data.accountName.replace(/\s+/g, "");
+    const noSpaceFirstName = data.firstName.replace(/\s+/g, "");
+    const noSpaceLastName = data.lastName.replace(/\s+/g, "");
+    const noSpaceIntroduction = data.introduction?.replace(/\s+/g, "");
+    //もし下記項目がスペースのみで送信していたらエラーで弾く
+    if (
+      !noAccountName ||
+      !noSpaceFirstName ||
+      !noSpaceLastName ||
+      !noSpaceIntroduction
+    ) {
+      toast.error("空欄のみでは登録できません。");
+      return;
+    }
+
     //名前：姓＋名
     const name = data.firstName + " " + data.lastName;
     //入社月のフォーマット変更
