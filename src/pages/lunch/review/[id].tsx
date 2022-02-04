@@ -17,6 +17,7 @@ import { loginIdContext } from "../../../providers/LoginIdProvider";
 import { JAVA_API_URL } from "../../../utils/const";
 import { useSWRReviews } from "../../../hooks/useSWRReviews";
 import { fetcher } from "../../../utils/fetcher";
+import { getReviewById } from "../../../utils/lunch";
 
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
 
@@ -109,13 +110,17 @@ const ReviewDetail: NextPage<Props> = (props) => {
   );
 };
 
+// SSR
+/**
+ * サーバー側でデータを取得(SSR).
+ */
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const reviewId = Number(ctx.query.id);
+  // サーバー側でクッキー取得
   const cookies = new Cookies(ctx.req.headers.cookie);
   const hash = cookies.get("hash");
 
-  const res = await fetch(`${JAVA_API_URL}/review/detail/${reviewId}/${hash}`);
-  const initialData = await res.json();
+  const initialData = await getReviewById(reviewId, hash);
 
   return {
     props: { initialData },
