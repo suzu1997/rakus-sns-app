@@ -83,8 +83,8 @@ export const useLogin = () => {
       } catch (error) {
         alert(error);
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [reset, router],
   );
 
