@@ -11,12 +11,13 @@ import { SubHeader } from "../../components/Layout/SubHeader";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { JAVA_API_URL } from "../../utils/const";
 import type { LunchReview, Timeline, Title, UserInfo } from "../../types/type";
-import { ReviewCard } from "../../components/lunch/ReviewCard";
+import { ReviewCard } from "../../components/Lunch/ReviewCard";
 import { TimelineHisCard } from "../../components/User/TimelineHisCard";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
+
 /**
  * ユーザー情報画面
  * @returns ユーザー情報を表示するページ
@@ -164,7 +165,8 @@ const User: NextPage = () => {
                       userInfo.postedReviewList.map((review: LunchReview) => (
                         <ReviewCard
                           {...review}
-                          type="詳細"
+                          type="一覧"
+                          isHistory
                           hasRestaurantInfo={true}
                           reviewsMutate={mutate}
                         />
@@ -195,7 +197,8 @@ const User: NextPage = () => {
                         (likedReview: LunchReview) => (
                           <ReviewCard
                             {...likedReview}
-                            type="詳細"
+                            type="一覧"
+                            isHistory
                             hasRestaurantInfo={true}
                             reviewsMutate={mutate}
                           />

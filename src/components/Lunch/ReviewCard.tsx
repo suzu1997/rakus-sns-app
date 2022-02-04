@@ -19,6 +19,7 @@ import { JAVA_API_URL } from "../../utils/const";
 
 type Props = LunchReview & {
   type: string;
+  isHistory?: boolean;
   hasRestaurantInfo: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   reviewsMutate: KeyedMutator<any[]>; // レビューリスト更新のmutate関数
@@ -43,6 +44,7 @@ export const ReviewCard: FC<Props> = memo((props) => {
     postedTime,
     myLike,
     type,
+    isHistory,
     hasRestaurantInfo,
     reviewsMutate,
   } = props;
@@ -123,7 +125,7 @@ export const ReviewCard: FC<Props> = memo((props) => {
         />
       )}
       <div className="flex flex-col items-end gap-3 sm:flex-row justify-end">
-        {type === "詳細" && (
+        {(type === "詳細" || isHistory === true) && (
           <span className="mr-7">
             投稿日時：{getFormattedDate(new Date(postedTime))}
           </span>
