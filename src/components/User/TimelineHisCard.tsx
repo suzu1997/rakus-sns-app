@@ -5,7 +5,7 @@ import Image from "next/image";
 import useSWR from "swr";
 
 import { loginIdContext } from "../../providers/LoginIdProvider";
-import { Timeline } from "../../types/type";
+import type { Timeline } from "../../types/type";
 import { CommentIcon } from "../Button/CommentIcon";
 import { FavoBtn } from "../Button/FavoBtn";
 import { TrashBtn } from "../Button/TrashBtn";
@@ -123,7 +123,7 @@ export const TimelineHisCard: FC<Props> = memo((props) => {
           commentCount={commentCount}
           postId={id}
           success={updateData}
-          title="つぶやきにコメント"
+          title="つぶやきへのコメント"
         />
         <FavoBtn
           postId={id}
