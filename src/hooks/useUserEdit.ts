@@ -119,12 +119,14 @@ export const useUserEdit = () => {
     const noSpaceIntroduction = data.introduction?.trim();
     //もし下記項目がスペースのみで送信していたらエラーで弾く
     if (!noAccountName || !noSpaceFirstName || !noSpaceLastName) {
-      toast.error("空欄のみでは登録できません。");
+      toast.error("スペースのみでは登録できません。");
       return;
     }
 
     if (!noSpaceIntroduction && data.introduction != "") {
-      toast.error("空欄のみでは登録できません。");
+      toast.error(
+        "自己紹介はスペースのみでは登録できません。文字を入れるか完全に空にしてください。",
+      );
       return;
     }
 
