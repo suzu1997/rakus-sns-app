@@ -71,6 +71,7 @@ export const PostModal: FC<Props> = memo((props) => {
       reviewPost(post, star, restaurantId, success);
       closeModal();
       setPost("");
+      setStar(starOptions[0]);
     }
 
     if (title === "レビューコメント") {
@@ -100,11 +101,21 @@ export const PostModal: FC<Props> = memo((props) => {
     reviewPost,
     setPost,
     star,
+    setStar,
     success,
     timelineCommentPost,
     timelinePost,
     title,
   ]);
+
+  /**
+   * 投稿をキャンセルするメソッド.
+   */
+  const canselPost = useCallback(() => {
+    closeModal();
+    setPost("");
+    setStar(starOptions[0]);
+  }, [closeModal, setPost, setStar]);
 
   return (
     <>
@@ -112,7 +123,7 @@ export const PostModal: FC<Props> = memo((props) => {
         <Dialog
           as="div"
           className="fixed inset-0 z-10 overflow-y-auto"
-          onClose={closeModal}
+          onClose={canselPost}
         >
           {/* モーダルの背景を暗くする */}
           <Dialog.Overlay className="fixed inset-0 bg-black opacity-50" />
@@ -213,7 +224,7 @@ export const PostModal: FC<Props> = memo((props) => {
                     backgroundColor="#f6f0ea"
                     color="#622d18"
                     label={"キャンセル"}
-                    onClick={closeModal}
+                    onClick={canselPost}
                   />
                 </div>
               </div>

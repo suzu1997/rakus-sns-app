@@ -50,6 +50,7 @@ export const searchGenreOptions = [
     name: "すべて",
   },
   ...genreOptions,
+  { id: "G002", name: "ダイニングバー・バル" },
 ];
 // 店舗のタイプの選択肢(検索用)
 export const searchTypeOptions = [

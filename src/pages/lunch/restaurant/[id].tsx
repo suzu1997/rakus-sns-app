@@ -1,8 +1,8 @@
 import { useCallback, useContext, useEffect } from "react";
 import type {
-  GetServerSideProps,
-  GetServerSidePropsContext,
-  InferGetServerSidePropsType,
+  GetStaticPaths,
+  GetStaticProps,
+  InferGetStaticPropsType,
   NextPage,
 } from "next";
 import { useRouter } from "next/router";
@@ -18,6 +18,7 @@ import { SubHeader } from "../../../components/Layout/SubHeader";
 import type { Restaurant } from "../../../types/type";
 import { JAVA_API_URL } from "../../../utils/const";
 import { fetcher } from "../../../utils/fetcher";
+import { getAllRestaurantsIds, getRestaurantData } from "../../../utils/lunch";
 import { loginIdContext } from "../../../providers/LoginIdProvider";
 import { useSWRReviews } from "../../../hooks/useSWRReviews";
 import { useModal } from "../../../hooks/useModal";
@@ -29,15 +30,15 @@ const HiddenScrollBar = styled.div`
   }
 `;
 
+type Props = InferGetStaticPropsType<typeof getStaticProps>;
+
 /**
  * お店情報の詳細を表示するページ.
  *
  * @returns お店情報の詳細を表示する画面
  */
-const RestaurantDetail: NextPage<
-  InferGetServerSidePropsType<typeof getServerSideProps>
-> = (props) => {
-  const { fallbackData } = props;
+const RestaurantDetail: NextPage<Props> = (props) => {
+  const { staticData } = props;
   const router = useRouter();
 
   // ログインユーザーのハッシュ値
@@ -56,7 +57,7 @@ const RestaurantDetail: NextPage<
   const { data, error, mutate } = useSWR(
     `${JAVA_API_URL}/restaurant/${restaurantId}`,
     fetcher,
-    { fallbackData },
+    { fallbackData: staticData },
   );
 
   /**
@@ -134,18 +135,25 @@ const RestaurantDetail: NextPage<
   );
 };
 
-// SSR
-export const getServerSideProps: GetServerSideProps = async (
-  ctx: GetServerSidePropsContext,
-) => {
-  const restaurantId = Number(ctx.query.id);
-  const res = await fetch(`${JAVA_API_URL}/restaurant/${restaurantId}`);
-  const data: Restaurant = await res.json();
+// SSG
+//idのとりうる値のリストを返す
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths = await getAllRestaurantsIds();
+  return {
+    paths,
+    fallback: "blocking",
+  };
+};
 
+//idに基づいて必要なデータを取得
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const staticData = await getRestaurantData(Number(params!.id));
   return {
     props: {
-      fallbackData: data,
+      staticData,
     },
+    revalidate: 10,
   };
 };
 
