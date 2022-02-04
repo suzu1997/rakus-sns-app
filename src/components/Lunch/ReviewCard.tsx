@@ -60,11 +60,17 @@ export const ReviewCard: FC<Props> = memo((props) => {
   const { loginId } = useContext(loginIdContext);
 
   /**
+   * 投稿クリックでレビュー詳細ページに飛ぶ.
+   * @param reviewId - レビューID
+   */
+  const goDetailPage = useCallback(() => {
+    router.push(`/lunch/review/${id}`);
+  }, [router, id]);
+
+  /**
    * 画像クリックで投稿ユーザ情報ページに飛ぶ.
    */
   const goUserPage = (e: MouseEvent<HTMLInputElement>) => {
-    console.log("goUserPage");
-
     // 親要素へのイベントの伝搬を止める
     e.stopPropagation();
     // e.nativeEvent.stopImmediatePropagation();
@@ -97,7 +103,10 @@ export const ReviewCard: FC<Props> = memo((props) => {
   }, [mutate, reviewsMutate, restaurantId, router, type]);
 
   return (
-    <div className="flex flex-col w-full p-8 pb-3 relative h-auto border border-t-0 border-gray-200 cursor-pointer">
+    <div
+      className="flex flex-col w-full p-8 pb-3 relative h-auto border border-t-0 border-gray-200 cursor-pointer"
+      onClick={goDetailPage}
+    >
       <div className="flex">
         <div className="mr-6" onClick={goUserPage}>
           <Image
@@ -109,7 +118,9 @@ export const ReviewCard: FC<Props> = memo((props) => {
           />
         </div>
         <div className="flex flex-col w-full">
-          <div className="text-xl font-extrabold pt-3 pb-3 hover:text-text-brown">{accountName}</div>
+          <div className="text-xl font-extrabold pt-3 pb-3 hover:text-text-brown">
+            {accountName}
+          </div>
           <div>
             <Star starCount={star} />
           </div>

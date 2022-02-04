@@ -31,17 +31,6 @@ export const ReviewList: FC = memo(() => {
     }
   }, [router.pathname]);
 
-  /**
-   * 投稿クリックでレビュー詳細ページに飛ぶ.
-   * @param reviewId - レビューID
-   */
-  const goDetailPage = useCallback(
-    (reviewId: number) => {
-      router.push(`/lunch/review/${reviewId}`);
-    },
-    [router],
-  );
-
   // ローディング処理
   if (!error && !data) {
     return (
@@ -77,7 +66,7 @@ export const ReviewList: FC = memo(() => {
         data.map((pageData) =>
           pageData.reviewList.map((review: LunchReview) => {
             return (
-              <div key={review.id} onClick={() => goDetailPage(review.id)}>
+              <div key={review.id}>
                 <ReviewCard
                   {...review}
                   type="一覧"
