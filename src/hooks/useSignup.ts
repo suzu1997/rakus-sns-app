@@ -19,8 +19,7 @@ const schema = yup.object().shape({
   accountName: yup
     .string()
     .required("アカウント名を入力してください")
-    .matches(/^\x20+$/g, "スペースのみで入力しないでください")//全角スペース防止
-    .matches(/^\u3000*$/g, "スペースのみで入力しないでください")//半角スペース防止
+    .trim()
     .max(30, "アカウント名は30文字以内で入力してください"),
   //入社年のバリデーション
   hireDate: yup
