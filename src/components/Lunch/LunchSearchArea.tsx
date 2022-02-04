@@ -1,4 +1,4 @@
-import { FC, memo } from "react";
+import { Dispatch, FC, memo, SetStateAction } from "react";
 
 import { Button } from "../Button/Button";
 import { SelectBox } from "../Form/SelectBox";
@@ -9,19 +9,18 @@ import {
 } from "../../utils/options";
 import { useSWRRestaurant } from "../../hooks/useSWRRestaurant";
 
+type Props = {
+  setPageIndex: Dispatch<SetStateAction<number>>;
+};
+
 /**
  * ランチの並び替えと絞り込みを行うエリア.
  */
-export const LunchSearchArea: FC = memo(() => {
-  const { 
-    order,
-    setOrder,
-    genre,
-    setGenre,
-    type,
-    setType,
-    onClickSetParams
-   } = useSWRRestaurant();
+export const LunchSearchArea: FC<Props> = memo((props) => {
+  const { setPageIndex } = props;
+
+  const { order, setOrder, genre, setGenre, type, setType, onClickSetParams } =
+    useSWRRestaurant();
 
   return (
     <div className="w-5/6 md:w-96 p-5 rounded-lg">
@@ -49,7 +48,13 @@ export const LunchSearchArea: FC = memo(() => {
           fullWidth={true}
         />
         <div className="text-center">
-          <Button label="検索" onClick={onClickSetParams} />
+          <Button
+            label="検索"
+            onClick={() => {
+              onClickSetParams();
+              setPageIndex(1);
+            }}
+          />
         </div>
       </div>
     </div>

@@ -1,4 +1,11 @@
-import { FC, memo, useContext, useEffect, useState } from "react";
+import {
+  Dispatch,
+  FC,
+  memo,
+  SetStateAction,
+  useContext,
+  useEffect,
+} from "react";
 
 import { RestaurantCard } from "./RestaurantCard";
 import { Pagination } from "../Pagination";
@@ -8,10 +15,17 @@ import { RestaurantListContext } from "../../providers/RestaurantListProvider";
 import { defaultSearchParams } from "../../utils/options";
 import { useSWRRestaurant } from "../../hooks/useSWRRestaurant";
 
+type Props = {
+  pageIndex: number;
+  setPageIndex: Dispatch<SetStateAction<number>>;
+};
+
 /**
  * レストラン一覧用コンポーネント.
  */
-export const RestaurantList: FC = memo(() => {
+export const RestaurantList: FC<Props> = memo((props) => {
+  const { pageIndex, setPageIndex } = props;
+
   // カスタムフックからデータを取得
   const { data, error } = useSWRRestaurant();
 
@@ -26,8 +40,6 @@ export const RestaurantList: FC = memo(() => {
   // ページング
   // ページあたりの件数
   const perPage = 10;
-  // 現在のページ
-  const [pageIndex, setPageIndex] = useState(1);
 
   // ローディング処理
   if (!error && !data) {

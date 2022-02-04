@@ -1,4 +1,4 @@
-import { FC, memo } from "react";
+import { FC, memo, useState } from "react";
 import { useRouter } from "next/router";
 import { Tab } from "@headlessui/react";
 
@@ -28,6 +28,10 @@ const tabMap = [
 export const LunchTab: FC<{ path: string }> = memo(
   ({ path }: { path: string }) => {
     const router = useRouter();
+
+    // レストラン一覧の現在のページ
+    const [pageIndex, setPageIndex] = useState(1);
+
     return (
       <div className="w-full">
         <Tab.Group
@@ -72,8 +76,8 @@ export const LunchTab: FC<{ path: string }> = memo(
             <Tab.Panel>
               {/* タブがお店情報の時は店一覧表示 */}
               <div className="flex flex-col-reverse items-center lg:flex-row lg:items-start">
-                <RestaurantList />
-                <LunchSearchArea />
+                <RestaurantList pageIndex={pageIndex} setPageIndex={setPageIndex}/>
+                <LunchSearchArea setPageIndex={setPageIndex}/>
               </div>
             </Tab.Panel>
           </Tab.Panels>
