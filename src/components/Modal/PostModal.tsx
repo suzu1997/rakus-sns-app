@@ -55,7 +55,7 @@ export const PostModal: FC<Props> = memo((props) => {
    */
   const sendPost = useCallback(() => {
     //post内容から空欄を除いたもの
-    const noSpace = post.replace(/\s+/g, "");
+    const noSpace = post.trim();
 
     if (post === "" || noSpace === "") {
       toast.error("文字を入力して下さい");
