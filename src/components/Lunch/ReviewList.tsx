@@ -1,4 +1,4 @@
-import { FC, memo, useCallback, useContext, useEffect, useState } from "react";
+import { FC, memo, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 import { ReviewCard } from "./ReviewCard";
