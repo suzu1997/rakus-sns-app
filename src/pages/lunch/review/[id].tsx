@@ -3,6 +3,7 @@ import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import toast from "react-hot-toast";
+import Cookies from "universal-cookie";
 
 import { ReviewCard } from "../../../components/Lunch/ReviewCard";
 import { CommentList } from "../../../components/Lunch/CommentList";
@@ -11,13 +12,14 @@ import type { LunchReview } from "../../../types/type";
 import { loginIdContext } from "../../../providers/LoginIdProvider";
 import { JAVA_API_URL } from "../../../utils/const";
 import { useSWRReviews } from "../../../hooks/useSWRReviews";
+import { fetcher } from "../../../utils/fetcher";
 
 /**
  * レビュー詳細を表示するページ.
  *
  * @returns レビュー詳細を表示する画面
  */
-const ReviewDetail: NextPage = () => {
+const ReviewDetail: NextPage<{ initialData: any }> = ({ initialData }) => {
   const router = useRouter();
 
   // レビューIDをURLから取得
@@ -31,6 +33,8 @@ const ReviewDetail: NextPage = () => {
   // データ取得
   const { data, error, mutate } = useSWR(
     `${JAVA_API_URL}/review/detail/${reviewId}/${hash}`,
+    fetcher,
+    { fallbackData: initialData },
   );
 
   /**
@@ -60,7 +64,7 @@ const ReviewDetail: NextPage = () => {
       </div>
     );
   }
-  
+
   // レビュー情報をデータから抽出
   const review: LunchReview = data.review;
 
@@ -96,6 +100,21 @@ const ReviewDetail: NextPage = () => {
       </div>
     </div>
   );
+};
+
+export const getServerSideProps = async (ctx) => {
+  const reviewId = Number(ctx.query.id);
+  const cookies = new Cookies(ctx.req.headers.cookie);
+  const hash = cookies.get("hash");
+  console.log(hash);
+  const res = await fetch(
+    `${JAVA_API_URL}/review/detail/${reviewId}/${hash}`,
+  );
+  const initialData = await res.json();
+
+  return {
+    props: { initialData },
+  };
 };
 
 export default ReviewDetail;
