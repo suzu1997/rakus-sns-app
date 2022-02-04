@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useRouter } from "next/router";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -34,7 +35,7 @@ const schema = yup.object().shape({
     .oneOf([yup.ref("password"), null], "確認用パスワードが一致していません"),
 });
 
-export const UserUpdatePass = (passToken: string) => {
+export const userUpdatePass = (passToken: string) => {
   //useFormから使用するメソッド呼び出し
   const {
     register,
@@ -79,6 +80,7 @@ export const UserUpdatePass = (passToken: string) => {
       if (res.data.status === "success") {
         //入力情報をクリア
         clear();
+        toast.success("パスワードの変更が完了しました");
         //パスワード変更完了したら画面遷移
         router.push("/auth/compupdatepass");
       } else {
