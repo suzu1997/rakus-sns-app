@@ -133,9 +133,9 @@ export const useSignup = (userToken: string) => {
           passwordConf: "",
         });
 
+        router.push("/auth/signup/compsignup");
         //ローディング画面の閉じる
         setIsLoading(false);
-        router.push("/auth/signup/compsignup");
       } else {
         alert(res.data.message);
         //ローディング画面の閉じる
