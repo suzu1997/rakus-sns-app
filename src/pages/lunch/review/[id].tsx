@@ -60,9 +60,7 @@ const ReviewDetail: NextPage = () => {
       </div>
     );
   }
-  console.log(data);
   
-
   // レビュー情報をデータから抽出
   const review: LunchReview = data.review;
 
