@@ -1,5 +1,9 @@
 import { useContext, useEffect } from "react";
-import type { NextPage } from "next";
+import type {
+  GetServerSideProps,
+  InferGetServerSidePropsType,
+  NextPage,
+} from "next";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import toast from "react-hot-toast";
@@ -14,12 +18,15 @@ import { JAVA_API_URL } from "../../../utils/const";
 import { useSWRReviews } from "../../../hooks/useSWRReviews";
 import { fetcher } from "../../../utils/fetcher";
 
+type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
+
 /**
  * レビュー詳細を表示するページ.
  *
  * @returns レビュー詳細を表示する画面
  */
-const ReviewDetail: NextPage<{ initialData: any }> = ({ initialData }) => {
+const ReviewDetail: NextPage<Props> = (props) => {
+  const { initialData } = props;
   const router = useRouter();
 
   // レビューIDをURLから取得
@@ -102,14 +109,12 @@ const ReviewDetail: NextPage<{ initialData: any }> = ({ initialData }) => {
   );
 };
 
-export const getServerSideProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const reviewId = Number(ctx.query.id);
   const cookies = new Cookies(ctx.req.headers.cookie);
   const hash = cookies.get("hash");
-  console.log(hash);
-  const res = await fetch(
-    `${JAVA_API_URL}/review/detail/${reviewId}/${hash}`,
-  );
+
+  const res = await fetch(`${JAVA_API_URL}/review/detail/${reviewId}/${hash}`);
   const initialData = await res.json();
 
   return {
