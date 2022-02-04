@@ -28,11 +28,18 @@ const schema = yup.object().shape({
   accountName: yup
     .string()
     .required("アカウント名を入力してください")
+    .typeError("アカウント名を入力してください")
     .max(30, "アカウント名は30文字以内で入力してください"),
   //入社年のバリデーション
-  hireDate: yup.date().max(new Date(), "入社日は現在よりも前に設定して下さい"),
+  hireDate: yup
+    .date()
+    .typeError("入社年月を入力してください")
+    .max(new Date(), "入社日は現在よりも前に設定して下さい"),
   //誕生日のバリデーション
-  birthDay: yup.date().max(new Date(), "誕生日は現在よりも前に設定して下さい"),
+  birthDay: yup
+    .date()
+    .typeError("誕生日を入力してください")
+    .max(new Date(), "誕生日は現在よりも前に設定して下さい"),
   //職種のバリデーション
   serviceFk: yup.string().required("職種を入力して下さい"),
   //プロフィールのバリデーション
