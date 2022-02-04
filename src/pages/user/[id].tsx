@@ -10,9 +10,16 @@ import { Button } from "../../components/Button/Button";
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { JAVA_API_URL } from "../../utils/const";
-import type { LunchReview, Timeline, Title, UserInfo } from "../../types/type";
+import type {
+  CommentHis,
+  LunchReview,
+  Timeline,
+  Title,
+  UserInfo,
+} from "../../types/type";
 import { ReviewCard } from "../../components/Lunch/ReviewCard";
 import { TimelineHisCard } from "../../components/User/TimelineHisCard";
+import { LikedCommentHis } from "../../components/User/LikedCommentHis";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -210,7 +217,18 @@ const User: NextPage = () => {
                 {/* いいね履歴レビューここまで */}
                 {/* いいね履歴コメント */}
                 <Tab.Panel className="bg-bgc shadow-lg  rounded-xl p-3 focus:outline-none ">
-                  APIできたら実装
+                  <div>
+                    {userInfo &&
+                      userInfo.likedCommentList.map(
+                        (likedCommentHis: CommentHis) => (
+                          <LikedCommentHis
+                            {...likedCommentHis}
+                            type="いいね履歴つぶやき"
+                            key={likedCommentHis.id}
+                          />
+                        ),
+                      )}
+                  </div>
                 </Tab.Panel>
                 {/* いいね履歴コメントここまで */}
               </Tab.Panels>
