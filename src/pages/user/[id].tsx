@@ -10,6 +10,9 @@ import { Button } from "../../components/Button/Button";
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { JAVA_API_URL } from "../../utils/const";
+import { ReviewCard } from "../../components/Lunch/ReviewCard";
+import { TimelineHisCard } from "../../components/User/TimelineHisCard";
+import { LikedCommentHis } from "../../components/User/LikedCommentHis";
 import type {
   CommentHis,
   LunchReview,
@@ -17,9 +20,6 @@ import type {
   Title,
   UserInfo,
 } from "../../types/type";
-import { ReviewCard } from "../../components/Lunch/ReviewCard";
-import { TimelineHisCard } from "../../components/User/TimelineHisCard";
-import { LikedCommentHis } from "../../components/User/LikedCommentHis";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
