@@ -95,7 +95,6 @@ const User: NextPage = () => {
                   ></Image>
                 </div>
                 <div>
-                  <div>名前:{userData.name}</div>
                   <div>入社日:{userData.hireDate}</div>
                   <div>職種:{userData.serviceName}</div>
                   <div>誕生日:{userData.birthDay}</div>
