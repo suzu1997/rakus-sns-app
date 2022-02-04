@@ -35,7 +35,7 @@ export const CommentList: FC<Props> = memo((props) => {
 
   return (
     <div className="border border-t-0 border-gray-200">
-      {commentList?.length > 0 ? (
+      {commentList?.length > 0 && (
         <div>
           {commentList.map((comment: Comment) => (
             <div key={comment.id} className="flex">
@@ -82,8 +82,6 @@ export const CommentList: FC<Props> = memo((props) => {
             </div>
           ))}
         </div>
-      ) : (
-        <div className="text-center my-10">コメントはありません</div>
       )}
     </div>
   );
