@@ -54,6 +54,39 @@ export const LikedCommentHis: FC<Props> = memo((props) => {
    * APIで初期表示用データ取得.
    */
   const { mutate } = useSWR(`${JAVA_API_URL}/user/${userId}/${hash}`);
+ 
+  /**
+   * 押下投稿の詳細に画面遷移.
+   * @remarks 受け取った記事IDの詳細画面に遷移
+   */
+  const goDetailTimelinePage = useCallback(
+    async (id: number) => {
+      //APIを使用して遷移先を判断
+      try {
+        const res = await axios.get(`${JAVA_API_URL}/comment/${id}/${hash}`);
+        //メッセージ内容
+        const responseMessage = res.data.message;
+        if (
+          responseMessage ===
+          "このコメントがあるタイムライン詳細の検索に成功しました"
+        ) {
+          router.push(`/timeline/${res.data.timeline.id}`);
+        } else if (
+          //レビューのコメントに対するいいね
+          responseMessage ===
+          "このコメントがあるレビュー詳細の検索に成功しました"
+        ) {
+          router.push(`/lunch/review/${res.data.review.id}`);
+        } else {
+          toast.error(responseMessage);
+        }
+      } catch (e) {
+        toast.error("投稿が見つかりませんでした。");
+      }
+    },
+    [hash, router],
+  );
+
   /**
    * 履歴表示一覧の情報を更新するメソッド.
    *
