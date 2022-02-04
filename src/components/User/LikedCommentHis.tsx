@@ -1,4 +1,17 @@
 import { FC, memo } from "react";
+import { useCallback, useContext } from "react";
+import { useRouter } from "next/router";
+import Image from "next/image";
+import useSWR from "swr";
+import axios from "axios";
+import toast from "react-hot-toast";
+
+import { loginIdContext } from "../../providers/LoginIdProvider";
+import type { CommentHis } from "../../types/type";
+import { FavoBtn } from "../Button/FavoBtn";
+import { TrashBtn } from "../Button/TrashBtn";
+import { JAVA_API_URL } from "../../utils/const";
+import { getFormattedDate } from "../../utils/methods";
 
 type Props = CommentHis & {
   type: string;
@@ -25,10 +38,32 @@ export const LikedCommentHis: FC<Props> = memo((props) => {
 
   //ルーターリンク
   const router = useRouter();
+
+  /**
+   * 画像クリックで投稿ユーザ情報ページに飛ぶ.
+   * @param userId - 投稿者ID
+   */
+  const goUserPage = useCallback(
+    (userId: number) => {
+      router.push(`/user/${userId}`);
+    },
+    [router],
+  );
+
   /**
    * APIで初期表示用データ取得.
    */
   const { mutate } = useSWR(`${JAVA_API_URL}/user/${userId}/${hash}`);
+  /**
+   * 履歴表示一覧の情報を更新するメソッド.
+   *
+   * @remarks
+   * 成功すると呼ばれる。
+   */
+  const updateData = useCallback(() => {
+    mutate(); // 履歴一覧を再検証・再取得する
+  }, [mutate]);
+
   return (
     <div
       key={id}
