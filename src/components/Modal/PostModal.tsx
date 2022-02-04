@@ -54,8 +54,11 @@ export const PostModal: FC<Props> = memo((props) => {
    * titleによって投稿するAPIを変える。
    */
   const sendPost = useCallback(() => {
-    if (post === "") {
-      toast.error("入力して下さい");
+    //post内容から空欄を除いたもの
+    const noSpace = post.trim();
+
+    if (post === "" || noSpace === "") {
+      toast.error("文字を入力して下さい");
       return;
     }
     if (post.length > 140) {
