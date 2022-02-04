@@ -28,11 +28,18 @@ const schema = yup.object().shape({
   accountName: yup
     .string()
     .required("アカウント名を入力してください")
+    .typeError("アカウント名を入力してください")
     .max(30, "アカウント名は30文字以内で入力してください"),
   //入社年のバリデーション
-  hireDate: yup.date().max(new Date(), "入社日は現在よりも前に設定して下さい"),
+  hireDate: yup
+    .date()
+    .typeError("入社年月を入力してください")
+    .max(new Date(), "入社日は現在よりも前に設定して下さい"),
   //誕生日のバリデーション
-  birthDay: yup.date().max(new Date(), "誕生日は現在よりも前に設定して下さい"),
+  birthDay: yup
+    .date()
+    .typeError("誕生日を入力してください")
+    .max(new Date(), "誕生日は現在よりも前に設定して下さい"),
   //職種のバリデーション
   serviceFk: yup.string().required("職種を入力して下さい"),
   //プロフィールのバリデーション
@@ -112,6 +119,24 @@ export const useUserEdit = () => {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
+    //入力内容から空欄を除いたもの
+    const noAccountName = data.accountName.trim();
+    const noSpaceFirstName = data.firstName.trim();
+    const noSpaceLastName = data.lastName.trim();
+    const noSpaceIntroduction = data.introduction?.trim();
+    //もし下記項目がスペースのみで送信していたらエラーで弾く
+    if (!noAccountName || !noSpaceFirstName || !noSpaceLastName) {
+      toast.error("スペースのみでは登録できません。");
+      return;
+    }
+
+    if (!noSpaceIntroduction && data.introduction != "") {
+      toast.error(
+        "自己紹介はスペースのみでは登録できません。文字を入れるか完全に空にしてください。",
+      );
+      return;
+    }
+
     //名前：姓＋名
     const name = data.firstName + " " + data.lastName;
     //入社月のフォーマット変更

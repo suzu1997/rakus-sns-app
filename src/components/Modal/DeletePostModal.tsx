@@ -27,7 +27,7 @@ export const DeletePostModal: FC<Props> = memo((props) => {
   const { hash } = useContext(loginIdContext);
 
   // 投稿削除のカスタムフックを使用
-  const { deletePost } = useDeletePost(postId, type, success, hash);
+  const { deletePost } = useDeletePost(postId, type, success, hash, closeModal);
 
   return (
     <>

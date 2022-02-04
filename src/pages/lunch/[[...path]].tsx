@@ -1,4 +1,8 @@
-import type { NextPage } from "next";
+import type {
+  GetServerSideProps,
+  InferGetServerSidePropsType,
+  NextPage,
+} from "next";
 import { useRouter } from "next/router";
 
 import { SubHeader } from "../../components/Layout/SubHeader";
@@ -12,7 +16,9 @@ import { LunchTab } from "../../components/Lunch/LunchTab";
  *
  * @returns ランチの一覧を表示する画面
  */
-const LunchListPage: NextPage = () => {
+const LunchListPage: NextPage<
+  InferGetServerSidePropsType<typeof getServerSideProps>
+> = ({ path }) => {
   const router = useRouter();
 
   return (
@@ -27,11 +33,18 @@ const LunchListPage: NextPage = () => {
       </div>
       <div className="mt-5 flex justify-between gap-8 flex-col-reverse items-center sm:flex-row sm:items-start">
         <div className="flex flex-col w-full">
-          <LunchTab />
+          <LunchTab path={path} />
         </div>
       </div>
     </>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (req) => {
+  const path = req.query.path?.[0] ?? null;
+  return {
+    props: { path },
+  };
 };
 
 export default LunchListPage;

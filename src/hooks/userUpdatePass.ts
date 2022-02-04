@@ -34,7 +34,7 @@ const schema = yup.object().shape({
     .oneOf([yup.ref("password"), null], "確認用パスワードが一致していません"),
 });
 
-export const userUpdatePass = (passToken: string) => {
+export const UserUpdatePass = (passToken: string) => {
   //useFormから使用するメソッド呼び出し
   const {
     register,

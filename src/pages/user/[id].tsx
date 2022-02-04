@@ -24,6 +24,7 @@ import { LikedCommentHis } from "../../components/User/LikedCommentHis";
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
+
 /**
  * ユーザー情報画面
  * @returns ユーザー情報を表示するページ
@@ -172,7 +173,8 @@ const User: NextPage = () => {
                       userInfo.postedReviewList.map((review: LunchReview) => (
                         <ReviewCard
                           {...review}
-                          type="詳細"
+                          type="一覧"
+                          isHistory
                           hasRestaurantInfo={true}
                           reviewsMutate={mutate}
                           key={review.id}
@@ -205,7 +207,8 @@ const User: NextPage = () => {
                         (likedReview: LunchReview) => (
                           <ReviewCard
                             {...likedReview}
-                            type="詳細"
+                            type="一覧"
+                            isHistory
                             hasRestaurantInfo={true}
                             reviewsMutate={mutate}
                             key={likedReview.id}

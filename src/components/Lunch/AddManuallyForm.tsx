@@ -2,6 +2,7 @@ import { FC, memo, useCallback, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import toast from "react-hot-toast";
+import Cookie from "universal-cookie";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -92,6 +93,7 @@ export const AddManuallyForm: FC<Props> = memo((props) => {
   //登録ボタンを押した時のメソッド
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
+    const cookie = new Cookie();
     try {
       // react-hook-formのgetValuesメソッドで入力された住所を取得
       const addressValues = getValues(["address", "streetAddress"]);
@@ -117,6 +119,7 @@ export const AddManuallyForm: FC<Props> = memo((props) => {
         //登録した店の詳細画面に遷移する;
         // replaceを用いることで、遷移後に戻るボタンでここに戻ってくることを防ぐ
         router.replace(`/lunch/restaurant/${res.data.restaurant.id}`);
+        cookie.set("addFlag", "true");
       } else {
         //登録に失敗した場合
         toast.error(res.data.message);
