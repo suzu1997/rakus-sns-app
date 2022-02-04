@@ -119,24 +119,6 @@ export const useUserEdit = () => {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
-    //入力内容から空欄を除いたもの
-    const noAccountName = data.accountName.trim();
-    const noSpaceFirstName = data.firstName.trim();
-    const noSpaceLastName = data.lastName.trim();
-    const noSpaceIntroduction = data.introduction?.trim();
-    //もし下記項目がスペースのみで送信していたらエラーで弾く
-    if (!noAccountName || !noSpaceFirstName || !noSpaceLastName) {
-      toast.error("スペースのみでは登録できません。");
-      return;
-    }
-
-    if (!noSpaceIntroduction && data.introduction != "") {
-      toast.error(
-        "自己紹介はスペースのみでは登録できません。文字を入れるか完全に空にしてください。",
-      );
-      return;
-    }
-
     //名前：姓＋名
     const name = data.firstName + " " + data.lastName;
     //入社月のフォーマット変更
