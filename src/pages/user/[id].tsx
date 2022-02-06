@@ -10,9 +10,16 @@ import { Button } from "../../components/Button/Button";
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import { JAVA_API_URL } from "../../utils/const";
-import type { LunchReview, Timeline, Title, UserInfo } from "../../types/type";
 import { ReviewCard } from "../../components/Lunch/ReviewCard";
 import { TimelineHisCard } from "../../components/User/TimelineHisCard";
+import { LikedCommentHis } from "../../components/User/LikedCommentHis";
+import type {
+  CommentHis,
+  LunchReview,
+  Timeline,
+  Title,
+  UserInfo,
+} from "../../types/type";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -88,7 +95,6 @@ const User: NextPage = () => {
                   ></Image>
                 </div>
                 <div>
-                  <div>名前:{userData.name}</div>
                   <div>入社日:{userData.hireDate}</div>
                   <div>職種:{userData.serviceName}</div>
                   <div>誕生日:{userData.birthDay}</div>
@@ -108,16 +114,6 @@ const User: NextPage = () => {
               </div>
             )}
           </div>
-
-          {/* <div className="w-full text-center mb-2">
-            <Button
-              label="投稿を再読み込み"
-              size="lg"
-              onClick={() => {
-                alert("新しいつぶやき読み込み");
-              }}
-            />
-          </div> */}
 
           {/* タブ（履歴表示欄） */}
           <div className="w-full px-2 sm:px-0">
@@ -150,7 +146,7 @@ const User: NextPage = () => {
                         (timelineHis: Timeline) => (
                           <TimelineHisCard
                             {...timelineHis}
-                            type="つぶやき履歴"
+                            key={timelineHis.id}
                           />
                         ),
                       )}
@@ -169,6 +165,7 @@ const User: NextPage = () => {
                           isHistory
                           hasRestaurantInfo={true}
                           reviewsMutate={mutate}
+                          key={review.id}
                         />
                       ))}
                   </div>
@@ -182,7 +179,7 @@ const User: NextPage = () => {
                         (likedTimelineHis: Timeline) => (
                           <TimelineHisCard
                             {...likedTimelineHis}
-                            type="いいね履歴つぶやき"
+                            key={likedTimelineHis.id}
                           />
                         ),
                       )}
@@ -201,6 +198,7 @@ const User: NextPage = () => {
                             isHistory
                             hasRestaurantInfo={true}
                             reviewsMutate={mutate}
+                            key={likedReview.id}
                           />
                         ),
                       )}
@@ -209,7 +207,17 @@ const User: NextPage = () => {
                 {/* いいね履歴レビューここまで */}
                 {/* いいね履歴コメント */}
                 <Tab.Panel className="bg-bgc shadow-lg  rounded-xl p-3 focus:outline-none ">
-                  APIできたら実装
+                  <div>
+                    {userInfo &&
+                      userInfo.likedCommentList.map(
+                        (likedCommentHis: CommentHis) => (
+                          <LikedCommentHis
+                            {...likedCommentHis}
+                            key={likedCommentHis.id}
+                          />
+                        ),
+                      )}
+                  </div>
                 </Tab.Panel>
                 {/* いいね履歴コメントここまで */}
               </Tab.Panels>

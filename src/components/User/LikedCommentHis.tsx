@@ -3,28 +3,28 @@ import { useCallback, useContext } from "react";
 import { useRouter } from "next/router";
 import { useSWRConfig } from "swr";
 import Image from "next/image";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 import { loginIdContext } from "../../providers/LoginIdProvider";
-import type { Timeline } from "../../types/type";
-import { CommentIcon } from "../Button/CommentIcon";
+import type { CommentHis } from "../../types/type";
 import { FavoBtn } from "../Button/FavoBtn";
 import { TrashBtn } from "../Button/TrashBtn";
 import { JAVA_API_URL } from "../../utils/const";
 import { getFormattedDate } from "../../utils/methods";
 
 /**
- * タイムライン履歴を表示するカードコンポーネント
+ * いいねコメント履歴を表示するコンポーネント
  */
-export const TimelineHisCard: FC<Timeline> = memo((props) => {
+export const LikedCommentHis: FC<CommentHis> = memo((props) => {
   const {
     id,
     userId,
     accountName,
     userPhotoPath,
-    sentence,
-    likeCount,
-    commentCount,
-    postedTime,
+    comment,
+    commentLikeCount,
+    actionedTime,
     myLike,
   } = props;
 
@@ -54,11 +54,31 @@ export const TimelineHisCard: FC<Timeline> = memo((props) => {
    * @remarks 受け取った記事IDの詳細画面に遷移
    */
   const goDetailTimelinePage = useCallback(
-    (postId: number) => {
-      router.push(`/timeline/${postId}`);
-      // router.push(`/lunch/review/${postId}`);
+    async (id: number) => {
+      //APIを使用して遷移先を判断
+      try {
+        const res = await axios.get(`${JAVA_API_URL}/comment/${id}/${hash}`);
+        //メッセージ内容
+        const responseMessage = res.data.message;
+        if (
+          responseMessage ===
+          "このコメントがあるタイムライン詳細の検索に成功しました"
+        ) {
+          router.push(`/timeline/${res.data.timeline.id}`);
+        } else if (
+          //レビューのコメントに対するいいね
+          responseMessage ===
+          "このコメントがあるレビュー詳細の検索に成功しました"
+        ) {
+          router.push(`/lunch/review/${res.data.review.id}`);
+        } else {
+          toast.error(responseMessage);
+        }
+      } catch (e) {
+        toast.error("投稿が見つかりませんでした。");
+      }
     },
-    [router],
+    [hash, router],
   );
 
   /**
@@ -85,7 +105,7 @@ export const TimelineHisCard: FC<Timeline> = memo((props) => {
         <span className="text-xl font-extrabold pt-3 pb-3">{accountName}</span>
         <span className="ml-7">
           つぶやき日時:
-          {getFormattedDate(new Date(postedTime))}
+          {getFormattedDate(new Date(actionedTime))}
         </span>
       </div>
       <div className="flex">
@@ -109,25 +129,23 @@ export const TimelineHisCard: FC<Timeline> = memo((props) => {
             goDetailTimelinePage(id);
           }}
         >
-          {sentence}
+          {comment}
         </span>
       </div>
       <div className="w-full text-right py-3">
-        <CommentIcon
-          commentCount={commentCount}
-          postId={id}
-          success={updateData}
-          title="つぶやきへのコメント"
-        />
         <FavoBtn
           postId={id}
-          favoCount={likeCount}
+          favoCount={commentLikeCount}
           isFavo={myLike}
-          type="タイムライン"
+          type="いいね履歴コメント"
           success={updateData}
         />
         {Number(loginId) === userId && (
-          <TrashBtn postId={id} type="タイムライン" success={updateData} />
+          <TrashBtn
+            postId={id}
+            type="いいね履歴コメント"
+            success={updateData}
+          />
         )}
       </div>
     </div>

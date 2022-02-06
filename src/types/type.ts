@@ -44,6 +44,25 @@ export type Restaurant = {
   postedTime: Date;
 };
 
+//コメントへのいいね
+export type CommentHis = {
+  id: number;
+  userId: number;
+  accountName: string;
+  userPhotoPath: string;
+  timelineId: number;
+  reviewId: number;
+  parentCommentId: number;
+  comment: string;
+  commentLikeCount: number;
+  actionedTime: Date;
+  hasNoticed: boolean;
+  commentDeleted: boolean;
+  like: boolean;
+  myLike: boolean;
+  read: boolean;
+};
+
 //ユーザ情報画面
 export type UserInfo = {
   name: string;
