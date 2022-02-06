@@ -1,18 +1,24 @@
 import { useCallback } from "react";
 import axios from "axios";
 import { JAVA_API_URL } from "../utils/const";
+import toast from "react-hot-toast";
 
 /**
  * 投稿へいいねをするためのカスタムフック.
- * 
+ *
  * @param postId - いいね対象の投稿ID
  * @param type - 何に対するいいねか
  * @param success - いいね成功時の処理
  * @param hash - ユーザーのハッシュ
- * @returns 
+ * @returns
  * いいねボタンを押した時のメソッド。
  */
-export const useFavo = (postId: number, type: string, success: () => void, hash: string) => {
+export const useFavo = (
+  postId: number,
+  type: string,
+  success: () => void,
+  hash: string,
+) => {
   /**
    * ボタン押下でいいね発動.
    */
@@ -78,6 +84,58 @@ export const useFavo = (postId: number, type: string, success: () => void, hash:
             }
           } else {
             console.log(res.data.message);
+          }
+        }
+
+        if (type === "いいね履歴コメント") {
+          try {
+            const res = await axios.get(
+              `${JAVA_API_URL}/comment/${postId}/${hash}`,
+            );
+            //メッセージ内容
+            const responseMessage = res.data.message;
+            //いいねコメントがつぶやきの場合
+            if (
+              responseMessage ===
+              "このコメントがあるタイムライン詳細の検索に成功しました"
+            ) {
+              const res = await axios.post(
+                `${JAVA_API_URL}/timeline/comment/like`,
+                {
+                  commentId: postId, //投稿ID
+                  userLogicalId: hash, //ログインユーザID
+                },
+              );
+              if (res.data.status === "success") {
+                //リロード
+                if (success) {
+                  success();
+                }
+              }
+            }
+            //いいねコメントがレビューの場合
+            else if (
+              responseMessage ===
+              "このコメントがあるレビュー詳細の検索に成功しました"
+            ) {
+              const res = await axios.post(
+                `${JAVA_API_URL}/review/comment/like`,
+                {
+                  commentId: postId, //投稿ID
+                  userLogicalId: hash, //ログインユーザID
+                },
+              );
+              if (res.data.status === "success") {
+                //リロード
+                if (success) {
+                  success();
+                }
+              } else {
+                console.log(res.data.message);
+              }
+            }
+          } catch (e) {
+            toast.error("投稿が見つかりませんでした。");
           }
         }
       } catch (error) {
