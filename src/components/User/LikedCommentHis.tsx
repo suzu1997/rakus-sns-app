@@ -137,7 +137,7 @@ export const LikedCommentHis: FC<CommentHis> = memo((props) => {
           postId={id}
           favoCount={commentLikeCount}
           isFavo={myLike}
-          type="タイムライン"
+          type="いいね履歴コメント"
           success={updateData}
         />
         {Number(loginId) === userId && (
