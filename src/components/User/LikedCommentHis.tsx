@@ -13,14 +13,10 @@ import { TrashBtn } from "../Button/TrashBtn";
 import { JAVA_API_URL } from "../../utils/const";
 import { getFormattedDate } from "../../utils/methods";
 
-type Props = CommentHis & {
-  type: string;
-};
-
 /**
  * いいねコメント履歴を表示するコンポーネント
  */
-export const LikedCommentHis: FC<Props> = memo((props) => {
+export const LikedCommentHis: FC<CommentHis> = memo((props) => {
   const {
     id,
     userId,

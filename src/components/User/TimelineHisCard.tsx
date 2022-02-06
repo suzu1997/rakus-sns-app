@@ -12,14 +12,10 @@ import { TrashBtn } from "../Button/TrashBtn";
 import { JAVA_API_URL } from "../../utils/const";
 import { getFormattedDate } from "../../utils/methods";
 
-type Props = Timeline & {
-  type: string;
-};
-
 /**
  * タイムライン履歴を表示するカードコンポーネント
  */
-export const TimelineHisCard: FC<Props> = memo((props) => {
+export const TimelineHisCard: FC<Timeline> = memo((props) => {
   const {
     id,
     userId,
