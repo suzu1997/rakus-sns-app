@@ -4,7 +4,7 @@ import { useModal } from "../../hooks/useModal";
 
 //コメント数・対象の投稿IDを受け取る
 export type Props = {
-  title: "つぶやきへのコメント" | "レビューコメント";
+  title: "つぶやきへのコメント" | "レビューへのコメント";
   commentCount: number;
   postId: number; // 対象の投稿ID
   success: () => void; //投稿完了後、自動で更新したい場合は更新のメソッドを渡す

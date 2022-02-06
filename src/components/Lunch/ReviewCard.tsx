@@ -145,7 +145,7 @@ export const ReviewCard: FC<Props> = memo((props) => {
           <CommentIcon
             commentCount={commentCount}
             postId={id}
-            title="レビューコメント"
+            title="レビューへのコメント"
             success={() => updateReview(id)}
           />
           <FavoBtn

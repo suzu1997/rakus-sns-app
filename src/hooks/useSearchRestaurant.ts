@@ -44,8 +44,8 @@ export const useSearchRestaurant = () => {
    */
   const searchInDB = useCallback(async () => {
     try {
-      // 検索文字列が空白でない場合のみ検索を実行
-      if (searchName !== "") {
+      // 検索文字列が空白、もしくはスペースのみでない場合のみ検索を実行
+      if (searchName.trim() !== "") {
         const res = await axios.get(
           `${JAVA_API_URL}/restaurant/name/${searchName}`,
         );
@@ -71,8 +71,9 @@ export const useSearchRestaurant = () => {
    * &name_anyとすることで漢字でもかなでも検索できる
    */
   const searchByNameIn2km = async () => {
-    if (searchName === "") {
-      alert("検索文字列を入力してください");
+    // 検索文字列が空白、もしくはスペースのみの場合はエラーを出す
+    if (searchName.trim() === "") {
+      toast.error("検索文字列を入力してください");
       return;
     }
 

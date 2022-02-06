@@ -1,8 +1,13 @@
 import { useContext, useEffect } from "react";
-import type { NextPage } from "next";
+import type {
+  GetServerSideProps,
+  InferGetServerSidePropsType,
+  NextPage,
+} from "next";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import toast from "react-hot-toast";
+import Cookies from "universal-cookie";
 
 import { ReviewCard } from "../../../components/Lunch/ReviewCard";
 import { CommentList } from "../../../components/Lunch/CommentList";
@@ -11,13 +16,18 @@ import type { LunchReview } from "../../../types/type";
 import { loginIdContext } from "../../../providers/LoginIdProvider";
 import { JAVA_API_URL } from "../../../utils/const";
 import { useSWRReviews } from "../../../hooks/useSWRReviews";
+import { fetcher } from "../../../utils/fetcher";
+import { getReviewById } from "../../../utils/lunch";
+
+type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 /**
  * レビュー詳細を表示するページ.
  *
  * @returns レビュー詳細を表示する画面
  */
-const ReviewDetail: NextPage = () => {
+const ReviewDetail: NextPage<Props> = (props) => {
+  const { initialData } = props;
   const router = useRouter();
 
   // レビューIDをURLから取得
@@ -31,6 +41,8 @@ const ReviewDetail: NextPage = () => {
   // データ取得
   const { data, error, mutate } = useSWR(
     `${JAVA_API_URL}/review/detail/${reviewId}/${hash}`,
+    fetcher,
+    { fallbackData: initialData },
   );
 
   /**
@@ -60,7 +72,7 @@ const ReviewDetail: NextPage = () => {
       </div>
     );
   }
-  
+
   // レビュー情報をデータから抽出
   const review: LunchReview = data.review;
 
@@ -96,6 +108,23 @@ const ReviewDetail: NextPage = () => {
       </div>
     </div>
   );
+};
+
+// SSR
+/**
+ * サーバー側でデータを取得(SSR).
+ */
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const reviewId = Number(ctx.query.id);
+  // サーバー側でクッキー取得
+  const cookies = new Cookies(ctx.req.headers.cookie);
+  const hash = cookies.get("hash");
+
+  const initialData = await getReviewById(reviewId, hash);
+
+  return {
+    props: { initialData },
+  };
 };
 
 export default ReviewDetail;
