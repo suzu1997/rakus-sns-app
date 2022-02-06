@@ -141,7 +141,11 @@ export const LikedCommentHis: FC<CommentHis> = memo((props) => {
           success={updateData}
         />
         {Number(loginId) === userId && (
-          <TrashBtn postId={id} type="タイムライン" success={updateData} />
+          <TrashBtn
+            postId={id}
+            type="いいね履歴コメント"
+            success={updateData}
+          />
         )}
       </div>
     </div>
