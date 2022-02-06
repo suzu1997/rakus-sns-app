@@ -2,6 +2,7 @@ import { FC, memo, useCallback, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import toast from "react-hot-toast";
+import Cookie from "universal-cookie";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -24,11 +25,12 @@ const schema = yup.object().shape({
   // 店名のバリデーション
   name: yup
     .string()
+    .trim()
     .required("店名を入力してください")
     .max(255, "店名は255文字以内で入力してください"),
   // 住所のバリデーション
-  address: yup.string().required("住所を入力してください"),
-  streetAddress: yup.string().required("番地以降を入力してください"),
+  address: yup.string().trim().required("住所を入力してください"),
+  streetAddress: yup.string().trim().required("番地以降を入力してください"),
   description: yup.string().max(140, "140文字以内で入力してください"),
   url: yup.string().url("URL形式で入力してください"),
 });
@@ -92,6 +94,7 @@ export const AddManuallyForm: FC<Props> = memo((props) => {
   //登録ボタンを押した時のメソッド
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
+    const cookie = new Cookie();
     try {
       // react-hook-formのgetValuesメソッドで入力された住所を取得
       const addressValues = getValues(["address", "streetAddress"]);
@@ -108,7 +111,7 @@ export const AddManuallyForm: FC<Props> = memo((props) => {
         longitude: longitude,
         genreFk: genre.id,
         type: Number(type.id),
-        description: data.description,
+        description: data.description.trim(), // スペースのみで登録された時、詳細画面に無駄なスペースが表示されるのを防ぐ
         url: data.url,
       });
       //登録に成功した場合
@@ -117,6 +120,7 @@ export const AddManuallyForm: FC<Props> = memo((props) => {
         //登録した店の詳細画面に遷移する;
         // replaceを用いることで、遷移後に戻るボタンでここに戻ってくることを防ぐ
         router.replace(`/lunch/restaurant/${res.data.restaurant.id}`);
+        cookie.set("addFlag", "true");
       } else {
         //登録に失敗した場合
         toast.error(res.data.message);

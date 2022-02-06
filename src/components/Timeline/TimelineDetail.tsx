@@ -1,13 +1,14 @@
-import { FC, memo, useCallback, useContext } from "react";
+import { FC, memo, useContext } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 import { FavoBtn } from "../Button/FavoBtn";
 import { CommentIcon } from "../Button/CommentIcon";
 import { TrashBtn } from "../Button/TrashBtn";
-import { Timeline } from "../../types/type";
+import type { Timeline } from "../../types/type";
 import { loginIdContext } from "../../providers/LoginIdProvider";
-import { getFormattedDate } from "../../utils/methods";
+import { getFormattedDate, returnCodeToBr } from "../../utils/methods";
 
 type Props = {
   detailData: Timeline; //タイムライン詳細データ
@@ -26,39 +27,29 @@ export const TimelineDetailPage: FC<Props> = memo((props) => {
   //ルーターリンク
   const router = useRouter();
 
-  /**
-   * 画像クリックで投稿ユーザ情報ページに飛ぶ.
-   * @param userId - 投稿者ID
-   */
-  const goUserPage = useCallback(
-    (userId: number) => {
-      router.push(`/user/${userId}`);
-    },
-    [router],
-  );
-
   return (
     <>
       <div>
         <div className="px-3 flex">
           <div className="w-3/12 cursor-pointer hover:opacity-50">
-            <Image
-              src={`/image/userIcon/${detailData.userPhotoPath}`}
-              width={200}
-              height={200}
-              alt="icon"
-              onClick={() => {
-                goUserPage(detailData.userId);
-              }}
-              className="rounded-full"
-            />
+            <Link href={`/user/${detailData.userId}`}>
+              <a>
+                <Image
+                  src={`/image/userIcon/${detailData.userPhotoPath}`}
+                  width={200}
+                  height={200}
+                  alt="icon"
+                  className="rounded-full"
+                />
+              </a>
+            </Link>
           </div>
           <div className="w-9/12">
             <div className="text-xl font-extrabold py-3 ml-3">
               {detailData.accountName}
             </div>
-            <div className="w-8/12 lg:mt-10 lg:ml-10 md:mt-3 ml-5">
-              {detailData.sentence}
+            <div className="w-8/12 lg:ml-10 ml-5">
+              {returnCodeToBr(detailData.sentence)}
             </div>
           </div>
         </div>
@@ -74,7 +65,7 @@ export const TimelineDetailPage: FC<Props> = memo((props) => {
                 commentCount={detailData.commentCount}
                 postId={detailData.id}
                 success={success}
-                title="つぶやきにコメント"
+                title="つぶやきへのコメント"
               />
               <FavoBtn
                 postId={detailData.id}

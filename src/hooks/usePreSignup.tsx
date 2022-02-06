@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 import { JAVA_API_URL } from "../utils/const";
 import type { Option, UserTestInfo } from "../types/type";
@@ -14,16 +15,23 @@ const schema = yup.object().shape({
   firstName: yup
     .string()
     .required("姓名を入力してください")
+    .trim()
     .max(15, "姓名は15文字以内で入力してください"),
   //名のバリデーション
   lastName: yup
     .string()
     .required("名前を入力してください")
+    .trim()
     .max(15, "名前は15文字以内で入力してください"),
   //メールのバリデーション
   email: yup
     .string()
     .required("メールアドレスを入力してください")
+    .matches(
+      /^[0-9a-zA-Z!#$%&’*+-/=?^_`{|}~.]+$/,
+      "半角英数字で入力してください",
+    ) //半角英数字+アドレスに使用できる記号のみに変更
+    .trim()
     .max(200, "メールアドレスは200文字以内で入力してください"),
 });
 
@@ -86,19 +94,18 @@ export const usePreSignup = () => {
 
         //仮登録に成功した場合
         if (res.data.status === "success") {
-          //ローディング画面の閉じる
-          setIsLoading(false);
-
           //入力内容をクリアした後、仮登録完了画面に遷移する
           reset({
             firstName: "",
             lastName: "",
             email: "",
           });
-
           router.push("/auth/comppresignup");
+
+          //ローディング画面の閉じる
+          setIsLoading(false);
         } else {
-          alert(res.data.message);
+          toast.error(res.data.message);
           //ローディング画面の閉じる
           setIsLoading(false);
         }

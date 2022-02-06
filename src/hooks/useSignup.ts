@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import * as yup from "yup";
 import axios from "axios";
 import useSWR from "swr";
+import toast from "react-hot-toast";
 
 import { JAVA_API_URL } from "../utils/const";
 import type { UserPreInfo, UserSignupInfo } from "../types/type";
@@ -18,6 +19,7 @@ const schema = yup.object().shape({
   accountName: yup
     .string()
     .required("アカウント名を入力してください")
+    .trim()
     .max(30, "アカウント名は30文字以内で入力してください"),
   //入社年のバリデーション
   hireDate: yup
@@ -133,11 +135,11 @@ export const useSignup = (userToken: string) => {
           passwordConf: "",
         });
 
+        router.push("/auth/signup/compsignup");
         //ローディング画面の閉じる
         setIsLoading(false);
-        router.push("/auth/signup/compsignup");
       } else {
-        alert(res.data.message);
+        toast.error(res.data.message);
         //ローディング画面の閉じる
         setIsLoading(false);
       }

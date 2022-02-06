@@ -69,10 +69,10 @@ export const useForgetPass = () => {
         );
         //メール認証に成功した場合
         if (res.data.status === "success") {
-          //ローディング画面の閉じる
-          setIsLoading(false);
           //メール認証成功したらモーダルを開ける
           setModalStatus(true);
+          //ローディング画面の閉じる
+          setIsLoading(false);
         } else {
           alert(res.data.message);
           //ローディング画面の閉じる

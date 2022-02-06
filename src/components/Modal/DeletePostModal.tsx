@@ -11,7 +11,8 @@ type Props = {
     | "タイムライン"
     | "タイムラインコメント"
     | "レビュー"
-    | "レビューコメント"; //レビューかタイムラインか
+    | "レビューコメント"
+    | "いいね履歴コメント"; //レビューかタイムラインか
   success: () => void; //削除成功後にデータ再読み込み
   modalStatus: boolean; //モーダルの開閉状況
   closeModal: () => void;
@@ -27,7 +28,7 @@ export const DeletePostModal: FC<Props> = memo((props) => {
   const { hash } = useContext(loginIdContext);
 
   // 投稿削除のカスタムフックを使用
-  const { deletePost } = useDeletePost(postId, type, success, hash);
+  const { deletePost } = useDeletePost(postId, type, success, hash, closeModal);
 
   return (
     <>

@@ -78,13 +78,13 @@ export const useLogin = () => {
           router.push("/timeline");
         } else {
           //ログインに失敗した場合、エラーメッセージアラートを表示
-          alert(res.data.message);
+          toast.error(res.data.message);
         }
       } catch (error) {
         alert(error);
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [reset, router],
   );
 

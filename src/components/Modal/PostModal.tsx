@@ -11,11 +11,12 @@ import { useTimelinePost } from "../../hooks/useTimelinePost";
 import { useTimelineCommentPost } from "../../hooks/useTimelineCommentPost";
 import { useReviewPost } from "../../hooks/useReviewPost";
 import { useReviewCommentPost } from "../../hooks/useReviewCommentPost";
+import toast from "react-hot-toast";
 
 type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
   closeModal: () => void; // モーダルを閉じるメソッド
-  title: "レビュー" | "つぶやき" | "つぶやきにコメント" | "レビューコメント"; // レビュー/つぶやき/コメント
+  title: "レビュー" | "つぶやき" | "つぶやきへのコメント" | "レビューへのコメント"; // レビュー/つぶやき/コメント
   restaurantId?: number; // 店のID(レビュー投稿なら渡ってくる)。投稿の際にAPIに渡す。
   postId?: number; // タイムラインもしくはレビューのID(コメント投稿なら渡ってくる)。投稿の際にAPIに渡す
   success: () => void; //投稿完了後、自動で更新したい場合は更新のメソッドを渡す
@@ -53,12 +54,15 @@ export const PostModal: FC<Props> = memo((props) => {
    * titleによって投稿するAPIを変える。
    */
   const sendPost = useCallback(() => {
-    if (post === "") {
-      alert("入力して下さい");
+    //post内容から空欄を除いたもの
+    const noSpace = post.trim();
+
+    if (post === "" || noSpace === "") {
+      toast.error("文字を入力して下さい");
       return;
     }
     if (post.length > 140) {
-      alert(`${title}は140文字以内にして下さい`);
+      toast.error(`${title}は140文字以内にして下さい`);
       return;
     }
 
@@ -67,9 +71,10 @@ export const PostModal: FC<Props> = memo((props) => {
       reviewPost(post, star, restaurantId, success);
       closeModal();
       setPost("");
+      setStar(starOptions[0]);
     }
 
-    if (title === "レビューコメント") {
+    if (title === "レビューへのコメント") {
       reviewCommentPost(postId, post, success);
       closeModal();
       setPost("");
@@ -82,7 +87,7 @@ export const PostModal: FC<Props> = memo((props) => {
       setPost("");
     }
 
-    if (title === "つぶやきにコメント") {
+    if (title === "つぶやきへのコメント") {
       timelineCommentPost(postId, post, success);
       closeModal();
       setPost("");
@@ -96,11 +101,21 @@ export const PostModal: FC<Props> = memo((props) => {
     reviewPost,
     setPost,
     star,
+    setStar,
     success,
     timelineCommentPost,
     timelinePost,
     title,
   ]);
+
+  /**
+   * 投稿をキャンセルするメソッド.
+   */
+  const canselPost = useCallback(() => {
+    closeModal();
+    setPost("");
+    setStar(starOptions[0]);
+  }, [closeModal, setPost, setStar]);
 
   return (
     <>
@@ -108,7 +123,7 @@ export const PostModal: FC<Props> = memo((props) => {
         <Dialog
           as="div"
           className="fixed inset-0 z-10 overflow-y-auto"
-          onClose={closeModal}
+          onClose={canselPost}
         >
           {/* モーダルの背景を暗くする */}
           <Dialog.Overlay className="fixed inset-0 bg-black opacity-50" />
@@ -163,49 +178,53 @@ export const PostModal: FC<Props> = memo((props) => {
                         つ
                       </div>
                     )}
-                    {title}内容を下記に入力して下さい。(140字以内)
+                    <div className="flex text-center justify-center flex-col md:flex-row mt-10">
+                      <div>{title}内容を下記に入力して下さい</div>
+                      <div>(140字以内)</div>
+                    </div>
                   </div>
                   <div className="flex flex-col sm:flex-row mt-5">
-                    <div className="ml-5">
-                      {userPhoto ? (
-                        <>
-                          <Image
-                            src={`/image/userIcon/${userPhoto}`}
-                            width={100}
-                            height={100}
-                            alt="icon"
-                            className="rounded-full"
-                          />
-                        </>
-                      ) : (
-                        <div className="w-28 h-28 rounded-full bg-gray-200 flex items-center pl-5 mb-5">
-                          No Image
-                        </div>
-                      )}
-                    </div>
-                    <div className="sm:mx-5">
-                      <form>
-                        <TextArea
-                          value={post}
-                          rows={10}
-                          cols={28}
-                          onChange={inputPost}
+                    {userPhoto ? (
+                      <div>
+                        <Image
+                          src={`/image/userIcon/${userPhoto}`}
+                          width={100}
+                          height={100}
+                          alt="icon"
+                          className="rounded-full"
                         />
-                      </form>
-                      <span className={`${postLength < 0 && "text-red-700"}`}>
+                      </div>
+                    ) : (
+                      <div className="w-28 h-28 rounded-full bg-gray-200 flex items-center pl-5 mb-5">
+                        No Image
+                      </div>
+                    )}
+
+                    <div className="sm:mx-10">
+                      <div
+                        className={`${
+                          postLength < 0 && "text-red-700"
+                        } text-right`}
+                      >
                         残り文字数：{postLength}
-                      </span>
+                      </div>
+                      <TextArea
+                        value={post}
+                        rows={10}
+                        cols={45}
+                        onChange={inputPost}
+                      />
                     </div>
                   </div>
                 </div>
                 {/* 投稿/キャンセルのボタン */}
-                <div className="mt-4 flex gap-5 justify-center">
+                <div className="mt-7 flex gap-10 justify-center">
                   <Button label={"投稿"} onClick={sendPost} />
                   <Button
                     backgroundColor="#f6f0ea"
                     color="#622d18"
                     label={"キャンセル"}
-                    onClick={closeModal}
+                    onClick={canselPost}
                   />
                 </div>
               </div>
