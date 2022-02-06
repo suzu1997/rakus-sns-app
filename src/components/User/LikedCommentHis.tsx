@@ -1,8 +1,8 @@
 import { FC, memo } from "react";
 import { useCallback, useContext } from "react";
 import { useRouter } from "next/router";
+import { useSWRConfig } from "swr";
 import Image from "next/image";
-import useSWR from "swr";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -39,6 +39,9 @@ export const LikedCommentHis: FC<Props> = memo((props) => {
   //ルーターリンク
   const router = useRouter();
 
+  //useSWRConfig() フックから mutate 関数を取得
+  const { mutate } = useSWRConfig();
+
   /**
    * 画像クリックで投稿ユーザ情報ページに飛ぶ.
    * @param userId - 投稿者ID
@@ -50,11 +53,6 @@ export const LikedCommentHis: FC<Props> = memo((props) => {
     [router],
   );
 
-  /**
-   * APIで初期表示用データ取得.
-   */
-  const { mutate } = useSWR(`${JAVA_API_URL}/user/${userId}/${hash}`);
- 
   /**
    * 押下投稿の詳細に画面遷移.
    * @remarks 受け取った記事IDの詳細画面に遷移
@@ -94,8 +92,8 @@ export const LikedCommentHis: FC<Props> = memo((props) => {
    * 成功すると呼ばれる。
    */
   const updateData = useCallback(() => {
-    mutate(); // 履歴一覧を再検証・再取得する
-  }, [mutate]);
+    mutate(`${JAVA_API_URL}/user/${userId}/${hash}`); // 履歴一覧を再検証・再取得する
+  }, [hash, mutate, userId]);
 
   return (
     <div

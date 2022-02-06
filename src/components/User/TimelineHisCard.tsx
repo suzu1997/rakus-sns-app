@@ -1,8 +1,8 @@
 import { FC, memo } from "react";
 import { useCallback, useContext } from "react";
 import { useRouter } from "next/router";
+import { useSWRConfig } from "swr";
 import Image from "next/image";
-import useSWR from "swr";
 
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import type { Timeline } from "../../types/type";
@@ -39,6 +39,9 @@ export const TimelineHisCard: FC<Props> = memo((props) => {
   //ルーターリンク
   const router = useRouter();
 
+  //useSWRConfig() フックから mutate 関数を取得
+  const { mutate } = useSWRConfig();
+
   /**
    * 画像クリックで投稿ユーザ情報ページに飛ぶ.
    * @param userId - 投稿者ID
@@ -63,19 +66,14 @@ export const TimelineHisCard: FC<Props> = memo((props) => {
   );
 
   /**
-   * APIで初期表示用データ取得.
-   */
-  const { mutate } = useSWR(`${JAVA_API_URL}/user/${userId}/${hash}`);
-
-  /**
    * 履歴表示一覧の情報を更新するメソッド.
    *
    * @remarks
    * 成功すると呼ばれる。
    */
   const updateData = useCallback(() => {
-    mutate(); // 履歴一覧を再検証・再取得する
-  }, [mutate]);
+    mutate(`${JAVA_API_URL}/user/${userId}/${hash}`); // 履歴一覧を再検証・再取得する
+  }, [hash, mutate, userId]);
 
   return (
     <div
