@@ -115,16 +115,6 @@ const User: NextPage = () => {
             )}
           </div>
 
-          {/* <div className="w-full text-center mb-2">
-            <Button
-              label="投稿を再読み込み"
-              size="lg"
-              onClick={() => {
-                alert("新しいつぶやき読み込み");
-              }}
-            />
-          </div> */}
-
           {/* タブ（履歴表示欄） */}
           <div className="w-full px-2 sm:px-0">
             <Tab.Group>
@@ -156,7 +146,6 @@ const User: NextPage = () => {
                         (timelineHis: Timeline) => (
                           <TimelineHisCard
                             {...timelineHis}
-                            type="つぶやき履歴"
                             key={timelineHis.id}
                           />
                         ),
@@ -190,7 +179,6 @@ const User: NextPage = () => {
                         (likedTimelineHis: Timeline) => (
                           <TimelineHisCard
                             {...likedTimelineHis}
-                            type="いいね履歴つぶやき"
                             key={likedTimelineHis.id}
                           />
                         ),
@@ -225,7 +213,6 @@ const User: NextPage = () => {
                         (likedCommentHis: CommentHis) => (
                           <LikedCommentHis
                             {...likedCommentHis}
-                            type="いいね履歴つぶやき"
                             key={likedCommentHis.id}
                           />
                         ),
