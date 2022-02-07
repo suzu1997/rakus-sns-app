@@ -88,13 +88,13 @@ export const useUserEdit = (userData: UserInfo) => {
     resolver: yupResolver(schema),
     //初期値はログインしている人のデータを入れる
     defaultValues: {
-      firstName: formatFirstName,
-      lastName: formatLastName,
-      accountName: userData?.accountName,
-      hireDate: formatHireDate,
-      birthDay: userData?.birthDay,
-      serviceFk: String(userData?.serviceFk),
-      introduction: userData?.introduction,
+      firstName: formatFirstName, //姓
+      lastName: formatLastName, //名
+      accountName: userData?.accountName, //アカウント名
+      hireDate: formatHireDate, //入社年月
+      birthDay: userData?.birthDay, //誕生日
+      serviceFk: String(userData?.serviceFk), //職種
+      introduction: userData?.introduction, //自己紹介
     },
   });
 
