@@ -64,7 +64,7 @@ export const ReviewList: FC = memo(() => {
       {data &&
         // dataはページごとの連想配列の配列
         data.map((pageData) =>
-          pageData.reviewList.map((review: LunchReview) => {
+          pageData.reviewList?.map((review: LunchReview) => {
             return (
               <div key={review.id}>
                 <ReviewCard
