@@ -98,59 +98,6 @@ export const useDeletePost = (
           closeModal();
         }
       }
-
-      //いいね履歴コメントに対する削除
-      if (type === "いいね履歴コメント") {
-        try {
-          const res = await axios.get(
-            `${JAVA_API_URL}/comment/${postId}/${hash}`,
-          );
-          //メッセージ内容
-          const responseMessage = res.data.message;
-          //いいねコメントがつぶやきの場合
-          if (
-            responseMessage ===
-            "このコメントがあるタイムライン詳細の検索に成功しました"
-          ) {
-            const res = await axios.delete(
-              `${JAVA_API_URL}/timeline/comment/${postId}/${hash}`,
-            );
-            if (res.data.status === "success") {
-              toast.success("削除しました");
-              //リロード
-              if (success) {
-                success();
-              }
-              closeModal();
-            } else {
-              toast.error(res.data.message);
-              closeModal();
-            }
-          }
-          //いいねコメントがレビューの場合
-          else if (
-            responseMessage ===
-            "このコメントがあるレビュー詳細の検索に成功しました"
-          ) {
-            const res = await axios.delete(
-              `${JAVA_API_URL}/review/comment/${postId}/${hash}`,
-            );
-            if (res.data.status === "success") {
-              closeModal();
-              toast.success("削除しました");
-              //リロード
-              if (success) {
-                success();
-              }
-            } else {
-              toast.error(res.data.message);
-              closeModal();
-            }
-          }
-        } catch (e) {
-          toast.error("投稿が見つかりませんでした。");
-        }
-      }
     } catch (error) {
       toast.error("削除に失敗しました");
       closeModal();

@@ -56,7 +56,6 @@ export const TimelineHisCard: FC<Timeline> = memo((props) => {
   const goDetailTimelinePage = useCallback(
     (postId: number) => {
       router.push(`/timeline/${postId}`);
-      // router.push(`/lunch/review/${postId}`);
     },
     [router],
   );

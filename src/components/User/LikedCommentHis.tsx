@@ -1,15 +1,12 @@
 import { FC, memo } from "react";
 import { useCallback, useContext } from "react";
 import { useRouter } from "next/router";
-import { useSWRConfig } from "swr";
 import Image from "next/image";
 import axios from "axios";
 import toast from "react-hot-toast";
 
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import type { CommentHis } from "../../types/type";
-import { FavoBtn } from "../Button/FavoBtn";
-import { TrashBtn } from "../Button/TrashBtn";
 import { JAVA_API_URL } from "../../utils/const";
 import { getFormattedDate } from "../../utils/methods";
 
@@ -17,26 +14,14 @@ import { getFormattedDate } from "../../utils/methods";
  * いいねコメント履歴を表示するコンポーネント
  */
 export const LikedCommentHis: FC<CommentHis> = memo((props) => {
-  const {
-    id,
-    userId,
-    accountName,
-    userPhotoPath,
-    comment,
-    commentLikeCount,
-    actionedTime,
-    myLike,
-  } = props;
+  const { id, userId, accountName, userPhotoPath, comment, actionedTime } =
+    props;
 
-  //ログインID
-  const { loginId } = useContext(loginIdContext);
+  //ハッシュ値
   const { hash } = useContext(loginIdContext);
 
   //ルーターリンク
   const router = useRouter();
-
-  //useSWRConfig() フックから mutate 関数を取得
-  const { mutate } = useSWRConfig();
 
   /**
    * 画像クリックで投稿ユーザ情報ページに飛ぶ.
@@ -81,16 +66,6 @@ export const LikedCommentHis: FC<CommentHis> = memo((props) => {
     [hash, router],
   );
 
-  /**
-   * 履歴表示一覧の情報を更新するメソッド.
-   *
-   * @remarks
-   * 成功すると呼ばれる。
-   */
-  const updateData = useCallback(() => {
-    mutate(`${JAVA_API_URL}/user/${userId}/${hash}`); // 履歴一覧を再検証・再取得する
-  }, [hash, mutate, userId]);
-
   return (
     <div
       key={id}
@@ -104,7 +79,7 @@ export const LikedCommentHis: FC<CommentHis> = memo((props) => {
       >
         <span className="text-xl font-extrabold pt-3 pb-3">{accountName}</span>
         <span className="ml-7">
-          つぶやき日時:
+          コメント日時:
           {getFormattedDate(new Date(actionedTime))}
         </span>
       </div>
@@ -131,22 +106,6 @@ export const LikedCommentHis: FC<CommentHis> = memo((props) => {
         >
           {comment}
         </span>
-      </div>
-      <div className="w-full text-right py-3">
-        <FavoBtn
-          postId={id}
-          favoCount={commentLikeCount}
-          isFavo={myLike}
-          type="いいね履歴コメント"
-          success={updateData}
-        />
-        {Number(loginId) === userId && (
-          <TrashBtn
-            postId={id}
-            type="いいね履歴コメント"
-            success={updateData}
-          />
-        )}
       </div>
     </div>
   );
