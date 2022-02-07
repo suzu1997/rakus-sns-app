@@ -123,7 +123,10 @@ const TweetDetail: NextPage<Props> = (props) => {
   );
 };
 
-// SSR
+/**
+ * SSRで初期データ取得.
+ * @returns つぶやき詳細データ
+ */
 export const getServerSideProps: GetServerSideProps = async (
   ctx: GetServerSidePropsContext,
 ) => {
