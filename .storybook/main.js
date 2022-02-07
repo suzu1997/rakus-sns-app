@@ -6,5 +6,6 @@ module.exports = {
     "@storybook/addon-postcss",
     '@storybook/addon-interactions',
   ],
+  staticDirs: ['../public'], // Storybookで使用する静的ファイルを指定
   framework: "@storybook/react",
 };
