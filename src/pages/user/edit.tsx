@@ -1,5 +1,12 @@
-import { NextPage } from "next";
+import {
+  NextPage,
+  GetServerSideProps,
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+} from "next";
 import Image from "next/image";
+import Cookies from "universal-cookie";
+
 import { TextInput } from "../../components/Form/TextInput";
 import { Button } from "../../components/Button/Button";
 import { Radio } from "../../components/Form/Radio";
@@ -7,12 +14,16 @@ import { TextArea } from "../../components/Form/TextArea";
 import { PasswordModal } from "../../components/Modal/PasswordModal";
 import { useUserEdit } from "../../hooks/useUserEdit";
 import { useModal } from "../../hooks/useModal";
+import { JAVA_API_URL } from "../../utils/const";
+import { UserInfo } from "../../types/type";
 
+type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
 /**
  * ユーザー情報編集画面
  * @returns ユーザー情報を編集するためのページ
  */
-const Edit: NextPage = () => {
+const Edit: NextPage<Props> = (props) => {
+  const { initialData } = props;
   const { handleSubmit, cancel, register, errors, onSubmit, userData } =
     useUserEdit();
 
@@ -186,4 +197,22 @@ const Edit: NextPage = () => {
     </>
   );
 };
+
+/**
+ * SSRで初期データ取得.
+ * @returns つぶやき詳細データ
+ */
+export const getServerSideProps: GetServerSideProps = async (
+  ctx: GetServerSidePropsContext,
+) => {
+  const cookies = new Cookies(ctx.req.headers.cookie);
+  const hash = cookies.get("hash");
+  const res = await fetch(`${JAVA_API_URL}/user/${hash}`);
+  const initialData: UserInfo = await res.json();
+
+  return {
+    props: { initialData },
+  };
+};
+
 export default Edit;
