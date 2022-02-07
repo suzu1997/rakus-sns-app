@@ -17,7 +17,11 @@ export const getAllRestaurantsIds: () => Promise<{
   const json = await res.json();
   const restaurants: Array<Restaurant> = json.restaurant;
 
-  return restaurants.map((restaurant: Restaurant) => {
+  if (!restaurants) {
+    return [];
+  }
+
+  return restaurants?.map((restaurant: Restaurant) => {
     return {
       params: {
         id: String(restaurant.id),

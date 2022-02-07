@@ -148,7 +148,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 //idに基づいて必要なデータを取得
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const staticData = await getRestaurantData(Number(params!.id));
+  const staticData = await getRestaurantData(Number(params?.id));
   return {
     props: {
       staticData,
