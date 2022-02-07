@@ -61,7 +61,7 @@ const schema = yup.object().shape({
  * - errors:エラー
  * - onSubmit:更新ボタンを押した時のメソッド
  */
-export const useUserEdit = () => {
+export const useUserEdit = (userData: UserInfo) => {
   //ログインID
   const { hash } = useContext(loginIdContext);
   const { loginId } = useContext(loginIdContext);
@@ -72,8 +72,8 @@ export const useUserEdit = () => {
   /**
    * APIで初期表示用データ取得.
    */
-  const { data } = useSWR(`${JAVA_API_URL}/user/${hash}`);
-  const userData: UserInfo = data?.user;
+  // const { data } = useSWR(`${JAVA_API_URL}/user/${hash}`);
+  // const userData: UserInfo = data?.user;
 
   // 年月だけ取得したい初期値は、日付を削る必要があるため
   const defaultHireDate = userData?.hireDate;

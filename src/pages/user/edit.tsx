@@ -25,7 +25,7 @@ type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
 const Edit: NextPage<Props> = (props) => {
   const { initialData } = props;
   const { handleSubmit, cancel, register, errors, onSubmit, userData } =
-    useUserEdit();
+    useUserEdit(initialData.user);
 
   const modalStore = useModal();
   const { modalStatus, openModal, closeModal } = modalStore;
