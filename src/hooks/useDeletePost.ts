@@ -5,15 +5,21 @@ import { JAVA_API_URL } from "../utils/const";
 
 /**
  * 投稿を削除するためのカスタムフック.
- * 
+ *
  * @param postId - 削除する投稿のID
  * @param type - 何を削除するか
  * @param success - 削除成功後の処理
  * @param hash - ユーザーのハッシュ
- * @returns 
+ * @returns
  * 投稿を削除するメソッド。
  */
-export const useDeletePost = (postId: number, type: string, success: () => void, hash: string, closeModal: () => void) => {
+export const useDeletePost = (
+  postId: number,
+  type: string,
+  success: () => void,
+  hash: string,
+  closeModal: () => void,
+) => {
   /**
    * 削除モーダルのはいボタン押下で発動.
    */
@@ -77,7 +83,9 @@ export const useDeletePost = (postId: number, type: string, success: () => void,
       }
 
       if (type === "レビューコメント") {
-        const res = await axios.delete(`${JAVA_API_URL}/review/comment/${postId}/${hash}`);
+        const res = await axios.delete(
+          `${JAVA_API_URL}/review/comment/${postId}/${hash}`,
+        );
         if (res.data.status === "success") {
           closeModal();
           toast.success("削除しました");
@@ -88,6 +96,59 @@ export const useDeletePost = (postId: number, type: string, success: () => void,
         } else {
           toast.error(res.data.message);
           closeModal();
+        }
+      }
+
+      //いいね履歴コメントに対する削除
+      if (type === "いいね履歴コメント") {
+        try {
+          const res = await axios.get(
+            `${JAVA_API_URL}/comment/${postId}/${hash}`,
+          );
+          //メッセージ内容
+          const responseMessage = res.data.message;
+          //いいねコメントがつぶやきの場合
+          if (
+            responseMessage ===
+            "このコメントがあるタイムライン詳細の検索に成功しました"
+          ) {
+            const res = await axios.delete(
+              `${JAVA_API_URL}/timeline/comment/${postId}/${hash}`,
+            );
+            if (res.data.status === "success") {
+              toast.success("削除しました");
+              //リロード
+              if (success) {
+                success();
+              }
+              closeModal();
+            } else {
+              toast.error(res.data.message);
+              closeModal();
+            }
+          }
+          //いいねコメントがレビューの場合
+          else if (
+            responseMessage ===
+            "このコメントがあるレビュー詳細の検索に成功しました"
+          ) {
+            const res = await axios.delete(
+              `${JAVA_API_URL}/review/comment/${postId}/${hash}`,
+            );
+            if (res.data.status === "success") {
+              closeModal();
+              toast.success("削除しました");
+              //リロード
+              if (success) {
+                success();
+              }
+            } else {
+              toast.error(res.data.message);
+              closeModal();
+            }
+          }
+        } catch (e) {
+          toast.error("投稿が見つかりませんでした。");
         }
       }
     } catch (error) {
