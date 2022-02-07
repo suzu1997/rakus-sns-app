@@ -23,10 +23,12 @@ type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
  * @returns ユーザー情報を編集するためのページ
  */
 const Edit: NextPage<Props> = (props) => {
+  //初期表示用データ
   const { initialData } = props;
+  //ユーザ情報編集用hook
   const { handleSubmit, cancel, register, errors, onSubmit, userData } =
     useUserEdit(initialData.user);
-
+  //モーダルを使用するhook
   const modalStore = useModal();
   const { modalStatus, openModal, closeModal } = modalStore;
 
@@ -200,7 +202,7 @@ const Edit: NextPage<Props> = (props) => {
 
 /**
  * SSRで初期データ取得.
- * @returns つぶやき詳細データ
+ * @returns ユーザ情報初期表示用データ
  */
 export const getServerSideProps: GetServerSideProps = async (
   ctx: GetServerSidePropsContext,
