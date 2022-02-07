@@ -89,7 +89,8 @@ export const LikedCommentHis: FC<CommentHis> = memo((props) => {
    */
   const updateData = useCallback(() => {
     mutate(`${JAVA_API_URL}/user/${userId}/${hash}`); // 履歴一覧を再検証・再取得する
-  }, [hash, mutate, userId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mutate]);
 
   return (
     <div
