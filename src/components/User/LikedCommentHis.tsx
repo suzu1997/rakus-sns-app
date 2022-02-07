@@ -89,8 +89,7 @@ export const LikedCommentHis: FC<CommentHis> = memo((props) => {
    */
   const updateData = useCallback(() => {
     mutate(`${JAVA_API_URL}/user/${userId}/${hash}`); // 履歴一覧を再検証・再取得する
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mutate]);
+  }, [hash, mutate, userId]);
 
   return (
     <div
@@ -105,7 +104,7 @@ export const LikedCommentHis: FC<CommentHis> = memo((props) => {
       >
         <span className="text-xl font-extrabold pt-3 pb-3">{accountName}</span>
         <span className="ml-7">
-          つぶやき日時:
+          コメント日時:
           {getFormattedDate(new Date(actionedTime))}
         </span>
       </div>
