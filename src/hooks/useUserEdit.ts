@@ -72,7 +72,7 @@ export const useUserEdit = () => {
   /**
    * APIで初期表示用データ取得.
    */
-  const { data } = useSWR(`${JAVA_API_URL}/user/${loginId}/${hash}`);
+  const { data } = useSWR(`${JAVA_API_URL}/user/${hash}`);
   const userData: UserInfo = data?.user;
 
   // 年月だけ取得したい初期値は、日付を削る必要があるため
