@@ -1,11 +1,10 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { format } from "date-fns";
 import toast from "react-hot-toast";
 import axios from "axios";
-import useSWR from "swr";
 import * as yup from "yup";
 
 import { loginIdContext } from "../providers/LoginIdProvider";
@@ -60,6 +59,7 @@ const schema = yup.object().shape({
  * - handleSubmit:データを入力した際のリアルタイム更新
  * - errors:エラー
  * - onSubmit:更新ボタンを押した時のメソッド
+ * @params userData - 初期表示用データ
  */
 export const useUserEdit = (userData: UserInfo) => {
   //ログインID
@@ -68,12 +68,6 @@ export const useUserEdit = (userData: UserInfo) => {
 
   //ルーターリンク
   const router = useRouter();
-
-  /**
-   * APIで初期表示用データ取得.
-   */
-  // const { data } = useSWR(`${JAVA_API_URL}/user/${hash}`);
-  // const userData: UserInfo = data?.user;
 
   // 年月だけ取得したい初期値は、日付を削る必要があるため
   const defaultHireDate = userData?.hireDate;
@@ -89,7 +83,6 @@ export const useUserEdit = (userData: UserInfo) => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -104,18 +97,6 @@ export const useUserEdit = (userData: UserInfo) => {
       introduction: userData?.introduction,
     },
   });
-
-  useEffect(() => {
-    reset({
-      firstName: formatFirstName,
-      lastName: formatLastName,
-      accountName: userData?.accountName,
-      hireDate: formatHireDate,
-      birthDay: userData?.birthDay,
-      serviceFk: String(userData?.serviceFk),
-      introduction: userData?.introduction,
-    });
-  }, [reset, userData, formatFirstName, formatLastName, formatHireDate]);
 
   /**
    * 更新ボタンを押した時に呼ばれる
@@ -151,7 +132,7 @@ export const useUserEdit = (userData: UserInfo) => {
         //更新完了でユーザ情報画面に戻る
         router.push(`/user/${loginId}`);
       } else {
-        toast.error("エラー" + res.data.message);
+        toast.error("エラー:" + res.data.message);
       }
     } catch (error) {
       console.log(error);
