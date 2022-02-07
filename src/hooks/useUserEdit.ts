@@ -1,11 +1,10 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { format } from "date-fns";
 import toast from "react-hot-toast";
 import axios from "axios";
-import useSWR from "swr";
 import * as yup from "yup";
 
 import { loginIdContext } from "../providers/LoginIdProvider";
@@ -17,16 +16,20 @@ const schema = yup.object().shape({
   //姓のバリデーション
   firstName: yup
     .string()
+    .trim()
     .required("姓名を入力してください")
     .max(15, "姓名は15文字以内で入力してください"),
+
   //名のバリデーション
   lastName: yup
     .string()
+    .trim()
     .required("名前を入力してください")
     .max(15, "名前は15文字以内で入力してください"),
   //アカウント名のバリデーション
   accountName: yup
     .string()
+    .trim()
     .required("アカウント名を入力してください")
     .typeError("アカウント名を入力してください")
     .max(30, "アカウント名は30文字以内で入力してください"),
@@ -56,20 +59,15 @@ const schema = yup.object().shape({
  * - handleSubmit:データを入力した際のリアルタイム更新
  * - errors:エラー
  * - onSubmit:更新ボタンを押した時のメソッド
+ * @params userData - 初期表示用データ
  */
-export const useUserEdit = () => {
+export const useUserEdit = (userData: UserInfo) => {
   //ログインID
   const { hash } = useContext(loginIdContext);
   const { loginId } = useContext(loginIdContext);
 
   //ルーターリンク
   const router = useRouter();
-
-  /**
-   * APIで初期表示用データ取得.
-   */
-  const { data } = useSWR(`${JAVA_API_URL}/user/${loginId}/${hash}`);
-  const userData: UserInfo = data?.user;
 
   // 年月だけ取得したい初期値は、日付を削る必要があるため
   const defaultHireDate = userData?.hireDate;
@@ -85,33 +83,20 @@ export const useUserEdit = () => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
     //初期値はログインしている人のデータを入れる
     defaultValues: {
-      firstName: formatFirstName,
-      lastName: formatLastName,
-      accountName: userData?.accountName,
-      hireDate: formatHireDate,
-      birthDay: userData?.birthDay,
-      serviceFk: String(userData?.serviceFk),
-      introduction: userData?.introduction,
+      firstName: formatFirstName, //姓
+      lastName: formatLastName, //名
+      accountName: userData?.accountName, //アカウント名
+      hireDate: formatHireDate, //入社年月
+      birthDay: userData?.birthDay, //誕生日
+      serviceFk: String(userData?.serviceFk), //職種
+      introduction: userData?.introduction, //自己紹介
     },
   });
-
-  useEffect(() => {
-    reset({
-      firstName: formatFirstName,
-      lastName: formatLastName,
-      accountName: userData?.accountName,
-      hireDate: formatHireDate,
-      birthDay: userData?.birthDay,
-      serviceFk: String(userData?.serviceFk),
-      introduction: userData?.introduction,
-    });
-  }, [reset, userData, formatFirstName, formatLastName, formatHireDate]);
 
   /**
    * 更新ボタンを押した時に呼ばれる
@@ -119,24 +104,6 @@ export const useUserEdit = () => {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
-    //入力内容から空欄を除いたもの
-    const noAccountName = data.accountName.trim();
-    const noSpaceFirstName = data.firstName.trim();
-    const noSpaceLastName = data.lastName.trim();
-    const noSpaceIntroduction = data.introduction?.trim();
-    //もし下記項目がスペースのみで送信していたらエラーで弾く
-    if (!noAccountName || !noSpaceFirstName || !noSpaceLastName) {
-      toast.error("スペースのみでは登録できません。");
-      return;
-    }
-
-    if (!noSpaceIntroduction && data.introduction != "") {
-      toast.error(
-        "自己紹介はスペースのみでは登録できません。文字を入れるか完全に空にしてください。",
-      );
-      return;
-    }
-
     //名前：姓＋名
     const name = data.firstName + " " + data.lastName;
     //入社月のフォーマット変更
@@ -165,7 +132,7 @@ export const useUserEdit = () => {
         //更新完了でユーザ情報画面に戻る
         router.push(`/user/${loginId}`);
       } else {
-        toast.error("エラー" + res.data.message);
+        toast.error("エラー:" + res.data.message);
       }
     } catch (error) {
       console.log(error);

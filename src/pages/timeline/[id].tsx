@@ -1,8 +1,14 @@
 import { useCallback, useContext, useEffect } from "react";
-import { NextPage } from "next";
+import {
+  GetServerSideProps,
+  GetServerSidePropsContext,
+  NextPage,
+  InferGetServerSidePropsType,
+} from "next";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import toast from "react-hot-toast";
+import Cookies from "universal-cookie";
 
 import { Button } from "../../components/Button/Button";
 import { PostBtn } from "../../components/Button/PostBtn";
@@ -12,12 +18,15 @@ import { TimelineDetailPage } from "../../components/Timeline/TimelineDetail";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import type { Timeline, Comment } from "../../types/type";
 import { JAVA_API_URL } from "../../utils/const";
+import { fetcher } from "../../utils/fetcher";
 
+type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
 /**
  * つぶやき詳細画面.
  * @returns つぶやき詳細画面
  */
-const TweetDetail: NextPage = () => {
+const TweetDetail: NextPage<Props> = (props) => {
+  const { initialData } = props;
   //ログインID
   const { hash } = useContext(loginIdContext);
 
@@ -39,6 +48,8 @@ const TweetDetail: NextPage = () => {
    */
   const { data, error, mutate } = useSWR(
     `${JAVA_API_URL}/timeline/detail/${postId}/${hash}`,
+    fetcher,
+    { fallbackData: initialData },
   );
 
   /**
@@ -110,6 +121,25 @@ const TweetDetail: NextPage = () => {
       </div>
     </>
   );
+};
+
+/**
+ * SSRで初期データ取得.
+ * @returns つぶやき詳細データ
+ */
+export const getServerSideProps: GetServerSideProps = async (
+  ctx: GetServerSidePropsContext,
+) => {
+  const cookies = new Cookies(ctx.req.headers.cookie);
+  const hash = cookies.get("hash");
+
+  const postId = Number(ctx.query.id);
+  const res = await fetch(`${JAVA_API_URL}/timeline/detail/${postId}/${hash}`);
+  const initialData: Timeline = await res.json();
+
+  return {
+    props: { initialData },
+  };
 };
 
 export default TweetDetail;
