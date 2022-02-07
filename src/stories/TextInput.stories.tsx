@@ -1,68 +1,69 @@
-import type { ComponentStory, ComponentMeta } from "@storybook/react";
+import type { ComponentStoryObj, ComponentMeta } from "@storybook/react";
 import { TextInput } from "../components/Form/TextInput";
 
 export default {
-  title: "TextInput",
   component: TextInput,
 } as ComponentMeta<typeof TextInput>;
 
-const Template: ComponentStory<typeof TextInput> = (args) => (
-  <TextInput {...args} />
-);
-
-export const Default: ComponentStory<typeof TextInput> = Template.bind({});
-Default.args = {
-  label: "Default",
-  placeholder: "〇〇を入力してください。",
+export const Default: ComponentStoryObj<typeof TextInput> = {
+  args: {
+    label: "Default",
+    placeholder: "〇〇を入力してください。",
+  },
+  storyName: "デフォルト",
 };
-Default.storyName = "デフォルト";
 
-export const Required: ComponentStory<typeof TextInput> = Template.bind({});
-Required.args = {
-  label: "Required",
-  value: "",
-  fullWidth: true,
-  type: "text",
-  required: true,
+export const Required: ComponentStoryObj<typeof TextInput> = {
+  args: {
+    label: "Required",
+    value: "",
+    fullWidth: true,
+    type: "text",
+    required: true,
+  },
+  storyName: "必須項目",
 };
-Required.storyName = "必須項目";
 
-export const UserName: ComponentStory<typeof TextInput> = Template.bind({});
-UserName.args = {
-  label: "アカウント名",
-  value: "",
-  fullWidth: true,
-  type: "text",
-  required: true,
+export const UserName: ComponentStoryObj<typeof TextInput> = {
+  args: {
+    label: "アカウント名",
+    value: "",
+    fullWidth: true,
+    type: "text",
+    required: true,
+  },
+  storyName: "ユーザー名",
 };
-UserName.storyName = "ユーザー名";
 
-export const Email: ComponentStory<typeof TextInput> = Template.bind({});
-Email.args = {
-  label: "メールアドレス",
-  value: "",
-  fullWidth: true,
-  type: "email",
-  required: true,
+export const Email: ComponentStoryObj<typeof TextInput> = {
+  args: {
+    label: "メールアドレス",
+    value: "",
+    fullWidth: true,
+    type: "email",
+    required: true,
+  },
+  storyName: "メールアドレス",
 };
-Email.storyName = "メールアドレス";
 
-export const Password: ComponentStory<typeof TextInput> = Template.bind({});
-Password.args = {
-  label: "パスワード",
-  value: "",
-  fullWidth: true,
-  type: "password",
-  required: true,
+export const Password: ComponentStoryObj<typeof TextInput> = {
+  args: {
+    label: "パスワード",
+    value: "",
+    fullWidth: true,
+    type: "password",
+    required: true,
+  },
+  storyName: "パスワード",
 };
-Password.storyName = "パスワード";
 
-export const FirstName: ComponentStory<typeof TextInput> = Template.bind({});
-FirstName.args = {
-  label: "姓",
-  value: "",
-  fullWidth: false,
-  type: "text",
-  required: true,
+export const FirstName: ComponentStoryObj<typeof TextInput> = {
+  args: {
+    label: "姓",
+    value: "",
+    fullWidth: false,
+    type: "text",
+    required: true,
+  },
+  storyName: "姓",
 };
-FirstName.storyName = "姓";
