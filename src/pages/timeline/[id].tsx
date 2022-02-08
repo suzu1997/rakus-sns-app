@@ -56,13 +56,13 @@ const TweetDetail: NextPage<Props> = (props) => {
    * 通知画面から削除された投稿に遷移した場合のメソッド.
    */
   useEffect(() => {
-    if (data?.message === "つぶやきが存在しません") {
+    if (initialData?.message === "つぶやきが存在しません") {
       toast.error("投稿が削除された可能性があります");
       router.back();
     } else {
       return;
     }
-  }, [data?.message, router]);
+  }, [data.message, initialData?.message, router]);
 
   //つぶやき詳細データ
   const detailData: Timeline = data?.timeline;
@@ -76,7 +76,7 @@ const TweetDetail: NextPage<Props> = (props) => {
   }, [mutate]);
 
   //初期値エラー
-  if (!error && !data) {
+  if (!error && !initialData) {
     return (
       <div className="flex justify-center pt-10 w-full">
         <div className="animate-spin h-8 w-8 bg-basic rounded-xl"></div>
