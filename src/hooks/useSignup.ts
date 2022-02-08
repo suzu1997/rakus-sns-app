@@ -11,8 +11,6 @@ import toast from "react-hot-toast";
 import { JAVA_API_URL } from "../utils/const";
 import type { UserPreInfo, UserSignupInfo } from "../types/type";
 
-//現在の日時取得
-const nowDate = new Date();
 //バリデーションチェック
 const schema = yup.object().shape({
   //アカウント名のバリデーション
@@ -25,12 +23,12 @@ const schema = yup.object().shape({
   hireDate: yup
     .date()
     .typeError("入社年を入力してください")
-    .max(nowDate, "入社日は現在よりも前に設定して下さい"),
+    .max(new Date(), "入社日は現在よりも前に設定して下さい"),
   //誕生日のバリデーション
   birthDay: yup
     .date()
     .typeError("誕生日を入力してください")
-    .max(nowDate, "誕生日は現在よりも前に設定して下さい"),
+    .max(new Date(), "誕生日は現在よりも前に設定して下さい"),
   //パスワードのバリデーション
   password: yup
     .string()
@@ -126,7 +124,8 @@ export const useSignup = (userToken: string) => {
 
       //本登録に成功した場合
       if (res.data.status === "success") {
-        //会員登録に成功したら入力値をクリアして登録完了画面に遷移する;
+        //会員登録に成功したら登録完了画面に遷移し、入力値をクリアする;
+        router.push("/auth/signup/compsignup");
         reset({
           accountName: "",
           hireDate: "",
@@ -135,7 +134,6 @@ export const useSignup = (userToken: string) => {
           passwordConf: "",
         });
 
-        router.push("/auth/signup/compsignup");
         //ローディング画面の閉じる
         setIsLoading(false);
       } else {

@@ -58,7 +58,11 @@ const User: NextPage = () => {
   const userData: UserInfo = userInfo?.user;
 
   if (!error && !userInfo) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center pt-10 w-full">
+        <div className="animate-spin h-8 w-8 bg-basic rounded-xl"></div>
+      </div>
+    );
   }
   if (error) {
     return <div>データを取得できませんでした</div>;
@@ -150,6 +154,11 @@ const User: NextPage = () => {
                           />
                         ),
                       )}
+                    {userInfo.postedTimelineList[0] === undefined && (
+                      <div className="w-full bg-white p-10 text-center">
+                        つぶやき履歴が1件もありません🙇‍♀️
+                      </div>
+                    )}
                   </div>
                 </Tab.Panel>
                 {/* つぶやき履歴表示ここまで */}
@@ -168,6 +177,11 @@ const User: NextPage = () => {
                           key={review.id}
                         />
                       ))}
+                    {userInfo.postedReviewList[0] === undefined && (
+                      <div className="w-full p-10 text-center">
+                        レビュー履歴が1件もありません🙇‍♀️
+                      </div>
+                    )}
                   </div>
                 </Tab.Panel>
                 {/* レビュー履歴ここまで */}
@@ -183,6 +197,11 @@ const User: NextPage = () => {
                           />
                         ),
                       )}
+                    {userInfo.likedTimelineList[0] === undefined && (
+                      <div className="w-full bg-white p-10 text-center">
+                        いいね履歴つぶやきが1件もありません🙇‍♀️
+                      </div>
+                    )}
                   </div>
                 </Tab.Panel>
                 {/* いいね履歴つぶやきここまで */}
@@ -202,6 +221,11 @@ const User: NextPage = () => {
                           />
                         ),
                       )}
+                    {userInfo.likedReviewList[0] === undefined && (
+                      <div className="w-full p-10 text-center">
+                        いいね履歴レビューが1件もありません🙇‍♀️
+                      </div>
+                    )}
                   </div>
                 </Tab.Panel>
                 {/* いいね履歴レビューここまで */}
@@ -217,6 +241,11 @@ const User: NextPage = () => {
                           />
                         ),
                       )}
+                    {userInfo.likedCommentList[0] === undefined && (
+                      <div className="w-full bg-white p-10 text-center">
+                        いいね履歴コメントが1件もありません🙇‍♀️
+                      </div>
+                    )}
                   </div>
                 </Tab.Panel>
                 {/* いいね履歴コメントここまで */}

@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 import { JAVA_API_URL } from "../utils/const";
 import { useModal } from "./useModal";
@@ -74,7 +75,7 @@ export const useForgetPass = () => {
           //ローディング画面の閉じる
           setIsLoading(false);
         } else {
-          alert(res.data.message);
+          toast.error(res.data.message);
           //ローディング画面の閉じる
           setIsLoading(false);
         }
