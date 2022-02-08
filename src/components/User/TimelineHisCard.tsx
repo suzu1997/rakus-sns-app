@@ -75,59 +75,66 @@ export const TimelineHisCard: FC<Timeline> = memo((props) => {
       key={id}
       className=" border border-t-1 mt-1 border-blue-100text-sm font-medium leading-5 focus:outline-none rounded-xl bg-white relative p-3 "
     >
-      <div
-        className="hover:bg-coolGray-100 cursor-pointer hover:opacity-50"
-        onClick={() => {
-          goDetailTimelinePage(id);
-        }}
-      >
-        <span className="text-xl font-extrabold pt-3 pb-3">{accountName}</span>
-        <span className="ml-7">
-          つぶやき日時:
-          {getFormattedDate(new Date(postedTime))}
-        </span>
-      </div>
-      <div className="flex">
-        <span
-          className="rounded-full  pt-5 cursor-pointer hover:opacity-50"
-          onClick={() => {
-            goUserPage(userId);
-          }}
-        >
-          <Image
-            src={`/image/userIcon/${userPhotoPath}`}
-            width={100}
-            height={100}
-            alt="icon"
-            className="rounded-full"
-          />
-        </span>
-        <span
-          className="p-10 w-8/12 hover:bg-coolGray-100 cursor-pointer hover:opacity-50"
+      <div className="flex flex-col">
+        <div className="flex ">
+          <div
+            className="lg:1/12 cursor-pointer hover:opacity-50"
+            onClick={() => {
+              goUserPage(userId);
+            }}
+          >
+            <Image
+              src={`/image/userIcon/${userPhotoPath}`}
+              width={80}
+              height={80}
+              alt="icon"
+              className="rounded-full"
+            />
+          </div>
+          <div
+            className="ml-4 hover:bg-coolGray-100 cursor-pointer hover:opacity-50"
+            onClick={() => {
+              goUserPage(userId);
+            }}
+          >
+            <div className="text-xl font-extrabold py-3">
+              {accountName}
+            </div>
+          </div>
+        </div>
+        <div
+          className="lg:ml-20 my-2 hover:bg-coolGray-100 cursor-pointer hover:opacity-50"
           onClick={() => {
             goDetailTimelinePage(id);
           }}
         >
           {sentence}
-        </span>
+        </div>
       </div>
-      <div className="w-full text-right py-3">
-        <CommentIcon
-          commentCount={commentCount}
-          postId={id}
-          success={updateData}
-          title="つぶやきへのコメント"
-        />
-        <FavoBtn
-          postId={id}
-          favoCount={likeCount}
-          isFavo={myLike}
-          type="タイムライン"
-          success={updateData}
-        />
-        {Number(loginId) === userId && (
-          <TrashBtn postId={id} type="タイムライン" success={updateData} />
-        )}
+
+      <div className="flex flex-col items-end gap-3 sm:flex-row justify-end">
+        <span className="mr-7">
+          つぶやき日時:
+          {getFormattedDate(new Date(postedTime))}
+        </span>
+        <div>
+          <CommentIcon
+            commentCount={commentCount}
+            postId={id}
+            success={updateData}
+            title="つぶやきへのコメント"
+          />
+          <FavoBtn
+            postId={id}
+            favoCount={likeCount}
+            isFavo={myLike}
+            type="タイムライン"
+            success={updateData}
+          />
+          {Number(loginId) === userId && (
+            <TrashBtn postId={id} type="タイムライン" success={updateData} />
+          )}
+        </div>
       </div>
     </div>
   );
