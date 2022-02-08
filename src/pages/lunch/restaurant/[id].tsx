@@ -38,7 +38,7 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
  * @returns お店情報の詳細を表示する画面
  */
 const RestaurantDetail: NextPage<Props> = (props) => {
-  const { staticData } = props;
+  const { initialData } = props;
   const router = useRouter();
 
   // ログインユーザーのハッシュ値
@@ -57,7 +57,7 @@ const RestaurantDetail: NextPage<Props> = (props) => {
   const { data, error, mutate } = useSWR(
     `${JAVA_API_URL}/restaurant/${restaurantId}`,
     fetcher,
-    { fallbackData: staticData },
+    { fallbackData: initialData },
   );
 
   /**
@@ -148,10 +148,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
 //idに基づいて必要なデータを取得
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const staticData = await getRestaurantData(Number(params?.id));
+  const initialData = await getRestaurantData(Number(params?.id));
+
+  if (initialData.status === 400 || initialData.status === "error") {
+    return { notFound: true }; // 存在しないidのパスが打たれた場合は404を返す
+  }
+  
   return {
     props: {
-      staticData,
+      initialData,
     },
     revalidate: 10,
   };
