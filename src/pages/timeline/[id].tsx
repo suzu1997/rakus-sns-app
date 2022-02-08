@@ -97,13 +97,12 @@ const TweetDetail: NextPage<Props> = (props) => {
       {/* サブヘッダー */}
       <SubHeader title="つぶやき詳細" />
 
-      <div className="my-3 ml-3">
-        <Button label="←戻る" size="sm" onClick={backPage} />
-      </div>
-
       {/* つぶやき詳細 */}
       {detailData && (
         <>
+          <div className="my-3 ml-3">
+            <Button label="←戻る" size="sm" onClick={backPage} />
+          </div>
           <div className="w-full border border-t-0 border-gray-200">
             <div className="mx-5 mt-10">
               <TimelineDetailPage detailData={detailData} success={getData} />
