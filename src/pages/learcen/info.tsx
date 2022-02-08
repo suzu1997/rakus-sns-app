@@ -12,13 +12,8 @@ const Info: NextPage = () => {
       <div className="flex">
         <div className="w-full">
           <SubHeader title="ラーセン基本情報" />
-          <div className="ml-5 mt-5">
-            <Link href="/">
-              <a className="underline hover:text-blue-800 mt-3">←戻る</a>
-            </Link>
-          </div>
           {/* 基本情報 */}
-          <div className="border-solid  border-2 border-bgc-200 m-5 shadow-lg rounded-md text-center">
+          <div className="border-solid  border-2 border-bgc-200 m-5 shadow rounded-md text-center">
             <div className="mt-3 text-xl font-bold">第2ラーニングセンター</div>
 
             <div className="mb-5">
@@ -27,7 +22,7 @@ const Info: NextPage = () => {
               <div>解放時間:毎週土曜日9:00-18:00</div>
             </div>
           </div>
-          <div className="border-solid  border-2 border-bgc-200 m-5 shadow-lg rounded-md text-center">
+          <div className="border-solid  border-2 border-bgc-200 m-5 shadow rounded-md text-center">
             <div className="mt-3 text-xl font-bold">第1ラーニングセンター</div>
 
             <div className="mb-5">
@@ -35,7 +30,7 @@ const Info: NextPage = () => {
               <div>東京メトロ丸ノ内線等「新宿三丁目」駅 徒歩5分</div>
             </div>
           </div>
-          <div className="border-solid  border-2 border-bgc-200 m-5 shadow-lg rounded-md text-center">
+          <div className="border-solid  border-2 border-bgc-200 m-5 shadow rounded-md text-center">
             <div className="mt-3 text-xl font-bold">本社</div>
 
             <div className="mb-5">
