@@ -1,22 +1,24 @@
-import { Meta, Story } from "@storybook/react";
-import { SelectBox, Props } from "../components/Form/SelectBox";
+import type {
+  ComponentMeta,
+  ComponentStoryObj,
+} from "@storybook/react";
+import { SelectBox } from "../components/Form/SelectBox";
 
 export default {
-  title: "SelectBox",
   component: SelectBox,
-} as Meta;
+} as ComponentMeta<typeof SelectBox>;
 
-const Template: Story<Props> = (args) => <SelectBox {...args} />;
-
-export const Default: Story<Props> = Template.bind({});
-Default.args = {
-  label: "Default",
-  selectedOption: { id: "1", name: "テスト1" },
-  options: [
-    { id: "1", name: "テスト1" },
-    { id: "2", name: "テスト2" },
-    { id: "3", name: "テスト3" },
-    { id: "4", name: "テスト4" },
-  ],
+export const Default: ComponentStoryObj<typeof SelectBox> = {
+  args: {
+    label: "Default",
+    selectedOption: { id: "1", name: "テスト1" },
+    options: [
+      { id: "1", name: "テスト1" },
+      { id: "2", name: "テスト2" },
+      { id: "3", name: "テスト3" },
+      { id: "4", name: "テスト4" },
+    ],
+    fullWidth: false,
+  },
+  storyName: "デフォルト",
 };
-Default.storyName = "デフォルト";

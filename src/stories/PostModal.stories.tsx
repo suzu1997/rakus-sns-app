@@ -1,14 +1,14 @@
-import { Meta, Story } from "@storybook/react";
-import { PostModal, Props } from "../components/Modal/PostModal";
+import type { ComponentStory, ComponentMeta } from "@storybook/react";
+import { PostModal } from "../components/Modal/PostModal";
 
 export default {
   title: "PostModal",
   component: PostModal,
-} as Meta;
+} as ComponentMeta<typeof PostModal>;
 
-const Template: Story<Props> = (args) => <PostModal {...args} />;
+const Template: ComponentStory<typeof PostModal> = (args) => <PostModal {...args} />;
 
-export const Default: Story<Props> = Template.bind({});
+export const Default: ComponentStory<typeof PostModal> = Template.bind({});
 
 Default.args = {
   isOpen: true,
@@ -22,7 +22,7 @@ Default.args = {
 };
 Default.storyName = "デフォルト";
 
-export const Timeline: Story<Props> = Template.bind({});
+export const Timeline: ComponentStory<typeof PostModal> = Template.bind({});
 Timeline.args = {
   isOpen: true,
   closeModal: () => {

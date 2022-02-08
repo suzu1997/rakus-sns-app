@@ -1,15 +1,12 @@
-import { Meta, Story } from "@storybook/react";
+import type { ComponentStory, ComponentMeta } from "@storybook/react";
 import { MenuBar } from "../components/Layout/MenuBar";
 
 export default {
   title: "MenuBar",
   component: MenuBar,
-} as Meta;
+} as ComponentMeta<typeof MenuBar>;
 
-const Template: Story = (args) => <MenuBar {...args} />;
+const Template: ComponentStory<typeof MenuBar> = (args) => <MenuBar {...args} />;
 
-export const Default: Story = Template.bind({});
-Default.args = {
-  label: "Default",
-};
+export const Default: ComponentStory<typeof MenuBar> = Template.bind({});
 Default.storyName = "デフォルト";

@@ -13,7 +13,7 @@ import { useReviewPost } from "../../hooks/useReviewPost";
 import { useReviewCommentPost } from "../../hooks/useReviewCommentPost";
 import toast from "react-hot-toast";
 
-export type Props = {
+type Props = {
   isOpen: boolean; // モーダルが開いているかどうか
   closeModal: () => void; // モーダルを閉じるメソッド
   title: "レビュー" | "つぶやき" | "つぶやきへのコメント" | "レビューへのコメント"; // レビュー/つぶやき/コメント

@@ -4,7 +4,7 @@ import { SelectorIcon } from "@heroicons/react/solid";
 
 import type { Option } from "../../types/type";
 
-export type Props = {
+type Props = {
   label?: string;
   selectedOption: Option;
   select: Dispatch<SetStateAction<Option>>;
@@ -16,7 +16,7 @@ export const SelectBox: FC<Props> = memo((props) => {
   const { label, selectedOption, select, options, fullWidth = false } = props;
 
   return (
-    <div>
+    <div className={`${fullWidth ? "w-full" : "w-44 sm:w-56 lg:w-64"}`}>
       {/* labelが渡ってきたら、ラベルを表示 */}
       <div className="text-left">
         {label && <label className="text-gray-500 text-sm">{label}</label>}
@@ -24,9 +24,9 @@ export const SelectBox: FC<Props> = memo((props) => {
       <Listbox value={selectedOption} onChange={select}>
         <div className="relative">
           <Listbox.Button
-            className={`${
-              fullWidth ? "w-full" : "w-44 sm:w-56 lg:w-64"
-            } relative h-8 sm:h-10 lg:h-11 py-1 pl-3 pr-10 text-left bg-white border border-gray-200 rounded-lg shadow-md focus:outline-none text-xs sm:text-sm`}
+            className={
+              "w-full relative h-8 sm:h-10 lg:h-11 py-1 pl-3 pr-10 text-left bg-white border border-gray-200 rounded-lg shadow-md focus:outline-none text-xs sm:text-sm"
+            }
           >
             <span className="block truncate">{selectedOption.name}</span>
             <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
