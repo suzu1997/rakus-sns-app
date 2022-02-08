@@ -17,17 +17,15 @@ const UpdatePass: NextPage = () => {
   const passToken = String(router.query.token);
 
   //フックスからパスワード変更時に使用する関数を呼び出し
-  const {
-    register,
-    handleSubmit,
-    errors,
-    onSubmit,
-    error,
-    updatePassData,
-  } = userUpdatePass(passToken);
+  const { register, handleSubmit, errors, onSubmit, error, updatePassData } =
+    userUpdatePass(passToken);
 
   if (!error && !updatePassData) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center pt-10 w-full">
+        <div className="animate-spin h-8 w-8 bg-basic rounded-xl"></div>
+      </div>
+    );
   }
   if (error) {
     return <div>データを取得できませんでした</div>;
@@ -41,9 +39,7 @@ const UpdatePass: NextPage = () => {
         </div>
         {updatePassData && (
           <div className="flex flex-col items-center mt-5">
-            <div className="mt-3">
-              メールアドレス:{updatePassData.email}
-            </div>
+            <div className="mt-3">メールアドレス:{updatePassData.email}</div>
             <div className="w-3/4 sm:w-2/4 mt-3">
               {/* パスワードのテキストフォーム */}
               <TextInput

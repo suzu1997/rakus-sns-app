@@ -58,7 +58,11 @@ const User: NextPage = () => {
   const userData: UserInfo = userInfo?.user;
 
   if (!error && !userInfo) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center pt-10 w-full">
+        <div className="animate-spin h-8 w-8 bg-basic rounded-xl"></div>
+      </div>
+    );
   }
   if (error) {
     return <div>データを取得できませんでした</div>;
