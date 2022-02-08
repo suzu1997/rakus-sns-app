@@ -126,7 +126,8 @@ export const useSignup = (userToken: string) => {
 
       //本登録に成功した場合
       if (res.data.status === "success") {
-        //会員登録に成功したら入力値をクリアして登録完了画面に遷移する;
+        //会員登録に成功したら登録完了画面に遷移し、入力値をクリアする;
+        router.push("/auth/signup/compsignup");
         reset({
           accountName: "",
           hireDate: "",
@@ -135,7 +136,6 @@ export const useSignup = (userToken: string) => {
           passwordConf: "",
         });
 
-        router.push("/auth/signup/compsignup");
         //ローディング画面の閉じる
         setIsLoading(false);
       } else {
