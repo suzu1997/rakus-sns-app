@@ -19,7 +19,7 @@ const Notion: NextPage = () => {
   const { hash } = useContext(loginIdContext);
 
   // 投稿一覧を再検証・再取得する関数をhooksから取得
-  const { data, error, loadMoreNotion, isLast } = useSWRNotion(hash);
+  const { data, error } = useSWRNotion(hash);
 
   //初期表示エラー
   if (!error && !data) {
@@ -70,18 +70,6 @@ const Notion: NextPage = () => {
             );
           }),
         )}
-      {!isLast ? (
-        <div
-          className="text-text-brown text-center my-5 cursor-pointer hover:text-basic"
-          onClick={loadMoreNotion}
-        >
-          過去の通知を見る…
-        </div>
-      ) : (
-        <div className="text-text-brown text-center my-5 ">
-          最後まで読み込みました
-        </div>
-      )}
     </>
   );
 };
