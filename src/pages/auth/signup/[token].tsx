@@ -47,7 +47,7 @@ const SignUp: NextPage = () => {
             {/* トークンから名前とアドレス情報を取得 */}
             <div className="text-xl mt-3">名前:{userPreTokenData.name}</div>
             <div className="mt-3">メールアドレス:{userPreTokenData.email}</div>
-            <div className="w-3/4 mt-3">
+            <div className="w-3/4 lg:w-2/4 mt-3">
               {/* アカウント名のテキストフォーム */}
               <TextInput
                 label="アカウント名"
@@ -59,7 +59,7 @@ const SignUp: NextPage = () => {
                 registers={register("accountName")}
               />
             </div>
-            <div className="w-3/4 mt-3">
+            <div className="w-3/4 lg:w-2/4 mt-3">
               {/* 入社年のテキストフォーム*/}
               <TextInput
                 label="入社月"
@@ -111,7 +111,7 @@ const SignUp: NextPage = () => {
                 registers={register("serviceFk")}
               />
             </div>
-            <div className="w-3/4 mt-3">
+            <div className="w-3/4 lg:w-2/4 mt-3">
               {/* 誕生日のテキストフォーム */}
               <TextInput
                 label="誕生日"
@@ -122,7 +122,7 @@ const SignUp: NextPage = () => {
                 registers={register("birthDay")}
               />
             </div>
-            <div className="w-3/4 mt-3">
+            <div className="w-3/4 lg:w-2/4 mt-3">
               {/* パスワードのテキストフォーム */}
               <TextInput
                 label="パスワード"
@@ -134,7 +134,7 @@ const SignUp: NextPage = () => {
                 registers={register("password")}
               />
             </div>
-            <div className="w-3/4 mt-3">
+            <div className="w-3/4 lg:w-2/4 mt-3">
               {/* 確認用パスワードのテキストフォーム */}
               <TextInput
                 label="確認用パスワード"
