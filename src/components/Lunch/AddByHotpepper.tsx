@@ -144,15 +144,16 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
         </a>
       </p>
       <p className="sm:ml-10 mt-2">▶︎禁煙席: {restaurant.non_smoking}</p>
-      <div className="sm:w-1/3 sm:ml-10 mt-5">
+      <div className="w-5/6 mg:w-1/3 sm:ml-10 mt-5">
         <SelectBox
           label="タイプ(店内・お弁当・両方)"
           selectedOption={type}
           select={setType}
           options={typeOptions}
+          fullWidth
         ></SelectBox>
       </div>
-      <div className="sm:ml-10 mt-5 flex justify-center gap-3">
+      <div className="sm:ml-10 mt-10 flex justify-center gap-3">
         <Button label="新規登録" onClick={() => register(restaurant)} />
         <Button
           label="キャンセル"
