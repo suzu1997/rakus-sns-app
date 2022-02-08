@@ -52,18 +52,6 @@ const TweetDetail: NextPage<Props> = (props) => {
     { fallbackData: initialData },
   );
 
-  /**
-   * 通知画面から削除された投稿に遷移した場合のメソッド.
-   */
-  useEffect(() => {
-    if (data?.message === "つぶやきが存在しません") {
-      toast.error("投稿が削除された可能性があります");
-      router.back();
-    } else {
-      return;
-    }
-  }, [data.message, initialData?.message, router]);
-
   //つぶやき詳細データ
   const detailData: Timeline = data?.timeline;
   const commentList: Array<Comment> = data?.commentList;
