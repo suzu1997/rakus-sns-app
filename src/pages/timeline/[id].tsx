@@ -52,18 +52,6 @@ const TweetDetail: NextPage<Props> = (props) => {
     { fallbackData: initialData },
   );
 
-  /**
-   * 通知画面から削除された投稿に遷移した場合のメソッド.
-   */
-  useEffect(() => {
-    if (data?.message === "つぶやきが存在しません") {
-      toast.error("投稿が削除された可能性があります");
-      router.back();
-    } else {
-      return;
-    }
-  }, [data?.message, router]);
-
   //つぶやき詳細データ
   const detailData: Timeline = data?.timeline;
   const commentList: Array<Comment> = data?.commentList;
@@ -97,13 +85,12 @@ const TweetDetail: NextPage<Props> = (props) => {
       {/* サブヘッダー */}
       <SubHeader title="つぶやき詳細" />
 
-      <div className="my-3 ml-3">
-        <Button label="←戻る" size="sm" onClick={backPage} />
-      </div>
-
       {/* つぶやき詳細 */}
       {detailData && (
         <>
+          <div className="my-3 ml-3">
+            <Button label="←戻る" size="sm" onClick={backPage} />
+          </div>
           <div className="w-full border border-t-0 border-gray-200">
             <div className="mx-5 mt-10">
               <TimelineDetailPage detailData={detailData} success={getData} />
@@ -135,7 +122,11 @@ export const getServerSideProps: GetServerSideProps = async (
 
   const postId = Number(ctx.query.id);
   const res = await fetch(`${JAVA_API_URL}/timeline/detail/${postId}/${hash}`);
-  const initialData: Timeline = await res.json();
+  const initialData = await res.json();
+
+  if (initialData.status === 400 || initialData.status === "error") {
+    return { notFound: true }; // 存在しないidのパスが打たれた場合は404を返す
+  }
 
   return {
     props: { initialData },
