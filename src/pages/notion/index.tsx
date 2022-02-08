@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { NextPage } from "next";
+import useSWR from "swr";
 
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { LikeNotion } from "../../components/Notion/LikeNotion";
@@ -7,7 +8,7 @@ import { ReviewNotion } from "../../components/Notion/ReviewNotion";
 import { TimelineNotion } from "../../components/Notion/TimelineNotion";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import type { notion } from "../../types/type";
-import { useSWRNotion } from "../../hooks/useSWRNotion";
+import { JAVA_API_URL } from "../../utils/const";
 
 /**
  * 通知ページ.
@@ -18,8 +19,10 @@ const Notion: NextPage = () => {
   //ログインID
   const { hash } = useContext(loginIdContext);
 
-  // 投稿一覧を再検証・再取得する関数をhooksから取得
-  const { data, error } = useSWRNotion(hash);
+  /**
+   * APIを使用してタイムラインデータを取得.
+   */
+  const { data, error } = useSWR(`${JAVA_API_URL}/notifications/${hash}`);
 
   //初期表示エラー
   if (!error && !data) {
@@ -33,7 +36,7 @@ const Notion: NextPage = () => {
   }
 
   //通知0件の場合
-  if (data?.[0].message === "通知はまだありません") {
+  if (data?.message === "通知はまだありません") {
     return (
       <div className="w-full p-10 text-center">通知が1件もありません🙇‍♀️</div>
     );
@@ -45,31 +48,29 @@ const Notion: NextPage = () => {
       <SubHeader title="通知" />
       {/* タイムラインゾーン */}
       {data &&
-        data.map((pageData) =>
-          pageData?.notificationList.map((value: notion) => {
-            return (
-              <div key={value.id} className="border border-t-0 border-gray-200">
-                {!value.read && (
-                  <div className="text-red-500 ml-10 mt-5 text-lg">New!</div>
-                )}
-                {/* タイムラインに対する反応 */}
-                {value.timelineId != null && (
-                  <TimelineNotion notification={value} />
-                )}
-                {/* レビューに対する反応 */}
-                {value.reviewId && <ReviewNotion notification={value} />}
-                {/* コメントに対する反応 */}
-                {value.parentCommentId != null && (
-                  <LikeNotion
-                    notification={value}
-                    type="コメント"
-                    sentence={value.parentCommentSentence}
-                  />
-                )}
-              </div>
-            );
-          }),
-        )}
+        data.notificationList.map((value: notion) => {
+          return (
+            <div key={value.id} className="border border-t-0 border-gray-200">
+              {!value.read && (
+                <div className="text-red-500 ml-10 mt-5 text-lg">New!</div>
+              )}
+              {/* タイムラインに対する反応 */}
+              {value.timelineId != null && (
+                <TimelineNotion notification={value} />
+              )}
+              {/* レビューに対する反応 */}
+              {value.reviewId && <ReviewNotion notification={value} />}
+              {/* コメントに対する反応 */}
+              {value.parentCommentId != null && (
+                <LikeNotion
+                  notification={value}
+                  type="コメント"
+                  sentence={value.parentCommentSentence}
+                />
+              )}
+            </div>
+          );
+        })}
     </>
   );
 };
