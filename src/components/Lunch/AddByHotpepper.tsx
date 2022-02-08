@@ -153,7 +153,7 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
           fullWidth
         ></SelectBox>
       </div>
-      <div className="sm:ml-10 mt-10 flex justify-center gap-3">
+      <div className="sm:ml-10 mt-10 flex justify-center sm:justify-start gap-3">
         <Button label="新規登録" onClick={() => register(restaurant)} />
         <Button
           label="キャンセル"
