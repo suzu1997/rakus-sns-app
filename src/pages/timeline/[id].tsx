@@ -56,7 +56,7 @@ const TweetDetail: NextPage<Props> = (props) => {
    * 通知画面から削除された投稿に遷移した場合のメソッド.
    */
   useEffect(() => {
-    if (initialData?.message === "つぶやきが存在しません") {
+    if (data?.message === "つぶやきが存在しません") {
       toast.error("投稿が削除された可能性があります");
       router.back();
     } else {
@@ -134,7 +134,11 @@ export const getServerSideProps: GetServerSideProps = async (
 
   const postId = Number(ctx.query.id);
   const res = await fetch(`${JAVA_API_URL}/timeline/detail/${postId}/${hash}`);
-  const initialData: Timeline = await res.json();
+  const initialData = await res.json();
+
+  if (initialData.status === 400 || initialData.status === "error") {
+    return { notFound: true }; // 存在しないidのパスが打たれた場合は404を返す
+  }
 
   return {
     props: { initialData },
