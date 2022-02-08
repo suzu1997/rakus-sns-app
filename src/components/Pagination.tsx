@@ -43,7 +43,7 @@ export const Pagination: FC<Props> = (props) => {
   };
 
   return (
-    <div className="py-5 flex items-center justify-center">
+    <div className="py-5 flex flex-col items-center justify-center">
       <nav
         className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
         aria-label="Pagination"
@@ -91,6 +91,7 @@ export const Pagination: FC<Props> = (props) => {
           </a>
         )}
       </nav>
+      <div className="mt-2 text-sm">全{totalCount}件</div>
     </div>
   );
 };
