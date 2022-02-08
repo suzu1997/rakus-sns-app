@@ -78,7 +78,7 @@ export const useLogin = () => {
           });
         } else {
           //ログインに失敗した場合、エラーメッセージアラートを表示
-          toast.error(res.data.message);
+          toast.error("メールアドレスあるいはパスワードが間違っています");
         }
       } catch (error) {
         alert(error);
