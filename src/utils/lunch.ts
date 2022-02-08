@@ -51,10 +51,10 @@ export const getRestaurantData = async (id: number) => {
  * @returns レビュー詳細情報
  */
 export const getReviewById = async (reviewId: number, hash: string) => {
-  const res = await fetch(`${JAVA_API_URL}/review/detail/${reviewId}/${hash}`);
-  const reviewData = await res.json();
-
-  return reviewData;
+    const res = await fetch(`${JAVA_API_URL}/review/detail/${reviewId}/${hash}`);
+    const reviewData = await res.json();
+    
+    return reviewData;
 };
 
 

@@ -122,6 +122,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   const initialData = await getReviewById(reviewId, hash);
 
+  if (initialData.status === 400 || initialData.status === "error") {
+    return { notFound: true }; // 存在しないidのパスが打たれた場合は404を返す
+  }
+
   return {
     props: { initialData },
   };
