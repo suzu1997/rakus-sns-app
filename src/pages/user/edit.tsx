@@ -37,159 +37,161 @@ const Edit: NextPage<Props> = (props) => {
     <>
       <PasswordModal modalStatus={modalStatus} closeModal={closeModal} />
       <SubHeader title="ユーザー情報編集" />
-      <div className="text-center my-10">
-        <div>
-          {userData ? (
-            <Image
-              src={`/image/userIcon/${userData.userPhotoPath}`}
-              width={200}
-              height={200}
-              alt="icon"
-            ></Image>
-          ) : (
-            <div className="flex justify-center pt-10 w-full">
-              <div className="animate-spin h-8 bg-basic rounded-xl"></div>
+      <div className="m-10 bg-bgc border-solid  border-2 border-bgc-200 shadow-lg rounded-md">
+        <div className="text-center my-10">
+          <div>
+            {userData ? (
+              <Image
+                src={`/image/userIcon/${userData.userPhotoPath}`}
+                width={200}
+                height={200}
+                alt="icon"
+              ></Image>
+            ) : (
+              <div className="flex justify-center pt-10 w-full">
+                <div className="animate-spin h-8 bg-basic rounded-xl"></div>
+              </div>
+            )}
+          </div>
+          <div
+            onClick={openModal}
+            className="text-text-brown my-5 cursor-pointer hover:text-basic"
+          >
+            パスワード変更はこちら
+          </div>
+        </div>
+        <div className="mx-10">
+          <div className="flex gap-3 w-auto">
+            {/* 姓のテキストフォーム */}
+            <div>
+              <TextInput
+                label="姓"
+                type="text"
+                fullWidth={true}
+                required
+                placeholder="姓"
+                registers={register("firstName")}
+              />
             </div>
-          )}
-        </div>
-        <div
-          onClick={openModal}
-          className="text-text-brown my-5 cursor-pointer hover:text-basic"
-        >
-          パスワード変更はこちら
-        </div>
-      </div>
-      <div className="mx-10 flex flex-col items-center mt-10">
-        <div className="flex gap-3 w-auto">
-          {/* 姓のテキストフォーム */}
-          <div>
+
+            {/* 名のテキストフォーム */}
+            <div>
+              <TextInput
+                label="名"
+                type="text"
+                fullWidth={true}
+                required
+                placeholder="名"
+                registers={register("lastName")}
+              />
+            </div>
+          </div>
+          <div className="text-red-500">{errors.firstName?.message}</div>
+          <div className="text-red-500">{errors.lastName?.message}</div>
+
+          <div className="mt-5">
+            {/* アカウント名のテキストフォーム */}
             <TextInput
-              label="姓"
+              label="アカウント名"
               type="text"
               fullWidth={true}
               required
-              placeholder="姓"
-              registers={register("firstName")}
+              placeholder="アカウント名"
+              registers={register("accountName")}
             />
+            <div className="text-red-500">{errors.accountName?.message}</div>
           </div>
-
-          {/* 名のテキストフォーム */}
-          <div>
+          <div className="mt-5">
+            {/* 入社月のテキストフォーム*/}
             <TextInput
-              label="名"
-              type="text"
+              label="入社月"
+              type="month"
               fullWidth={true}
               required
-              placeholder="名"
-              registers={register("lastName")}
+              registers={register("hireDate")}
+            />
+            <div className="text-red-500">{errors.hireDate?.message}</div>
+          </div>
+          {/* 職種のラジオボタン */}
+          <div className="mt-5">職種を選択してください</div>
+          <div className="text-red-500">{errors.serviceFk?.message}</div>
+          <div className="flex gap-5">
+            <Radio
+              id="FR"
+              value="1"
+              name="serviceFk"
+              registers={register("serviceFk")}
+            />
+            <Radio
+              id="Java"
+              value="2"
+              name="serviceFk"
+              registers={register("serviceFk")}
+            />
+            <Radio
+              id="CL"
+              value="3"
+              name="serviceFk"
+              registers={register("serviceFk")}
+            />
+            <Radio
+              id="QA"
+              value="4"
+              name="serviceFk"
+              registers={register("serviceFk")}
+            />
+            <Radio
+              id="ML"
+              value="5"
+              name="serviceFk"
+              registers={register("serviceFk")}
+            />
+            <Radio
+              id="内勤"
+              value="6"
+              name="serviceFk"
+              registers={register("serviceFk")}
             />
           </div>
+          <div className="mt-5">
+            {/* 誕生日のテキストフォーム */}
+            <TextInput
+              label="誕生日"
+              type="date"
+              fullWidth={true}
+              required
+              registers={register("birthDay")}
+            />
+            <div className="text-red-500">{errors.birthDay?.message}</div>
+          </div>
+          {/* 自己紹介のテキストフォーム */}
+          <div className="mt-5">
+            <TextArea
+              label="プロフィール"
+              rows={6}
+              cols={30}
+              registers={register("introduction")}
+            />
+            <div className="text-red-500">{errors.introduction?.message}</div>
+          </div>
         </div>
-        <div className="text-red-500">{errors.firstName?.message}</div>
-        <div className="text-red-500">{errors.lastName?.message}</div>
+        <div className="flex gap-5 my-10 justify-center">
+          <Button
+            label="更新"
+            backgroundColor="#f28728"
+            color="white"
+            size="md"
+            onClick={handleSubmit(onSubmit)}
+          />
 
-        <div className="mt-5">
-          {/* アカウント名のテキストフォーム */}
-          <TextInput
-            label="アカウント名"
-            type="text"
-            fullWidth={true}
-            required
-            placeholder="アカウント名"
-            registers={register("accountName")}
-          />
-          <div className="text-red-500">{errors.accountName?.message}</div>
-        </div>
-        <div className="mt-5">
-          {/* 入社月のテキストフォーム*/}
-          <TextInput
-            label="入社月"
-            type="month"
-            fullWidth={true}
-            required
-            registers={register("hireDate")}
-          />
-          <div className="text-red-500">{errors.hireDate?.message}</div>
-        </div>
-        {/* 職種のラジオボタン */}
-        <div className="mt-5">職種を選択してください</div>
-        <div className="text-red-500">{errors.serviceFk?.message}</div>
-        <div className="flex gap-5">
-          <Radio
-            id="FR"
-            value="1"
-            name="serviceFk"
-            registers={register("serviceFk")}
-          />
-          <Radio
-            id="Java"
-            value="2"
-            name="serviceFk"
-            registers={register("serviceFk")}
-          />
-          <Radio
-            id="CL"
-            value="3"
-            name="serviceFk"
-            registers={register("serviceFk")}
-          />
-          <Radio
-            id="QA"
-            value="4"
-            name="serviceFk"
-            registers={register("serviceFk")}
-          />
-          <Radio
-            id="ML"
-            value="5"
-            name="serviceFk"
-            registers={register("serviceFk")}
-          />
-          <Radio
-            id="内勤"
-            value="6"
-            name="serviceFk"
-            registers={register("serviceFk")}
+          <Button
+            label="キャンセル"
+            backgroundColor="#f6f0ea"
+            color="#f28728"
+            size="md"
+            onClick={cancel}
           />
         </div>
-        <div className="mt-5">
-          {/* 誕生日のテキストフォーム */}
-          <TextInput
-            label="誕生日"
-            type="date"
-            fullWidth={true}
-            required
-            registers={register("birthDay")}
-          />
-          <div className="text-red-500">{errors.birthDay?.message}</div>
-        </div>
-        {/* 自己紹介のテキストフォーム */}
-        <div className="mt-5">
-          <TextArea
-            label="プロフィール"
-            rows={6}
-            cols={30}
-            registers={register("introduction")}
-          />
-          <div className="text-red-500">{errors.introduction?.message}</div>
-        </div>
-      </div>
-      <div className="flex gap-5 my-10 justify-center">
-        <Button
-          label="更新"
-          backgroundColor="#f28728"
-          color="white"
-          size="md"
-          onClick={handleSubmit(onSubmit)}
-        />
-
-        <Button
-          label="キャンセル"
-          backgroundColor="#f6f0ea"
-          color="#f28728"
-          size="md"
-          onClick={cancel}
-        />
       </div>
     </>
   );
