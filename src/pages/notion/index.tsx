@@ -39,7 +39,7 @@ const Notion: NextPage<Props> = (props) => {
   );
 
   //初期表示エラー
-  if (!error && !initialData) {
+  if (!error && !data) {
     <div className="flex justify-center pt-10 w-full">
       <div className="animate-spin h-8 w-8 bg-basic rounded-xl"></div>
     </div>;
@@ -49,7 +49,7 @@ const Notion: NextPage<Props> = (props) => {
     return <div>データを取得できませんでした</div>;
   }
 
-  //通知0件の場合(リアルタイムで通知があるか見たいのでuseSWRの方のdataで表示)
+  //通知0件の場合
   if (data?.message === "通知はまだありません") {
     return (
       <div className="w-full p-10 text-center">通知が1件もありません🙇‍♀️</div>

@@ -76,7 +76,7 @@ const TweetDetail: NextPage<Props> = (props) => {
   }, [mutate]);
 
   //初期値エラー
-  if (!error && !initialData) {
+  if (!error && !data) {
     return (
       <div className="flex justify-center pt-10 w-full">
         <div className="animate-spin h-8 w-8 bg-basic rounded-xl"></div>
