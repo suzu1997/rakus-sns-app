@@ -6,10 +6,14 @@ import { Tab } from "@headlessui/react";
 import useSWR from "swr";
 import Image from "next/image";
 
+import { JAVA_API_URL } from "../../utils/const";
+import {
+  getFormattedBirthDate,
+  getFormattedHireDate,
+} from "../../utils/methods";
 import { Button } from "../../components/Button/Button";
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { loginIdContext } from "../../providers/LoginIdProvider";
-import { JAVA_API_URL } from "../../utils/const";
 import { ReviewCard } from "../../components/Lunch/ReviewCard";
 import { TimelineHisCard } from "../../components/User/TimelineHisCard";
 import { LikedCommentHis } from "../../components/User/LikedCommentHis";
@@ -106,15 +110,19 @@ const User: NextPage = () => {
                       <div>誕生日:</div>
                     </div>
                     <div className="flex flex-col ml-4 mb-2 text-center">
-                      <div> {userData.hireDate}</div>
+                      <div>
+                        {getFormattedHireDate(new Date(userData.hireDate))}
+                      </div>
                       <div>{userData.serviceName}</div>
-                      <div>{userData.birthDay}</div>
+                      <div>
+                        {getFormattedBirthDate(new Date(userData.birthDay))}
+                      </div>
                     </div>
                   </div>
                   自己紹介
                   <div className="border-solid border-2 text-left p-3 mb-2 lg:mx-20 rounded-md">
                     {userData.introduction}
-                  </div>{" "}
+                  </div>
                 </div>
               )}
               {userId == loginId && (
