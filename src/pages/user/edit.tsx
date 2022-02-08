@@ -37,7 +37,7 @@ const Edit: NextPage<Props> = (props) => {
     <>
       <PasswordModal modalStatus={modalStatus} closeModal={closeModal} />
       <SubHeader title="ユーザー情報編集" />
-      <div>
+      <div className="text-center my-10">
         <div>
           {userData ? (
             <Image
@@ -58,33 +58,37 @@ const Edit: NextPage<Props> = (props) => {
         >
           パスワード変更はこちら
         </div>
-        <div className="flex flex-row mt-3">
+      </div>
+      <div className="mx-10 flex flex-col items-center mt-10">
+        <div className="flex gap-3 w-auto">
           {/* 姓のテキストフォーム */}
-          <TextInput
-            label="姓"
-            type="text"
-            fullWidth={false}
-            required
-            placeholder="姓"
-            registers={register("firstName")}
-          />
-          {/* registers={register} でバリデーション機能に登録される */}
-          {/* errors はバリデーションエラー内容を持つ構造体で自動で更新される */}
+          <div>
+            <TextInput
+              label="姓"
+              type="text"
+              fullWidth={true}
+              required
+              placeholder="姓"
+              registers={register("firstName")}
+            />
+          </div>
 
           {/* 名のテキストフォーム */}
-          <TextInput
-            label="名"
-            type="text"
-            fullWidth={false}
-            required
-            placeholder="名"
-            registers={register("lastName")}
-          />
+          <div>
+            <TextInput
+              label="名"
+              type="text"
+              fullWidth={true}
+              required
+              placeholder="名"
+              registers={register("lastName")}
+            />
+          </div>
         </div>
         <div className="text-red-500">{errors.firstName?.message}</div>
         <div className="text-red-500">{errors.lastName?.message}</div>
 
-        <div className="mt-3">
+        <div className="mt-5">
           {/* アカウント名のテキストフォーム */}
           <TextInput
             label="アカウント名"
@@ -96,7 +100,7 @@ const Edit: NextPage<Props> = (props) => {
           />
           <div className="text-red-500">{errors.accountName?.message}</div>
         </div>
-        <div className="mt-3">
+        <div className="mt-5">
           {/* 入社月のテキストフォーム*/}
           <TextInput
             label="入社月"
@@ -108,7 +112,7 @@ const Edit: NextPage<Props> = (props) => {
           <div className="text-red-500">{errors.hireDate?.message}</div>
         </div>
         {/* 職種のラジオボタン */}
-        <div className="mt-3">職種を選択してください</div>
+        <div className="mt-5">職種を選択してください</div>
         <div className="text-red-500">{errors.serviceFk?.message}</div>
         <div className="flex gap-5">
           <Radio
@@ -148,7 +152,7 @@ const Edit: NextPage<Props> = (props) => {
             registers={register("serviceFk")}
           />
         </div>
-        <div className="mt-3">
+        <div className="mt-5">
           {/* 誕生日のテキストフォーム */}
           <TextInput
             label="誕生日"
@@ -160,7 +164,7 @@ const Edit: NextPage<Props> = (props) => {
           <div className="text-red-500">{errors.birthDay?.message}</div>
         </div>
         {/* 自己紹介のテキストフォーム */}
-        <div className="my-5">
+        <div className="mt-5">
           <TextArea
             label="プロフィール"
             rows={6}
@@ -169,23 +173,23 @@ const Edit: NextPage<Props> = (props) => {
           />
           <div className="text-red-500">{errors.introduction?.message}</div>
         </div>
-        <div className="flex gap-3 mt-10 mb-10">
-          <Button
-            label="更新"
-            backgroundColor="#f28728"
-            color="white"
-            size="md"
-            onClick={handleSubmit(onSubmit)}
-          />
+      </div>
+      <div className="flex gap-5 my-10 justify-center">
+        <Button
+          label="更新"
+          backgroundColor="#f28728"
+          color="white"
+          size="md"
+          onClick={handleSubmit(onSubmit)}
+        />
 
-          <Button
-            label="キャンセル"
-            backgroundColor="#f6f0ea"
-            color="#f28728"
-            size="md"
-            onClick={cancel}
-          />
-        </div>
+        <Button
+          label="キャンセル"
+          backgroundColor="#f6f0ea"
+          color="#f28728"
+          size="md"
+          onClick={cancel}
+        />
       </div>
     </>
   );
