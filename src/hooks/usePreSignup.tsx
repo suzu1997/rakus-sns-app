@@ -94,13 +94,13 @@ export const usePreSignup = () => {
 
         //仮登録に成功した場合
         if (res.data.status === "success") {
-          //入力内容をクリアした後、仮登録完了画面に遷移する
+          //仮登録完了画面に遷移し、入力内容をリセット
+          router.push("/auth/comppresignup");
           reset({
             firstName: "",
             lastName: "",
             email: "",
           });
-          router.push("/auth/comppresignup");
 
           //ローディング画面の閉じる
           setIsLoading(false);

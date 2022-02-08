@@ -67,18 +67,18 @@ export const useLogin = () => {
           cookie.set("hash", res.data.user.logicalId, { path: "/" });
           cookie.set("loginId", res.data.user.id, { path: "/" });
 
+          toast.success("ログインしました");
+          //タイムライン画面に遷移する;
+          router.push("/timeline");
+
           //ログインと同時に入力内容をクリア
           reset({
             email: "",
             password: "",
           });
-
-          toast.success("ログインしました");
-          //タイムライン画面に遷移する;
-          router.push("/timeline");
         } else {
           //ログインに失敗した場合、エラーメッセージアラートを表示
-          toast.error(res.data.message);
+          toast.error("メールアドレスあるいはパスワードが間違っています");
         }
       } catch (error) {
         alert(error);
