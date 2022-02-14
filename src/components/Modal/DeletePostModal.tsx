@@ -11,7 +11,7 @@ type Props = {
     | "タイムライン"
     | "タイムラインコメント"
     | "レビュー"
-    | "レビューコメント"//レビューかタイムラインか
+    | "レビューコメント"; //レビューかタイムラインか
   success: () => void; //削除成功後にデータ再読み込み
   modalStatus: boolean; //モーダルの開閉状況
   closeModal: () => void;
@@ -76,16 +76,22 @@ export const DeletePostModal: FC<Props> = memo((props) => {
                 >
                   投稿を削除しますか？
                 </Dialog.Title>
-                <div className="text-center mt-5 mr-3">
-                  <Button color="#622d18" label={"はい"} onClick={deletePost} />
-                  <span className="ml-5">
+                <div className="flex flex-row justify-center mt-5">
+                  <div className="mx-2">
+                    <Button
+                      color="#622d18"
+                      label={"はい"}
+                      onClick={deletePost}
+                    />
+                  </div>
+                  <div className="mx-2">
                     <Button
                       backgroundColor="#f6f0ea"
                       color="#622d18"
                       label={"キャンセル"}
                       onClick={closeModal}
                     />
-                  </span>
+                  </div>
                 </div>
               </div>
             </Transition.Child>

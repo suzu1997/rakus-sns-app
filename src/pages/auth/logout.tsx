@@ -95,10 +95,10 @@ const Logout: NextPage = () => {
                   ログアウトしますか？
                 </Dialog.Title>
                 <div className="flex flex-row justify-center mt-5">
-                  <div>
+                  <div className="mx-2">
                     <Button color="#622d18" label={"はい"} onClick={logout} />
                   </div>
-                  <div className="ml-5">
+                  <div className="mx-2">
                     <Button
                       backgroundColor="#f6f0ea"
                       color="#622d18"
