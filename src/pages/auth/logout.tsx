@@ -38,11 +38,21 @@ const Logout: NextPage = () => {
     //cookieからログインID削除
     cookie.remove("hash");
     cookie.remove("loginId");
-    //ログアウトしたらアラート
-    toast.success("ログアウトしました");
-    //ログインページに戻る
-    router.push("/auth/login");
-  }, [router]);
+
+    if (cookie.get("hash") === undefined) {
+      //ログアウトしたらアラート
+      toast.success("ログアウトしました");
+      //ログインページに戻る
+      router.push("/auth/login");
+    } else {
+      //ログアウトに失敗(cookieが消せなかった)
+      toast.error("ログアウトに失敗しました");
+      //モーダルを閉じる
+      closeModal();
+      //元のページに戻る
+      router.back();
+    }
+  }, [closeModal, router]);
 
   // ページ遷移時にモーダルを開く
   useEffect(() => {
