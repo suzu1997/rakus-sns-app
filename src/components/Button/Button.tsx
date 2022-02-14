@@ -6,6 +6,7 @@ type Props = {
   color?: string;
   size?: "xs" | "sm" | "md" | "lg";
   onClick: MouseEventHandler<HTMLButtonElement>;
+  disabled?: boolean;
 };
 
 /**
@@ -18,6 +19,7 @@ export const Button: FC<Props> = memo((props) => {
     color = "#fff",
     size,
     onClick,
+    disabled = false,
   } = props;
 
   let scale = 1;
@@ -36,7 +38,10 @@ export const Button: FC<Props> = memo((props) => {
     <button
       onClick={onClick}
       style={style}
-      className="rounded-md shadow-md border-none font-bold hover:opacity-90"
+      className={`rounded-md shadow-md border-none font-bold hover:opacity-90 ${
+        disabled && "cursor-default"
+      }`}
+      disabled={disabled}
     >
       {label}
     </button>

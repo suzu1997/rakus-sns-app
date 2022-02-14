@@ -56,6 +56,9 @@ export const AddManuallyForm: FC<Props> = memo((props) => {
     resolver: yupResolver(schema),
   });
 
+  // ボタンの活性/非活性
+  const [disabled, setDisabled] = useState(false);
+
   // 選択したジャンル
   const [genre, setGenre] = useState<Option>(genreOptions[0]);
 
@@ -94,6 +97,7 @@ export const AddManuallyForm: FC<Props> = memo((props) => {
   //登録ボタンを押した時のメソッド
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
+    setDisabled(true);
     const cookie = new Cookie();
     try {
       // react-hook-formのgetValuesメソッドで入力された住所を取得
@@ -124,9 +128,11 @@ export const AddManuallyForm: FC<Props> = memo((props) => {
       } else {
         //登録に失敗した場合
         toast.error(res.data.message);
+        setDisabled(false);
       }
     } catch (error) {
       toast.error("お店の登録に失敗しました");
+      setDisabled(false);
     }
   };
 
@@ -246,7 +252,11 @@ export const AddManuallyForm: FC<Props> = memo((props) => {
           registers={register("url")}
         />
         <div className="mt-5 flex justify-center gap-3">
-          <Button label="新規登録" onClick={handleSubmit(onSubmit)} />
+          <Button
+            label="新規登録"
+            onClick={handleSubmit(onSubmit)}
+            disabled={disabled}
+          />
           <Button
             label="キャンセル"
             onClick={cansel}
