@@ -85,7 +85,7 @@ export const CommentNotion: FC<Props> = (props) => {
           >
             {notification.accountName}
             さんがあなたの{type}投稿にコメントしました
-            <div className="text-base py-5 w-8/12 text-text-brown">
+            <div className="text-base py-5 w-8/12 text-text-brown break-all">
               {returnCodeToBr(notification.comment)}
             </div>
           </div>
