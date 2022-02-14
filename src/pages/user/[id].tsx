@@ -88,7 +88,7 @@ const User: NextPage = () => {
         <div className="w-full">
           <SubHeader title="ユーザー情報" />
           <div className="flex flex-col items-center">
-            <div className="lg:w-8/12 border-solid  border-2 border-bgc-200 m-3 shadow-lg rounded-md">
+            <div className="lg:w-8/12 w-10/12 border-solid  border-2 border-bgc-200 m-3 shadow-lg rounded-md">
               {userInfo && (
                 <div className="text-center">
                   <div className="mt-1 text-xl font-bold">
@@ -126,7 +126,7 @@ const User: NextPage = () => {
                 </div>
               )}
               {userId == loginId && (
-                <div className="text-right mr-10 mb-5">
+                <div className="lg:text-right text-center lg:mr-10 mb-5">
                   <Button
                     label="プロフィール編集"
                     backgroundColor="#f28728"
