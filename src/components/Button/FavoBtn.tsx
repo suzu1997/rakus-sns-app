@@ -22,11 +22,16 @@ export const FavoBtn: FC<Props> = memo((props) => {
   const { postId, favoCount, isFavo, type, success } = props;
 
   // カスタムフックを使用する
-  const { favo } = useFavo(postId, type, success, hash);
+  const { favo, disabled } = useFavo(postId, type, success, hash);
 
   return (
     <>
-      <button type="button" className="pr-10 focus:outline-none" onClick={favo}>
+      <button
+        type="button"
+        className="pr-10 focus:outline-none"
+        onClick={favo}
+        disabled={disabled}
+      >
         {isFavo ? (
           <>
             <i className="fas fa-heart text-red-500"></i>
