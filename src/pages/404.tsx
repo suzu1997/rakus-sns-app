@@ -21,7 +21,7 @@ const Error404Page: NextPage = () => {
       </ul>
 
       <div className="mt-10">
-        解決策:左のメニューバーよりページに飛んでください。
+        解決策:メニューバーよりページに飛んでください。
       </div>
     </div>
   );
