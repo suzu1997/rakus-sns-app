@@ -52,7 +52,9 @@ export const RestaurantDetailContainer: FC<Props> = memo((props) => {
           />
         </div>
         {restaurant.description && (
-          <div className="mt-10">{returnCodeToBr(restaurant.description)}</div>
+          <div className="mt-10 break-all">
+            {returnCodeToBr(restaurant.description)}
+          </div>
         )}
         {restaurant.smoking && (
           <div className="mt-10">禁煙席: {restaurant.smoking}</div>

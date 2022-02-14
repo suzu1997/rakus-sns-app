@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import type { CommentHis } from "../../types/type";
 import { JAVA_API_URL } from "../../utils/const";
-import { getFormattedDate } from "../../utils/methods";
+import { getFormattedDate, returnCodeToBr } from "../../utils/methods";
 
 /**
  * いいねコメント履歴を表示するコンポーネント
@@ -98,12 +98,12 @@ export const LikedCommentHis: FC<CommentHis> = memo((props) => {
         </div>
 
         <div
-          className="lg:ml-20 my-2 hover:bg-coolGray-100 cursor-pointer hover:opacity-50"
+          className="lg:ml-20 my-2 break-all hover:bg-coolGray-100 cursor-pointer hover:opacity-50"
           onClick={() => {
             goDetailTimelinePage(id);
           }}
         >
-          {comment}
+          {returnCodeToBr(comment)}
         </div>
       </div>
       <div className="flex justify-end">
