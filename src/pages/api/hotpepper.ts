@@ -29,14 +29,14 @@ const Hotpepper = async (req: NextApiRequest, res: NextApiResponse) => {
   const response = await fetch(url);
   const data = await response.json();
   
-  if (data.results.shop.length > 0) {
+  if (data.results.shop) {
     const result = data.results.shop;
   
     // レスポンスを定義
     res.status(200).json({ shops: result }); // resultの内容をshopsという名前で渡す
   } else {
     // レスポンスを定義
-    res.status(400).json({ message: "お店が見つかりませんでした" }); 
+    res.status(400).json({ message: "エラーが発生しました" }); 
   }
 };
 
