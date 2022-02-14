@@ -70,7 +70,7 @@ const PreSignUp: NextPage = () => {
                   registers={register("email")}
                 />
               </div>
-              <div className="mt-2">
+              <div className="mt-4">
                 <SelectBox
                   label="ドメイン"
                   selectedOption={selectValue}
