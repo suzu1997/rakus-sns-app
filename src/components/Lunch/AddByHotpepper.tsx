@@ -34,11 +34,16 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
   // 登録する店舗のタイプ
   const [type, setType] = useState<Option>(typeOptions[0]);
 
+  // ボタンの活性/非活性
+  const [disabled, setDisabled] = useState(false);
+
   /**
    * APIに情報を渡して店舗を登録する.
    */
   const register = useCallback(
     async (restaurant) => {
+      setDisabled(true);
+
       const cookie = new Cookie();
       try {
         // 店の説明は、restaurant.catchがあればそれ、無ければrestaurant.genre.catchを設定
@@ -66,9 +71,11 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
           router.replace(`/lunch/restaurant/${res.data.restaurant.id}`);
           cookie.set("addFlag", "true");
         } else {
+          setDisabled(false);
           toast.error(res.data.message);
         }
       } catch (error) {
+        setDisabled(false);
         toast.error("お店の登録に失敗しました");
       }
     },
@@ -154,7 +161,11 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
         ></SelectBox>
       </div>
       <div className="sm:ml-10 mt-10 flex justify-center sm:justify-start gap-3">
-        <Button label="新規登録" onClick={() => register(restaurant)} />
+        <Button
+          label="新規登録"
+          onClick={() => register(restaurant)}
+          disabled={disabled}
+        />
         <Button
           label="キャンセル"
           onClick={cansel}
