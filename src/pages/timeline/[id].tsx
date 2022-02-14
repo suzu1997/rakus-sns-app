@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect } from "react";
+import { useCallback, useContext } from "react";
 import {
   GetServerSideProps,
   GetServerSidePropsContext,
@@ -7,7 +7,6 @@ import {
 } from "next";
 import { useRouter } from "next/router";
 import useSWR from "swr";
-import toast from "react-hot-toast";
 import Cookies from "universal-cookie";
 
 import { Button } from "../../components/Button/Button";

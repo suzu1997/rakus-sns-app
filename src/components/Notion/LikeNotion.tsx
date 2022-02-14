@@ -98,7 +98,7 @@ export const LikeNotion: FC<Props> = (props) => {
         >
           {notification.accountName}
           さんがあなたの{type}投稿にいいねしました
-          <div className="text-base py-5 w-8/12 opacity-60">
+          <div className="text-base py-5 w-8/12 opacity-60 break-all">
             {returnCodeToBr(sentence)}
           </div>
         </div>

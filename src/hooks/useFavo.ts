@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import axios from "axios";
 import { JAVA_API_URL } from "../utils/const";
 
@@ -9,8 +9,8 @@ import { JAVA_API_URL } from "../utils/const";
  * @param type - 何に対するいいねか
  * @param success - いいね成功時の処理
  * @param hash - ユーザーのハッシュ
- * @returns
- * いいねボタンを押した時のメソッド。
+ * @returns いいねボタンを押した時のメソッド
+ * @returns disabled - ボタンの有効／無効
  */
 export const useFavo = (
   postId: number,
@@ -18,11 +18,14 @@ export const useFavo = (
   success: () => void,
   hash: string,
 ) => {
+  const [disabled, setDisabled] = useState(false);
   /**
    * ボタン押下でいいね発動.
    */
   const favo = useCallback(
     async (e) => {
+      //処理が終わるまでボタンを押せないようにする
+      setDisabled(true);
       // 親要素へのイベントを伝播させない
       e.stopPropagation();
       try {
@@ -85,6 +88,8 @@ export const useFavo = (
             console.log(res.data.message);
           }
         }
+        //処理が終わったらボタンを再度有効に
+        setDisabled(false);
       } catch (error) {
         console.log(error);
       }
@@ -92,5 +97,5 @@ export const useFavo = (
     [success, hash, postId, type],
   );
 
-  return { favo };
+  return { favo, disabled };
 };
