@@ -35,9 +35,8 @@ const Logout: NextPage = () => {
   const logout = useCallback(() => {
     //cookieを使用する
     const cookie = new Cookie();
-    //cookieからログインID削除
-    cookie.remove("hash");
-    cookie.remove("loginId");
+    cookie.remove("hash", { path: "/" });
+    cookie.remove("loginId", { path: "/" });
 
     if (cookie.get("hash") === undefined) {
       //ログアウトしたらアラート

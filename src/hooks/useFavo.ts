@@ -92,6 +92,7 @@ export const useFavo = (
         setDisabled(false);
       } catch (error) {
         console.log(error);
+        setDisabled(false);
       }
     },
     [success, hash, postId, type],
