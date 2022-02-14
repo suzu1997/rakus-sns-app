@@ -4,6 +4,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Button } from "../../components/Button/Button";
 import { useRouter } from "next/router";
 import Cookie from "universal-cookie";
+import toast from "react-hot-toast";
+
 import { useModal } from "../../hooks/useModal";
 
 /**
@@ -36,6 +38,8 @@ const Logout: NextPage = () => {
     //cookieからログインID削除
     cookie.remove("hash");
     cookie.remove("loginId");
+    //ログアウトしたらアラート
+    toast.success("ログアウトしました");
     //ログインページに戻る
     router.push("/auth/login");
   }, [router]);
