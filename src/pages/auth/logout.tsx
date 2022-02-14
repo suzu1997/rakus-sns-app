@@ -32,7 +32,7 @@ const Logout: NextPage = () => {
   /**
    * ログアウトボタン押下で発動.
    */
-  const logout = useCallback(async () => {
+  const logout = useCallback(() => {
     //cookieを使用する
     const cookie = new Cookie();
     cookie.remove("hash", { path: "/" });
