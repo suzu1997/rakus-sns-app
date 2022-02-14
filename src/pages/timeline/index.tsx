@@ -100,7 +100,7 @@ const TimelinePage: NextPage = () => {
                         <div className="text-xl font-extrabold pt-10 pl-3">
                           {timelime.accountName}
                         </div>
-                        <div className="pt-5 pb-5 pl-5 w-8/12">
+                        <div className="pt-5 pb-5 pl-5 w-8/12 break-all">
                           {returnCodeToBr(timelime.sentence)}
                         </div>
                       </a>

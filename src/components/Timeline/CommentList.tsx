@@ -43,8 +43,7 @@ export const CommentList: FC<Props> = memo((props) => {
             <div className="text-xl font-extrabold py-3 ml-3">
               {value.accountName}
             </div>
-            <div className="pt-5 pb-5 pl-5 w-8/12">
-              {" "}
+            <div className="pt-5 pb-5 pl-5 w-8/12 break-all">
               {returnCodeToBr(value.comment)}
             </div>
             <div className="text-right pb-5">

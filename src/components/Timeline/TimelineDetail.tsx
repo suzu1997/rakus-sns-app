@@ -48,7 +48,7 @@ export const TimelineDetailPage: FC<Props> = memo((props) => {
             <div className="text-xl font-extrabold py-3 ml-3">
               {detailData.accountName}
             </div>
-            <div className="w-8/12 lg:ml-10 ml-5">
+            <div className="w-8/12 lg:ml-10 ml-5 break-all">
               {returnCodeToBr(detailData.sentence)}
             </div>
           </div>

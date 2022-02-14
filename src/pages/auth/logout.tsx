@@ -4,6 +4,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Button } from "../../components/Button/Button";
 import { useRouter } from "next/router";
 import Cookie from "universal-cookie";
+import toast from "react-hot-toast";
+
 import { useModal } from "../../hooks/useModal";
 
 /**
@@ -36,9 +38,21 @@ const Logout: NextPage = () => {
     //cookieからログインID削除
     cookie.remove("hash");
     cookie.remove("loginId");
-    //ログインページに戻る
-    router.push("/auth/login");
-  }, [router]);
+
+    if (cookie.get("hash") === undefined) {
+      //ログアウトしたらアラート
+      toast.success("ログアウトしました");
+      //ログインページに戻る
+      router.push("/auth/login");
+    } else {
+      //ログアウトに失敗(cookieが消せなかった)
+      toast.error("ログアウトに失敗しました");
+      //モーダルを閉じる
+      closeModal();
+      //元のページに戻る
+      router.back();
+    }
+  }, [closeModal, router]);
 
   // ページ遷移時にモーダルを開く
   useEffect(() => {
@@ -95,10 +109,10 @@ const Logout: NextPage = () => {
                   ログアウトしますか？
                 </Dialog.Title>
                 <div className="flex flex-row justify-center mt-5">
-                  <div>
+                  <div className="mx-2">
                     <Button color="#622d18" label={"はい"} onClick={logout} />
                   </div>
-                  <div className="ml-5">
+                  <div className="mx-2">
                     <Button
                       backgroundColor="#f6f0ea"
                       color="#622d18"

@@ -124,7 +124,7 @@ export const ReviewCard: FC<Props> = memo((props) => {
           <div>
             <Star starCount={star} />
           </div>
-          <div className="pt-5 pb-5 pr-1">{returnCodeToBr(sentence)}</div>
+          <div className="pt-5 pb-5 pr-1 break-all">{returnCodeToBr(sentence)}</div>
         </div>
       </div>
       {/* hasRestaurantInfoがtrueならばレストラン情報へのリンクを表示する */}
