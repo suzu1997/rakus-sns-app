@@ -32,12 +32,11 @@ const Logout: NextPage = () => {
   /**
    * ログアウトボタン押下で発動.
    */
-  const logout = useCallback(() => {
+  const logout = useCallback(async () => {
     //cookieを使用する
     const cookie = new Cookie();
-    //cookieからログインID削除
-    cookie.remove("hash");
-    cookie.remove("loginId");
+    cookie.remove("hash", { path: "/" });
+    cookie.remove("loginId", { path: "/" });
 
     if (cookie.get("hash") === undefined) {
       //ログアウトしたらアラート

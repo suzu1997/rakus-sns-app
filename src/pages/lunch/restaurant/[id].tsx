@@ -76,7 +76,7 @@ const RestaurantDetail: NextPage<Props> = (props) => {
     // 店を追加後の遷移時のみ、モーダルを自動で開く
     if (cookie.get("addFlag") === "true") {
       setModalStatus(true);
-      cookie.remove("addFlag");
+      cookie.remove("addFlag", { path: "/" });
     }
     // setModalStatus(false);
   }, [setModalStatus]);
@@ -153,7 +153,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   if (initialData.status === 400 || initialData.status === "error") {
     return { notFound: true }; // 存在しないidのパスが打たれた場合は404を返す
   }
-  
+
   return {
     props: {
       initialData,
