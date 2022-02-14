@@ -31,16 +31,18 @@ export const RestaurantDetailContainer: FC<Props> = memo((props) => {
   };
 
   return (
-    <div className="flex-col m-5 xl:mx-24 lg:w-2/3">
+    <div className="flex-col m-5 xl:mx-20 lg:w-2/3">
       <p className="text-lg lg:text-3xl font-extrabold border-l-8 border-basic mb-5">
         {restaurant.name}
       </p>
-      <div className="flex flex-col sm:flex-row items-baseline">
+      <div className="flex flex-col lg:flex-row items-baseline">
         <span className="mr-8 mb-5 sm:mb-0">
           <Star starCount={restaurant.star} />
         </span>
-        ジャンル: {restaurant.genreValue}
-        <span className="sm:ml-8">タイプ: {typeValue()}</span>
+        <div className="flex flex-col sm:flex-row items-baseline">
+          ジャンル: {restaurant.genreValue}
+          <span className="sm:ml-8">タイプ: {typeValue()}</span>
+        </div>
       </div>
       <div className="mt-5 sm:mt-10">
         <div>
@@ -52,7 +54,9 @@ export const RestaurantDetailContainer: FC<Props> = memo((props) => {
           />
         </div>
         {restaurant.description && (
-          <div className="mt-10">{returnCodeToBr(restaurant.description)}</div>
+          <div className="mt-10 break-all">
+            {returnCodeToBr(restaurant.description)}
+          </div>
         )}
         {restaurant.smoking && (
           <div className="mt-10">禁煙席: {restaurant.smoking}</div>

@@ -10,7 +10,7 @@ import { CommentIcon } from "../Button/CommentIcon";
 import { FavoBtn } from "../Button/FavoBtn";
 import { TrashBtn } from "../Button/TrashBtn";
 import { JAVA_API_URL } from "../../utils/const";
-import { getFormattedDate } from "../../utils/methods";
+import { getFormattedDate, returnCodeToBr } from "../../utils/methods";
 
 /**
  * タイムライン履歴を表示するカードコンポーネント
@@ -97,18 +97,16 @@ export const TimelineHisCard: FC<Timeline> = memo((props) => {
               goUserPage(userId);
             }}
           >
-            <div className="text-xl font-extrabold py-3">
-              {accountName}
-            </div>
+            <div className="text-xl font-extrabold py-3">{accountName}</div>
           </div>
         </div>
         <div
-          className="lg:ml-20 my-2 hover:bg-coolGray-100 cursor-pointer hover:opacity-50"
+          className="lg:ml-20 my-2 break-all hover:bg-coolGray-100 cursor-pointer hover:opacity-50"
           onClick={() => {
             goDetailTimelinePage(id);
           }}
         >
-          {sentence}
+          {returnCodeToBr(sentence)}
         </div>
       </div>
 

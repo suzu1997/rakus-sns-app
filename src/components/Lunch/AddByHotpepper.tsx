@@ -83,7 +83,7 @@ export const AddByHotpepper: FC<Props> = memo((props) => {
     );
   }
 
-  if (error) {
+  if (error || data.shops.length === 0) {
     return (
       <div className="w-full p-10 text-center">
         データが取得できませんでした
