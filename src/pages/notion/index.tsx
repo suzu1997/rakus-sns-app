@@ -1,12 +1,6 @@
 import { useContext } from "react";
-import {
-  NextPage,
-  GetServerSideProps,
-  GetServerSidePropsContext,
-  InferGetServerSidePropsType,
-} from "next";
+import { NextPage } from "next";
 import useSWR from "swr";
-import Cookies from "universal-cookie";
 
 import { SubHeader } from "../../components/Layout/SubHeader";
 import { LikeNotion } from "../../components/Notion/LikeNotion";
@@ -15,28 +9,20 @@ import { TimelineNotion } from "../../components/Notion/TimelineNotion";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 import type { notion } from "../../types/type";
 import { JAVA_API_URL } from "../../utils/const";
-import { fetcher } from "../../utils/fetcher";
-
-type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 /**
  * 通知ページ.
  * @remarks ログインしているユーザのIDをAPIで送って、該当の情報を取得
  * @returns 通知が見れるページ
  */
-const Notion: NextPage<Props> = (props) => {
-  const { initialData } = props;
+const Notion: NextPage = () => {
   //ログインID
   const { hash } = useContext(loginIdContext);
 
   /**
    * APIを使用してタイムラインデータを取得.
    */
-  const { data, error } = useSWR(
-    `${JAVA_API_URL}/notifications/${hash}`,
-    fetcher,
-    { fallbackData: initialData },
-  );
+  const { data, error } = useSWR(`${JAVA_API_URL}/notifications/${hash}`);
 
   //初期表示エラー
   if (!error && !data) {
@@ -89,20 +75,3 @@ const Notion: NextPage<Props> = (props) => {
   );
 };
 export default Notion;
-
-/**
- * SSRで初期データ取得.
- * @returns 通知初期表示用データ
- */
-export const getServerSideProps: GetServerSideProps = async (
-  ctx: GetServerSidePropsContext,
-) => {
-  const cookies = new Cookies(ctx.req.headers.cookie);
-  const hash = cookies.get("hash");
-  const res = await fetch(`${JAVA_API_URL}/notifications/${hash}`);
-  const initialData: Array<notion> = await res.json();
-
-  return {
-    props: { initialData },
-  };
-};

@@ -60,10 +60,10 @@ export const LikeNotion: FC<Props> = (props) => {
           ) {
             router.push(`/lunch/review/${res.data.review.id}`);
           } else {
-            toast.error(responseMessage);
+            toast.error("投稿かコメントが削除された可能性があります");
           }
         } catch (e) {
-          toast.error("投稿が見つかりませんでした。");
+          toast.error("投稿かコメントが削除された可能性があります");
         }
       }
     },
