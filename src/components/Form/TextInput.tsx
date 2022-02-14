@@ -37,7 +37,7 @@ export const TextInput: FC<Props> = memo((props) => {
     <div>
       <div className="flex items-center mb-1">
         <div className="flex-col text-left">
-          <div className="ml-3 text-red-600">{errorMessage}</div>
+          <div className="ml-3 text-xs text-red-600">{errorMessage}</div>
           <div>
             <label htmlFor={label}>{label}</label>
             {/* requiredがtrueの場合は必須のバッジ表示 */}
