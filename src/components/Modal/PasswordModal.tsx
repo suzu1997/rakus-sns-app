@@ -86,12 +86,19 @@ export const PasswordModal: FC<Props> = memo((props) => {
     setCurrentPasswordError("");
     setNewPasswordErrorMessage("");
     setPasswordConfErrorMessage("");
+
+    let error1 = ""; //現在のPW
+    let error2 = ""; //新しいPW
+    let error3 = ""; //確認PW
+
     //エラーチェック
     if (newPassword === currentPassword) {
-      setNewPasswordErrorMessage("現在のパスワードと同じです");
+      error1 = "現在のパスワードと同じです";
+      setNewPasswordErrorMessage(error1);
     }
     if (passwordConf != newPassword) {
-      setPasswordConfErrorMessage("新しいパスワードと一致しません");
+      error3 = "新しいパスワードと一致しません";
+      setPasswordConfErrorMessage(error3);
     }
     if (
       !(
@@ -100,25 +107,31 @@ export const PasswordModal: FC<Props> = memo((props) => {
         /[0-9]+/.test(newPassword)
       )
     ) {
-      setNewPasswordErrorMessage(
-        "パスワードは大文字/小文字/数字を組み合わせて下さい。",
-      );
+      error2 =
+        "アルファベット（大文字小文字混在）と数字とを組み合わせて入力してください";
+      setNewPasswordErrorMessage(error2);
     }
     if (newPassword.length < 8 || newPassword.length > 16) {
-      setNewPasswordErrorMessage(
-        "パスワードは８文字以上１６文字以内で設定してください",
-      );
+      error2 = "パスワードは8文字以上16文字以内で設定してください";
+      setNewPasswordErrorMessage(error2);
+    }
+
+    //空欄系エラー
+    if (currentPassword === "") {
+      error1 = "現在のパスワードを入力して下さい";
+      setCurrentPasswordError(error1);
     }
     if (newPassword === "") {
-      setNewPasswordErrorMessage("新しいパスワードを入力して下さい");
+      error2 = "新しいパスワードを入力して下さい";
+      setNewPasswordErrorMessage(error2);
+    }
+    if (passwordConf === "") {
+      error3 = "確認用パスワードを入力して下さい";
+      setPasswordConfErrorMessage(error3);
     }
 
     //エラーがあればリターン
-    if (
-      currentPasswordErrorMessage != "" &&
-      newPasswordErrorMessage != "" &&
-      passwordConfErrorMessage != ""
-    ) {
+    if (error1 != "" || error2 != "" || error3 != "") {
       return;
     }
 
