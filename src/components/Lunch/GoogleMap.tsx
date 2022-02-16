@@ -16,7 +16,7 @@ export const GoogleMap: FC<Props> = memo((props) => {
   } = props;
 
   const [url] = useState(
-    `http://maps.google.co.jp/maps?q=${latitude},${longitude}&output=embed&t=m&z=16&hl=ja`,
+    `https://maps.google.co.jp/maps?q=${latitude},${longitude}&output=embed&t=m&z=16&hl=ja`,
   );
 
   return (
