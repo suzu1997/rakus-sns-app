@@ -1,4 +1,4 @@
-import { FC, memo, useContext, useState } from "react";
+import { FC, memo, useContext } from "react";
 import Link from "next/link";
 import { loginIdContext } from "../../providers/LoginIdProvider";
 
@@ -9,9 +9,6 @@ export const MenuBar: FC = memo(() => {
   //ログインID
   const { loginId } = useContext(loginIdContext);
 
-  //ユーザ情報のリンクをログインユーザ先にする
-  const [myInfo] = useState(`/user/${loginId}`);
-
   return (
     <>
       <aside className="bg-bgc h-full w-64 shadow-xl">
@@ -21,7 +18,7 @@ export const MenuBar: FC = memo(() => {
               つぶやき一覧
             </a>
           </Link>
-          <Link href={myInfo}>
+          <Link href={`/user/${loginId}`}>
             <a className="flex items-center opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
               プロフィール
             </a>
